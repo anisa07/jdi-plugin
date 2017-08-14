@@ -10,7 +10,6 @@
     "prop-types": "^15.5.10",
     "react": "^16.0.0-alpha.5",
     "react-dom": "^16.0.0-alpha.5",
-    "react-router-dom": "^4.0.0",
     "react-router-dom": "^4.0.0"
   },
   "devDependencies": {
@@ -30,7 +29,8 @@
     "webpack-bundle-analyzer": "^2.8.3"
   },
   "scripts": {
-    "test": "mocha-webpack --webpack-config webpack.config-test.js \"tests/**/*.test.js\" --reporter mocha-simple-html-reporter --reporter-options output=tests/report.html"
+    "test": "mocha-webpack --webpack-config webpack.config-test.js \"tests/**/*.test.js\" --reporter mocha-simple-html-reporter --reporter-options output=tests/report.html",
+    "server": "http-server -p 9630"
   },
   "author": "A.A.",
   "license": "ISC"
