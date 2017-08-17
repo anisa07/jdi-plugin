@@ -1,15 +1,36 @@
-[{
-  "url": "",
-  "urlHost": "",
-  "urlTemplate": "",
-  "urlMatch": "Equals",
-  "title": "",
-  "titleTemplate": "",
-  "titleMatch": "Equals",
-  "name": "",
-  "pageId": 0,
-  "elements": []
-},
+[
+  {
+    "url": "",
+    "urlHost": "",
+    "urlTemplate": "",
+    "urlMatch": "Equals",
+    "title": "",
+    "titleTemplate": "",
+    "titleMatch": "Equals",
+    "name": "",
+    "pageId": 0,
+    "package": "",
+    "elements": [
+      {
+        "name": "name1",
+        "type": "type1",
+        "parent": "null",
+        "locator": {
+          "type": "locatorType",
+          "path": "locatorPath"
+        }
+      },
+      {
+        "name": "name1",
+        "type": "type1",
+        "parent": "null",
+        "locator": {
+          "type": "locatorType",
+          "path": "locatorPath"
+        }
+      }
+    ]
+  },
   {
     "url": "",
     "urlHost": "",
@@ -20,5 +41,20 @@
     "titleMatch": "Equals",
     "name": "",
     "pageId": 1,
+    "package": "",
     "elements": []
-  }]
+  },
+  {
+    "url": "",
+    "urlHost": "",
+    "urlTemplate": "",
+    "urlMatch": "Equals",
+    "title": "",
+    "titleTemplate": "",
+    "titleMatch": "Equals",
+    "name": "",
+    "pageId": 2,
+    "package": "",
+    "elements": []
+  }
+]

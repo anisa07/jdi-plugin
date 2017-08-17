@@ -1,5 +1,6 @@
-import {settingsObj} from "./settings";
+//import {settingsObj} from "./settings";
 import elementsJSON from "../data/pageObject.json";
+import _ from 'underscore'
 
 function Tabs(props) {
     return (
@@ -25,7 +26,7 @@ function Controls(props) {
             <button className="btn btn-default customBtn">Get elements</button>
             <button className="btn btn-default customBtn">Generate file</button>
             <button className="btn btn-default customBtn">Save file</button>
-            <button className="btn btn-default customBtn" id="closePage">X</button>
+            <button className="btn btn-default customBtn" id={"closePage"+ props.controlsId} onClick={props.closePage}>X</button>
         </div>
     )
 }
@@ -33,60 +34,81 @@ function Controls(props) {
 function PageAttributes(props) {
     return (
         <div>
-            <div id={"content" + props.tabPageContent.pageId} className="form-group">
+            <div id={"content" + props.controlsId} className="form-group">
                 <div className="col-xs-2 selectContainer">
                     <label className="control-label displayType"
-                           htmlFor={"inputUrl" + props.tabPageContent.pageId}>URL:</label><br></br>
-                    <input type="text" className="form-control" id={"inputUrl" + props.tabPageContent.pageId}
-                           readOnly="readonly" value={props.tabPageContent.url}/>
+                           htmlFor={"inputUrl" + props.controlsId}>URL:</label><br></br>
+                    <input type="text" className="form-control" id={"inputUrl" + props.controlsId}
+                           readOnly="readonly" defaultValue={props.tabPageContent.url}/>
                 </div>
                 <div className="col-xs-2 selectContainer">
-                    <label className="control-label displayType" htmlFor={"urlTemplate" + props.tabPageContent.pageId}>URL
+                    <label className="control-label displayType" htmlFor={"urlTemplate" + props.controlsId}>URL
                         template:</label><br></br>
-                    <input type="text" className="form-control" id={"urlTemplate" + props.tabPageContent.pageId}
-                           value={props.tabPageContent.urlTemplate}/>
+                    <input type="text" className="form-control" id={"urlTemplate" + props.controlsId}
+                           defaultValue={props.tabPageContent.urlTemplate} onBlur={props.changeAttribute}/>
                 </div>
                 <div className="col-xs-2 selectContainer">
-                    <label className="control-label displayType" htmlFor="urlMatch">URL match:</label><br></br>
-                    <select className="form-control" name="size" id="urlMatch" value={props.tabPageContent.urlMatch}>
-                        <option value="Equal">Equals</option>
+                    <label className="control-label displayType" htmlFor={"urlMatch"+props.controlsId}>URL match:</label><br></br>
+                    <select className="form-control" name="size" id={"urlMatch"+props.controlsId} defaultValue={props.tabPageContent.urlMatch}
+                            onChange={props.changeAttribute}>
+                        <option value="Equals">Equals</option>
                         <option value="Contains">Contains</option>
                         <option value="Not contains">Not contains</option>
                     </select>
                 </div>
                 <div className="col-xs-2 selectContainer">
-                    <label className="control-label displayType" htmlFor={"pageTitle" + props.tabPageContent.pageId}>Title:</label><br></br>
-                    <input type="text" className="form-control" id={"pageTitle" + props.tabPageContent.pageId}
-                           value={props.tabPageContent.title}/>
+                    <label className="control-label displayType" htmlFor={"pageTitle" + props.controlsId}>Title:</label><br></br>
+                    <input type="text" className="form-control" id={"pageTitle" + props.controlsId}
+                           defaultValue={props.tabPageContent.title} onBlur={props.changeAttribute}/>
                 </div>
                 <div className="col-xs-2 selectContainer">
                     <label className="control-label displayType"
-                           htmlFor={"titleTemplate" + props.tabPageContent.pageId}>Title
+                           htmlFor={"titleTemplate" + props.controlsId}>Title
                         template:</label><br></br>
-                    <input type="text" className="form-control" id={"titleTemplate" + props.tabPageContent.pageId}
-                           value={props.tabPageContent.titleTemplate}/>
+                    <input type="text" className="form-control" id={"titleTemplate" + props.controlsId}
+                           defaultValue={props.tabPageContent.titleTemplate} onBlur={props.changeAttribute}/>
                 </div>
                 <div className="col-xs-2 selectContainer">
-                    <label className="control-label displayType" htmlFor={"titleMatch" + props.tabPageContent.pageId}>Title
+                    <label className="control-label displayType" htmlFor={"titleMatch" + props.controlsId}>Title
                         match:</label><br></br>
-                    <select className="form-control" name="size" id={"titleMatch" + props.tabPageContent.pageId}
-                            value={props.tabPageContent.titleMatch}>
-                        <option value="Equal">Equals</option>
+                    <select className="form-control" name="size" id={"titleMatch" + props.controlsId}
+                            defaultValue={props.tabPageContent.titleMatch} onChange={props.changeAttribute}>
+                        <option value="Equals">Equals</option>
                         <option value="Contains">Contains</option>
                         <option value="Not contains">Not contains</option>
                     </select>
                 </div>
                 <div className="col-xs-2 selectContainer">
-                    <label className="control-label displayType" htmlFor={"package" + props.tabPageContent.pageId}>Package:</label><br></br>
-                    <input type="text" className="form-control" id={"package" + props.tabPageContent.pageId}/>
+                    <label className="control-label displayType" htmlFor={"package" + props.controlsId}>Package:</label><br></br>
+                    <input type="text" className="form-control" id={"package" + props.controlsId}
+                           defaultValue={props.tabPageContent.package} onBlur={props.changeAttribute}/>
                 </div>
             </div>
-            <div id={"containers" + props.tabPageContent.pageId} className="elements container-fluid">
-                <div id={"contentContainer" + props.tabPageContent.pageId}
-                     className="elementsList container-fluid"></div>
-                <div id={"codeContainer" + props.tabPageContent.pageId} className="form-group col-xs-6">
-                    <textarea type="text" id={"code" + props.tabPageContent.pageId}
-                              className="form-control"></textarea>
+            <div id={"containers" + props.controlsId} className="elements">
+                <div id={"contentContainer" + props.controlsId}
+                     className="elementsList">
+                    {props.tabPageContent.elements.map(function(element, index){
+                        return(
+                            <div className="form-group elementContainer" draggable={true} key={props.controlsId + "jdi" + index}>
+                                <div className=" selectContainer">
+                                    <input className="form-control" placeholder="Element type" defaultValue={element.type}/>
+                                </div>
+                                <div className=" selectContainer">
+                                    <input className="form-control" placeholder="Name of element" defaultValue={element.name}/>
+                                </div>
+                                <div className=" selectContainer">
+                                    <input className="form-control" placeholder="Type of locator" defaultValue={element.locator.type}/>
+                                </div>
+                                <div className=" selectContainer">
+                                    <input className="form-control" placeholder="Locator" defaultValue={element.locator.path}/>
+                                </div>
+                            </div>
+                        )
+                    })}
+                </div>
+                <div id={"codeContainer" + props.controlsId} className="form-group">
+                    <textarea type="text" id={"code" + props.controlsId}
+                              className="form-control code-textarea"></textarea>
                 </div>
             </div>
             <button className="btn btn-default customBtn">Manually identify element</button>
@@ -103,8 +125,9 @@ function PageContainer(props) {
                     return (
                         <div className={tabPage.pageId !== props.activeTabPage ? "hideContent" : ""}
                              key={"content " + tabPage.pageId}>
-                            <Controls controlsId={tabPage.pageId}/>
-                            <PageAttributes tabPageContent={props.tabPages[tabPage.pageId]}/>
+                            <Controls controlsId={tabPage.pageId} closePage={props.closePage}/>
+                            <PageAttributes controlsId={tabPage.pageId} tabPageContent={tabPage}
+                                            changeAttribute={props.changeAttribute} selectValue={props.selectValue}/>
                         </div>
                     )
                 })
@@ -121,6 +144,54 @@ class MainPage extends React.Component {
             activeTabPageId: 0
         };
         this.showPage = this.showPage.bind(this);
+        this.changeAttribute = this.changeAttribute.bind(this);
+        this.closePage = this.closePage.bind(this);
+    }
+
+    addElement(e){
+        /*{
+            "name": "",
+            "type": "",
+            "parent": "null",
+            "locator": {
+                "type": "",
+                "path": ""
+            }
+        }*/
+    }
+
+    closePage(e){
+        let len = this.state.tabPages.length;
+        let id = Number(e.target.id.replace(/\D/g, ""));
+        let pages;
+        if (len > 1){
+            pages = this.state.tabPages.slice();
+            this.setState(function () {
+                return {
+                    tabPages: pages.filter(function(page){if(page.pageId !== id){
+                        return page
+                    }})
+                }
+            })
+
+        }
+    }
+
+    changeAttribute(e) {
+        let name = e.target.id.replace(/\d/g, "");
+        let id = Number(e.target.id.replace(/\D/g, ""));
+        let value = e.target.value;
+        let result = this.state.tabPages.slice();
+        this.setState(function () {
+            return {
+                tabPages: result.map(function (page) {
+                    if (page.pageId === id) {
+                        page[name] = value;
+                    }
+                    return page;
+                })
+            }
+        })
     }
 
     showPage(e) {
@@ -132,12 +203,11 @@ class MainPage extends React.Component {
         })
     }
 
-
     render() {
         return (
             <div id="main-page">
-                <PageContainer tabPages={this.state.tabPages} activeTabPage={this.state.activeTabPageId}
-                               showPage={this.showPage}/>
+                <PageContainer tabPages={this.state.tabPages} activeTabPage={this.state.activeTabPageId} closePage={this.closePage}
+                               showPage={this.showPage} changeAttribute={this.changeAttribute} selectValue={this.selectValue}/>
             </div>
         )
     }
