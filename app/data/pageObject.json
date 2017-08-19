@@ -12,21 +12,23 @@
     "package": "",
     "elements": [
       {
-        "name": "name1",
-        "type": "type1",
-        "parent": "null",
+        "expanded": true,
+        "name": "",
+        "type": "",
+        "parent": null,
         "locator": {
-          "type": "locatorType",
-          "path": "locatorPath"
+          "type": "",
+          "path": ""
         }
       },
       {
-        "name": "name1",
-        "type": "type1",
-        "parent": "null",
+        "expanded": false,
+        "name": "",
+        "type": "",
+        "parent": null,
         "locator": {
-          "type": "locatorType",
-          "path": "locatorPath"
+          "type": "",
+          "path": ""
         }
       }
     ]
