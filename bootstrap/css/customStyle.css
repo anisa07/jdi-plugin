@@ -89,7 +89,7 @@ input[type="radio"],input[type="checkbox"] {
 
 button[id^="closePage"]{
     position: absolute;
-    right: 0;
+    right: 10px;
 }
 
 .elements{
@@ -140,4 +140,74 @@ button[id^="closePage"]{
 
 .otherAttr{
     display: flex;
+}
+
+#manage-site{
+    display: flex;
+}
+
+#manage-site .panel:first-child{
+    min-width: 200px;
+    width: 30%;
+}
+
+#manage-site .panel:last-child{
+    width: 70%;
+}
+
+.panel-body .selectContainer{
+    margin-bottom: 15px; 
+}
+
+
+.searchInput{
+    display: inline;
+    width: 90%; 
+}
+
+.pageSetting{
+    display: inline;
+    width: 45%;
+    min-width: 200px;
+    margin-right: 10px; 
+}
+
+.pageSettingCombo {
+    display: inline;
+    margin-top: 10px;
+    min-width: 100px;
+    width: 10%;
+}
+
+
+#addBtn{
+    width: 90%;
+    margin: 0;
+}
+
+li a{
+    min-width: 120px;
+    display: inline-block; 
+}
+
+.trash{
+    background-image: url('../pics/garbage.png');
+    width: 26px;
+    height: 26px;
+    display: inline-block; 
+}
+
+#searchBtn{
+    background-image: url('../pics/search.png');
+    width: 34px;
+    height: 34px; 
+}
+.selectContainer span{
+    width: 100px;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.panel-body li{
+    cursor: pointer;
 }
