@@ -2151,7 +2151,13 @@ function PanelRight(props) {
     );
 }
 
-function PanelLeftStructure() {
+function PanelLeftStructure(props) {
+    var pageElements = props.tabPages.find(function (tabPage) {
+        if (tabPage.pageId === props.activeTabPage) {
+            return tabPage;
+        }
+    });
+
     return React.createElement(
         "div",
         { className: "panel panel-default" },
@@ -2180,7 +2186,22 @@ function PanelLeftStructure() {
             React.createElement(
                 "div",
                 null,
-                React.createElement("ul", null)
+                React.createElement(
+                    "ul",
+                    null,
+                    pageElements.elements.map(function (element, index) {
+                        return React.createElement(
+                            "li",
+                            { key: "element" + index, "data-pageId": props.activeTabPage, "data-index": index },
+                            React.createElement(
+                                "a",
+                                null,
+                                element.name
+                            ),
+                            React.createElement("button", { className: "trash btn btn-default", "data-pageId": props.activeTabPage, "data-index": index })
+                        );
+                    })
+                )
             ),
             React.createElement(
                 "div",
@@ -2382,7 +2403,7 @@ var ManageSite = exports.ManageSite = function (_React$Component) {
                 !this.state.settingsForSite && this.state.activeTabPageId !== "" ? React.createElement(
                     "div",
                     { id: "manage-site" },
-                    React.createElement(PanelLeftStructure, null),
+                    React.createElement(PanelLeftStructure, { tabPages: this.state.tabPages, activeTabPage: this.state.activeTabPageId }),
                     React.createElement(PanelRighttStructure, null)
                 ) : null
             );
@@ -2489,7 +2510,7 @@ var PageObjectJSON = [{
   "package": "",
   "elements": [{
     "expanded": true,
-    "name": "",
+    "name": "t1",
     "type": "",
     "parent": null,
     "locator": {
@@ -2498,7 +2519,7 @@ var PageObjectJSON = [{
     }
   }, {
     "expanded": false,
-    "name": "",
+    "name": "t2",
     "type": "",
     "parent": null,
     "locator": {

@@ -83,7 +83,13 @@ function PanelRight(props) {
     )
 }
 
-function PanelLeftStructure() {
+function PanelLeftStructure(props) {
+    let pageElements = props.tabPages.find(function(tabPage){
+        if (tabPage.pageId === props.activeTabPage){
+            return tabPage;
+        }
+    });
+  
     return (
         <div className="panel panel-default">
             <div className="panel-body">
@@ -96,14 +102,14 @@ function PanelLeftStructure() {
                 </div>
                 <div>
                     <ul>
-                        {/* {
-                            props.searchedPages.map(function (page, index) {
-                                return (<li key={"listItem" + index} data-pageId={page.pageId}>
-                                    <a onClick={props.selectPage}>{page.name}</a>
-                                    <button className="trash btn btn-default" data-pageId={page.pageId} onClick={props.removePage}></button>
+                        {
+                            pageElements.elements.map(function (element, index) {
+                                return (<li key={"element" + index} data-pageId={props.activeTabPage} data-index={index}>
+                                    <a>{element.name}</a>
+                                    <button className="trash btn btn-default" data-pageId={props.activeTabPage} data-index={index}></button>
                                 </li>)
                             })
-                        } */}
+                        }
                     </ul>
                 </div>
                 <div className="selectContainer">
@@ -313,7 +319,7 @@ export class ManageSite extends React.Component {
                 {
                     (!this.state.settingsForSite && this.state.activeTabPageId !== "") ?
                         <div id="manage-site">
-                            <PanelLeftStructure />
+                            <PanelLeftStructure tabPages={this.state.tabPages} activeTabPage={this.state.activeTabPageId}/>
                             <PanelRighttStructure />
                         </div>
                         : null

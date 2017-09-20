@@ -12,7 +12,7 @@ let PageObjectJSON = [
     "elements": [
       {
         "expanded": true,
-        "name": "",
+        "name": "t1",
         "type": "",
         "parent": null,
         "locator": {
@@ -22,7 +22,7 @@ let PageObjectJSON = [
       },
       {
         "expanded": false,
-        "name": "",
+        "name": "t2",
         "type": "",
         "parent": null,
         "locator": {
