@@ -147,7 +147,7 @@ button[id^="closePage"]{
 }
 
 #manage-site .panel:first-child{
-    min-width: 200px;
+    min-width: 400px;
     width: 30%;
 }
 
@@ -162,7 +162,20 @@ button[id^="closePage"]{
 
 .searchInput{
     display: inline;
-    width: 90%; 
+    width: 100%; 
+}
+
+.searchElementInput{
+    display: inline;
+    width: 50%; 
+}
+
+.btnGen{
+    width: 120px;
+}
+
+.btnGen:first-child{
+    min-width: 50px;
 }
 
 .pageSetting{
@@ -180,8 +193,8 @@ button[id^="closePage"]{
 }
 
 
-#addBtn{
-    width: 90%;
+.addBtn{
+    width: 100%;
     margin: 0;
 }
 
@@ -210,4 +223,22 @@ li a{
 
 .panel-body li{
     cursor: pointer;
+}
+
+.active{
+    background: #EBE9E9;
+    color: #157ab5;
+}
+
+.searchElements{
+    display: flex;
+    justify-content: space-between;
+}
+
+.addElemntBtn{
+    width: 100%;
+}
+
+.start{
+    margin-top: 10px
 }

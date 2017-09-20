@@ -1969,16 +1969,15 @@ function Tabs(props) {
         "ul",
         { className: "nav nav-tabs" },
         props.tabPages.map(function (tabPage) {
-            var tabPageName = tabPage.name || "Page ";
+            var tabPageName = tabPage.name || "Page " + (tabPage.pageId + 1);
             return React.createElement(
                 "li",
-                { role: "presentation", className: tabPage.pageId === props.activeTabPage ? "active" : "",
-                    key: "tabPage " + tabPage.pageId, onClick: props.showPage },
+                { role: "presentation" /*className={((tabPage.pageId === props.activeTabPage) && !props.settingsForSite) ? "active" : ""}*/
+                    , key: "tabPage " + tabPage.pageId, onClick: props.showPage },
                 React.createElement(
                     "a",
-                    { href: "#", "data-tabId": tabPage.pageId },
-                    tabPageName,
-                    tabPage.pageId + 1
+                    { href: "#", "data-tabId": tabPage.pageId, className: tabPage.pageId === props.activeTabPage && !props.settingsForSite ? "active" : "" },
+                    tabPageName
                 )
             );
         })
@@ -2022,8 +2021,8 @@ function PanelLeft(props) {
                 { className: "selectContainer" },
                 React.createElement(
                     "button",
-                    { className: "btn btn-default customBtn", id: "addBtn", onClick: props.addPage },
-                    "Add"
+                    { className: "btn btn-default customBtn addBtn", onClick: props.addPage },
+                    "Add page"
                 )
             )
         )
@@ -2152,6 +2151,58 @@ function PanelRight(props) {
     );
 }
 
+function PanelLeftStructure() {
+    return React.createElement(
+        "div",
+        { className: "panel panel-default" },
+        React.createElement(
+            "div",
+            { className: "panel-body" },
+            React.createElement(
+                "div",
+                { className: "selectContainer searchElements" },
+                React.createElement("input", { type: "text", className: "form-control searchElementInput", placeholder: "Search element", id: "searchElementInpput" }),
+                React.createElement(
+                    "div",
+                    { className: "btn-group", role: "group" },
+                    React.createElement(
+                        "button",
+                        { className: "btn btn-default btnGen" },
+                        "Generate"
+                    ),
+                    React.createElement(
+                        "button",
+                        { className: "btn btn-default" },
+                        "Gear"
+                    )
+                )
+            ),
+            React.createElement(
+                "div",
+                null,
+                React.createElement("ul", null)
+            ),
+            React.createElement(
+                "div",
+                { className: "selectContainer" },
+                React.createElement(
+                    "button",
+                    { className: "btn btn-default addElemntBtn" },
+                    "Add element"
+                )
+            )
+        )
+    );
+}
+
+function PanelRighttStructure() {
+    return React.createElement(
+        "div",
+        { className: "panel panel-default" },
+        React.createElement("div", { className: "panel-body" })
+    );
+}
+
 var ManageSite = exports.ManageSite = function (_React$Component) {
     _inherits(ManageSite, _React$Component);
 
@@ -2164,6 +2215,7 @@ var ManageSite = exports.ManageSite = function (_React$Component) {
             tabPages: _pageObject.PageObjectJSON.slice(),
             siteInfo: _pageObject.SiteInfoJSON,
             activeTabPageId: "",
+            settingsForSite: true,
             searchPage: "",
             activePageObject: {}
         };
@@ -2174,6 +2226,7 @@ var ManageSite = exports.ManageSite = function (_React$Component) {
         _this.editValue = _this.editValue.bind(_this);
         _this.closePage = _this.closePage.bind(_this);
         _this.removePage = _this.removePage.bind(_this);
+        _this.showPage = _this.showPage.bind(_this);
 
         return _this;
     }
@@ -2181,6 +2234,17 @@ var ManageSite = exports.ManageSite = function (_React$Component) {
     _createClass(ManageSite, [{
         key: "componentDidMount",
         value: function componentDidMount() {}
+    }, {
+        key: "showPage",
+        value: function showPage(e) {
+            var clickedTabPageId = Number(e.target.dataset.tabid);
+            this.setState(function () {
+                return {
+                    activeTabPageId: clickedTabPageId,
+                    settingsForSite: false
+                };
+            });
+        }
     }, {
         key: "removePage",
         value: function removePage(e) {
@@ -2307,9 +2371,20 @@ var ManageSite = exports.ManageSite = function (_React$Component) {
 
             return React.createElement(
                 "div",
-                { id: "manage-site" },
-                React.createElement(PanelLeft, { searchPage: this.searchPage, searchedPages: searchedPages, selectPage: this.selectPage, addPage: this.addPage, removePage: this.removePage }),
-                React.createElement(PanelRight, { siteInfo: this.state.siteInfo, activePageObject: this.state.activePageObject, editValue: this.editValue, activeTabPageId: this.state.activeTabPageId, closePage: this.closePage })
+                { className: "start" },
+                React.createElement(Tabs, { tabPages: this.state.tabPages, activeTabPage: this.state.activeTabPageId, settingsForSite: this.state.settingsForSite, showPage: this.showPage }),
+                this.state.settingsForSite ? React.createElement(
+                    "div",
+                    { id: "manage-site" },
+                    React.createElement(PanelLeft, { searchPage: this.searchPage, searchedPages: searchedPages, selectPage: this.selectPage, addPage: this.addPage, removePage: this.removePage }),
+                    React.createElement(PanelRight, { siteInfo: this.state.siteInfo, activePageObject: this.state.activePageObject, editValue: this.editValue, activeTabPageId: this.state.activeTabPageId, closePage: this.closePage })
+                ) : null,
+                !this.state.settingsForSite && this.state.activeTabPageId !== "" ? React.createElement(
+                    "div",
+                    { id: "manage-site" },
+                    React.createElement(PanelLeftStructure, null),
+                    React.createElement(PanelRighttStructure, null)
+                ) : null
             );
         }
     }]);
