@@ -1,4 +1,4 @@
-import { PageObjectJSON, SiteInfoJSON } from './data/pageObject';
+import {PageObjectJSON, SiteInfoJSON} from './data/pageObject';
 
 
 if (!window.indexedDB) {
@@ -14,7 +14,8 @@ function Tabs(props) {
                     return (
                         <li role="presentation" /*className={((tabPage.pageId === props.activeTabPage) && !props.settingsForSite) ? "active" : ""}*/
                             key={"tabPage " + tabPage.pageId} onClick={props.showPage}>
-                            <a href="#" data-tabId={tabPage.pageId} className={((tabPage.pageId === props.activeTabPage) && !props.settingsForSite) ? "active" : ""}>{tabPageName}</a>
+                            <a href="#" data-tabid={tabPage.pageId}
+                               className={((tabPage.pageId === props.activeTabPage) && !props.settingsForSite) ? "active" : ""}>{tabPageName}</a>
                         </li>
                     )
                 })
@@ -28,15 +29,17 @@ function PanelLeft(props) {
         <div className="panel panel-default">
             <div className="panel-body">
                 <div className="selectContainer">
-                    <input type="text" className="form-control searchInput" placeholder="Search page" id="searchInpput" onChange={props.searchPage} />
+                    <input type="text" className="form-control searchInput" placeholder="Search page" id="searchInpput"
+                           onChange={props.searchPage}/>
                 </div>
                 <div>
                     <ul>
                         {
                             props.searchedPages.map(function (page, index) {
-                                return (<li key={"listItem" + index} data-pageId={page.pageId}>
+                                return (<li key={"listItem" + index} data-pageid={page.pageId}>
                                     <a onClick={props.selectPage}>{page.name}</a>
-                                    <button className="trash btn btn-default" data-pageId={page.pageId} onClick={props.removePage}></button>
+                                    <button className="trash btn btn-default" data-pageid={page.pageId}
+                                            onClick={props.removePage}></button>
                                 </li>)
                             })
                         }
@@ -55,28 +58,62 @@ function PanelRight(props) {
         <div className="panel panel-default">
             <div className="panel-body">
                 {(typeof props.activeTabPageId === "string") ? <div>
-                    <div className="selectContainer"><span>Name: </span><input type="text" className="form-control searchInput" data-attribute="siteTitle" data-site="siteInfo" defaultValue={props.siteInfo.siteTitle} placeholder="Application name" onChange={props.editValue} /></div>
-                    <div className="selectContainer"><span>Domain: </span><input type="text" className="form-control searchInput" data-attribute="domainName" data-site="siteInfo" defaultValue={props.siteInfo.domainName} placeholder="Domain name" onChange={props.editValue} /></div>
+                    <div className="selectContainer"><span>Name: </span><input type="text"
+                                                                               className="form-control searchInput"
+                                                                               data-attribute="siteTitle"
+                                                                               data-site="siteInfo"
+                                                                               defaultValue={props.siteInfo.siteTitle}
+                                                                               placeholder="Application name"
+                                                                               onChange={props.editValue}/></div>
+                    <div className="selectContainer"><span>Domain: </span><input type="text"
+                                                                                 className="form-control searchInput"
+                                                                                 data-attribute="domainName"
+                                                                                 data-site="siteInfo"
+                                                                                 defaultValue={props.siteInfo.domainName}
+                                                                                 placeholder="Domain name"
+                                                                                 onChange={props.editValue}/></div>
                 </div> : null}
                 {(typeof props.activeTabPageId === "number") ? <div>
                     <div className="selectContainer">
-                        <span>Name: </span><input type="text" className="form-control pageSetting" value={props.activePageObject.name} data-attribute="name" placeholder="Page name" onChange={props.editValue} />
-                        <button className="btn btn-default" id={"closePage" + props.activePageObject.pageId} onClick={props.closePage}>X</button>
+                        <span>Name: </span><input type="text" className="form-control pageSetting"
+                                                  value={props.activePageObject.name} data-attribute="name"
+                                                  placeholder="Page name" onChange={props.editValue}/>
+                        <button className="btn btn-default" id={"closePage" + props.activePageObject.pageId}
+                                onClick={props.closePage}>X
+                        </button>
                     </div>
-                    <div className="selectContainer"><span>Title: </span><input type="text" className="form-control pageSetting" value={props.activePageObject.title} data-attribute="title" placeholder="Title" onChange={props.editValue} />
-                        <select className="form-control pageSettingCombo" value={props.activePageObject.titleMatch} onChange={props.editValue} data-attribute="titleMatch">
+                    <div className="selectContainer"><span>Title: </span><input type="text"
+                                                                                className="form-control pageSetting"
+                                                                                value={props.activePageObject.title}
+                                                                                data-attribute="title"
+                                                                                placeholder="Title"
+                                                                                onChange={props.editValue}/>
+                        <select className="form-control pageSettingCombo" value={props.activePageObject.titleMatch}
+                                onChange={props.editValue} data-attribute="titleMatch">
                             <option value="Equals">Equals</option>
                             <option value="Contains">Contains</option>
                             <option value="Not contains">Not contains</option>
                         </select></div>
-                    <div className="selectContainer"><span>Url: </span><input type="text" className="form-control pageSetting" value={props.activePageObject.url} data-attribute="url" placeholder="Page url" onChange={props.editValue} />
-                        <select className="form-control pageSettingCombo" value={props.activePageObject.urlMatch} onChange={props.editValue} data-attribute="urlMatch">
+                    <div className="selectContainer"><span>Url: </span><input type="text"
+                                                                              className="form-control pageSetting"
+                                                                              value={props.activePageObject.url}
+                                                                              data-attribute="url"
+                                                                              placeholder="Page url"
+                                                                              onChange={props.editValue}/>
+                        <select className="form-control pageSettingCombo" value={props.activePageObject.urlMatch}
+                                onChange={props.editValue} data-attribute="urlMatch">
                             <option value="Equals">Equals</option>
                             <option value="Contains">Contains</option>
                             <option value="Not contains">Not contains</option>
                         </select>
                     </div>
-                    <div className="selectContainer"><span>Url template: </span><input type="text" className="form-control pageSetting" value={props.activePageObject.urlTemplate} data-attribute="urlTemplate" placeholder="Url template" onChange={props.editValue} /></div>
+                    <div className="selectContainer"><span>Url template: </span><input type="text"
+                                                                                       className="form-control pageSetting"
+                                                                                       value={props.activePageObject.urlTemplate}
+                                                                                       data-attribute="urlTemplate"
+                                                                                       placeholder="Url template"
+                                                                                       onChange={props.editValue}/>
+                    </div>
                 </div> : null}
             </div>
         </div>
@@ -84,29 +121,124 @@ function PanelRight(props) {
 }
 
 function PanelLeftStructure(props) {
-    let pageElements = props.tabPages.find(function(tabPage){
-        if (tabPage.pageId === props.activeTabPage){
+    let pageElements = props.tabPages.find(function (tabPage) {
+        if (tabPage.pageId === props.activeTabPage) {
             return tabPage;
         }
+    }).elements;
+
+    pageElements.map(function (element) {
+        return element.padding = 0;
     });
-  
+
+    let elements = pageElements.filter(function (element) {
+        if (element.parent === null) {
+            return element;
+        }
+        ;
+    });
+
+    let parentsArray = parentArray(pageElements);
+
+    function parentArray(pageElements) {
+        let parentsArray = [];
+        for (let i = 0; i < pageElements.length; i++) {
+            parentsArray.push(pageElements[i].name);
+        }
+        return parentsArray;
+    }
+
+
+    function setElements(element) {
+        if (element.parent !== null && parentsArray.includes(element.parent)) {
+            let index = parentsArray.indexOf(element.parent);
+            let parent = parentsArray[index];
+            let find = elements.findIndex(function (element) {
+                return element.name === parent
+            });
+            if (find === -1) {
+                setElements(pageElements[index]);
+                elements.splice(index + 1, 0, element);
+                if (index != pageElements.length) {
+                    pageElements.splice(index + 1, 1);
+                    parentsArray = parentArray(pageElements);
+                }
+            }
+            if (find > -1) {
+                elements.splice(find + 1, 0, element)
+            }
+        }
+    }
+
+    for (let i = 0; i < pageElements.length; i++) {
+        let element = pageElements[i];
+        setElements(element);
+    }
+
+    let parent = elements[0].name;
+    let padding = 0;
+
+    for (let i = 0; i < elements.length; i++) {
+        if (elements[i].parent === null) {
+            parent = elements[i].name;
+            padding = 0;
+            elements[i].padding = padding;
+        } else
+        if (elements[i].parent === parent) {
+            if (i > 0) {
+                if (elements[i - 1].parent === parent) {
+                    if (padding > 0) {
+                        elements[i].padding = padding;
+                    } else {
+                        padding = padding + 5;
+                        elements[i].padding = padding;
+                    }
+                } else {
+                    padding = padding + 5;
+                    elements[i].padding = padding;
+                }
+            }
+        } else
+        if (elements[i].parent === elements[i-1].name){
+            parent = elements[i-1].name;
+            padding = padding + 5;
+            elements[i].padding = padding;
+        }
+        // else {
+        //     parent = elements[i].name;
+        //     //console.log(elements[i].name, padding)
+        //     //padding = 0;
+        // }
+    }
+
+    function setStyle(p){
+        return {
+            paddingLeft: p + 'px'
+        }
+    }
+
+    console.log(elements)
+
     return (
         <div className="panel panel-default">
             <div className="panel-body">
                 <div className="selectContainer searchElements">
-                    <input type="text" className="form-control searchElementInput" placeholder="Search element" id="searchElementInpput" />
+                    <input type="text" className="form-control searchElementInput" placeholder="Search element"
+                           id="searchElementInpput"/>
                     <div className="btn-group" role="group">
                         <button className="btn btn-default btnGen">Generate</button>
                         <button className="btn btn-default">Gear</button>
                     </div>
                 </div>
                 <div>
-                    <ul>
+                    <ul className="tree">
                         {
-                            pageElements.elements.map(function (element, index) {
-                                return (<li key={"element" + index} data-pageId={props.activeTabPage} data-index={index}>
-                                    <a>{element.name}</a>
-                                    <button className="trash btn btn-default" data-pageId={props.activeTabPage} data-index={index}></button>
+                            elements.map(function (element, index) {
+                                return (<li key={"element" + index} data-pageid={props.activeTabPage}
+                                            data-index={index} style={{paddingLeft: element.padding + 'px'}}>
+                                    <a data-parent={element.parent}>{element.name}</a>
+                                    <button className="trash btn btn-default" data-pageid={props.activeTabPage}
+                                            data-index={index}></button>
                                 </li>)
                             })
                         }
@@ -125,33 +257,34 @@ function PanelRighttStructure() {
         <div className="panel panel-default">
             <div className="panel-body">
                 {/* {(typeof props.activeTabPageId === "string") ? <div>
-                    <div className="selectContainer"><span>Name: </span><input type="text" className="form-control searchInput" data-attribute="siteTitle" data-site="siteInfo" defaultValue={props.siteInfo.siteTitle} placeholder="Application name" onChange={props.editValue} /></div>
-                    <div className="selectContainer"><span>Domain: </span><input type="text" className="form-control searchInput" data-attribute="domainName" data-site="siteInfo" defaultValue={props.siteInfo.domainName} placeholder="Domain name" onChange={props.editValue} /></div>
-                </div> : null}
-                {(typeof props.activeTabPageId === "number") ? <div>
-                    <div className="selectContainer">
-                        <span>Name: </span><input type="text" className="form-control pageSetting" value={props.activePageObject.name} data-attribute="name" placeholder="Page name" onChange={props.editValue} />
-                        <button className="btn btn-default" id={"closePage" + props.activePageObject.pageId} onClick={props.closePage}>X</button>
-                    </div>
-                    <div className="selectContainer"><span>Title: </span><input type="text" className="form-control pageSetting" value={props.activePageObject.title} data-attribute="title" placeholder="Title" onChange={props.editValue} />
-                        <select className="form-control pageSettingCombo" value={props.activePageObject.titleMatch} onChange={props.editValue} data-attribute="titleMatch">
-                            <option value="Equals">Equals</option>
-                            <option value="Contains">Contains</option>
-                            <option value="Not contains">Not contains</option>
-                        </select></div>
-                    <div className="selectContainer"><span>Url: </span><input type="text" className="form-control pageSetting" value={props.activePageObject.url} data-attribute="url" placeholder="Page url" onChange={props.editValue} />
-                        <select className="form-control pageSettingCombo" value={props.activePageObject.urlMatch} onChange={props.editValue} data-attribute="urlMatch">
-                            <option value="Equals">Equals</option>
-                            <option value="Contains">Contains</option>
-                            <option value="Not contains">Not contains</option>
-                        </select>
-                    </div>
-                    <div className="selectContainer"><span>Url template: </span><input type="text" className="form-control pageSetting" value={props.activePageObject.urlTemplate} data-attribute="urlTemplate" placeholder="Url template" onChange={props.editValue} /></div>
-                </div> : null} */}
+                 <div className="selectContainer"><span>Name: </span><input type="text" className="form-control searchInput" data-attribute="siteTitle" data-site="siteInfo" defaultValue={props.siteInfo.siteTitle} placeholder="Application name" onChange={props.editValue} /></div>
+                 <div className="selectContainer"><span>Domain: </span><input type="text" className="form-control searchInput" data-attribute="domainName" data-site="siteInfo" defaultValue={props.siteInfo.domainName} placeholder="Domain name" onChange={props.editValue} /></div>
+                 </div> : null}
+                 {(typeof props.activeTabPageId === "number") ? <div>
+                 <div className="selectContainer">
+                 <span>Name: </span><input type="text" className="form-control pageSetting" value={props.activePageObject.name} data-attribute="name" placeholder="Page name" onChange={props.editValue} />
+                 <button className="btn btn-default" id={"closePage" + props.activePageObject.pageId} onClick={props.closePage}>X</button>
+                 </div>
+                 <div className="selectContainer"><span>Title: </span><input type="text" className="form-control pageSetting" value={props.activePageObject.title} data-attribute="title" placeholder="Title" onChange={props.editValue} />
+                 <select className="form-control pageSettingCombo" value={props.activePageObject.titleMatch} onChange={props.editValue} data-attribute="titleMatch">
+                 <option value="Equals">Equals</option>
+                 <option value="Contains">Contains</option>
+                 <option value="Not contains">Not contains</option>
+                 </select></div>
+                 <div className="selectContainer"><span>Url: </span><input type="text" className="form-control pageSetting" value={props.activePageObject.url} data-attribute="url" placeholder="Page url" onChange={props.editValue} />
+                 <select className="form-control pageSettingCombo" value={props.activePageObject.urlMatch} onChange={props.editValue} data-attribute="urlMatch">
+                 <option value="Equals">Equals</option>
+                 <option value="Contains">Contains</option>
+                 <option value="Not contains">Not contains</option>
+                 </select>
+                 </div>
+                 <div className="selectContainer"><span>Url template: </span><input type="text" className="form-control pageSetting" value={props.activePageObject.urlTemplate} data-attribute="urlTemplate" placeholder="Url template" onChange={props.editValue} /></div>
+                 </div> : null} */}
             </div>
         </div>
     )
 }
+
 export class ManageSite extends React.Component {
     constructor() {
         super();
@@ -231,7 +364,7 @@ export class ManageSite extends React.Component {
                 "package": "",
                 "elements": []
             }
-        )
+        );
         this.setState(function () {
             return {
                 tabPages: updateArray
@@ -267,7 +400,7 @@ export class ManageSite extends React.Component {
             if (page.pageId === pageNum) {
                 return page;
             }
-        })
+        });
         this.setState({
             activeTabPageId: pageNum,
             activePageObject: obj
@@ -292,6 +425,7 @@ export class ManageSite extends React.Component {
         let page = document.getElementById("searchInpput").value;
         this.debounce(page);
     }
+
     render() {
         let searchedPages = [];
         if (this.state.searchPage !== "") {
@@ -307,19 +441,26 @@ export class ManageSite extends React.Component {
 
         return (
             <div className="start">
-                <Tabs tabPages={this.state.tabPages} activeTabPage={this.state.activeTabPageId} settingsForSite={this.state.settingsForSite} showPage={this.showPage} />
+                <Tabs tabPages={this.state.tabPages} activeTabPage={this.state.activeTabPageId}
+                      settingsForSite={this.state.settingsForSite} showPage={this.showPage}/>
                 {
                     (this.state.settingsForSite) ?
                         <div id="manage-site">
-                            <PanelLeft searchPage={this.searchPage} searchedPages={searchedPages} selectPage={this.selectPage} addPage={this.addPage} removePage={this.removePage} />
-                            <PanelRight siteInfo={this.state.siteInfo} activePageObject={this.state.activePageObject} editValue={this.editValue} activeTabPageId={this.state.activeTabPageId} closePage={this.closePage} />
+                            <PanelLeft searchPage={this.searchPage} searchedPages={searchedPages}
+                                       selectPage={this.selectPage} addPage={this.addPage}
+                                       removePage={this.removePage}/>
+                            <PanelRight siteInfo={this.state.siteInfo}
+                                        activePageObject={this.state.activePageObject}
+                                        editValue={this.editValue} activeTabPageId={this.state.activeTabPageId}
+                                        closePage={this.closePage}/>
                         </div>
                         : null
                 }
                 {
                     (!this.state.settingsForSite && this.state.activeTabPageId !== "") ?
                         <div id="manage-site">
-                            <PanelLeftStructure tabPages={this.state.tabPages} activeTabPage={this.state.activeTabPageId}/>
+                            <PanelLeftStructure tabPages={this.state.tabPages}
+                                                activeTabPage={this.state.activeTabPageId}/>
                             <PanelRighttStructure />
                         </div>
                         : null
