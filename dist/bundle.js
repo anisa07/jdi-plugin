@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 31);
+/******/ 	return __webpack_require__(__webpack_require__.s = 33);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -74,15 +74,52 @@
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(69);
+  module.exports = __webpack_require__(71);
 } else {
-  module.exports = __webpack_require__(68);
+  module.exports = __webpack_require__(70);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+if (process.env.NODE_ENV !== 'production') {
+  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+    Symbol.for &&
+    Symbol.for('react.element')) ||
+    0xeac7;
+
+  var isValidElement = function(object) {
+    return typeof object === 'object' &&
+      object !== null &&
+      object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(49)(isValidElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(48)();
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -272,64 +309,27 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
-if (process.env.NODE_ENV !== 'production') {
-  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
-    Symbol.for &&
-    Symbol.for('react.element')) ||
-    0xeac7;
-
-  var isValidElement = function(object) {
-    return typeof object === 'object' &&
-      object !== null &&
-      object.$$typeof === REACT_ELEMENT_TYPE;
-  };
-
-  // By explicitly using `prop-types` you are opting into new development behavior.
-  // http://fb.me/prop-types-in-prod
-  var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(47)(isValidElement, throwOnDirectAccess);
-} else {
-  // By explicitly using `prop-types` you are opting into new production behavior.
-  // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(46)();
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
-
-/***/ }),
 /* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MemoryRouter__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MemoryRouter__ = __webpack_require__(64);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_0__MemoryRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Prompt__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Prompt__ = __webpack_require__(65);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_1__Prompt__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Redirect__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Redirect__ = __webpack_require__(66);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_2__Redirect__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Route__ = __webpack_require__(26);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_3__Route__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Router__ = __webpack_require__(17);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_4__Router__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__StaticRouter__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__StaticRouter__ = __webpack_require__(67);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_5__StaticRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Switch__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Switch__ = __webpack_require__(68);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_6__Switch__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__matchPath__ = __webpack_require__(18);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_7__matchPath__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__withRouter__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__withRouter__ = __webpack_require__(69);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_8__withRouter__["a"]; });
 
 
@@ -454,7 +454,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
 }
 
 module.exports = invariant;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
 /* 6 */
@@ -522,7 +522,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = warning;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
 /* 7 */
@@ -615,7 +615,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = emptyObject;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
 /* 9 */
@@ -688,7 +688,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = warning;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
 /* 10 */
@@ -747,7 +747,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
 /* 11 */
@@ -899,11 +899,11 @@ exports.locationsAreEqual = exports.createLocation = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _resolvePathname = __webpack_require__(70);
+var _resolvePathname = __webpack_require__(72);
 
 var _resolvePathname2 = _interopRequireDefault(_resolvePathname);
 
-var _valueEqual = __webpack_require__(71);
+var _valueEqual = __webpack_require__(73);
 
 var _valueEqual2 = _interopRequireDefault(_valueEqual);
 
@@ -1129,7 +1129,7 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 
 module.exports = checkPropTypes;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
 /* 16 */
@@ -1163,7 +1163,7 @@ module.exports = ReactPropTypesSecret;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -1276,7 +1276,7 @@ Router.childContextTypes = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_path_to_regexp__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_path_to_regexp__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_path_to_regexp___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_path_to_regexp__);
 
 
@@ -1434,7 +1434,7 @@ var EventListener = {
 };
 
 module.exports = EventListener;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
 /* 20 */
@@ -1454,7 +1454,7 @@ module.exports = EventListener;
  * 
  */
 
-var isTextNode = __webpack_require__(37);
+var isTextNode = __webpack_require__(39);
 
 /*eslint-disable no-bitwise */
 
@@ -1698,7 +1698,7 @@ var isExtraneousPopstateEvent = exports.isExtraneousPopstateEvent = function isE
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -1803,7 +1803,7 @@ Link.contextTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__matchPath__ = __webpack_require__(18);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -1948,11 +1948,17 @@ Route.childContextTypes = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.ManageSite = undefined;
+exports.Main = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _pageObject = __webpack_require__(30);
+
+var _tabs = __webpack_require__(32);
+
+var _manageSite = __webpack_require__(31);
+
+var _managePage = __webpack_require__(75);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1960,360 +1966,17 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-if (!window.indexedDB) {
-    window.alert("Ваш браузер не поддерживат стабильную версию IndexedDB. Такие-то функции будут недоступны");
-}
+// if (!window.indexedDB) {
+//     window.alert("Ваш браузер не поддерживат стабильную версию IndexedDB. Такие-то функции будут недоступны");
+// }
 
-function Tabs(props) {
-    return React.createElement(
-        "ul",
-        { className: "nav nav-tabs" },
-        props.tabPages.map(function (tabPage) {
-            var tabPageName = tabPage.name || "Page " + (tabPage.pageId + 1);
-            return React.createElement(
-                "li",
-                { role: "presentation" /*className={((tabPage.pageId === props.activeTabPage) && !props.settingsForSite) ? "active" : ""}*/
-                    , key: "tabPage " + tabPage.pageId, onClick: props.showPage },
-                React.createElement(
-                    "a",
-                    { href: "#", "data-tabid": tabPage.pageId,
-                        className: tabPage.pageId === props.activeTabPage && !props.settingsForSite ? "active" : "" },
-                    tabPageName
-                )
-            );
-        })
-    );
-}
+var Main = exports.Main = function (_React$Component) {
+    _inherits(Main, _React$Component);
 
-function PanelLeft(props) {
-    return React.createElement(
-        "div",
-        { className: "panel panel-default" },
-        React.createElement(
-            "div",
-            { className: "panel-body" },
-            React.createElement(
-                "div",
-                { className: "selectContainer" },
-                React.createElement("input", { type: "text", className: "form-control searchInput", placeholder: "Search page", id: "searchInpput",
-                    onChange: props.searchPage })
-            ),
-            React.createElement(
-                "div",
-                null,
-                React.createElement(
-                    "ul",
-                    null,
-                    props.searchedPages.map(function (page, index) {
-                        return React.createElement(
-                            "li",
-                            { key: "listItem" + index, "data-pageid": page.pageId },
-                            React.createElement(
-                                "a",
-                                { onClick: props.selectPage },
-                                page.name
-                            ),
-                            React.createElement("button", { className: "trash btn btn-default", "data-pageid": page.pageId,
-                                onClick: props.removePage })
-                        );
-                    })
-                )
-            ),
-            React.createElement(
-                "div",
-                { className: "selectContainer" },
-                React.createElement(
-                    "button",
-                    { className: "btn btn-default customBtn addBtn", onClick: props.addPage },
-                    "Add page"
-                )
-            )
-        )
-    );
-}
+    function Main() {
+        _classCallCheck(this, Main);
 
-function PanelRight(props) {
-    return React.createElement(
-        "div",
-        { className: "panel panel-default" },
-        React.createElement(
-            "div",
-            { className: "panel-body" },
-            typeof props.activeTabPageId === "string" ? React.createElement(
-                "div",
-                null,
-                React.createElement(
-                    "div",
-                    { className: "selectContainer" },
-                    React.createElement(
-                        "span",
-                        null,
-                        "Name: "
-                    ),
-                    React.createElement("input", { type: "text",
-                        className: "form-control searchInput",
-                        "data-attribute": "siteTitle",
-                        "data-site": "siteInfo",
-                        defaultValue: props.siteInfo.siteTitle,
-                        placeholder: "Application name",
-                        onChange: props.editValue })
-                ),
-                React.createElement(
-                    "div",
-                    { className: "selectContainer" },
-                    React.createElement(
-                        "span",
-                        null,
-                        "Domain: "
-                    ),
-                    React.createElement("input", { type: "text",
-                        className: "form-control searchInput",
-                        "data-attribute": "domainName",
-                        "data-site": "siteInfo",
-                        defaultValue: props.siteInfo.domainName,
-                        placeholder: "Domain name",
-                        onChange: props.editValue })
-                )
-            ) : null,
-            typeof props.activeTabPageId === "number" ? React.createElement(
-                "div",
-                null,
-                React.createElement(
-                    "div",
-                    { className: "selectContainer" },
-                    React.createElement(
-                        "span",
-                        null,
-                        "Name: "
-                    ),
-                    React.createElement("input", { type: "text", className: "form-control pageSetting",
-                        value: props.activePageObject.name, "data-attribute": "name",
-                        placeholder: "Page name", onChange: props.editValue }),
-                    React.createElement(
-                        "button",
-                        { className: "btn btn-default", id: "closePage" + props.activePageObject.pageId,
-                            onClick: props.closePage },
-                        "X"
-                    )
-                ),
-                React.createElement(
-                    "div",
-                    { className: "selectContainer" },
-                    React.createElement(
-                        "span",
-                        null,
-                        "Title: "
-                    ),
-                    React.createElement("input", { type: "text",
-                        className: "form-control pageSetting",
-                        value: props.activePageObject.title,
-                        "data-attribute": "title",
-                        placeholder: "Title",
-                        onChange: props.editValue }),
-                    React.createElement(
-                        "select",
-                        { className: "form-control pageSettingCombo", value: props.activePageObject.titleMatch,
-                            onChange: props.editValue, "data-attribute": "titleMatch" },
-                        React.createElement(
-                            "option",
-                            { value: "Equals" },
-                            "Equals"
-                        ),
-                        React.createElement(
-                            "option",
-                            { value: "Contains" },
-                            "Contains"
-                        ),
-                        React.createElement(
-                            "option",
-                            { value: "Not contains" },
-                            "Not contains"
-                        )
-                    )
-                ),
-                React.createElement(
-                    "div",
-                    { className: "selectContainer" },
-                    React.createElement(
-                        "span",
-                        null,
-                        "Url: "
-                    ),
-                    React.createElement("input", { type: "text",
-                        className: "form-control pageSetting",
-                        value: props.activePageObject.url,
-                        "data-attribute": "url",
-                        placeholder: "Page url",
-                        onChange: props.editValue }),
-                    React.createElement(
-                        "select",
-                        { className: "form-control pageSettingCombo", value: props.activePageObject.urlMatch,
-                            onChange: props.editValue, "data-attribute": "urlMatch" },
-                        React.createElement(
-                            "option",
-                            { value: "Equals" },
-                            "Equals"
-                        ),
-                        React.createElement(
-                            "option",
-                            { value: "Contains" },
-                            "Contains"
-                        ),
-                        React.createElement(
-                            "option",
-                            { value: "Not contains" },
-                            "Not contains"
-                        )
-                    )
-                ),
-                React.createElement(
-                    "div",
-                    { className: "selectContainer" },
-                    React.createElement(
-                        "span",
-                        null,
-                        "Url template: "
-                    ),
-                    React.createElement("input", { type: "text",
-                        className: "form-control pageSetting",
-                        value: props.activePageObject.urlTemplate,
-                        "data-attribute": "urlTemplate",
-                        placeholder: "Url template",
-                        onChange: props.editValue })
-                )
-            ) : null
-        )
-    );
-}
-
-function PanelLeftStructure(props) {
-    var pageElements = props.tabPages.find(function (tabPage) {
-        if (tabPage.pageId === props.activeTabPage) {
-            return tabPage;
-        }
-    }).elements;
-
-    var mapArr = new Map();
-    var resultTree = [];
-    var find = void 0;
-
-    for (var i = 0; i < pageElements.length; i++) {
-        var element = pageElements[i];
-        var parent = element.parent;
-        if (mapArr.has(parent)) {
-            var list = mapArr.get(parent);
-            list.push(element);
-        } else {
-            mapArr.set(parent, [element]);
-        }
-    }
-
-    function getChildren(arr) {
-        var tree = [];
-        var len = arr.length;
-        for (var _i = 0; _i < len; _i++) {
-            var _element = arr[_i];
-            _element.children = [];
-            if (mapArr.has(_element.name)) {
-                _element.children.push(getChildren(mapArr.get(_element.name)));
-            }
-            tree.push(_element);
-        }
-        return tree;
-    }
-
-    resultTree = getChildren(mapArr.get(null));
-
-    console.log(resultTree);
-
-    function draw(array, key) {
-        var n = key || 0;
-        return React.createElement(
-            "ul",
-            { className: "tree" },
-            array.map(function (element, index) {
-                var children = false;
-                var arr = [];
-                if (element.children) {
-                    children = !!element.children.length;
-                    arr = element.children[0];
-                }
-                return React.createElement(
-                    "li",
-                    { key: "element" + index + n, "data-pageid": props.activeTabPage,
-                        "data-index": index, "data-ulnum": n, style: { paddingLeft: element.padding + 'px' } },
-                    React.createElement(
-                        "a",
-                        { "data-parent": element.parent },
-                        element.name
-                    ),
-                    React.createElement("button", { className: "trash btn btn-default", "data-pageid": props.activeTabPage,
-                        "data-index": index }),
-                    children ? draw(arr, n + 1) : ""
-                );
-            })
-        );
-    }
-
-    return React.createElement(
-        "div",
-        { className: "panel panel-default" },
-        React.createElement(
-            "div",
-            { className: "panel-body" },
-            React.createElement(
-                "div",
-                { className: "selectContainer searchElements" },
-                React.createElement("input", { type: "text", className: "form-control searchElementInput", placeholder: "Search element",
-                    id: "searchElementInpput" }),
-                React.createElement(
-                    "div",
-                    { className: "btn-group", role: "group" },
-                    React.createElement(
-                        "button",
-                        { className: "btn btn-default btnGen" },
-                        "Generate"
-                    ),
-                    React.createElement(
-                        "button",
-                        { className: "btn btn-default" },
-                        "Gear"
-                    )
-                )
-            ),
-            React.createElement(
-                "div",
-                null,
-                draw(resultTree)
-            ),
-            React.createElement(
-                "div",
-                { className: "selectContainer" },
-                React.createElement(
-                    "button",
-                    { className: "btn btn-default addElemntBtn" },
-                    "Add element"
-                )
-            )
-        )
-    );
-}
-
-function PanelRighttStructure() {
-    return React.createElement(
-        "div",
-        { className: "panel panel-default" },
-        React.createElement("div", { className: "panel-body" })
-    );
-}
-
-var ManageSite = exports.ManageSite = function (_React$Component) {
-    _inherits(ManageSite, _React$Component);
-
-    function ManageSite() {
-        _classCallCheck(this, ManageSite);
-
-        var _this = _possibleConstructorReturn(this, (ManageSite.__proto__ || Object.getPrototypeOf(ManageSite)).call(this));
+        var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this));
 
         _this.state = {
             tabPages: _pageObject.PageObjectJSON.slice(),
@@ -2335,11 +1998,11 @@ var ManageSite = exports.ManageSite = function (_React$Component) {
         return _this;
     }
 
-    _createClass(ManageSite, [{
-        key: "componentDidMount",
+    _createClass(Main, [{
+        key: 'componentDidMount',
         value: function componentDidMount() {}
     }, {
-        key: "showPage",
+        key: 'showPage',
         value: function showPage(e) {
             var clickedTabPageId = Number(e.target.dataset.tabid);
             this.setState(function () {
@@ -2350,7 +2013,7 @@ var ManageSite = exports.ManageSite = function (_React$Component) {
             });
         }
     }, {
-        key: "removePage",
+        key: 'removePage',
         value: function removePage(e) {
             var len = this.state.tabPages.length;
             var id = Number(e.target.dataset.pageid.replace(/\D/g, ""));
@@ -2370,7 +2033,7 @@ var ManageSite = exports.ManageSite = function (_React$Component) {
             }
         }
     }, {
-        key: "closePage",
+        key: 'closePage',
         value: function closePage() {
             this.setState(function () {
                 return {
@@ -2379,7 +2042,7 @@ var ManageSite = exports.ManageSite = function (_React$Component) {
             });
         }
     }, {
-        key: "addPage",
+        key: 'addPage',
         value: function addPage() {
             var id = this.state.tabPages[this.state.tabPages.length - 1].pageId + 1;
             var updateArray = this.state.tabPages.slice();
@@ -2402,7 +2065,7 @@ var ManageSite = exports.ManageSite = function (_React$Component) {
             });
         }
     }, {
-        key: "editValue",
+        key: 'editValue',
         value: function editValue(e) {
             var field = e.target.dataset.attribute;
             var value = e.target.value;
@@ -2425,7 +2088,7 @@ var ManageSite = exports.ManageSite = function (_React$Component) {
             }
         }
     }, {
-        key: "selectPage",
+        key: 'selectPage',
         value: function selectPage(e) {
             var pageNum = Number(e.target.parentNode.dataset.pageid);
             var obj = this.state.tabPages.find(function (page) {
@@ -2439,7 +2102,7 @@ var ManageSite = exports.ManageSite = function (_React$Component) {
             });
         }
     }, {
-        key: "debounce",
+        key: 'debounce',
         value: function debounce(page) {
             var inDebounce = undefined;
             var context = this;
@@ -2453,13 +2116,13 @@ var ManageSite = exports.ManageSite = function (_React$Component) {
             }();
         }
     }, {
-        key: "searchPage",
+        key: 'searchPage',
         value: function searchPage(e) {
             var page = document.getElementById("searchInpput").value;
             this.debounce(page);
         }
     }, {
-        key: "render",
+        key: 'render',
         value: function render() {
             var searchedPages = [];
             if (this.state.searchPage !== "") {
@@ -2474,33 +2137,38 @@ var ManageSite = exports.ManageSite = function (_React$Component) {
             }
 
             return React.createElement(
-                "div",
-                { className: "start" },
-                React.createElement(Tabs, { tabPages: this.state.tabPages, activeTabPage: this.state.activeTabPageId,
-                    settingsForSite: this.state.settingsForSite, showPage: this.showPage }),
+                'div',
+                { className: 'start' },
+                React.createElement(_tabs.Tabs, { tabPages: this.state.tabPages,
+                    activeTabPage: this.state.activeTabPageId,
+                    settingsForSite: this.state.settingsForSite,
+                    showPage: this.showPage }),
                 this.state.settingsForSite ? React.createElement(
-                    "div",
-                    { id: "manage-site" },
-                    React.createElement(PanelLeft, { searchPage: this.searchPage, searchedPages: searchedPages,
-                        selectPage: this.selectPage, addPage: this.addPage,
+                    'div',
+                    { id: 'manage-site' },
+                    React.createElement(_manageSite.PanelLeftSite, { searchPage: this.searchPage,
+                        searchedPages: searchedPages,
+                        selectPage: this.selectPage,
+                        addPage: this.addPage,
                         removePage: this.removePage }),
-                    React.createElement(PanelRight, { siteInfo: this.state.siteInfo,
+                    React.createElement(_manageSite.PanelRightSite, { siteInfo: this.state.siteInfo,
                         activePageObject: this.state.activePageObject,
-                        editValue: this.editValue, activeTabPageId: this.state.activeTabPageId,
+                        editValue: this.editValue,
+                        activeTabPageId: this.state.activeTabPageId,
                         closePage: this.closePage })
                 ) : null,
                 !this.state.settingsForSite && this.state.activeTabPageId !== "" ? React.createElement(
-                    "div",
-                    { id: "manage-site" },
-                    React.createElement(PanelLeftStructure, { tabPages: this.state.tabPages,
+                    'div',
+                    { id: 'manage-site' },
+                    React.createElement(_managePage.PanelLeftPage, { tabPages: this.state.tabPages,
                         activeTabPage: this.state.activeTabPageId }),
-                    React.createElement(PanelRighttStructure, null)
+                    React.createElement(_managePage.PanelRightPage, null)
                 ) : null
             );
         }
     }]);
 
-    return ManageSite;
+    return Main;
 }(React.Component);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
@@ -2512,12 +2180,12 @@ var ManageSite = exports.ManageSite = function (_React$Component) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(49);
+  module.exports = __webpack_require__(51);
 } else {
-  module.exports = __webpack_require__(48);
+  module.exports = __webpack_require__(50);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
 /* 29 */
@@ -2525,31 +2193,31 @@ if (process.env.NODE_ENV === 'production') {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__ = __webpack_require__(52);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "BrowserRouter", function() { return __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__HashRouter__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__HashRouter__ = __webpack_require__(53);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "HashRouter", function() { return __WEBPACK_IMPORTED_MODULE_1__HashRouter__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Link__ = __webpack_require__(25);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Link", function() { return __WEBPACK_IMPORTED_MODULE_2__Link__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__ = __webpack_require__(54);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MemoryRouter", function() { return __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NavLink__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NavLink__ = __webpack_require__(55);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "NavLink", function() { return __WEBPACK_IMPORTED_MODULE_4__NavLink__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Prompt__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Prompt__ = __webpack_require__(56);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Prompt", function() { return __WEBPACK_IMPORTED_MODULE_5__Prompt__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redirect__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redirect__ = __webpack_require__(57);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Redirect", function() { return __WEBPACK_IMPORTED_MODULE_6__Redirect__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Route__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Route__ = __webpack_require__(58);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Route", function() { return __WEBPACK_IMPORTED_MODULE_7__Route__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Router__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Router__ = __webpack_require__(59);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Router", function() { return __WEBPACK_IMPORTED_MODULE_8__Router__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__StaticRouter__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__StaticRouter__ = __webpack_require__(60);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "StaticRouter", function() { return __WEBPACK_IMPORTED_MODULE_9__StaticRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Switch__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Switch__ = __webpack_require__(61);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Switch", function() { return __WEBPACK_IMPORTED_MODULE_10__Switch__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__matchPath__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__matchPath__ = __webpack_require__(62);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "matchPath", function() { return __WEBPACK_IMPORTED_MODULE_11__matchPath__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__withRouter__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__withRouter__ = __webpack_require__(63);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "withRouter", function() { return __WEBPACK_IMPORTED_MODULE_12__withRouter__["a"]; });
 
 
@@ -2708,6 +2376,291 @@ exports.SiteInfoJSON = SiteInfoJSON;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function(React, PropTypes) {
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function PanelLeftSite(props) {
+    return React.createElement(
+        "div",
+        { className: "panel panel-default" },
+        React.createElement(
+            "div",
+            { className: "panel-body" },
+            React.createElement(
+                "div",
+                { className: "selectContainer" },
+                React.createElement("input", { type: "text",
+                    className: "form-control searchInput",
+                    placeholder: "Search page",
+                    id: "searchInpput",
+                    onChange: props.searchPage })
+            ),
+            React.createElement(
+                "div",
+                null,
+                React.createElement(
+                    "ul",
+                    null,
+                    props.searchedPages.map(function (page, index) {
+                        return React.createElement(
+                            "li",
+                            { key: "listItem" + index,
+                                "data-pageid": page.pageId },
+                            React.createElement(
+                                "a",
+                                { onClick: props.selectPage },
+                                page.name
+                            ),
+                            React.createElement("button", { className: "trash btn btn-default",
+                                "data-pageid": page.pageId,
+                                onClick: props.removePage })
+                        );
+                    })
+                )
+            ),
+            React.createElement(
+                "div",
+                { className: "selectContainer" },
+                React.createElement(
+                    "button",
+                    { className: "btn btn-default customBtn addBtn",
+                        onClick: props.addPage },
+                    "Add page"
+                )
+            )
+        )
+    );
+}
+
+PanelLeftSite.propTypes = {
+    searchPage: PropTypes.func.isRequired,
+    searchedPages: PropTypes.array.isRequired,
+    selectPage: PropTypes.func.isRequired,
+    addPage: PropTypes.func.isRequired,
+    removePage: PropTypes.func.isRequired
+};
+
+function PanelRightSite(props) {
+    return React.createElement(
+        "div",
+        { className: "panel panel-default" },
+        React.createElement(
+            "div",
+            { className: "panel-body" },
+            typeof props.activeTabPageId === "string" ? React.createElement(
+                "div",
+                null,
+                React.createElement(
+                    "div",
+                    { className: "selectContainer" },
+                    React.createElement(
+                        "span",
+                        null,
+                        "Name: "
+                    ),
+                    React.createElement("input", { type: "text",
+                        className: "form-control searchInput",
+                        "data-attribute": "siteTitle",
+                        "data-site": "siteInfo",
+                        defaultValue: props.siteInfo.siteTitle,
+                        placeholder: "Application name",
+                        onChange: props.editValue })
+                ),
+                React.createElement(
+                    "div",
+                    { className: "selectContainer" },
+                    React.createElement(
+                        "span",
+                        null,
+                        "Domain: "
+                    ),
+                    React.createElement("input", { type: "text",
+                        className: "form-control searchInput",
+                        "data-attribute": "domainName",
+                        "data-site": "siteInfo",
+                        defaultValue: props.siteInfo.domainName,
+                        placeholder: "Domain name",
+                        onChange: props.editValue })
+                )
+            ) : null,
+            typeof props.activeTabPageId === "number" ? React.createElement(
+                "div",
+                null,
+                React.createElement(
+                    "div",
+                    { className: "selectContainer" },
+                    React.createElement(
+                        "span",
+                        null,
+                        "Name: "
+                    ),
+                    React.createElement("input", { type: "text",
+                        className: "form-control pageSetting",
+                        value: props.activePageObject.name,
+                        "data-attribute": "name",
+                        placeholder: "Page name", onChange: props.editValue }),
+                    React.createElement(
+                        "button",
+                        { className: "btn btn-default",
+                            id: "closePage" + props.activePageObject.pageId,
+                            onClick: props.closePage },
+                        "X"
+                    )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "selectContainer" },
+                    React.createElement(
+                        "span",
+                        null,
+                        "Title: "
+                    ),
+                    React.createElement("input", { type: "text",
+                        className: "form-control pageSetting",
+                        value: props.activePageObject.title,
+                        "data-attribute": "title",
+                        placeholder: "Title",
+                        onChange: props.editValue }),
+                    React.createElement(
+                        "select",
+                        { className: "form-control pageSettingCombo",
+                            value: props.activePageObject.titleMatch,
+                            onChange: props.editValue,
+                            "data-attribute": "titleMatch" },
+                        React.createElement(
+                            "option",
+                            { value: "Equals" },
+                            "Equals"
+                        ),
+                        React.createElement(
+                            "option",
+                            { value: "Contains" },
+                            "Contains"
+                        ),
+                        React.createElement(
+                            "option",
+                            { value: "Not contains" },
+                            "Not contains"
+                        )
+                    )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "selectContainer" },
+                    React.createElement(
+                        "span",
+                        null,
+                        "Url: "
+                    ),
+                    React.createElement("input", { type: "text",
+                        className: "form-control pageSetting",
+                        value: props.activePageObject.url,
+                        "data-attribute": "url",
+                        placeholder: "Page url",
+                        onChange: props.editValue }),
+                    React.createElement(
+                        "select",
+                        { className: "form-control pageSettingCombo",
+                            value: props.activePageObject.urlMatch,
+                            onChange: props.editValue,
+                            "data-attribute": "urlMatch" },
+                        React.createElement(
+                            "option",
+                            { value: "Equals" },
+                            "Equals"
+                        ),
+                        React.createElement(
+                            "option",
+                            { value: "Contains" },
+                            "Contains"
+                        ),
+                        React.createElement(
+                            "option",
+                            { value: "Not contains" },
+                            "Not contains"
+                        )
+                    )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "selectContainer" },
+                    React.createElement(
+                        "span",
+                        null,
+                        "Url template: "
+                    ),
+                    React.createElement("input", { type: "text",
+                        className: "form-control pageSetting",
+                        value: props.activePageObject.urlTemplate,
+                        "data-attribute": "urlTemplate",
+                        placeholder: "Url template",
+                        onChange: props.editValue })
+                )
+            ) : null
+        )
+    );
+}
+
+PanelRightSite.propTypes = {
+    editValue: PropTypes.func.isRequired,
+    siteInfo: PropTypes.object.isRequired,
+    activePageObject: PropTypes.object.isRequired,
+    activeTabPageId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    closePage: PropTypes.func.isRequired
+};
+
+exports.PanelLeftSite = PanelLeftSite;
+exports.PanelRightSite = PanelRightSite;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(1)))
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(React, PropTypes) {
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function Tabs(props) {
+    return React.createElement(
+        "ul",
+        { className: "nav nav-tabs" },
+        props.tabPages.map(function (tabPage) {
+            var tabPageName = tabPage.name || "Page " + (tabPage.pageId + 1);
+            return React.createElement(
+                "li",
+                { role: "presentation",
+                    key: "tabPage " + tabPage.pageId, onClick: props.showPage },
+                React.createElement(
+                    "a",
+                    { href: "#", "data-tabid": tabPage.pageId,
+                        className: tabPage.pageId === props.activeTabPage && !props.settingsForSite ? "active" : "" },
+                    tabPageName
+                )
+            );
+        })
+    );
+}
+
+Tabs.propTypes = {
+    tabPages: PropTypes.array.isRequired,
+    activeTabPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    settingsForSite: PropTypes.bool.isRequired,
+    showPage: PropTypes.func.isRequired
+};
+
+exports.Tabs = Tabs;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(1)))
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -2720,7 +2673,7 @@ var _reactDom = __webpack_require__(28);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _manageSite = __webpack_require__(27);
+var _main = __webpack_require__(27);
 
 var _reactRouterDom = __webpack_require__(29);
 
@@ -2760,7 +2713,7 @@ var App = function (_React$Component) {
                 //         </Switch>
                 //     </div>
                 // </Router>
-                _react2.default.createElement(_manageSite.ManageSite, null)
+                _react2.default.createElement(_main.Main, null)
             );
         }
     }]);
@@ -2771,7 +2724,7 @@ var App = function (_React$Component) {
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2808,7 +2761,7 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2825,7 +2778,7 @@ module.exports = camelize;
 
 
 
-var camelize = __webpack_require__(32);
+var camelize = __webpack_require__(34);
 
 var msPattern = /^-ms-/;
 
@@ -2853,7 +2806,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2891,7 +2844,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2908,7 +2861,7 @@ module.exports = hyphenate;
 
 
 
-var hyphenate = __webpack_require__(34);
+var hyphenate = __webpack_require__(36);
 
 var msPattern = /^ms-/;
 
@@ -2935,7 +2888,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2965,7 +2918,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2982,7 +2935,7 @@ module.exports = isNode;
  * @typechecks
  */
 
-var isNode = __webpack_require__(36);
+var isNode = __webpack_require__(38);
 
 /**
  * @param {*} object The object to check.
@@ -2995,7 +2948,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 38 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3023,7 +2976,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = performance || {};
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3040,7 +2993,7 @@ module.exports = performance || {};
  * @typechecks
  */
 
-var performance = __webpack_require__(38);
+var performance = __webpack_require__(40);
 
 var performanceNow;
 
@@ -3062,7 +3015,7 @@ if (performance.now) {
 module.exports = performanceNow;
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3375,7 +3328,7 @@ var createBrowserHistory = function createBrowserHistory() {
 exports.default = createBrowserHistory;
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3705,7 +3658,7 @@ var createHashHistory = function createHashHistory() {
 exports.default = createHashHistory;
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3881,7 +3834,7 @@ var createMemoryHistory = function createMemoryHistory() {
 exports.default = createMemoryHistory;
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3938,7 +3891,7 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
 
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -3947,10 +3900,10 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 45 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isarray = __webpack_require__(44)
+var isarray = __webpack_require__(46)
 
 /**
  * Expose `pathToRegexp`.
@@ -4379,7 +4332,7 @@ function pathToRegexp (path, keys, options) {
 
 
 /***/ }),
-/* 46 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4445,7 +4398,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 47 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4962,10 +4915,10 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   return ReactPropTypes;
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 48 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4983,11 +4936,11 @@ var invariant = __webpack_require__(5);
 var EventListener = __webpack_require__(19);
 var react = __webpack_require__(0);
 var require$$0 = __webpack_require__(9);
-var hyphenateStyleName = __webpack_require__(35);
+var hyphenateStyleName = __webpack_require__(37);
 var emptyFunction = __webpack_require__(4);
-var camelizeStyleName = __webpack_require__(33);
-var performanceNow = __webpack_require__(39);
-var propTypes = __webpack_require__(2);
+var camelizeStyleName = __webpack_require__(35);
+var performanceNow = __webpack_require__(41);
+var propTypes = __webpack_require__(1);
 var emptyObject = __webpack_require__(8);
 var checkPropTypes = __webpack_require__(15);
 var shallowEqual = __webpack_require__(23);
@@ -21836,10 +21789,10 @@ module.exports = ReactDOMFiberEntry;
 })();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 49 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21850,15 +21803,15 @@ $$typeof:Dl,key:null==r?null:""+r,children:e,containerInfo:t,implementation:n}},
 
 
 /***/ }),
-/* 50 */
+/* 52 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createBrowserHistory__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createBrowserHistory__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createBrowserHistory___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_history_createBrowserHistory__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_router__ = __webpack_require__(3);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21910,15 +21863,15 @@ BrowserRouter.propTypes = {
 /* harmony default export */ __webpack_exports__["a"] = (BrowserRouter);
 
 /***/ }),
-/* 51 */
+/* 53 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createHashHistory__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createHashHistory__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createHashHistory___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_history_createHashHistory__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_router__ = __webpack_require__(3);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21969,7 +21922,7 @@ HashRouter.propTypes = {
 /* harmony default export */ __webpack_exports__["a"] = (HashRouter);
 
 /***/ }),
-/* 52 */
+/* 54 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21978,13 +21931,13 @@ HashRouter.propTypes = {
 
 
 /***/ }),
-/* 53 */
+/* 55 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Link__ = __webpack_require__(25);
@@ -22055,7 +22008,7 @@ NavLink.defaultProps = {
 /* harmony default export */ __webpack_exports__["a"] = (NavLink);
 
 /***/ }),
-/* 54 */
+/* 56 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22064,7 +22017,7 @@ NavLink.defaultProps = {
 
 
 /***/ }),
-/* 55 */
+/* 57 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22073,7 +22026,7 @@ NavLink.defaultProps = {
 
 
 /***/ }),
-/* 56 */
+/* 58 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22082,7 +22035,7 @@ NavLink.defaultProps = {
 
 
 /***/ }),
-/* 57 */
+/* 59 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22091,7 +22044,7 @@ NavLink.defaultProps = {
 
 
 /***/ }),
-/* 58 */
+/* 60 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22100,7 +22053,7 @@ NavLink.defaultProps = {
 
 
 /***/ }),
-/* 59 */
+/* 61 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22109,7 +22062,7 @@ NavLink.defaultProps = {
 
 
 /***/ }),
-/* 60 */
+/* 62 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22118,7 +22071,7 @@ NavLink.defaultProps = {
 
 
 /***/ }),
-/* 61 */
+/* 63 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22127,15 +22080,15 @@ NavLink.defaultProps = {
 
 
 /***/ }),
-/* 62 */
+/* 64 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createMemoryHistory__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createMemoryHistory__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createMemoryHistory___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_history_createMemoryHistory__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Router__ = __webpack_require__(17);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22187,13 +22140,13 @@ MemoryRouter.propTypes = {
 /* harmony default export */ __webpack_exports__["a"] = (MemoryRouter);
 
 /***/ }),
-/* 63 */
+/* 65 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -22273,13 +22226,13 @@ Prompt.contextTypes = {
 /* harmony default export */ __webpack_exports__["a"] = (Prompt);
 
 /***/ }),
-/* 64 */
+/* 66 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -22359,7 +22312,7 @@ Redirect.contextTypes = {
 /* harmony default export */ __webpack_exports__["a"] = (Redirect);
 
 /***/ }),
-/* 65 */
+/* 67 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22367,7 +22320,7 @@ Redirect.contextTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history_PathUtils__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history_PathUtils___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_history_PathUtils__);
@@ -22535,13 +22488,13 @@ StaticRouter.childContextTypes = {
 /* harmony default export */ __webpack_exports__["a"] = (StaticRouter);
 
 /***/ }),
-/* 66 */
+/* 68 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_warning__);
@@ -22621,15 +22574,15 @@ Switch.propTypes = {
 /* harmony default export */ __webpack_exports__["a"] = (Switch);
 
 /***/ }),
-/* 67 */
+/* 69 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_hoist_non_react_statics__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_hoist_non_react_statics__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_hoist_non_react_statics___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_hoist_non_react_statics__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Route__ = __webpack_require__(26);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -22666,7 +22619,7 @@ var withRouter = function withRouter(Component) {
 /* harmony default export */ __webpack_exports__["a"] = (withRouter);
 
 /***/ }),
-/* 68 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24377,10 +24330,10 @@ module.exports = ReactEntry;
 })();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 69 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24388,7 +24341,7 @@ function e(e){for(var t=arguments.length-1,n="Minified React error #"+e+"; visit
 
 
 /***/ }),
-/* 70 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24464,7 +24417,7 @@ var resolvePathname = function resolvePathname(to) {
 module.exports = resolvePathname;
 
 /***/ }),
-/* 71 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24508,6 +24461,149 @@ var valueEqual = function valueEqual(a, b) {
 };
 
 exports.default = valueEqual;
+
+/***/ }),
+/* 74 */,
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(React, PropTypes) {
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function PanelLeftPage(props) {
+    var pageElements = props.tabPages.find(function (tabPage) {
+        if (tabPage.pageId === props.activeTabPage) {
+            return tabPage;
+        }
+    }).elements;
+    var resultTree = [];
+
+    if (pageElements.length) {
+        var getChildren = function getChildren(arr) {
+            var tree = [];
+            var len = arr.length;
+            for (var _i = 0; _i < len; _i++) {
+                var _element = arr[_i];
+                _element.children = [];
+                if (mapArr.has(_element.name)) {
+                    _element.children.push(getChildren(mapArr.get(_element.name)));
+                }
+                tree.push(_element);
+            }
+            return tree;
+        };
+
+        var mapArr = new Map();
+        var find = void 0;
+
+        for (var i = 0; i < pageElements.length; i++) {
+            var element = pageElements[i];
+            var parent = element.parent;
+            if (mapArr.has(parent)) {
+                var list = mapArr.get(parent);
+                list.push(element);
+            } else {
+                mapArr.set(parent, [element]);
+            }
+        }
+
+        resultTree = getChildren(mapArr.get(null));
+    } else {
+        resultTree = pageElements;
+    }
+
+    function draw(array, key) {
+        var n = key || 0;
+        return React.createElement(
+            "ul",
+            { className: "tree" },
+            array.map(function (element, index) {
+                var children = false;
+                var arr = [];
+                if (element.children) {
+                    children = !!element.children.length;
+                    arr = element.children[0];
+                }
+                return React.createElement(
+                    "li",
+                    { key: "element" + index + n, "data-pageid": props.activeTabPage,
+                        "data-index": index, "data-ulnum": n, style: { paddingLeft: element.padding + 'px' } },
+                    React.createElement(
+                        "a",
+                        { "data-parent": element.parent },
+                        element.name
+                    ),
+                    React.createElement("button", { className: "trash btn btn-default", "data-pageid": props.activeTabPage,
+                        "data-index": index }),
+                    children ? draw(arr, n + 1) : ""
+                );
+            })
+        );
+    }
+
+    return React.createElement(
+        "div",
+        { className: "panel panel-default" },
+        React.createElement(
+            "div",
+            { className: "panel-body" },
+            React.createElement(
+                "div",
+                { className: "selectContainer searchElements" },
+                React.createElement("input", { type: "text", className: "form-control searchElementInput", placeholder: "Search element",
+                    id: "searchElementInpput" }),
+                React.createElement(
+                    "div",
+                    { className: "btn-group", role: "group" },
+                    React.createElement(
+                        "button",
+                        { className: "btn btn-default btnGen" },
+                        "Generate"
+                    ),
+                    React.createElement(
+                        "button",
+                        { className: "btn btn-default" },
+                        "Gear"
+                    )
+                )
+            ),
+            React.createElement(
+                "div",
+                null,
+                draw(resultTree)
+            ),
+            React.createElement(
+                "div",
+                { className: "selectContainer" },
+                React.createElement(
+                    "button",
+                    { className: "btn btn-default addElemntBtn" },
+                    "Add element"
+                )
+            )
+        )
+    );
+}
+
+PanelLeftPage.propTypes = {
+    tabPages: PropTypes.array.isRequired,
+    activeTabPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+};
+
+function PanelRightPage() {
+    return React.createElement(
+        "div",
+        { className: "panel panel-default" },
+        React.createElement("div", { className: "panel-body" })
+    );
+}
+
+exports.PanelLeftPage = PanelLeftPage;
+exports.PanelRightPage = PanelRightPage;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(1)))
 
 /***/ })
 /******/ ]);

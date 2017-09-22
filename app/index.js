@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 // import {MainPage} from  './containers/main';
 // import {Nav} from './containers/nav';
 
-import {ManageSite} from './manageSite.js'
+import {Main} from './main.js'
 
 import { BrowserRouter, Route, Switch} from 'react-router-dom';
 
@@ -24,7 +24,7 @@ class App extends React.Component {
             //         </Switch>
             //     </div>
             // </Router>
-            <ManageSite />
+            <Main />
         )
     }
 }
