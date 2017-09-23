@@ -1970,6 +1970,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 //     window.alert("Ваш браузер не поддерживат стабильную версию IndexedDB. Такие-то функции будут недоступны");
 // }
 
+
 var Main = exports.Main = function (_React$Component) {
     _inherits(Main, _React$Component);
 
@@ -1994,13 +1995,33 @@ var Main = exports.Main = function (_React$Component) {
         _this.closePage = _this.closePage.bind(_this);
         _this.removePage = _this.removePage.bind(_this);
         _this.showPage = _this.showPage.bind(_this);
-
+        _this.expandTreeNode = _this.expandTreeNode.bind(_this);
         return _this;
     }
 
     _createClass(Main, [{
         key: 'componentDidMount',
         value: function componentDidMount() {}
+    }, {
+        key: 'expandTreeNode',
+        value: function expandTreeNode(e) {
+            var el = e.target;
+            while (el.dataset.name === undefined) {
+                el = el.parentNode;
+            }
+            var pageId = Number(el.dataset.pageid.replace(/\D/g, ""));
+            var name = el.dataset.name;
+            var pagesArray = this.state.tabPages.slice();
+            var element = pagesArray.find(function (page) {
+                return page.pageId === pageId;
+            }).elements.find(function (element) {
+                return element.name === name;
+            });
+            element.expanded = !element.expanded;
+            this.setState({
+                tabPages: pagesArray
+            });
+        }
     }, {
         key: 'showPage',
         value: function showPage(e) {
@@ -2015,8 +2036,13 @@ var Main = exports.Main = function (_React$Component) {
     }, {
         key: 'removePage',
         value: function removePage(e) {
+            var id = void 0;
+            if (e.target.dataset.pageid) {
+                id = Number(e.target.dataset.pageid.replace(/\D/g, ""));
+            } else {
+                id = Number(e.target.parentNode.dataset.pageid.replace(/\D/g, ""));
+            }
             var len = this.state.tabPages.length;
-            var id = Number(e.target.dataset.pageid.replace(/\D/g, ""));
             var pages = void 0;
             if (len > 1) {
                 pages = this.state.tabPages.slice();
@@ -2161,7 +2187,8 @@ var Main = exports.Main = function (_React$Component) {
                     'div',
                     { id: 'manage-site' },
                     React.createElement(_managePage.PanelLeftPage, { tabPages: this.state.tabPages,
-                        activeTabPage: this.state.activeTabPageId }),
+                        activeTabPage: this.state.activeTabPageId,
+                        expandTreeNode: this.expandTreeNode }),
                     React.createElement(_managePage.PanelRightPage, null)
                 ) : null
             );
@@ -2267,7 +2294,7 @@ var PageObjectJSON = [{
     "pageId": 0,
     "package": "",
     "elements": [{
-        "expanded": true,
+        "expanded": false,
         "name": "b3",
         "type": "",
         "parent": "a1",
@@ -2276,7 +2303,7 @@ var PageObjectJSON = [{
             "path": ""
         }
     }, {
-        "expanded": true,
+        "expanded": false,
         "name": "t1",
         "type": "",
         "parent": null,
@@ -2285,7 +2312,7 @@ var PageObjectJSON = [{
             "path": ""
         }
     }, {
-        "expanded": true,
+        "expanded": false,
         "name": "a1",
         "type": "",
         "parent": "t2",
@@ -2330,7 +2357,7 @@ var PageObjectJSON = [{
             "path": ""
         }
     }, {
-        "expanded": true,
+        "expanded": false,
         "name": "t7",
         "type": "",
         "parent": null,
@@ -2413,9 +2440,13 @@ function PanelLeftSite(props) {
                                 { onClick: props.selectPage },
                                 page.name
                             ),
-                            React.createElement("button", { className: "trash btn btn-default",
-                                "data-pageid": page.pageId,
-                                onClick: props.removePage })
+                            React.createElement(
+                                "button",
+                                { className: "img-on-btn btn btn-default",
+                                    "data-pageid": page.pageId,
+                                    onClick: props.removePage },
+                                React.createElement("img", { src: '../bootstrap/pics/trash.png' })
+                            )
                         );
                     })
                 )
@@ -24515,8 +24546,7 @@ function PanelLeftPage(props) {
         resultTree = pageElements;
     }
 
-    function draw(array, key) {
-        var n = key || 0;
+    function draw(array) {
         return React.createElement(
             "ul",
             { className: "tree" },
@@ -24524,21 +24554,34 @@ function PanelLeftPage(props) {
                 var children = false;
                 var arr = [];
                 if (element.children) {
-                    children = !!element.children.length;
+                    children = !!element.children.length && element.expanded;
                     arr = element.children[0];
                 }
                 return React.createElement(
                     "li",
-                    { key: "element" + index + n, "data-pageid": props.activeTabPage,
-                        "data-index": index, "data-ulnum": n, style: { paddingLeft: element.padding + 'px' } },
+                    { key: element.name + index,
+                        "data-pageid": props.activeTabPage,
+                        "data-name": element.name,
+                        "data-parent": element.parent
+                        /*style={{ paddingLeft: element.padding + 'px' }}*/ },
+                    React.createElement(
+                        "button",
+                        { className: "img-on-btn btn btn-default",
+                            onClick: props.expandTreeNode },
+                        React.createElement("img", { src: '../bootstrap/pics/add.png' })
+                    ),
                     React.createElement(
                         "a",
                         { "data-parent": element.parent },
                         element.name
                     ),
-                    React.createElement("button", { className: "trash btn btn-default", "data-pageid": props.activeTabPage,
-                        "data-index": index }),
-                    children ? draw(arr, n + 1) : ""
+                    React.createElement(
+                        "button",
+                        { className: "img-on-btn btn btn-default",
+                            "data-pageid": props.activeTabPage },
+                        React.createElement("img", { src: '../bootstrap/pics/trash.png' })
+                    ),
+                    children ? draw(arr) : ""
                 );
             })
         );
@@ -24590,7 +24633,8 @@ function PanelLeftPage(props) {
 
 PanelLeftPage.propTypes = {
     tabPages: PropTypes.array.isRequired,
-    activeTabPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    activeTabPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    expandTreeNode: PropTypes.func.isRequired
 };
 
 function PanelRightPage() {

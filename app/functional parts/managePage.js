@@ -40,8 +40,7 @@ function PanelLeftPage(props) {
         resultTree = pageElements;
     }
 
-    function draw(array, key) {
-        let n = key || 0;
+    function draw(array) {
         return (
             <ul className="tree">
                 {
@@ -49,16 +48,23 @@ function PanelLeftPage(props) {
                         let children = false;
                         let arr = [];
                         if (element.children){
-                            children = !!element.children.length;
+                            children = !!element.children.length && element.expanded;
                             arr = element.children[0];        
                         }
                         return (
-                            <li key={"element" + index + n} data-pageid={props.activeTabPage}
-                                data-index={index} data-ulnum={n} style={{ paddingLeft: element.padding + 'px' }}>
+                            <li key={element.name + index} 
+                                data-pageid={props.activeTabPage}
+                                data-name={element.name} 
+                                data-parent={element.parent} 
+                                /*style={{ paddingLeft: element.padding + 'px' }}*/>
+                                <button className="img-on-btn btn btn-default" 
+                                    onClick={props.expandTreeNode}>
+                                    <img src={'../bootstrap/pics/add.png'} /></button>
                                 <a data-parent={element.parent}>{element.name}</a>
-                                <button className="trash btn btn-default" data-pageid={props.activeTabPage}
-                                    data-index={index}></button>
-                                {children ? draw(arr, n+1) : ""}
+                                <button className="img-on-btn btn btn-default" 
+                                    data-pageid={props.activeTabPage}>
+                                    <img src={'../bootstrap/pics/trash.png'} /></button>
+                                {children ? draw(arr) : ""}
                             </li>
                         )
                     })
@@ -94,7 +100,8 @@ PanelLeftPage.propTypes = {
     activeTabPage: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number
-    ])
+    ]),
+    expandTreeNode: PropTypes.func.isRequired
 }
 
 function PanelRightPage() {

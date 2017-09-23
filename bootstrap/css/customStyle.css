@@ -74,7 +74,6 @@ input[type="radio"],input[type="checkbox"] {
 .warn {
     margin: 10px;
     font-weight: bold;
-    /*font-size: 1.2rem;*/
     color: red;
 }
 
@@ -83,10 +82,6 @@ input[type="radio"],input[type="checkbox"] {
     flex-direction: row;
 }
 
-/*.nav li{*/
-    /*margin-right: 15px;*/
-/*}*/
-
 button[id^="closePage"]{
     position: absolute;
     right: 10px;
@@ -94,8 +89,6 @@ button[id^="closePage"]{
 
 .elements{
     padding-left: 15px;
-    /*display: flex;*/
-    /*flex-wrap: wrap;*/
 }
 
 .elementsList{
@@ -203,18 +196,13 @@ li a{
     display: inline-block; 
 }
 
-.trash{
-    background-image: url('../pics/garbage.png');
-    width: 26px;
-    height: 26px;
+.img-on-btn{
     display: inline-block; 
+    padding: 0;
+    margin-bottom: 5px;  
+    margin-right: 5px;  
 }
 
-#searchBtn{
-    background-image: url('../pics/search.png');
-    width: 34px;
-    height: 34px; 
-}
 .selectContainer span{
     width: 100px;
     display: inline-block;
@@ -245,8 +233,4 @@ li a{
 
 .tree{
     list-style: none;
-}
-
-.treeNode{
-
 }

@@ -16,9 +16,9 @@ function PanelLeftSite(props) {
                                 return (<li key={"listItem" + index} 
                                             data-pageid={page.pageId}>
                                             <a onClick={props.selectPage}>{page.name}</a>
-                                            <button className="trash btn btn-default" 
+                                            <button className="img-on-btn btn btn-default" 
                                                 data-pageid={page.pageId}
-                                                onClick={props.removePage}></button>
+                                                onClick={props.removePage}><img src={'../bootstrap/pics/trash.png'} /></button>
                                 </li>)
                             })
                         }

@@ -11,7 +11,7 @@ let PageObjectJSON = [
         "package": "",
         "elements": [
             {
-                "expanded": true,
+                "expanded": false,
                 "name": "b3",
                 "type": "",
                 "parent": "a1",
@@ -21,7 +21,7 @@ let PageObjectJSON = [
                 }
             },
             {
-                "expanded": true,
+                "expanded": false,
                 "name": "t1",
                 "type": "",
                 "parent": null,
@@ -31,7 +31,7 @@ let PageObjectJSON = [
                 }
             },
             {
-                "expanded": true,
+                "expanded": false,
                 "name": "a1",
                 "type": "",
                 "parent": "t2",
@@ -81,7 +81,7 @@ let PageObjectJSON = [
                 }
             },
             {
-                "expanded": true,
+                "expanded": false,
                 "name": "t7",
                 "type": "",
                 "parent": null,

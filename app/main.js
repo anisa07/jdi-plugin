@@ -1,12 +1,14 @@
 import { PageObjectJSON, SiteInfoJSON } from './data/pageObject';
 
-import {Tabs} from './functional parts/tabs';
+import { Tabs } from './functional parts/tabs';
 import { PanelLeftSite, PanelRightSite } from './functional parts/manageSite';
 import { PanelLeftPage, PanelRightPage } from './functional parts/managePage';
 
 // if (!window.indexedDB) {
 //     window.alert("Ваш браузер не поддерживат стабильную версию IndexedDB. Такие-то функции будут недоступны");
 // }
+
+
 
 export class Main extends React.Component {
     constructor() {
@@ -27,11 +29,29 @@ export class Main extends React.Component {
         this.closePage = this.closePage.bind(this);
         this.removePage = this.removePage.bind(this);
         this.showPage = this.showPage.bind(this);
-
+        this.expandTreeNode = this.expandTreeNode.bind(this);
     }
 
     componentDidMount() {
+    }
 
+    expandTreeNode(e) {
+        let el = e.target;
+        while (el.dataset.name === undefined) {
+            el = el.parentNode;
+        }
+        let pageId = Number(el.dataset.pageid.replace(/\D/g, ""));
+        let name = el.dataset.name;
+        let pagesArray = this.state.tabPages.slice();
+        let element = pagesArray.find((page)=>{
+            return page.pageId === pageId
+        }).elements.find((element)=>{
+            return element.name === name
+        })
+        element.expanded = !element.expanded;
+        this.setState({
+            tabPages: pagesArray
+        })
     }
 
     showPage(e) {
@@ -45,8 +65,13 @@ export class Main extends React.Component {
     }
 
     removePage(e) {
+        let id;
+        if (e.target.dataset.pageid) {
+            id = Number(e.target.dataset.pageid.replace(/\D/g, ""));
+        } else {
+            id = Number(e.target.parentNode.dataset.pageid.replace(/\D/g, ""));
+        }
         let len = this.state.tabPages.length;
-        let id = Number(e.target.dataset.pageid.replace(/\D/g, ""));
         let pages;
         if (len > 1) {
             pages = this.state.tabPages.slice();
@@ -164,21 +189,21 @@ export class Main extends React.Component {
 
         return (
             <div className="start">
-                <Tabs tabPages={this.state.tabPages} 
+                <Tabs tabPages={this.state.tabPages}
                     activeTabPage={this.state.activeTabPageId}
-                    settingsForSite={this.state.settingsForSite} 
+                    settingsForSite={this.state.settingsForSite}
                     showPage={this.showPage} />
                 {
                     (this.state.settingsForSite) ?
                         <div id="manage-site">
-                            <PanelLeftSite searchPage={this.searchPage} 
+                            <PanelLeftSite searchPage={this.searchPage}
                                 searchedPages={searchedPages}
-                                selectPage={this.selectPage} 
+                                selectPage={this.selectPage}
                                 addPage={this.addPage}
                                 removePage={this.removePage} />
                             <PanelRightSite siteInfo={this.state.siteInfo}
                                 activePageObject={this.state.activePageObject}
-                                editValue={this.editValue} 
+                                editValue={this.editValue}
                                 activeTabPageId={this.state.activeTabPageId}
                                 closePage={this.closePage} />
                         </div>
@@ -188,7 +213,8 @@ export class Main extends React.Component {
                     (!this.state.settingsForSite && this.state.activeTabPageId !== "") ?
                         <div id="manage-site">
                             <PanelLeftPage tabPages={this.state.tabPages}
-                                activeTabPage={this.state.activeTabPageId} />
+                                activeTabPage={this.state.activeTabPageId}
+                                expandTreeNode={this.expandTreeNode} />
                             <PanelRightPage />
                         </div>
                         : null
