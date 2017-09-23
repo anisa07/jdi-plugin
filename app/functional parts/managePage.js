@@ -34,8 +34,10 @@ function PanelLeftPage(props) {
             }
             return tree;
         }
-    
-        resultTree = getChildren(mapArr.get(null));
+        
+        if (mapArr.get(null)){
+            resultTree = getChildren(mapArr.get(null));
+        }
     } else {
         resultTree = pageElements;
     }
@@ -47,9 +49,13 @@ function PanelLeftPage(props) {
                     array.map(function (element, index) {
                         let children = false;
                         let arr = [];
+                        let vis = {
+                            visibility: "hidden"
+                        }
                         if (element.children){
                             children = !!element.children.length && element.expanded;
-                            arr = element.children[0];        
+                            arr = element.children[0];    
+                            vis.visibility = !!element.children.length ? "visible" : "hidden";     
                         }
                         return (
                             <li key={element.name + index} 
@@ -58,11 +64,13 @@ function PanelLeftPage(props) {
                                 data-parent={element.parent} 
                                 /*style={{ paddingLeft: element.padding + 'px' }}*/>
                                 <button className="img-on-btn btn btn-default" 
-                                    onClick={props.expandTreeNode}>
+                                    onClick={props.expandTreeNode}
+                                    style={vis}>
                                     <img src={'../bootstrap/pics/add.png'} /></button>
                                 <a data-parent={element.parent}>{element.name}</a>
                                 <button className="img-on-btn btn btn-default" 
-                                    data-pageid={props.activeTabPage}>
+                                    data-pageid={props.activeTabPage}
+                                    onClick={props.removeElement}>
                                     <img src={'../bootstrap/pics/trash.png'} /></button>
                                 {children ? draw(arr) : ""}
                             </li>

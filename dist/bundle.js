@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 33);
+/******/ 	return __webpack_require__(__webpack_require__.s = 35);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -74,9 +74,9 @@
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(71);
+  module.exports = __webpack_require__(73);
 } else {
-  module.exports = __webpack_require__(70);
+  module.exports = __webpack_require__(72);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
@@ -109,11 +109,11 @@ if (process.env.NODE_ENV !== 'production') {
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(49)(isValidElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(51)(isValidElement, throwOnDirectAccess);
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(48)();
+  module.exports = __webpack_require__(50)();
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
@@ -313,23 +313,23 @@ process.umask = function() { return 0; };
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MemoryRouter__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MemoryRouter__ = __webpack_require__(66);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_0__MemoryRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Prompt__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Prompt__ = __webpack_require__(67);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_1__Prompt__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Redirect__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Redirect__ = __webpack_require__(68);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_2__Redirect__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Route__ = __webpack_require__(26);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_3__Route__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Router__ = __webpack_require__(17);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_4__Router__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__StaticRouter__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__StaticRouter__ = __webpack_require__(69);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_5__StaticRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Switch__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Switch__ = __webpack_require__(70);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_6__Switch__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__matchPath__ = __webpack_require__(18);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_7__matchPath__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__withRouter__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__withRouter__ = __webpack_require__(71);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_8__withRouter__["a"]; });
 
 
@@ -899,11 +899,11 @@ exports.locationsAreEqual = exports.createLocation = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _resolvePathname = __webpack_require__(72);
+var _resolvePathname = __webpack_require__(74);
 
 var _resolvePathname2 = _interopRequireDefault(_resolvePathname);
 
-var _valueEqual = __webpack_require__(73);
+var _valueEqual = __webpack_require__(75);
 
 var _valueEqual2 = _interopRequireDefault(_valueEqual);
 
@@ -1276,7 +1276,7 @@ Router.childContextTypes = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_path_to_regexp__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_path_to_regexp__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_path_to_regexp___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_path_to_regexp__);
 
 
@@ -1454,7 +1454,7 @@ module.exports = EventListener;
  * 
  */
 
-var isTextNode = __webpack_require__(39);
+var isTextNode = __webpack_require__(41);
 
 /*eslint-disable no-bitwise */
 
@@ -1954,11 +1954,13 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _pageObject = __webpack_require__(30);
 
-var _tabs = __webpack_require__(32);
+var _tabs = __webpack_require__(34);
 
-var _manageSite = __webpack_require__(31);
+var _manageSite = __webpack_require__(33);
 
-var _managePage = __webpack_require__(75);
+var _managePage = __webpack_require__(32);
+
+var _common = __webpack_require__(31);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1969,7 +1971,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // if (!window.indexedDB) {
 //     window.alert("Ваш браузер не поддерживат стабильную версию IndexedDB. Такие-то функции будут недоступны");
 // }
-
 
 var Main = exports.Main = function (_React$Component) {
     _inherits(Main, _React$Component);
@@ -1996,6 +1997,7 @@ var Main = exports.Main = function (_React$Component) {
         _this.removePage = _this.removePage.bind(_this);
         _this.showPage = _this.showPage.bind(_this);
         _this.expandTreeNode = _this.expandTreeNode.bind(_this);
+        _this.removeElement = _this.removeElement.bind(_this);
         return _this;
     }
 
@@ -2003,20 +2005,35 @@ var Main = exports.Main = function (_React$Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {}
     }, {
+        key: 'removeElement',
+        value: function removeElement(e) {
+            function del(arr, name) {
+                return arr.filter(function (el) {
+                    return el.name !== name;
+                });
+            }
+            var pages = this.state.tabPages.slice();
+            var page = (0, _common.findPage)(e.target, pages);
+            var element = (0, _common.findElement)(e.target, pages);
+            var children = element.children[0];
+            var name = element.name;
+            var newArr = del(page.elements, name);
+            if (children) {
+                children.forEach(function (child) {
+                    newArr = del(newArr, child.name);
+                });
+            }
+            page.elements = newArr;
+            this.setState({
+                tabPages: pages
+            });
+        }
+    }, {
         key: 'expandTreeNode',
         value: function expandTreeNode(e) {
             var el = e.target;
-            while (el.dataset.name === undefined) {
-                el = el.parentNode;
-            }
-            var pageId = Number(el.dataset.pageid.replace(/\D/g, ""));
-            var name = el.dataset.name;
             var pagesArray = this.state.tabPages.slice();
-            var element = pagesArray.find(function (page) {
-                return page.pageId === pageId;
-            }).elements.find(function (element) {
-                return element.name === name;
-            });
+            var element = (0, _common.findElement)(el, pagesArray);
             element.expanded = !element.expanded;
             this.setState({
                 tabPages: pagesArray
@@ -2036,25 +2053,17 @@ var Main = exports.Main = function (_React$Component) {
     }, {
         key: 'removePage',
         value: function removePage(e) {
-            var id = void 0;
-            if (e.target.dataset.pageid) {
-                id = Number(e.target.dataset.pageid.replace(/\D/g, ""));
-            } else {
-                id = Number(e.target.parentNode.dataset.pageid.replace(/\D/g, ""));
-            }
             var len = this.state.tabPages.length;
-            var pages = void 0;
             if (len > 1) {
-                pages = this.state.tabPages.slice();
-                this.setState(function () {
-                    return {
-                        tabPages: pages.filter(function (page) {
-                            if (page.pageId !== id) {
-                                return page;
-                            }
-                        }),
-                        activeTabPageId: ""
-                    };
+                var pages = this.state.tabPages.slice();
+                var id = (0, _common.findPage)(e.target, pages).pageId;
+                this.setState({
+                    tabPages: pages.filter(function (page) {
+                        if (page.pageId !== id) {
+                            return page;
+                        }
+                    }),
+                    activeTabPageId: ""
                 });
             }
         }
@@ -2116,15 +2125,11 @@ var Main = exports.Main = function (_React$Component) {
     }, {
         key: 'selectPage',
         value: function selectPage(e) {
-            var pageNum = Number(e.target.parentNode.dataset.pageid);
-            var obj = this.state.tabPages.find(function (page) {
-                if (page.pageId === pageNum) {
-                    return page;
-                }
-            });
+            var pages = this.state.tabPages.slice();
+            var page = (0, _common.findPage)(e.target, pages);
             this.setState({
-                activeTabPageId: pageNum,
-                activePageObject: obj
+                activeTabPageId: page.pageId,
+                activePageObject: page
             });
         }
     }, {
@@ -2188,7 +2193,8 @@ var Main = exports.Main = function (_React$Component) {
                     { id: 'manage-site' },
                     React.createElement(_managePage.PanelLeftPage, { tabPages: this.state.tabPages,
                         activeTabPage: this.state.activeTabPageId,
-                        expandTreeNode: this.expandTreeNode }),
+                        expandTreeNode: this.expandTreeNode,
+                        removeElement: this.removeElement }),
                     React.createElement(_managePage.PanelRightPage, null)
                 ) : null
             );
@@ -2207,9 +2213,9 @@ var Main = exports.Main = function (_React$Component) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(51);
+  module.exports = __webpack_require__(53);
 } else {
-  module.exports = __webpack_require__(50);
+  module.exports = __webpack_require__(52);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
@@ -2220,31 +2226,31 @@ if (process.env.NODE_ENV === 'production') {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__ = __webpack_require__(54);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "BrowserRouter", function() { return __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__HashRouter__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__HashRouter__ = __webpack_require__(55);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "HashRouter", function() { return __WEBPACK_IMPORTED_MODULE_1__HashRouter__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Link__ = __webpack_require__(25);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Link", function() { return __WEBPACK_IMPORTED_MODULE_2__Link__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__ = __webpack_require__(56);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MemoryRouter", function() { return __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NavLink__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NavLink__ = __webpack_require__(57);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "NavLink", function() { return __WEBPACK_IMPORTED_MODULE_4__NavLink__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Prompt__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Prompt__ = __webpack_require__(58);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Prompt", function() { return __WEBPACK_IMPORTED_MODULE_5__Prompt__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redirect__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redirect__ = __webpack_require__(59);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Redirect", function() { return __WEBPACK_IMPORTED_MODULE_6__Redirect__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Route__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Route__ = __webpack_require__(60);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Route", function() { return __WEBPACK_IMPORTED_MODULE_7__Route__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Router__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Router__ = __webpack_require__(61);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Router", function() { return __WEBPACK_IMPORTED_MODULE_8__Router__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__StaticRouter__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__StaticRouter__ = __webpack_require__(62);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "StaticRouter", function() { return __WEBPACK_IMPORTED_MODULE_9__StaticRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Switch__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Switch__ = __webpack_require__(63);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Switch", function() { return __WEBPACK_IMPORTED_MODULE_10__Switch__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__matchPath__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__matchPath__ = __webpack_require__(64);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "matchPath", function() { return __WEBPACK_IMPORTED_MODULE_11__matchPath__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__withRouter__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__withRouter__ = __webpack_require__(65);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "withRouter", function() { return __WEBPACK_IMPORTED_MODULE_12__withRouter__["a"]; });
 
 
@@ -2400,6 +2406,206 @@ exports.SiteInfoJSON = SiteInfoJSON;
 
 /***/ }),
 /* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function findElement(el, arr) {
+    while (el.dataset.name === undefined) {
+        el = el.parentNode;
+    }
+    var pageId = Number(el.dataset.pageid.replace(/\D/g, ""));
+    var name = el.dataset.name;
+    var pagesArray = arr;
+    var element = findPage(el, pagesArray).elements.find(function (element) {
+        return element.name === name;
+    });
+    return element;
+}
+
+function findPage(el, arr) {
+    while (el.dataset.pageid === undefined) {
+        el = el.parentNode;
+    }
+    var id = Number(el.dataset.pageid.replace(/\D/g, ""));
+    var page = arr.find(function (page) {
+        return page.pageId === id;
+    });
+    return page;
+}
+
+exports.findElement = findElement;
+exports.findPage = findPage;
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(React, PropTypes) {
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function PanelLeftPage(props) {
+    var pageElements = props.tabPages.find(function (tabPage) {
+        if (tabPage.pageId === props.activeTabPage) {
+            return tabPage;
+        }
+    }).elements;
+    var resultTree = [];
+
+    if (pageElements.length) {
+        var getChildren = function getChildren(arr) {
+            var tree = [];
+            var len = arr.length;
+            for (var _i = 0; _i < len; _i++) {
+                var _element = arr[_i];
+                _element.children = [];
+                if (mapArr.has(_element.name)) {
+                    _element.children.push(getChildren(mapArr.get(_element.name)));
+                }
+                tree.push(_element);
+            }
+            return tree;
+        };
+
+        var mapArr = new Map();
+        var find = void 0;
+
+        for (var i = 0; i < pageElements.length; i++) {
+            var element = pageElements[i];
+            var parent = element.parent;
+            if (mapArr.has(parent)) {
+                var list = mapArr.get(parent);
+                list.push(element);
+            } else {
+                mapArr.set(parent, [element]);
+            }
+        }
+
+        if (mapArr.get(null)) {
+            resultTree = getChildren(mapArr.get(null));
+        }
+    } else {
+        resultTree = pageElements;
+    }
+
+    function draw(array) {
+        return React.createElement(
+            "ul",
+            { className: "tree" },
+            array.map(function (element, index) {
+                var children = false;
+                var arr = [];
+                var vis = {
+                    visibility: "hidden"
+                };
+                if (element.children) {
+                    children = !!element.children.length && element.expanded;
+                    arr = element.children[0];
+                    vis.visibility = !!element.children.length ? "visible" : "hidden";
+                }
+                return React.createElement(
+                    "li",
+                    { key: element.name + index,
+                        "data-pageid": props.activeTabPage,
+                        "data-name": element.name,
+                        "data-parent": element.parent
+                        /*style={{ paddingLeft: element.padding + 'px' }}*/ },
+                    React.createElement(
+                        "button",
+                        { className: "img-on-btn btn btn-default",
+                            onClick: props.expandTreeNode,
+                            style: vis },
+                        React.createElement("img", { src: '../bootstrap/pics/add.png' })
+                    ),
+                    React.createElement(
+                        "a",
+                        { "data-parent": element.parent },
+                        element.name
+                    ),
+                    React.createElement(
+                        "button",
+                        { className: "img-on-btn btn btn-default",
+                            "data-pageid": props.activeTabPage,
+                            onClick: props.removeElement },
+                        React.createElement("img", { src: '../bootstrap/pics/trash.png' })
+                    ),
+                    children ? draw(arr) : ""
+                );
+            })
+        );
+    }
+
+    return React.createElement(
+        "div",
+        { className: "panel panel-default" },
+        React.createElement(
+            "div",
+            { className: "panel-body" },
+            React.createElement(
+                "div",
+                { className: "selectContainer searchElements" },
+                React.createElement("input", { type: "text", className: "form-control searchElementInput", placeholder: "Search element",
+                    id: "searchElementInpput" }),
+                React.createElement(
+                    "div",
+                    { className: "btn-group", role: "group" },
+                    React.createElement(
+                        "button",
+                        { className: "btn btn-default btnGen" },
+                        "Generate"
+                    ),
+                    React.createElement(
+                        "button",
+                        { className: "btn btn-default" },
+                        "Gear"
+                    )
+                )
+            ),
+            React.createElement(
+                "div",
+                null,
+                draw(resultTree)
+            ),
+            React.createElement(
+                "div",
+                { className: "selectContainer" },
+                React.createElement(
+                    "button",
+                    { className: "btn btn-default addElemntBtn" },
+                    "Add element"
+                )
+            )
+        )
+    );
+}
+
+PanelLeftPage.propTypes = {
+    tabPages: PropTypes.array.isRequired,
+    activeTabPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    expandTreeNode: PropTypes.func.isRequired
+};
+
+function PanelRightPage() {
+    return React.createElement(
+        "div",
+        { className: "panel panel-default" },
+        React.createElement("div", { className: "panel-body" })
+    );
+}
+
+exports.PanelLeftPage = PanelLeftPage;
+exports.PanelRightPage = PanelRightPage;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(1)))
+
+/***/ }),
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2647,7 +2853,7 @@ exports.PanelRightSite = PanelRightSite;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(1)))
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2688,7 +2894,7 @@ exports.Tabs = Tabs;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(1)))
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2755,7 +2961,7 @@ var App = function (_React$Component) {
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2792,7 +2998,7 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2809,7 +3015,7 @@ module.exports = camelize;
 
 
 
-var camelize = __webpack_require__(34);
+var camelize = __webpack_require__(36);
 
 var msPattern = /^-ms-/;
 
@@ -2837,7 +3043,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2875,7 +3081,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2892,7 +3098,7 @@ module.exports = hyphenate;
 
 
 
-var hyphenate = __webpack_require__(36);
+var hyphenate = __webpack_require__(38);
 
 var msPattern = /^ms-/;
 
@@ -2919,7 +3125,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 38 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2949,7 +3155,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2966,7 +3172,7 @@ module.exports = isNode;
  * @typechecks
  */
 
-var isNode = __webpack_require__(38);
+var isNode = __webpack_require__(40);
 
 /**
  * @param {*} object The object to check.
@@ -2979,7 +3185,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3007,7 +3213,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = performance || {};
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3024,7 +3230,7 @@ module.exports = performance || {};
  * @typechecks
  */
 
-var performance = __webpack_require__(40);
+var performance = __webpack_require__(42);
 
 var performanceNow;
 
@@ -3046,7 +3252,7 @@ if (performance.now) {
 module.exports = performanceNow;
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3359,7 +3565,7 @@ var createBrowserHistory = function createBrowserHistory() {
 exports.default = createBrowserHistory;
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3689,7 +3895,7 @@ var createHashHistory = function createHashHistory() {
 exports.default = createHashHistory;
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3865,7 +4071,7 @@ var createMemoryHistory = function createMemoryHistory() {
 exports.default = createMemoryHistory;
 
 /***/ }),
-/* 45 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3922,7 +4128,7 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
 
 
 /***/ }),
-/* 46 */
+/* 48 */
 /***/ (function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -3931,10 +4137,10 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 47 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isarray = __webpack_require__(46)
+var isarray = __webpack_require__(48)
 
 /**
  * Expose `pathToRegexp`.
@@ -4363,7 +4569,7 @@ function pathToRegexp (path, keys, options) {
 
 
 /***/ }),
-/* 48 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4429,7 +4635,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 49 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4949,7 +5155,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 50 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4967,10 +5173,10 @@ var invariant = __webpack_require__(5);
 var EventListener = __webpack_require__(19);
 var react = __webpack_require__(0);
 var require$$0 = __webpack_require__(9);
-var hyphenateStyleName = __webpack_require__(37);
+var hyphenateStyleName = __webpack_require__(39);
 var emptyFunction = __webpack_require__(4);
-var camelizeStyleName = __webpack_require__(35);
-var performanceNow = __webpack_require__(41);
+var camelizeStyleName = __webpack_require__(37);
+var performanceNow = __webpack_require__(43);
 var propTypes = __webpack_require__(1);
 var emptyObject = __webpack_require__(8);
 var checkPropTypes = __webpack_require__(15);
@@ -21823,7 +22029,7 @@ module.exports = ReactDOMFiberEntry;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 51 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21834,7 +22040,7 @@ $$typeof:Dl,key:null==r?null:""+r,children:e,containerInfo:t,implementation:n}},
 
 
 /***/ }),
-/* 52 */
+/* 54 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21842,7 +22048,7 @@ $$typeof:Dl,key:null==r?null:""+r,children:e,containerInfo:t,implementation:n}},
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createBrowserHistory__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createBrowserHistory__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createBrowserHistory___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_history_createBrowserHistory__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_router__ = __webpack_require__(3);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21894,7 +22100,7 @@ BrowserRouter.propTypes = {
 /* harmony default export */ __webpack_exports__["a"] = (BrowserRouter);
 
 /***/ }),
-/* 53 */
+/* 55 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21902,7 +22108,7 @@ BrowserRouter.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createHashHistory__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createHashHistory__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createHashHistory___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_history_createHashHistory__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_router__ = __webpack_require__(3);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21953,7 +22159,7 @@ HashRouter.propTypes = {
 /* harmony default export */ __webpack_exports__["a"] = (HashRouter);
 
 /***/ }),
-/* 54 */
+/* 56 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21962,7 +22168,7 @@ HashRouter.propTypes = {
 
 
 /***/ }),
-/* 55 */
+/* 57 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22039,7 +22245,7 @@ NavLink.defaultProps = {
 /* harmony default export */ __webpack_exports__["a"] = (NavLink);
 
 /***/ }),
-/* 56 */
+/* 58 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22048,7 +22254,7 @@ NavLink.defaultProps = {
 
 
 /***/ }),
-/* 57 */
+/* 59 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22057,7 +22263,7 @@ NavLink.defaultProps = {
 
 
 /***/ }),
-/* 58 */
+/* 60 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22066,7 +22272,7 @@ NavLink.defaultProps = {
 
 
 /***/ }),
-/* 59 */
+/* 61 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22075,7 +22281,7 @@ NavLink.defaultProps = {
 
 
 /***/ }),
-/* 60 */
+/* 62 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22084,7 +22290,7 @@ NavLink.defaultProps = {
 
 
 /***/ }),
-/* 61 */
+/* 63 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22093,7 +22299,7 @@ NavLink.defaultProps = {
 
 
 /***/ }),
-/* 62 */
+/* 64 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22102,7 +22308,7 @@ NavLink.defaultProps = {
 
 
 /***/ }),
-/* 63 */
+/* 65 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22111,7 +22317,7 @@ NavLink.defaultProps = {
 
 
 /***/ }),
-/* 64 */
+/* 66 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22119,7 +22325,7 @@ NavLink.defaultProps = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createMemoryHistory__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createMemoryHistory__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_createMemoryHistory___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_history_createMemoryHistory__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Router__ = __webpack_require__(17);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22171,7 +22377,7 @@ MemoryRouter.propTypes = {
 /* harmony default export */ __webpack_exports__["a"] = (MemoryRouter);
 
 /***/ }),
-/* 65 */
+/* 67 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22257,7 +22463,7 @@ Prompt.contextTypes = {
 /* harmony default export */ __webpack_exports__["a"] = (Prompt);
 
 /***/ }),
-/* 66 */
+/* 68 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22343,7 +22549,7 @@ Redirect.contextTypes = {
 /* harmony default export */ __webpack_exports__["a"] = (Redirect);
 
 /***/ }),
-/* 67 */
+/* 69 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22519,7 +22725,7 @@ StaticRouter.childContextTypes = {
 /* harmony default export */ __webpack_exports__["a"] = (StaticRouter);
 
 /***/ }),
-/* 68 */
+/* 70 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22605,7 +22811,7 @@ Switch.propTypes = {
 /* harmony default export */ __webpack_exports__["a"] = (Switch);
 
 /***/ }),
-/* 69 */
+/* 71 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22613,7 +22819,7 @@ Switch.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_hoist_non_react_statics__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_hoist_non_react_statics__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_hoist_non_react_statics___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_hoist_non_react_statics__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Route__ = __webpack_require__(26);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -22650,7 +22856,7 @@ var withRouter = function withRouter(Component) {
 /* harmony default export */ __webpack_exports__["a"] = (withRouter);
 
 /***/ }),
-/* 70 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24364,7 +24570,7 @@ module.exports = ReactEntry;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 71 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24372,7 +24578,7 @@ function e(e){for(var t=arguments.length-1,n="Minified React error #"+e+"; visit
 
 
 /***/ }),
-/* 72 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24448,7 +24654,7 @@ var resolvePathname = function resolvePathname(to) {
 module.exports = resolvePathname;
 
 /***/ }),
-/* 73 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24492,162 +24698,6 @@ var valueEqual = function valueEqual(a, b) {
 };
 
 exports.default = valueEqual;
-
-/***/ }),
-/* 74 */,
-/* 75 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(React, PropTypes) {
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-function PanelLeftPage(props) {
-    var pageElements = props.tabPages.find(function (tabPage) {
-        if (tabPage.pageId === props.activeTabPage) {
-            return tabPage;
-        }
-    }).elements;
-    var resultTree = [];
-
-    if (pageElements.length) {
-        var getChildren = function getChildren(arr) {
-            var tree = [];
-            var len = arr.length;
-            for (var _i = 0; _i < len; _i++) {
-                var _element = arr[_i];
-                _element.children = [];
-                if (mapArr.has(_element.name)) {
-                    _element.children.push(getChildren(mapArr.get(_element.name)));
-                }
-                tree.push(_element);
-            }
-            return tree;
-        };
-
-        var mapArr = new Map();
-        var find = void 0;
-
-        for (var i = 0; i < pageElements.length; i++) {
-            var element = pageElements[i];
-            var parent = element.parent;
-            if (mapArr.has(parent)) {
-                var list = mapArr.get(parent);
-                list.push(element);
-            } else {
-                mapArr.set(parent, [element]);
-            }
-        }
-
-        resultTree = getChildren(mapArr.get(null));
-    } else {
-        resultTree = pageElements;
-    }
-
-    function draw(array) {
-        return React.createElement(
-            "ul",
-            { className: "tree" },
-            array.map(function (element, index) {
-                var children = false;
-                var arr = [];
-                if (element.children) {
-                    children = !!element.children.length && element.expanded;
-                    arr = element.children[0];
-                }
-                return React.createElement(
-                    "li",
-                    { key: element.name + index,
-                        "data-pageid": props.activeTabPage,
-                        "data-name": element.name,
-                        "data-parent": element.parent
-                        /*style={{ paddingLeft: element.padding + 'px' }}*/ },
-                    React.createElement(
-                        "button",
-                        { className: "img-on-btn btn btn-default",
-                            onClick: props.expandTreeNode },
-                        React.createElement("img", { src: '../bootstrap/pics/add.png' })
-                    ),
-                    React.createElement(
-                        "a",
-                        { "data-parent": element.parent },
-                        element.name
-                    ),
-                    React.createElement(
-                        "button",
-                        { className: "img-on-btn btn btn-default",
-                            "data-pageid": props.activeTabPage },
-                        React.createElement("img", { src: '../bootstrap/pics/trash.png' })
-                    ),
-                    children ? draw(arr) : ""
-                );
-            })
-        );
-    }
-
-    return React.createElement(
-        "div",
-        { className: "panel panel-default" },
-        React.createElement(
-            "div",
-            { className: "panel-body" },
-            React.createElement(
-                "div",
-                { className: "selectContainer searchElements" },
-                React.createElement("input", { type: "text", className: "form-control searchElementInput", placeholder: "Search element",
-                    id: "searchElementInpput" }),
-                React.createElement(
-                    "div",
-                    { className: "btn-group", role: "group" },
-                    React.createElement(
-                        "button",
-                        { className: "btn btn-default btnGen" },
-                        "Generate"
-                    ),
-                    React.createElement(
-                        "button",
-                        { className: "btn btn-default" },
-                        "Gear"
-                    )
-                )
-            ),
-            React.createElement(
-                "div",
-                null,
-                draw(resultTree)
-            ),
-            React.createElement(
-                "div",
-                { className: "selectContainer" },
-                React.createElement(
-                    "button",
-                    { className: "btn btn-default addElemntBtn" },
-                    "Add element"
-                )
-            )
-        )
-    );
-}
-
-PanelLeftPage.propTypes = {
-    tabPages: PropTypes.array.isRequired,
-    activeTabPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    expandTreeNode: PropTypes.func.isRequired
-};
-
-function PanelRightPage() {
-    return React.createElement(
-        "div",
-        { className: "panel panel-default" },
-        React.createElement("div", { className: "panel-body" })
-    );
-}
-
-exports.PanelLeftPage = PanelLeftPage;
-exports.PanelRightPage = PanelRightPage;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(1)))
 
 /***/ })
 /******/ ]);

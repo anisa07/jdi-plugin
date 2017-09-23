@@ -3,12 +3,10 @@ import { PageObjectJSON, SiteInfoJSON } from './data/pageObject';
 import { Tabs } from './functional parts/tabs';
 import { PanelLeftSite, PanelRightSite } from './functional parts/manageSite';
 import { PanelLeftPage, PanelRightPage } from './functional parts/managePage';
-
+import { findElement, findPage } from './functional parts/common';
 // if (!window.indexedDB) {
 //     window.alert("Ваш браузер не поддерживат стабильную версию IndexedDB. Такие-то функции будут недоступны");
 // }
-
-
 
 export class Main extends React.Component {
     constructor() {
@@ -30,24 +28,39 @@ export class Main extends React.Component {
         this.removePage = this.removePage.bind(this);
         this.showPage = this.showPage.bind(this);
         this.expandTreeNode = this.expandTreeNode.bind(this);
+        this.removeElement = this.removeElement.bind(this);
     }
 
     componentDidMount() {
     }
 
+    removeElement(e) {
+        function del(arr, name){
+            return arr.filter((el)=>{
+               return el.name !== name
+            })
+        }
+        let pages = this.state.tabPages.slice();
+        let page = findPage(e.target, pages);
+        let element = findElement(e.target, pages);
+        let children = element.children[0];
+        let name = element.name;
+        let newArr = del(page.elements,name);
+        if (children){
+            children.forEach((child)=>{
+                newArr = del(newArr, child.name);
+            });
+        }
+        page.elements = newArr;
+        this.setState({
+            tabPages: pages
+        })    
+    }
+
     expandTreeNode(e) {
         let el = e.target;
-        while (el.dataset.name === undefined) {
-            el = el.parentNode;
-        }
-        let pageId = Number(el.dataset.pageid.replace(/\D/g, ""));
-        let name = el.dataset.name;
         let pagesArray = this.state.tabPages.slice();
-        let element = pagesArray.find((page)=>{
-            return page.pageId === pageId
-        }).elements.find((element)=>{
-            return element.name === name
-        })
+        let element = findElement(el, pagesArray);
         element.expanded = !element.expanded;
         this.setState({
             tabPages: pagesArray
@@ -65,25 +78,17 @@ export class Main extends React.Component {
     }
 
     removePage(e) {
-        let id;
-        if (e.target.dataset.pageid) {
-            id = Number(e.target.dataset.pageid.replace(/\D/g, ""));
-        } else {
-            id = Number(e.target.parentNode.dataset.pageid.replace(/\D/g, ""));
-        }
         let len = this.state.tabPages.length;
-        let pages;
         if (len > 1) {
-            pages = this.state.tabPages.slice();
-            this.setState(function () {
-                return {
-                    tabPages: pages.filter(function (page) {
-                        if (page.pageId !== id) {
-                            return page
-                        }
-                    }),
-                    activeTabPageId: ""
-                }
+            let pages = this.state.tabPages.slice();
+            let id = findPage(e.target, pages).pageId;
+            this.setState({
+                tabPages: pages.filter(function (page) {
+                    if (page.pageId !== id) {
+                        return page
+                    }
+                }),
+                activeTabPageId: ""
             })
         }
     }
@@ -143,15 +148,11 @@ export class Main extends React.Component {
     }
 
     selectPage(e) {
-        let pageNum = Number(e.target.parentNode.dataset.pageid);
-        let obj = this.state.tabPages.find(function (page) {
-            if (page.pageId === pageNum) {
-                return page;
-            }
-        });
+        let pages = this.state.tabPages.slice();
+        let page = findPage(e.target, pages);
         this.setState({
-            activeTabPageId: pageNum,
-            activePageObject: obj
+            activeTabPageId: page.pageId,
+            activePageObject: page
         })
     }
 
@@ -214,7 +215,8 @@ export class Main extends React.Component {
                         <div id="manage-site">
                             <PanelLeftPage tabPages={this.state.tabPages}
                                 activeTabPage={this.state.activeTabPageId}
-                                expandTreeNode={this.expandTreeNode} />
+                                expandTreeNode={this.expandTreeNode}
+                                removeElement = {this.removeElement} />
                             <PanelRightPage />
                         </div>
                         : null
