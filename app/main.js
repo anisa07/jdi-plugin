@@ -3,7 +3,7 @@ import { PageObjectJSON, SiteInfoJSON } from './data/pageObject';
 import { Tabs } from './functional parts/tabs';
 import { PanelLeftSite, PanelRightSite } from './functional parts/manageSite';
 import { PanelLeftPage, PanelRightPage } from './functional parts/managePage';
-import { findElement, findPage } from './functional parts/common';
+import { findElement, findPage, findParentData } from './functional parts/common';
 // if (!window.indexedDB) {
 //     window.alert("Ваш браузер не поддерживат стабильную версию IndexedDB. Такие-то функции будут недоступны");
 // }
@@ -20,6 +20,7 @@ export class Main extends React.Component {
             activePageObject: {}
         };
         this.addPage = this.addPage.bind(this);
+        this.addElement = this.addElement.bind(this);
         this.searchPage = this.searchPage.bind(this);
         this.selectPage = this.selectPage.bind(this);
         this.debounce = this.debounce.bind(this);
@@ -34,10 +35,35 @@ export class Main extends React.Component {
     componentDidMount() {
     }
 
+    addElement(e) {
+        let el = findParentData(e.target, "pageid");
+        let pages = this.state.tabPages.slice();
+        let page = findPage(e.target, pages);
+        let parent = (el.dataset.name === "null") ? null : el.dataset.name;
+        page.elements.map((element)=>{
+            if (element.name === parent){
+                return element.expanded = true;
+            }
+        })
+        page.elements.push({
+            "expanded": false,
+            "name": "Element" + (Math.floor(Math.random() * (100 - 1)) + 1) + (Math.floor(Math.random() * (100 - 1)) + 1),
+            "type": "",
+            "parent": parent,
+            "locator": {
+                "type": "",
+                "path": ""
+            }
+        })
+        this.setState({
+            tabPages: pages
+        })
+    }
+
     removeElement(e) {
-        function del(arr, name){
-            return arr.filter((el)=>{
-               return el.name !== name
+        function del(arr, name) {
+            return arr.filter((el) => {
+                return el.name !== name
             })
         }
         let pages = this.state.tabPages.slice();
@@ -45,16 +71,16 @@ export class Main extends React.Component {
         let element = findElement(e.target, pages);
         let children = element.children[0];
         let name = element.name;
-        let newArr = del(page.elements,name);
-        if (children){
-            children.forEach((child)=>{
+        let newArr = del(page.elements, name);
+        if (children) {
+            children.forEach((child) => {
                 newArr = del(newArr, child.name);
             });
         }
         page.elements = newArr;
         this.setState({
             tabPages: pages
-        })    
+        })
     }
 
     expandTreeNode(e) {
@@ -216,7 +242,8 @@ export class Main extends React.Component {
                             <PanelLeftPage tabPages={this.state.tabPages}
                                 activeTabPage={this.state.activeTabPageId}
                                 expandTreeNode={this.expandTreeNode}
-                                removeElement = {this.removeElement} />
+                                removeElement={this.removeElement}
+                                addElement={this.addElement} />
                             <PanelRightPage />
                         </div>
                         : null

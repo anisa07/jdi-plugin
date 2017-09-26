@@ -1,7 +1,8 @@
-function findElement(el, arr) {
-    while (el.dataset.name === undefined) {
-        el = el.parentNode;
-    }
+function findElement(elem, arr) {
+    // while (el.dataset.name === undefined) {
+    //     el = el.parentNode;
+    // }
+    let el = findParentData(elem, "name")
     let pageId = Number(el.dataset.pageid.replace(/\D/g, ""));
     let name = el.dataset.name;
     let pagesArray = arr;
@@ -11,10 +12,11 @@ function findElement(el, arr) {
     return element;
 }
 
-function findPage(el, arr) {
-    while (el.dataset.pageid === undefined) {
-        el = el.parentNode;
-    }
+function findPage(elem, arr) {
+    // while (el.dataset.pageid === undefined) {
+    //     el = el.parentNode;
+    // }
+    let el = findParentData(elem, "pageid");
     let id = Number(el.dataset.pageid.replace(/\D/g, ""));
     let page = arr.find((page) => {
         return page.pageId === id;
@@ -22,5 +24,12 @@ function findPage(el, arr) {
     return page;
 }
 
+function findParentData(el, d){
+    while (el.dataset[d] === undefined) {
+        el = el.parentNode;
+    }
+    return el;
+}
 
-export { findElement, findPage }
+
+export { findElement, findPage, findParentData}

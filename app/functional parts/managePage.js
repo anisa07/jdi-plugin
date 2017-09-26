@@ -68,8 +68,10 @@ function PanelLeftPage(props) {
                                     style={vis}>
                                     <img src={'../bootstrap/pics/add.png'} /></button>
                                 <a data-parent={element.parent}>{element.name}</a>
+                                <button className="img-on-btn btn btn-default"
+                                    onClick={props.addElement}>
+                                    <img src={'../bootstrap/pics/add.png'} /></button>
                                 <button className="img-on-btn btn btn-default" 
-                                    data-pageid={props.activeTabPage}
                                     onClick={props.removeElement}>
                                     <img src={'../bootstrap/pics/trash.png'} /></button>
                                 {children ? draw(arr) : ""}
@@ -96,7 +98,10 @@ function PanelLeftPage(props) {
                     {draw(resultTree)}
                 </div>
                 <div className="selectContainer">
-                    <button className="btn btn-default addElemntBtn">Add element</button>
+                    <button className="btn btn-default addElemntBtn" 
+                        data-pageid={props.activeTabPage} 
+                        data-name="null" 
+                        onClick={props.addElement}>Add element</button>
                 </div>
             </div>
         </div>

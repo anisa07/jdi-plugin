@@ -1989,6 +1989,7 @@ var Main = exports.Main = function (_React$Component) {
             activePageObject: {}
         };
         _this.addPage = _this.addPage.bind(_this);
+        _this.addElement = _this.addElement.bind(_this);
         _this.searchPage = _this.searchPage.bind(_this);
         _this.selectPage = _this.selectPage.bind(_this);
         _this.debounce = _this.debounce.bind(_this);
@@ -2004,6 +2005,32 @@ var Main = exports.Main = function (_React$Component) {
     _createClass(Main, [{
         key: 'componentDidMount',
         value: function componentDidMount() {}
+    }, {
+        key: 'addElement',
+        value: function addElement(e) {
+            var el = (0, _common.findParentData)(e.target, "pageid");
+            var pages = this.state.tabPages.slice();
+            var page = (0, _common.findPage)(e.target, pages);
+            var parent = el.dataset.name === "null" ? null : el.dataset.name;
+            page.elements.map(function (element) {
+                if (element.name === parent) {
+                    return element.expanded = true;
+                }
+            });
+            page.elements.push({
+                "expanded": false,
+                "name": "Element" + (Math.floor(Math.random() * (100 - 1)) + 1) + (Math.floor(Math.random() * (100 - 1)) + 1),
+                "type": "",
+                "parent": parent,
+                "locator": {
+                    "type": "",
+                    "path": ""
+                }
+            });
+            this.setState({
+                tabPages: pages
+            });
+        }
     }, {
         key: 'removeElement',
         value: function removeElement(e) {
@@ -2194,7 +2221,8 @@ var Main = exports.Main = function (_React$Component) {
                     React.createElement(_managePage.PanelLeftPage, { tabPages: this.state.tabPages,
                         activeTabPage: this.state.activeTabPageId,
                         expandTreeNode: this.expandTreeNode,
-                        removeElement: this.removeElement }),
+                        removeElement: this.removeElement,
+                        addElement: this.addElement }),
                     React.createElement(_managePage.PanelRightPage, null)
                 ) : null
             );
@@ -2414,10 +2442,11 @@ exports.SiteInfoJSON = SiteInfoJSON;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function findElement(el, arr) {
-    while (el.dataset.name === undefined) {
-        el = el.parentNode;
-    }
+function findElement(elem, arr) {
+    // while (el.dataset.name === undefined) {
+    //     el = el.parentNode;
+    // }
+    var el = findParentData(elem, "name");
     var pageId = Number(el.dataset.pageid.replace(/\D/g, ""));
     var name = el.dataset.name;
     var pagesArray = arr;
@@ -2427,10 +2456,11 @@ function findElement(el, arr) {
     return element;
 }
 
-function findPage(el, arr) {
-    while (el.dataset.pageid === undefined) {
-        el = el.parentNode;
-    }
+function findPage(elem, arr) {
+    // while (el.dataset.pageid === undefined) {
+    //     el = el.parentNode;
+    // }
+    var el = findParentData(elem, "pageid");
     var id = Number(el.dataset.pageid.replace(/\D/g, ""));
     var page = arr.find(function (page) {
         return page.pageId === id;
@@ -2438,8 +2468,16 @@ function findPage(el, arr) {
     return page;
 }
 
+function findParentData(el, d) {
+    while (el.dataset[d] === undefined) {
+        el = el.parentNode;
+    }
+    return el;
+}
+
 exports.findElement = findElement;
 exports.findPage = findPage;
+exports.findParentData = findParentData;
 
 /***/ }),
 /* 32 */
@@ -2532,7 +2570,12 @@ function PanelLeftPage(props) {
                     React.createElement(
                         "button",
                         { className: "img-on-btn btn btn-default",
-                            "data-pageid": props.activeTabPage,
+                            onClick: props.addElement },
+                        React.createElement("img", { src: '../bootstrap/pics/add.png' })
+                    ),
+                    React.createElement(
+                        "button",
+                        { className: "img-on-btn btn btn-default",
                             onClick: props.removeElement },
                         React.createElement("img", { src: '../bootstrap/pics/trash.png' })
                     ),
@@ -2578,7 +2621,10 @@ function PanelLeftPage(props) {
                 { className: "selectContainer" },
                 React.createElement(
                     "button",
-                    { className: "btn btn-default addElemntBtn" },
+                    { className: "btn btn-default addElemntBtn",
+                        "data-pageid": props.activeTabPage,
+                        "data-name": "null",
+                        onClick: props.addElement },
                     "Add element"
                 )
             )
