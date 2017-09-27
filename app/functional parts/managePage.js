@@ -1,47 +1,4 @@
 function PanelLeftPage(props) {
-    let pageElements = props.tabPages.find(function (tabPage) {
-        if (tabPage.pageId === props.activeTabPage) {
-            return tabPage;
-        }
-    }).elements;
-    let resultTree = [];
-
-    if (pageElements.length){
-        let mapArr = new Map();
-        let find;
-    
-        for (let i = 0; i < pageElements.length; i++) {
-            let element = pageElements[i];
-            let parent = element.parent;
-            if (mapArr.has(parent)) {
-                let list = mapArr.get(parent);
-                list.push(element);
-            } else {
-                mapArr.set(parent, [element])
-            }
-        }
-    
-        function getChildren(arr) {
-            let tree = [];
-            let len = arr.length;
-            for (let i = 0; i < len; i++) {
-                let element = arr[i];
-                element.children = [];
-                if (mapArr.has(element.name)) {
-                    element.children.push(getChildren(mapArr.get(element.name)));
-                }
-                tree.push(element)
-            }
-            return tree;
-        }
-        
-        if (mapArr.get(null)){
-            resultTree = getChildren(mapArr.get(null));
-        }
-    } else {
-        resultTree = pageElements;
-    }
-
     function draw(array) {
         return (
             <ul className="tree">
@@ -52,18 +9,18 @@ function PanelLeftPage(props) {
                         let vis = {
                             visibility: "hidden"
                         }
-                        if (element.children){
+                        if (element.children) {
                             children = !!element.children.length && element.expanded;
-                            arr = element.children[0];    
-                            vis.visibility = !!element.children.length ? "visible" : "hidden";     
+                            arr = element.children[0];
+                            vis.visibility = !!element.children.length ? "visible" : "hidden";
                         }
                         return (
-                            <li key={element.name + index} 
+                            <li key={element.name + index}
                                 data-pageid={props.activeTabPage}
-                                data-name={element.name} 
-                                data-parent={element.parent} 
+                                data-name={element.name}
+                                data-parent={element.parent}
                                 /*style={{ paddingLeft: element.padding + 'px' }}*/>
-                                <button className="img-on-btn btn btn-default" 
+                                <button className="img-on-btn btn btn-default"
                                     onClick={props.expandTreeNode}
                                     style={vis}>
                                     <img src={'../bootstrap/pics/add.png'} /></button>
@@ -71,7 +28,7 @@ function PanelLeftPage(props) {
                                 <button className="img-on-btn btn btn-default"
                                     onClick={props.addElement}>
                                     <img src={'../bootstrap/pics/add.png'} /></button>
-                                <button className="img-on-btn btn btn-default" 
+                                <button className="img-on-btn btn btn-default"
                                     onClick={props.removeElement}>
                                     <img src={'../bootstrap/pics/trash.png'} /></button>
                                 {children ? draw(arr) : ""}
@@ -87,20 +44,22 @@ function PanelLeftPage(props) {
         <div className="panel panel-default">
             <div className="panel-body">
                 <div className="selectContainer searchElements">
-                    <input type="text" className="form-control searchElementInput" placeholder="Search element"
-                        id="searchElementInpput" />
+                    <input type="text" className="form-control searchElementInput"
+                        placeholder="Search element"
+                        id="searchElementInpput"
+                        onBlur={props.searchElement} />
                     <div className="btn-group" role="group">
                         <button className="btn btn-default btnGen">Generate</button>
                         <button className="btn btn-default">Gear</button>
                     </div>
                 </div>
                 <div>
-                    {draw(resultTree)}
+                    {draw(props.resultTree)}
                 </div>
                 <div className="selectContainer">
-                    <button className="btn btn-default addElemntBtn" 
-                        data-pageid={props.activeTabPage} 
-                        data-name="null" 
+                    <button className="btn btn-default addElemntBtn"
+                        data-pageid={props.activeTabPage}
+                        data-name="null"
                         onClick={props.addElement}>Add element</button>
                 </div>
             </div>
@@ -150,4 +109,4 @@ function PanelRightPage() {
     )
 }
 
-export {PanelLeftPage, PanelRightPage}
+export { PanelLeftPage, PanelRightPage }

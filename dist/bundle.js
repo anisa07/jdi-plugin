@@ -1962,6 +1962,8 @@ var _managePage = __webpack_require__(32);
 
 var _common = __webpack_require__(31);
 
+var _tree = __webpack_require__(76);
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -1986,7 +1988,9 @@ var Main = exports.Main = function (_React$Component) {
             activeTabPageId: "",
             settingsForSite: true,
             searchPage: "",
-            activePageObject: {}
+            activePageObject: {},
+            resultTree: [],
+            pageMap: new Map()
         };
         _this.addPage = _this.addPage.bind(_this);
         _this.addElement = _this.addElement.bind(_this);
@@ -1999,6 +2003,7 @@ var Main = exports.Main = function (_React$Component) {
         _this.showPage = _this.showPage.bind(_this);
         _this.expandTreeNode = _this.expandTreeNode.bind(_this);
         _this.removeElement = _this.removeElement.bind(_this);
+        _this.searchElement = _this.searchElement.bind(_this);
         return _this;
     }
 
@@ -2006,12 +2011,34 @@ var Main = exports.Main = function (_React$Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {}
     }, {
+        key: 'searchElement',
+        value: function searchElement(e) {
+            var element = e.target.value;
+            var pages = this.state.tabPages.slice();
+            var activeTabPage = this.state.activeTabPageId;
+            var pageElements = pages.find(function (page) {
+                return page.pageId === activeTabPage;
+            }).elements;
+            var map = new Map();
+            var resTree = [];
+            var res = (0, _tree.searchElement)(element, pageElements);
+            map = (0, _tree.drawMap)(res, new Map());
+            resTree = (0, _tree.getChildren)(this.state.pageMap, null);
+            this.setState({
+                tabPages: pages,
+                resultTree: resTree,
+                pageMap: map
+            });
+        }
+    }, {
         key: 'addElement',
         value: function addElement(e) {
             var el = (0, _common.findParentData)(e.target, "pageid");
             var pages = this.state.tabPages.slice();
             var page = (0, _common.findPage)(e.target, pages);
             var parent = el.dataset.name === "null" ? null : el.dataset.name;
+            var resTree = [];
+            var map = new Map();
             page.elements.map(function (element) {
                 if (element.name === parent) {
                     return element.expanded = true;
@@ -2027,8 +2054,13 @@ var Main = exports.Main = function (_React$Component) {
                     "path": ""
                 }
             });
+            map = (0, _tree.drawMap)(page.elements, new Map());
+            resTree = (0, _tree.getChildren)(map, null);
+
             this.setState({
-                tabPages: pages
+                tabPages: pages,
+                resultTree: resTree,
+                pageMap: map
             });
         }
     }, {
@@ -2039,20 +2071,30 @@ var Main = exports.Main = function (_React$Component) {
                     return el.name !== name;
                 });
             }
+            var children = [];
+            var resTree = [];
+            var map = new Map();
             var pages = this.state.tabPages.slice();
             var page = (0, _common.findPage)(e.target, pages);
             var element = (0, _common.findElement)(e.target, pages);
-            var children = element.children[0];
+            if (element.children.length) {
+                children = element.children[0];
+            }
+            //let children = element.children[0];
             var name = element.name;
             var newArr = del(page.elements, name);
-            if (children) {
+            if (children.length) {
                 children.forEach(function (child) {
                     newArr = del(newArr, child.name);
                 });
             }
             page.elements = newArr;
+            map = (0, _tree.drawMap)(page.elements, new Map());
+            resTree = (0, _tree.getChildren)(map, null);
             this.setState({
-                tabPages: pages
+                tabPages: pages,
+                resultTree: resTree,
+                pageMap: map
             });
         }
     }, {
@@ -2060,20 +2102,35 @@ var Main = exports.Main = function (_React$Component) {
         value: function expandTreeNode(e) {
             var el = e.target;
             var pagesArray = this.state.tabPages.slice();
+            var page = (0, _common.findPage)(el, pagesArray);
             var element = (0, _common.findElement)(el, pagesArray);
+            var resTree = [];
             element.expanded = !element.expanded;
+            resTree = (0, _tree.getChildren)(this.state.pageMap, null);
             this.setState({
-                tabPages: pagesArray
+                tabPages: pagesArray,
+                resultTree: resTree
             });
         }
     }, {
         key: 'showPage',
         value: function showPage(e) {
+            var map = new Map();
             var clickedTabPageId = Number(e.target.dataset.tabid);
+            var pageElements = this.state.tabPages.find(function (page) {
+                return page.pageId === clickedTabPageId;
+            }).elements;
+            map = (0, _tree.drawMap)(pageElements, new Map());
+            var resTree = [];
+            //if (typeof map.get === "function") {
+            resTree = (0, _tree.getChildren)(map, null);
+            //}
             this.setState(function () {
                 return {
                     activeTabPageId: clickedTabPageId,
-                    settingsForSite: false
+                    settingsForSite: false,
+                    resultTree: resTree,
+                    pageMap: map
                 };
             });
         }
@@ -2222,7 +2279,9 @@ var Main = exports.Main = function (_React$Component) {
                         activeTabPage: this.state.activeTabPageId,
                         expandTreeNode: this.expandTreeNode,
                         removeElement: this.removeElement,
-                        addElement: this.addElement }),
+                        addElement: this.addElement,
+                        resultTree: this.state.resultTree,
+                        searchElement: this.searchElement }),
                     React.createElement(_managePage.PanelRightPage, null)
                 ) : null
             );
@@ -2490,49 +2549,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 function PanelLeftPage(props) {
-    var pageElements = props.tabPages.find(function (tabPage) {
-        if (tabPage.pageId === props.activeTabPage) {
-            return tabPage;
-        }
-    }).elements;
-    var resultTree = [];
-
-    if (pageElements.length) {
-        var getChildren = function getChildren(arr) {
-            var tree = [];
-            var len = arr.length;
-            for (var _i = 0; _i < len; _i++) {
-                var _element = arr[_i];
-                _element.children = [];
-                if (mapArr.has(_element.name)) {
-                    _element.children.push(getChildren(mapArr.get(_element.name)));
-                }
-                tree.push(_element);
-            }
-            return tree;
-        };
-
-        var mapArr = new Map();
-        var find = void 0;
-
-        for (var i = 0; i < pageElements.length; i++) {
-            var element = pageElements[i];
-            var parent = element.parent;
-            if (mapArr.has(parent)) {
-                var list = mapArr.get(parent);
-                list.push(element);
-            } else {
-                mapArr.set(parent, [element]);
-            }
-        }
-
-        if (mapArr.get(null)) {
-            resultTree = getChildren(mapArr.get(null));
-        }
-    } else {
-        resultTree = pageElements;
-    }
-
     function draw(array) {
         return React.createElement(
             "ul",
@@ -2594,8 +2610,10 @@ function PanelLeftPage(props) {
             React.createElement(
                 "div",
                 { className: "selectContainer searchElements" },
-                React.createElement("input", { type: "text", className: "form-control searchElementInput", placeholder: "Search element",
-                    id: "searchElementInpput" }),
+                React.createElement("input", { type: "text", className: "form-control searchElementInput",
+                    placeholder: "Search element",
+                    id: "searchElementInpput",
+                    onBlur: props.searchElement }),
                 React.createElement(
                     "div",
                     { className: "btn-group", role: "group" },
@@ -2614,7 +2632,7 @@ function PanelLeftPage(props) {
             React.createElement(
                 "div",
                 null,
-                draw(resultTree)
+                draw(props.resultTree)
             ),
             React.createElement(
                 "div",
@@ -24744,6 +24762,105 @@ var valueEqual = function valueEqual(a, b) {
 };
 
 exports.default = valueEqual;
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function getChildren(mapArr, parentName) {
+    if (typeof mapArr.get === "function") {
+        var arr = mapArr.get(parentName);
+        //resTree = getChildren(map.get(null), map)
+        var tree = [];
+        if (arr) {
+            var len = arr.length;
+            for (var i = 0; i < len; i++) {
+                var element = arr[i];
+                element.children = [];
+                if (mapArr.has(element.name)) {
+                    element.children.push(getChildren(mapArr, element.name));
+                }
+                tree.push(element);
+            }
+        }
+        return tree;
+    }return [];
+}
+
+function drawMap(arr, mapArr) {
+    if (arr.length) {
+        for (var i = 0; i < arr.length; i++) {
+            var element = arr[i];
+            var parent = element.parent;
+            if (mapArr.has(parent)) {
+                var list = mapArr.get(parent);
+                list.push(element);
+            } else {
+                mapArr.set(parent, [element]);
+            }
+        }
+        return mapArr;
+    }
+    return arr;
+}
+
+function searchElement(searched, pageElements) {
+    //let searched = e.target.value;
+    var searchedArr = [];
+    searchedArr = pageElements.filter(function (element) {
+        if (element.name.includes(searched)) {
+            return element;
+        }
+    });
+    if (searchedArr.length) {
+        var findParent = function findParent(p) {
+            if (p === null) {
+                return;
+            };
+            var element = pageElements.find(function (element) {
+                return element.name === p;
+            });
+            var e = result.find(function (r) {
+                return r.name === element.name;
+            });
+            if (e === undefined) {
+                element.children = [];
+                element.expanded = searched === "" ? false : true;
+                result.push(element);
+            }
+            findParent(element.parent);
+        };
+
+        var result = [];
+
+        var _loop = function _loop(i) {
+            searchedArr[i].children = [];
+            if (!result.find(function (r) {
+                return r.name === searchedArr[i].name;
+            })) {
+                searchedArr[i].expanded = false;
+                result.push(searchedArr[i]);
+            };
+            findParent(searchedArr[i].parent);
+        };
+
+        for (var i = 0; i < searchedArr.length; i++) {
+            _loop(i);
+        }
+        return result;
+    }
+    return [];
+}
+
+exports.getChildren = getChildren;
+exports.drawMap = drawMap;
+exports.searchElement = searchElement;
 
 /***/ })
 /******/ ]);

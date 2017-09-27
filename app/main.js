@@ -4,6 +4,7 @@ import { Tabs } from './functional parts/tabs';
 import { PanelLeftSite, PanelRightSite } from './functional parts/manageSite';
 import { PanelLeftPage, PanelRightPage } from './functional parts/managePage';
 import { findElement, findPage, findParentData } from './functional parts/common';
+import { drawMap, searchElement, getChildren } from './functional parts/tree';
 // if (!window.indexedDB) {
 //     window.alert("Ваш браузер не поддерживат стабильную версию IndexedDB. Такие-то функции будут недоступны");
 // }
@@ -17,7 +18,9 @@ export class Main extends React.Component {
             activeTabPageId: "",
             settingsForSite: true,
             searchPage: "",
-            activePageObject: {}
+            activePageObject: {},
+            resultTree: [],
+            pageMap: new Map()
         };
         this.addPage = this.addPage.bind(this);
         this.addElement = this.addElement.bind(this);
@@ -30,9 +33,29 @@ export class Main extends React.Component {
         this.showPage = this.showPage.bind(this);
         this.expandTreeNode = this.expandTreeNode.bind(this);
         this.removeElement = this.removeElement.bind(this);
+        this.searchElement = this.searchElement.bind(this);
     }
 
     componentDidMount() {
+    }
+
+    searchElement(e) {
+        let element = e.target.value;
+        let pages = this.state.tabPages.slice();
+        let activeTabPage = this.state.activeTabPageId;
+        let pageElements = pages.find((page) => {
+            return page.pageId === activeTabPage
+        }).elements;
+        let map = new Map();
+        let resTree = [];
+        let res = searchElement(element, pageElements);
+        map = drawMap(res, new Map());
+        resTree = getChildren(this.state.pageMap, null);
+        this.setState({
+            tabPages: pages,
+            resultTree: resTree,
+            pageMap: map
+        })
     }
 
     addElement(e) {
@@ -40,8 +63,10 @@ export class Main extends React.Component {
         let pages = this.state.tabPages.slice();
         let page = findPage(e.target, pages);
         let parent = (el.dataset.name === "null") ? null : el.dataset.name;
-        page.elements.map((element)=>{
-            if (element.name === parent){
+        let resTree = [];
+        let map = new Map();
+        page.elements.map((element) => {
+            if (element.name === parent) {
                 return element.expanded = true;
             }
         })
@@ -55,8 +80,13 @@ export class Main extends React.Component {
                 "path": ""
             }
         })
+        map = drawMap(page.elements, new Map());
+        resTree = getChildren(map, null);
+
         this.setState({
-            tabPages: pages
+            tabPages: pages,
+            resultTree: resTree,
+            pageMap: map
         })
     }
 
@@ -66,39 +96,64 @@ export class Main extends React.Component {
                 return el.name !== name
             })
         }
+        let children = [];
+        let resTree = [];
+        let map = new Map();
         let pages = this.state.tabPages.slice();
         let page = findPage(e.target, pages);
         let element = findElement(e.target, pages);
-        let children = element.children[0];
+        if (element.children.length){
+            children = element.children[0];
+        }
+        //let children = element.children[0];
         let name = element.name;
         let newArr = del(page.elements, name);
-        if (children) {
+        if (children.length) {
             children.forEach((child) => {
                 newArr = del(newArr, child.name);
             });
         }
         page.elements = newArr;
+        map = drawMap(page.elements, new Map());
+        resTree = getChildren(map, null);
         this.setState({
-            tabPages: pages
+            tabPages: pages,
+            resultTree: resTree,
+            pageMap: map
         })
     }
 
     expandTreeNode(e) {
         let el = e.target;
         let pagesArray = this.state.tabPages.slice();
+        let page = findPage(el, pagesArray);
         let element = findElement(el, pagesArray);
+        let resTree = [];
         element.expanded = !element.expanded;
+        resTree = getChildren(this.state.pageMap, null);
         this.setState({
-            tabPages: pagesArray
+            tabPages: pagesArray,
+            resultTree: resTree
         })
     }
 
     showPage(e) {
+        let map = new Map();
         let clickedTabPageId = Number(e.target.dataset.tabid);
+        let pageElements = this.state.tabPages.find((page) => {
+            return page.pageId === clickedTabPageId
+        }).elements;
+        map = drawMap(pageElements, new Map());
+        let resTree = [];
+        //if (typeof map.get === "function") {
+        resTree = getChildren(map, null);
+        //}
         this.setState(function () {
             return {
                 activeTabPageId: clickedTabPageId,
-                settingsForSite: false
+                settingsForSite: false,
+                resultTree: resTree,
+                pageMap: map
             }
         })
     }
@@ -243,7 +298,9 @@ export class Main extends React.Component {
                                 activeTabPage={this.state.activeTabPageId}
                                 expandTreeNode={this.expandTreeNode}
                                 removeElement={this.removeElement}
-                                addElement={this.addElement} />
+                                addElement={this.addElement}
+                                resultTree={this.state.resultTree}
+                                searchElement={this.searchElement} />
                             <PanelRightPage />
                         </div>
                         : null
