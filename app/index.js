@@ -7,9 +7,9 @@ import ReactDOM from 'react-dom';
 
 import {Main} from './main.js'
 
-import { BrowserRouter, Route, Switch} from 'react-router-dom';
+//import { BrowserRouter, Route, Switch} from 'react-router-dom';
 
-let Router = BrowserRouter;
+//let Router = BrowserRouter;
 
 
 class App extends React.Component {

@@ -31,6 +31,7 @@ export class Main extends React.Component {
         this.closePage = this.closePage.bind(this);
         this.removePage = this.removePage.bind(this);
         this.showPage = this.showPage.bind(this);
+        this.onChangeTree = this.onChangeTree.bind(this);
         this.expandTreeNode = this.expandTreeNode.bind(this);
         this.removeElement = this.removeElement.bind(this);
         this.searchElement = this.searchElement.bind(this);
@@ -140,6 +141,10 @@ export class Main extends React.Component {
             tabPages: pagesArray,
             resultTree: resTree
         })
+    }
+
+    onChangeTree(e){
+        console.log(e)
     }
 
     showPage(e) {
@@ -305,7 +310,8 @@ export class Main extends React.Component {
                                 removeElement={this.removeElement}
                                 addElement={this.addElement}
                                 resultTree={this.state.resultTree}
-                                searchElement={this.searchElement} />
+                                searchElement={this.searchElement}
+                                onChangeTree={this.onChangeTree} />
                             <PanelRightPage />
                         </div>
                         : null
