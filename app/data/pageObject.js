@@ -13,7 +13,7 @@ let PageObjectJSON = [
             {
                 "expanded": false,
                 "name": "b3",
-                "type": "",
+                "type": "section",
                 "parent": "a1",
                 "locator": {
                     "type": "",
@@ -23,7 +23,7 @@ let PageObjectJSON = [
             {
                 "expanded": false,
                 "name": "t1",
-                "type": "",
+                "type": "section",
                 "parent": null,
                 "locator": {
                     "type": "",
@@ -33,7 +33,7 @@ let PageObjectJSON = [
             {
                 "expanded": false,
                 "name": "a1",
-                "type": "",
+                "type": "section",
                 "parent": "t2",
                 "locator": {
                     "type": "",
@@ -43,7 +43,7 @@ let PageObjectJSON = [
             {
                 "expanded": false,
                 "name": "t2",
-                "type": "",
+                "type": "section",
                 "parent": null,
                 "locator": {
                     "type": "",
@@ -53,7 +53,7 @@ let PageObjectJSON = [
             {
                 "expanded": false,
                 "name": "t04",
-                "type": "",
+                "type": "button",
                 "parent": "t1",
                 "locator": {
                     "type": "",
@@ -63,7 +63,7 @@ let PageObjectJSON = [
             {
                 "expanded": false,
                 "name": "a3",
-                "type": "",
+                "type": "button",
                 "parent": "b3",
                 "locator": {
                     "type": "",
@@ -73,7 +73,7 @@ let PageObjectJSON = [
             {
                 "expanded": false,
                 "name": "t0",
-                "type": "",
+                "type": "button",
                 "parent": "t1",
                 "locator": {
                     "type": "",
@@ -83,7 +83,7 @@ let PageObjectJSON = [
             {
                 "expanded": false,
                 "name": "t7",
-                "type": "",
+                "type": "form",
                 "parent": null,
                 "locator": {
                     "type": "",

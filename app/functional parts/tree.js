@@ -9,7 +9,7 @@ function getChildren(mapArr, parentName) {
                 let element = arr[i];
                 element.children = [];
                 if (mapArr.has(element.name)) {
-                    element.children.push(getChildren(mapArr, element.name));
+                    element.children = getChildren(mapArr, element.name);
                 }
                 tree.push(element)
             }
@@ -22,6 +22,7 @@ function drawMap(arr, mapArr) {
     if (arr.length) {
         for (let i = 0; i < arr.length; i++) {
             let element = arr[i];
+            element.title = element.name;
             let parent = element.parent;
             if (mapArr.has(parent)) {
                 let list = mapArr.get(parent);
@@ -38,6 +39,7 @@ function drawMap(arr, mapArr) {
 function searchElement(searched, pageElements) {
     //let searched = e.target.value;
     let searchedArr = [];
+    let result = [];
 
     searchedArr = pageElements.filter((element) => {
         if (element.name.includes(searched)) {
@@ -45,9 +47,7 @@ function searchElement(searched, pageElements) {
         }
     });
 
-    if (searchedArr.length) {
-        let result = [];
-        
+    if (searchedArr.length) {        
         function findParent(p) {
             if (p === null) { return };
             let element = pageElements.find((element) => {
@@ -56,7 +56,7 @@ function searchElement(searched, pageElements) {
             let e = result.find((r) => { return r.name === element.name });
             if (e === undefined) {
                 element.children = [];
-                element.expanded = (searched === "") ? false : true;
+                element.expanded = true;
                 result.push(element);
             }
             findParent(element.parent);
@@ -70,9 +70,8 @@ function searchElement(searched, pageElements) {
             };
             findParent(searchedArr[i].parent);
         }
-        return result;
     }
-    return [];
+    return result;
 }
 
 export { getChildren, drawMap, searchElement }
