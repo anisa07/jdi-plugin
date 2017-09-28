@@ -47,7 +47,7 @@ function PanelLeftPage(props) {
                     <input type="text" className="form-control searchElementInput"
                         placeholder="Search element"
                         id="searchElementInpput"
-                        onBlur={props.searchElement} />
+                        onChange={props.searchElement} />
                     <div className="btn-group" role="group">
                         <button className="btn btn-default btnGen">Generate</button>
                         <button className="btn btn-default">Gear</button>

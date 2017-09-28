@@ -38,14 +38,16 @@ function drawMap(arr, mapArr) {
 function searchElement(searched, pageElements) {
     //let searched = e.target.value;
     let searchedArr = [];
+
     searchedArr = pageElements.filter((element) => {
         if (element.name.includes(searched)) {
             return element;
         }
     });
+
     if (searchedArr.length) {
         let result = [];
-
+        
         function findParent(p) {
             if (p === null) { return };
             let element = pageElements.find((element) => {
@@ -63,7 +65,7 @@ function searchElement(searched, pageElements) {
         for (let i = 0; i < searchedArr.length; i++) {
             searchedArr[i].children = [];
             if (!result.find((r) => { return r.name === searchedArr[i].name })) {
-                searchedArr[i].expanded = false;
+                searchedArr[i].expanded = true;
                 result.push(searchedArr[i]);
             };
             findParent(searchedArr[i].parent);

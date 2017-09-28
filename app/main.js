@@ -48,9 +48,14 @@ export class Main extends React.Component {
         }).elements;
         let map = new Map();
         let resTree = [];
-        let res = searchElement(element, pageElements);
-        map = drawMap(res, new Map());
-        resTree = getChildren(this.state.pageMap, null);
+        if(element==="" || element.replace(/\s/g, "")===""){
+            map = drawMap(pageElements, new Map());
+            resTree = getChildren(map, null);
+        } else{
+            let res = searchElement(element, pageElements);
+            map = drawMap(res, new Map());
+            resTree = getChildren(map, null);
+        }
         this.setState({
             tabPages: pages,
             resultTree: resTree,
