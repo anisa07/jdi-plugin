@@ -23852,108 +23852,12 @@ function PanelLeftPage(props) {
     );
 }
 
-// class PanelLeftPage extends React.Component {
-
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             treeData: props.resultTree,
-//             activeTabPage: props.activeTabPage,
-//             addElement: props.addElement,
-//             onChangeTree: props.onChangeTree
-//         };
-//     }
-
-//     // // console.log(props);
-//     // function draw(array) {
-//     //     return (
-//     //         <ul className="tree">
-//     //             {
-//     //                 array.map(function (element, index) {
-//     //                     let children = false;
-//     //                     let arr = [];
-//     //                     let vis = {
-//     //                         visibility: "hidden"
-//     //                     }
-//     //                     if (element.children) {
-//     //                         children = !!element.children.length && element.expanded;
-//     //                         arr = element.children[0];
-//     //                         vis.visibility = !!element.children.length ? "visible" : "hidden";
-//     //                     }
-//     //                     return (
-//     //                         <li key={element.name + index}
-//     //                             data-pageid={props.activeTabPage}
-//     //                             data-name={element.name}
-//     //                             data-parent={element.parent}
-//     //                             /*style={{ paddingLeft: element.padding + 'px' }}*/>
-//     //                             <button className="img-on-btn btn btn-default"
-//     //                                 onClick={props.expandTreeNode}
-//     //                                 style={vis}>
-//     //                                 <img src={'../bootstrap/pics/add.png'} /></button>
-//     //                             <a data-parent={element.parent}>{element.name}</a>
-//     //                             <button className="img-on-btn btn btn-default"
-//     //                                 onClick={props.addElement}>
-//     //                                 <img src={'../bootstrap/pics/add.png'} /></button>
-//     //                             <button className="img-on-btn btn btn-default"
-//     //                                 onClick={props.removeElement}>
-//     //                                 <img src={'../bootstrap/pics/trash.png'} /></button>
-//     //                             {children ? draw(arr) : ""}
-//     //                         </li>
-//     //                     )
-//     //                 })
-//     //             }
-//     //         </ul>
-//     //     )
-//     // }
-
-//     render() {
-
-//         const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
-//             if (nextParent === null || nextParent.type === "section" || nextParent.type === "form") {
-//                 return true;
-//             }
-//             return false;
-//         };
-//         return (
-//             <div className="panel panel-default">
-//                 <div className="panel-body">
-//                     {/* <div className="selectContainer searchElements">
-//                         <input type="text" className="form-control searchElementInput"
-//                             placeholder="Search element"
-//                             id="searchElementInpput"
-//                             onChange={props.searchElement} />
-//                         <div className="btn-group" role="group">
-//                             <button className="btn btn-default btnGen">Generate</button>
-//                             <button className="btn btn-default">Gear</button>
-//                         </div>
-//                     </div> */}
-//                     <div>
-//                         <div style={{ height: 400 }}>
-//                             <SortableTree
-//                                 canDrop={canDrop}
-//                                 treeData={this.state.treeData}
-//                                 onChange={this.state.onChangeTree}
-//                             // onChange={treeData => { return this.setState({ treeData }) }}
-
-//                             />
-//                         </div>
-//                     </div>
-//                     <div className="selectContainer">
-//                         <button className="btn btn-default addElemntBtn"
-//                             data-pageid={this.state.activeTabPage}
-//                             data-name="null"
-//                             onClick={this.state.addElement}>Add element</button>
-//                     </div>
-//                 </div>
-//             </div>
-//         )
-//     }
-// }
-
 PanelLeftPage.propTypes = {
-    tabPages: PropTypes.array.isRequired,
+    resultTree: PropTypes.array.isRequired,
     activeTabPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    expandTreeNode: PropTypes.func.isRequired
+    addElement: PropTypes.func.isRequired,
+    removeElement: PropTypes.func.isRequired,
+    onChangeTree: PropTypes.func.isRequired
 };
 
 function PanelRightPage() {
