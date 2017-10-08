@@ -23028,7 +23028,7 @@ var Main = exports.Main = function (_React$Component) {
             page.elements.push({
                 "expanded": false,
                 "name": "Element" + (Math.floor(Math.random() * (100 - 1)) + 1) + (Math.floor(Math.random() * (100 - 1)) + 1),
-                "type": "",
+                "type": "button",
                 "parent": parent,
                 "locator": {
                     "type": "",
@@ -23037,7 +23037,6 @@ var Main = exports.Main = function (_React$Component) {
             });
             map = (0, _tree.drawMap)(page.elements, new Map());
             resTree = (0, _tree.getChildren)(map, null);
-
             this.setState({
                 tabPages: pages,
                 resultTree: resTree,
@@ -23072,6 +23071,7 @@ var Main = exports.Main = function (_React$Component) {
             page.elements = newArr;
             map = (0, _tree.drawMap)(page.elements, new Map());
             resTree = (0, _tree.getChildren)(map, null);
+
             this.setState({
                 tabPages: pages,
                 resultTree: resTree,
@@ -23095,8 +23095,9 @@ var Main = exports.Main = function (_React$Component) {
         }
     }, {
         key: 'onChangeTree',
-        value: function onChangeTree(e) {
-            console.log(e);
+        value: function onChangeTree(treeData) {
+            console.log(treeData);
+            return this.setState({ resultTree: treeData });
         }
     }, {
         key: 'showPage',
@@ -23767,8 +23768,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.PanelRightPage = exports.PanelLeftPage = undefined;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _reactSortableTree = __webpack_require__(500);
 
 var _reactSortableTree2 = _interopRequireDefault(_reactSortableTree);
@@ -23779,131 +23778,177 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function PanelLeftPage(props) {
+    var canDrop = function canDrop(_ref) {
+        var node = _ref.node,
+            nextParent = _ref.nextParent,
+            prevPath = _ref.prevPath,
+            nextPath = _ref.nextPath;
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+        if (nextParent === null || nextParent.type === "section" || nextParent.type === "form") {
+            return true;
+        }
+        return false;
+    };
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var PanelLeftPage = function (_React$Component) {
-    _inherits(PanelLeftPage, _React$Component);
-
-    function PanelLeftPage(props) {
-        _classCallCheck(this, PanelLeftPage);
-
-        var _this = _possibleConstructorReturn(this, (PanelLeftPage.__proto__ || Object.getPrototypeOf(PanelLeftPage)).call(this, props));
-
-        _this.state = {
-            treeData: props.resultTree
-        };
-        return _this;
-    }
-
-    // // console.log(props);
-    // function draw(array) {
-    //     return (
-    //         <ul className="tree">
-    //             {
-    //                 array.map(function (element, index) {
-    //                     let children = false;
-    //                     let arr = [];
-    //                     let vis = {
-    //                         visibility: "hidden"
-    //                     }
-    //                     if (element.children) {
-    //                         children = !!element.children.length && element.expanded;
-    //                         arr = element.children[0];
-    //                         vis.visibility = !!element.children.length ? "visible" : "hidden";
-    //                     }
-    //                     return (
-    //                         <li key={element.name + index}
-    //                             data-pageid={props.activeTabPage}
-    //                             data-name={element.name}
-    //                             data-parent={element.parent}
-    //                             /*style={{ paddingLeft: element.padding + 'px' }}*/>
-    //                             <button className="img-on-btn btn btn-default"
-    //                                 onClick={props.expandTreeNode}
-    //                                 style={vis}>
-    //                                 <img src={'../bootstrap/pics/add.png'} /></button>
-    //                             <a data-parent={element.parent}>{element.name}</a>
-    //                             <button className="img-on-btn btn btn-default"
-    //                                 onClick={props.addElement}>
-    //                                 <img src={'../bootstrap/pics/add.png'} /></button>
-    //                             <button className="img-on-btn btn btn-default"
-    //                                 onClick={props.removeElement}>
-    //                                 <img src={'../bootstrap/pics/trash.png'} /></button>
-    //                             {children ? draw(arr) : ""}
-    //                         </li>
-    //                     )
-    //                 })
-    //             }
-    //         </ul>
-    //     )
-    // }
-
-    _createClass(PanelLeftPage, [{
-        key: 'render',
-        value: function render() {
-            var _this2 = this;
-
-            var canDrop = function canDrop(_ref) {
-                var node = _ref.node,
-                    nextParent = _ref.nextParent,
-                    prevPath = _ref.prevPath,
-                    nextPath = _ref.nextPath;
-
-                if (nextParent === null || nextParent.type === "section" || nextParent.type === "form") {
-                    return true;
-                }
-
-                console.log(nextParent);
-                // if (prevPath.indexOf('trap') >= 0 && nextPath.indexOf('trap') < 0) {
-                //   return false;
-                // }
-
-                // if (node.isTwin && nextParent && nextParent.isTwin) {
-                //   return false;
-                // }
-
-                // const noGrandkidsDepth = nextPath.indexOf('no-grandkids');
-                // if (noGrandkidsDepth >= 0 && nextPath.length - noGrandkidsDepth > 2) {
-                //   return false;
-                // }
-
-                return false;
-            };
-            return _react2.default.createElement(
+    return _react2.default.createElement(
+        'div',
+        { className: 'panel panel-default' },
+        _react2.default.createElement(
+            'div',
+            { className: 'panel-body' },
+            _react2.default.createElement(
                 'div',
-                { className: 'panel panel-default' },
+                null,
                 _react2.default.createElement(
                     'div',
-                    { className: 'panel-body' },
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        _react2.default.createElement(
-                            'div',
-                            { style: { height: 400 } },
-                            _react2.default.createElement(_reactSortableTree2.default, {
-                                canDrop: canDrop,
-                                treeData: this.state.treeData,
-                                onChange: function onChange(treeData) {
-                                    console.log(treeData);
-                                    return _this2.setState({ treeData: treeData });
-                                }
-                            })
-                        )
-                    )
+                    { style: { height: 400 } },
+                    _react2.default.createElement(_reactSortableTree2.default, {
+                        canDrop: canDrop,
+                        treeData: props.resultTree,
+                        onChange: props.onChangeTree,
+                        generateNodeProps: function generateNodeProps(_ref2) {
+                            var node = _ref2.node;
+                            return { buttons: node.type === "section" || node.type === "form" ? [_react2.default.createElement(
+                                    'button',
+                                    {
+                                        'data-pageid': props.activeTabPage,
+                                        'data-name': node.title,
+                                        onClick: props.addElement },
+                                    _react2.default.createElement('img', { src: '../bootstrap/pics/add.png' })
+                                ), _react2.default.createElement(
+                                    'button',
+                                    {
+                                        'data-pageid': props.activeTabPage,
+                                        'data-name': node.title,
+                                        onClick: props.removeElement },
+                                    _react2.default.createElement('img', { src: '../bootstrap/pics/trash.png' })
+                                )] : [_react2.default.createElement(
+                                    'button',
+                                    {
+                                        'data-pageid': props.activeTabPage,
+                                        'data-name': node.title,
+                                        onClick: props.removeElement },
+                                    _react2.default.createElement('img', { src: '../bootstrap/pics/trash.png' })
+                                )]
+                            };
+                        }
+                    })
                 )
-            );
-        }
-    }]);
+            ),
+            _react2.default.createElement(
+                'div',
+                { className: 'selectContainer' },
+                _react2.default.createElement(
+                    'button',
+                    { className: 'btn btn-default addElemntBtn',
+                        'data-pageid': props.activeTabPage,
+                        'data-name': 'null',
+                        onClick: props.addElement },
+                    'Add element'
+                )
+            )
+        )
+    );
+}
 
-    return PanelLeftPage;
-}(_react2.default.Component);
+// class PanelLeftPage extends React.Component {
 
-exports.default = PanelLeftPage;
+//     constructor(props) {
+//         super(props);
+//         this.state = {
+//             treeData: props.resultTree,
+//             activeTabPage: props.activeTabPage,
+//             addElement: props.addElement,
+//             onChangeTree: props.onChangeTree
+//         };
+//     }
 
+//     // // console.log(props);
+//     // function draw(array) {
+//     //     return (
+//     //         <ul className="tree">
+//     //             {
+//     //                 array.map(function (element, index) {
+//     //                     let children = false;
+//     //                     let arr = [];
+//     //                     let vis = {
+//     //                         visibility: "hidden"
+//     //                     }
+//     //                     if (element.children) {
+//     //                         children = !!element.children.length && element.expanded;
+//     //                         arr = element.children[0];
+//     //                         vis.visibility = !!element.children.length ? "visible" : "hidden";
+//     //                     }
+//     //                     return (
+//     //                         <li key={element.name + index}
+//     //                             data-pageid={props.activeTabPage}
+//     //                             data-name={element.name}
+//     //                             data-parent={element.parent}
+//     //                             /*style={{ paddingLeft: element.padding + 'px' }}*/>
+//     //                             <button className="img-on-btn btn btn-default"
+//     //                                 onClick={props.expandTreeNode}
+//     //                                 style={vis}>
+//     //                                 <img src={'../bootstrap/pics/add.png'} /></button>
+//     //                             <a data-parent={element.parent}>{element.name}</a>
+//     //                             <button className="img-on-btn btn btn-default"
+//     //                                 onClick={props.addElement}>
+//     //                                 <img src={'../bootstrap/pics/add.png'} /></button>
+//     //                             <button className="img-on-btn btn btn-default"
+//     //                                 onClick={props.removeElement}>
+//     //                                 <img src={'../bootstrap/pics/trash.png'} /></button>
+//     //                             {children ? draw(arr) : ""}
+//     //                         </li>
+//     //                     )
+//     //                 })
+//     //             }
+//     //         </ul>
+//     //     )
+//     // }
+
+//     render() {
+
+//         const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
+//             if (nextParent === null || nextParent.type === "section" || nextParent.type === "form") {
+//                 return true;
+//             }
+//             return false;
+//         };
+//         return (
+//             <div className="panel panel-default">
+//                 <div className="panel-body">
+//                     {/* <div className="selectContainer searchElements">
+//                         <input type="text" className="form-control searchElementInput"
+//                             placeholder="Search element"
+//                             id="searchElementInpput"
+//                             onChange={props.searchElement} />
+//                         <div className="btn-group" role="group">
+//                             <button className="btn btn-default btnGen">Generate</button>
+//                             <button className="btn btn-default">Gear</button>
+//                         </div>
+//                     </div> */}
+//                     <div>
+//                         <div style={{ height: 400 }}>
+//                             <SortableTree
+//                                 canDrop={canDrop}
+//                                 treeData={this.state.treeData}
+//                                 onChange={this.state.onChangeTree}
+//                             // onChange={treeData => { return this.setState({ treeData }) }}
+
+//                             />
+//                         </div>
+//                     </div>
+//                     <div className="selectContainer">
+//                         <button className="btn btn-default addElemntBtn"
+//                             data-pageid={this.state.activeTabPage}
+//                             data-name="null"
+//                             onClick={this.state.addElement}>Add element</button>
+//                     </div>
+//                 </div>
+//             </div>
+//         )
+//     }
+// }
 
 PanelLeftPage.propTypes = {
     tabPages: PropTypes.array.isRequired,

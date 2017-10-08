@@ -234,3 +234,7 @@ li a{
 .tree{
     list-style: none;
 }
+
+.sectionNode{
+    background: #1e90ff;
+}
