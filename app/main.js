@@ -49,10 +49,10 @@ export class Main extends React.Component {
         }).elements;
         let map = new Map();
         let resTree = [];
-        if(element==="" || element.replace(/\s/g, "")===""){
+        if (element === "" || element.replace(/\s/g, "") === "") {
             map = drawMap(pageElements, new Map());
             resTree = getChildren(map, null);
-        } else{
+        } else {
             let res = searchElement(element, pageElements);
             map = drawMap(res, new Map());
             resTree = getChildren(map, null);
@@ -79,7 +79,7 @@ export class Main extends React.Component {
         page.elements.push({
             "expanded": false,
             "name": "Element" + (Math.floor(Math.random() * (100 - 1)) + 1) + (Math.floor(Math.random() * (100 - 1)) + 1),
-            "type": "",
+            "type": "button",
             "parent": parent,
             "locator": {
                 "type": "",
@@ -88,7 +88,6 @@ export class Main extends React.Component {
         })
         map = drawMap(page.elements, new Map());
         resTree = getChildren(map, null);
-
         this.setState({
             tabPages: pages,
             resultTree: resTree,
@@ -108,7 +107,7 @@ export class Main extends React.Component {
         let pages = this.state.tabPages.slice();
         let page = findPage(e.target, pages);
         let element = findElement(e.target, pages);
-        if (element.children.length){
+        if (element.children.length) {
             children = element.children[0];
         }
         //let children = element.children[0];
@@ -122,6 +121,7 @@ export class Main extends React.Component {
         page.elements = newArr;
         map = drawMap(page.elements, new Map());
         resTree = getChildren(map, null);
+
         this.setState({
             tabPages: pages,
             resultTree: resTree,
@@ -143,8 +143,9 @@ export class Main extends React.Component {
         })
     }
 
-    onChangeTree(e){
-        console.log(e)
+    onChangeTree(treeData) {
+        console.log(treeData)
+        return this.setState({ resultTree: treeData })
     }
 
     showPage(e) {
