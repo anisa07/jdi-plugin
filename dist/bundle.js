@@ -22965,7 +22965,8 @@ var Main = exports.Main = function (_React$Component) {
             searchPage: "",
             activePageObject: {},
             resultTree: [],
-            pageMap: new Map()
+            pageMap: new Map(),
+            selectedElement: ""
         };
         _this.addPage = _this.addPage.bind(_this);
         _this.addElement = _this.addElement.bind(_this);
@@ -22980,6 +22981,8 @@ var Main = exports.Main = function (_React$Component) {
         _this.expandTreeNode = _this.expandTreeNode.bind(_this);
         _this.removeElement = _this.removeElement.bind(_this);
         _this.searchElement = _this.searchElement.bind(_this);
+        _this.selectElement = _this.selectElement.bind(_this);
+        _this.editElement = _this.editElement.bind(_this);
         return _this;
     }
 
@@ -22987,9 +22990,72 @@ var Main = exports.Main = function (_React$Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {}
     }, {
+        key: 'editElement',
+        value: function editElement(e) {
+            var value = e.target.value;
+            var selectedEl = this.state.selectedElement;
+            var elementProp = e.target.dataset.attribute;
+
+            var pageElements = [];
+            var pages = this.state.tabPages.slice();
+            var activeTabPage = this.state.activeTabPageId;
+            var map = new Map();
+            var resTree = [];
+
+            if (elementProp === "name") {
+                pageElements = pages.find(function (page) {
+                    return page.pageId === activeTabPage;
+                }).elements.map(function (element) {
+                    if (element.name === selectedEl.name) {
+                        element.name = value;
+                    }
+                    if (element.parent === selectedEl.name) {
+                        element.parent = value;
+                    }return element;
+                });
+                map = (0, _tree.drawMap)(pageElements, new Map());
+                resTree = (0, _tree.getChildren)(map, null);
+            }
+
+            if (e.target.dataset.sub) {
+                var sub = e.target.dataset.sub;
+                selectedEl[elementProp][sub] = value;
+            } else {
+                selectedEl[elementProp] = value;
+            }
+
+            if (elementProp === "name") {
+                this.setState({
+                    resultTree: resTree,
+                    pageMap: map,
+                    selectedElement: selectedEl
+                });
+            } else {
+                this.setState({
+                    selectedElement: selectedEl
+                });
+            }
+        }
+    }, {
+        key: 'selectElement',
+        value: function selectElement(e) {
+            var name = e.target.dataset.title;
+            var pages = this.state.tabPages.slice();
+            var activeTabPage = this.state.activeTabPageId;
+            var pageElements = pages.find(function (page) {
+                return page.pageId === activeTabPage;
+            }).elements;
+            var element = pageElements.find(function (element) {
+                return element.name === name;
+            });
+            this.setState({
+                selectedElement: element
+            });
+        }
+    }, {
         key: 'searchElement',
         value: function searchElement(e) {
-            var element = e.target.value;
+            var element = e.target.value.toLowerCase();
             var pages = this.state.tabPages.slice();
             var activeTabPage = this.state.activeTabPageId;
             var pageElements = pages.find(function (page) {
@@ -23096,7 +23162,6 @@ var Main = exports.Main = function (_React$Component) {
     }, {
         key: 'onChangeTree',
         value: function onChangeTree(treeData) {
-            console.log(treeData);
             return this.setState({ resultTree: treeData });
         }
     }, {
@@ -23114,6 +23179,7 @@ var Main = exports.Main = function (_React$Component) {
             //}
             this.setState(function () {
                 return {
+                    searchElement: "",
                     activeTabPageId: clickedTabPageId,
                     settingsForSite: false,
                     resultTree: resTree,
@@ -23220,7 +23286,7 @@ var Main = exports.Main = function (_React$Component) {
     }, {
         key: 'searchPage',
         value: function searchPage(e) {
-            var page = document.getElementById("searchInpput").value;
+            var page = document.getElementById("searchInput").value;
             this.debounce(page);
         }
     }, {
@@ -23269,8 +23335,12 @@ var Main = exports.Main = function (_React$Component) {
                         addElement: this.addElement,
                         resultTree: this.state.resultTree,
                         searchElement: this.searchElement,
-                        onChangeTree: this.onChangeTree }),
-                    React.createElement(_managePage.PanelRightPage, null)
+                        onChangeTree: this.onChangeTree,
+                        selectElement: this.selectElement }),
+                    React.createElement(_managePage.PanelRightPage, {
+                        selectedElement: this.state.selectedElement,
+                        editElement: this.editElement
+                    })
                 ) : null
             );
         }
@@ -23768,6 +23838,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.PanelRightPage = exports.PanelLeftPage = undefined;
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _reactSortableTree = __webpack_require__(500);
 
 var _reactSortableTree2 = _interopRequireDefault(_reactSortableTree);
@@ -23799,6 +23871,15 @@ function PanelLeftPage(props) {
             { className: 'panel-body' },
             _react2.default.createElement(
                 'div',
+                { className: 'selectContainer' },
+                _react2.default.createElement('input', { type: 'text',
+                    className: 'form-control searchInput',
+                    placeholder: 'Search element',
+                    id: 'searchElementInput',
+                    onChange: props.searchElement })
+            ),
+            _react2.default.createElement(
+                'div',
                 null,
                 _react2.default.createElement(
                     'div',
@@ -23807,9 +23888,11 @@ function PanelLeftPage(props) {
                         canDrop: canDrop,
                         treeData: props.resultTree,
                         onChange: props.onChangeTree,
+                        onClick: props.selectElement,
                         generateNodeProps: function generateNodeProps(_ref2) {
                             var node = _ref2.node;
-                            return { buttons: node.type === "section" || node.type === "form" ? [_react2.default.createElement(
+                            return {
+                                buttons: node.type === "section" || node.type === "form" ? [_react2.default.createElement(
                                     'button',
                                     {
                                         'data-pageid': props.activeTabPage,
@@ -23830,7 +23913,17 @@ function PanelLeftPage(props) {
                                         'data-name': node.title,
                                         onClick: props.removeElement },
                                     _react2.default.createElement('img', { src: '../bootstrap/pics/trash.png' })
-                                )]
+                                )],
+                                title: _react2.default.createElement(
+                                    'span',
+                                    { onClick: props.selectElement, className: 'treeNode', 'data-title': node.title },
+                                    node.title
+                                ),
+                                subtitle: _react2.default.createElement(
+                                    'span',
+                                    { onClick: props.selectElement, className: 'treeNode', 'data-title': node.title },
+                                    node.subtitle
+                                )
                             };
                         }
                     })
@@ -23857,14 +23950,42 @@ PanelLeftPage.propTypes = {
     activeTabPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     addElement: PropTypes.func.isRequired,
     removeElement: PropTypes.func.isRequired,
-    onChangeTree: PropTypes.func.isRequired
+    onChangeTree: PropTypes.func.isRequired,
+    searchElement: PropTypes.func.isRequired
 };
 
-function PanelRightPage() {
+function PanelRightPage(props) {
     return _react2.default.createElement(
         'div',
         { className: 'panel panel-default' },
-        _react2.default.createElement('div', { className: 'panel-body' })
+        _react2.default.createElement(
+            'div',
+            { className: 'panel-body' },
+            _typeof(props.selectedElement) === "object" ? _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { className: 'selectContainer' },
+                    _react2.default.createElement(
+                        'span',
+                        null,
+                        'Name: '
+                    ),
+                    _react2.default.createElement('input', { type: 'text', className: 'form-control pageSetting', 'data-attribute': 'name', value: props.selectedElement.name, placeholder: 'Element name', onChange: props.editElement })
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'selectContainer' },
+                    _react2.default.createElement(
+                        'span',
+                        null,
+                        'Locator: '
+                    ),
+                    _react2.default.createElement('input', { type: 'text', className: 'form-control pageSetting', 'data-attribute': 'locator', 'data-sub': 'path', value: props.selectedElement.locator.path, placeholder: 'Locator', onChange: props.editElement })
+                )
+            ) : null
+        )
     );
 }
 
@@ -23895,7 +24016,7 @@ function PanelLeftSite(props) {
                 React.createElement("input", { type: "text",
                     className: "form-control searchInput",
                     placeholder: "Search page",
-                    id: "searchInpput",
+                    id: "searchInput",
                     onChange: props.searchPage })
             ),
             React.createElement(
@@ -24196,6 +24317,7 @@ function drawMap(arr, mapArr) {
         for (var i = 0; i < arr.length; i++) {
             var element = arr[i];
             element.title = element.name;
+            element.subtitle = element.type;
             var parent = element.parent;
             if (mapArr.has(parent)) {
                 var list = mapArr.get(parent);
@@ -24215,7 +24337,7 @@ function searchElement(searched, pageElements) {
     var result = [];
 
     searchedArr = pageElements.filter(function (element) {
-        if (element.name.includes(searched)) {
+        if (element.name.toLowerCase().includes(searched)) {
             return element;
         }
     });

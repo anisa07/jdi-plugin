@@ -6,7 +6,7 @@ function PanelLeftSite(props) {
                     <input type="text"
                         className="form-control searchInput"
                         placeholder="Search page"
-                        id="searchInpput"
+                        id="searchInput"
                         onChange={props.searchPage} />
                 </div>
                 <div>

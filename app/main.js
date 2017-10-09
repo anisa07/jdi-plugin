@@ -20,7 +20,8 @@ export class Main extends React.Component {
             searchPage: "",
             activePageObject: {},
             resultTree: [],
-            pageMap: new Map()
+            pageMap: new Map(),
+            selectedElement: ""
         };
         this.addPage = this.addPage.bind(this);
         this.addElement = this.addElement.bind(this);
@@ -35,13 +36,77 @@ export class Main extends React.Component {
         this.expandTreeNode = this.expandTreeNode.bind(this);
         this.removeElement = this.removeElement.bind(this);
         this.searchElement = this.searchElement.bind(this);
+        this.selectElement = this.selectElement.bind(this);
+        this.editElement = this.editElement.bind(this);
     }
 
     componentDidMount() {
     }
 
+    editElement(e) {
+        let value = e.target.value;
+        let selectedEl = this.state.selectedElement;
+        let elementProp = e.target.dataset.attribute;
+
+        let pageElements = [];
+        let pages = this.state.tabPages.slice();
+        let activeTabPage = this.state.activeTabPageId;
+        let map = new Map();
+        let resTree = [];
+        
+        if (elementProp === "name") {
+            pageElements = pages.find((page) => {
+                return page.pageId === activeTabPage
+            }).elements.map((element) => {
+                if (element.name === selectedEl.name) {
+                    element.name = value;
+                }
+                if (element.parent === selectedEl.name) {
+                    element.parent = value;
+                } return element;
+            })
+            map = drawMap(pageElements, new Map());
+            resTree = getChildren(map, null);
+        }
+
+        if (e.target.dataset.sub) {
+            let sub = e.target.dataset.sub;
+            selectedEl[elementProp][sub] = value;
+        } else {
+            selectedEl[elementProp] = value
+        }
+
+        if (elementProp === "name") {
+            this.setState({
+                resultTree: resTree,
+                pageMap: map,
+                selectedElement: selectedEl
+            })
+        } else {
+            this.setState({
+                selectedElement: selectedEl
+            })
+        }
+
+    }
+
+    selectElement(e) {
+        let name = e.target.dataset.title;
+        let pages = this.state.tabPages.slice();
+        let activeTabPage = this.state.activeTabPageId;
+        let pageElements = pages.find((page) => {
+            return page.pageId === activeTabPage
+        }).elements;
+        let element = pageElements.find((element) => {
+            return element.name === name
+        })
+        this.setState({
+            selectedElement: element
+        })
+    }
+
     searchElement(e) {
-        let element = e.target.value;
+        let element = e.target.value.toLowerCase();
         let pages = this.state.tabPages.slice();
         let activeTabPage = this.state.activeTabPageId;
         let pageElements = pages.find((page) => {
@@ -144,7 +209,6 @@ export class Main extends React.Component {
     }
 
     onChangeTree(treeData) {
-        console.log(treeData)
         return this.setState({ resultTree: treeData })
     }
 
@@ -161,6 +225,7 @@ export class Main extends React.Component {
         //}
         this.setState(function () {
             return {
+                searchElement: "",
                 activeTabPageId: clickedTabPageId,
                 settingsForSite: false,
                 resultTree: resTree,
@@ -263,7 +328,7 @@ export class Main extends React.Component {
     }
 
     searchPage(e) {
-        let page = document.getElementById("searchInpput").value;
+        let page = document.getElementById("searchInput").value;
         this.debounce(page);
     }
 
@@ -312,8 +377,12 @@ export class Main extends React.Component {
                                 addElement={this.addElement}
                                 resultTree={this.state.resultTree}
                                 searchElement={this.searchElement}
-                                onChangeTree={this.onChangeTree} />
-                            <PanelRightPage />
+                                onChangeTree={this.onChangeTree}
+                                selectElement={this.selectElement} />
+                            <PanelRightPage
+                                selectedElement={this.state.selectedElement}
+                                editElement={this.editElement}
+                            />
                         </div>
                         : null
                 }

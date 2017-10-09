@@ -13,33 +13,45 @@ function PanelLeftPage(props) {
     return (
         <div className="panel panel-default">
             <div className="panel-body">
+                <div className="selectContainer">
+                    <input type="text"
+                        className="form-control searchInput"
+                        placeholder="Search element"
+                        id="searchElementInput"
+                        onChange={props.searchElement} />
+                </div>
                 <div>
                     <div style={{ height: 400 }}>
                         <SortableTree
                             canDrop={canDrop}
                             treeData={props.resultTree}
                             onChange={props.onChangeTree}
-                            generateNodeProps={({node}) => (
-                                {buttons: (node.type === "section" || node.type === "form") ? [
-                                    <button
-                                        data-pageid={props.activeTabPage}
-                                        data-name={node.title}
-                                        onClick={props.addElement}>
-                                        <img src={'../bootstrap/pics/add.png'} />
-                                    </button>,
-                                    <button
-                                        data-pageid={props.activeTabPage}
-                                        data-name={node.title}
-                                        onClick={props.removeElement}>
-                                        <img src={'../bootstrap/pics/trash.png'} />
-                                    </button>
+                            onClick={props.selectElement}
+                            generateNodeProps={({ node }) => (
+                                {
+                                    buttons: (node.type === "section" || node.type === "form") ? [
+                                        <button
+                                            data-pageid={props.activeTabPage}
+                                            data-name={node.title}
+                                            onClick={props.addElement}>
+                                            <img src={'../bootstrap/pics/add.png'} />
+                                        </button>,
+                                        <button
+                                            data-pageid={props.activeTabPage}
+                                            data-name={node.title}
+                                            onClick={props.removeElement}>
+                                            <img src={'../bootstrap/pics/trash.png'} />
+                                        </button>
                                     ] : [<button
                                         data-pageid={props.activeTabPage}
                                         data-name={node.title}
                                         onClick={props.removeElement}>
                                         <img src={'../bootstrap/pics/trash.png'} />
-                                    </button>] 
-                            })}
+                                    </button>],
+                                    title: <span onClick={props.selectElement} className="treeNode" data-title={node.title}>{node.title}</span>,
+                                    subtitle: <span onClick={props.selectElement} className="treeNode" data-title={node.title}>{node.subtitle}</span>
+                                }
+                            )}
                         />
                     </div>
                 </div>
@@ -62,18 +74,19 @@ PanelLeftPage.propTypes = {
     ]),
     addElement: PropTypes.func.isRequired,
     removeElement: PropTypes.func.isRequired,
-    onChangeTree: PropTypes.func.isRequired
+    onChangeTree: PropTypes.func.isRequired,
+    searchElement: PropTypes.func.isRequired
 }
 
-function PanelRightPage() {
+function PanelRightPage(props) {
     return (
         <div className="panel panel-default">
             <div className="panel-body">
-                {/* {(typeof props.activeTabPageId === "string") ? <div>
-                 <div className="selectContainer"><span>Name: </span><input type="text" className="form-control searchInput" data-attribute="siteTitle" data-site="siteInfo" defaultValue={props.siteInfo.siteTitle} placeholder="Application name" onChange={props.editValue} /></div>
-                 <div className="selectContainer"><span>Domain: </span><input type="text" className="form-control searchInput" data-attribute="domainName" data-site="siteInfo" defaultValue={props.siteInfo.domainName} placeholder="Domain name" onChange={props.editValue} /></div>
-                 </div> : null}
-                 {(typeof props.activeTabPageId === "number") ? <div>
+                {(typeof props.selectedElement === "object") ? <div>
+                    <div className="selectContainer"><span>Name: </span><input type="text" className="form-control pageSetting" data-attribute="name" value={props.selectedElement.name} placeholder="Element name" onChange={props.editElement} /></div>
+                    <div className="selectContainer"><span>Locator: </span><input type="text" className="form-control pageSetting" data-attribute="locator" data-sub="path" value={props.selectedElement.locator.path} placeholder="Locator" onChange={props.editElement} /></div>
+                </div> : null}
+                {/* {(typeof props.activeTabPageId === "number") ? <div>
                  <div className="selectContainer">
                  <span>Name: </span><input type="text" className="form-control pageSetting" value={props.activePageObject.name} data-attribute="name" placeholder="Page name" onChange={props.editValue} />
                  <button className="btn btn-default" id={"closePage" + props.activePageObject.pageId} onClick={props.closePage}>X</button>

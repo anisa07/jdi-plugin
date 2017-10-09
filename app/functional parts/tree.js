@@ -23,6 +23,7 @@ function drawMap(arr, mapArr) {
         for (let i = 0; i < arr.length; i++) {
             let element = arr[i];
             element.title = element.name;
+            element.subtitle = element.type;
             let parent = element.parent;
             if (mapArr.has(parent)) {
                 let list = mapArr.get(parent);
@@ -42,7 +43,7 @@ function searchElement(searched, pageElements) {
     let result = [];
 
     searchedArr = pageElements.filter((element) => {
-        if (element.name.includes(searched)) {
+        if (element.name.toLowerCase().includes(searched)) {
             return element;
         }
     });
