@@ -58,13 +58,15 @@ export class Main extends React.Component {
             pageElements = pages.find((page) => {
                 return page.pageId === activeTabPage
             }).elements.map((element) => {
-                if (element.name === selectedEl.name) {
-                    element.name = value;
-                }
                 if (element.parent === selectedEl.name) {
                     element.parent = value;
                 } return element;
+            }).map((element) => {
+                if (element.name === selectedEl.name) {
+                    element.name = value;
+                } return element;
             })
+           
             map = drawMap(pageElements, new Map());
             resTree = getChildren(map, null);
         }

@@ -23006,13 +23006,15 @@ var Main = exports.Main = function (_React$Component) {
                 pageElements = pages.find(function (page) {
                     return page.pageId === activeTabPage;
                 }).elements.map(function (element) {
-                    if (element.name === selectedEl.name) {
-                        element.name = value;
-                    }
                     if (element.parent === selectedEl.name) {
                         element.parent = value;
                     }return element;
+                }).map(function (element) {
+                    if (element.name === selectedEl.name) {
+                        element.name = value;
+                    }return element;
                 });
+
                 map = (0, _tree.drawMap)(pageElements, new Map());
                 resTree = (0, _tree.getChildren)(map, null);
             }
