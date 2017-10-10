@@ -22929,6 +22929,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _pageObject = __webpack_require__(240);
 
+var _settings = __webpack_require__(548);
+
 var _tabs = __webpack_require__(244);
 
 var _manageSite = __webpack_require__(243);
@@ -22966,7 +22968,9 @@ var Main = exports.Main = function (_React$Component) {
             activePageObject: {},
             resultTree: [],
             pageMap: new Map(),
-            selectedElement: ""
+            selectedElement: "",
+            elementsList: _settings.Elements.slice(),
+            locatorsList: _settings.Locators.slice()
         };
         _this.addPage = _this.addPage.bind(_this);
         _this.addElement = _this.addElement.bind(_this);
@@ -22978,7 +22982,7 @@ var Main = exports.Main = function (_React$Component) {
         _this.removePage = _this.removePage.bind(_this);
         _this.showPage = _this.showPage.bind(_this);
         _this.onChangeTree = _this.onChangeTree.bind(_this);
-        _this.expandTreeNode = _this.expandTreeNode.bind(_this);
+        //this.expandTreeNode = this.expandTreeNode.bind(this);
         _this.removeElement = _this.removeElement.bind(_this);
         _this.searchElement = _this.searchElement.bind(_this);
         _this.selectElement = _this.selectElement.bind(_this);
@@ -23037,11 +23041,13 @@ var Main = exports.Main = function (_React$Component) {
                     selectedElement: selectedEl
                 });
             }
+            console.log(selectedEl);
         }
     }, {
         key: 'selectElement',
         value: function selectElement(e) {
-            var name = e.target.dataset.title;
+            var el = (0, _common.findParentData)(e.target, "title");
+            var name = el.dataset.title;
             var pages = this.state.tabPages.slice();
             var activeTabPage = this.state.activeTabPageId;
             var pageElements = pages.find(function (page) {
@@ -23146,21 +23152,21 @@ var Main = exports.Main = function (_React$Component) {
                 pageMap: map
             });
         }
-    }, {
-        key: 'expandTreeNode',
-        value: function expandTreeNode(e) {
-            var el = e.target;
-            var pagesArray = this.state.tabPages.slice();
-            var page = (0, _common.findPage)(el, pagesArray);
-            var element = (0, _common.findElement)(el, pagesArray);
-            var resTree = [];
-            element.expanded = !element.expanded;
-            resTree = (0, _tree.getChildren)(this.state.pageMap, null);
-            this.setState({
-                tabPages: pagesArray,
-                resultTree: resTree
-            });
-        }
+
+        // expandTreeNode(e) {
+        //     let el = e.target;
+        //     let pagesArray = this.state.tabPages.slice();
+        //     let page = findPage(el, pagesArray);
+        //     let element = findElement(el, pagesArray);
+        //     let resTree = [];
+        //     element.expanded = !element.expanded;
+        //     resTree = getChildren(this.state.pageMap, null);
+        //     this.setState({
+        //         tabPages: pagesArray,
+        //         resultTree: resTree
+        //     })
+        // }
+
     }, {
         key: 'onChangeTree',
         value: function onChangeTree(treeData) {
@@ -23331,9 +23337,9 @@ var Main = exports.Main = function (_React$Component) {
                     'div',
                     { id: 'manage-site' },
                     React.createElement(_managePage.PanelLeftPage, { tabPages: this.state.tabPages,
-                        activeTabPage: this.state.activeTabPageId,
-                        expandTreeNode: this.expandTreeNode,
-                        removeElement: this.removeElement,
+                        activeTabPage: this.state.activeTabPageId
+                        //expandTreeNode={this.expandTreeNode}
+                        , removeElement: this.removeElement,
                         addElement: this.addElement,
                         resultTree: this.state.resultTree,
                         searchElement: this.searchElement,
@@ -23341,7 +23347,9 @@ var Main = exports.Main = function (_React$Component) {
                         selectElement: this.selectElement }),
                     React.createElement(_managePage.PanelRightPage, {
                         selectedElement: this.state.selectedElement,
-                        editElement: this.editElement
+                        editElement: this.editElement,
+                        elementsList: this.state.elementsList,
+                        locatorsList: this.state.locatorsList
                     })
                 ) : null
             );
@@ -23890,11 +23898,16 @@ function PanelLeftPage(props) {
                         canDrop: canDrop,
                         treeData: props.resultTree,
                         onChange: props.onChangeTree,
-                        onClick: props.selectElement,
                         generateNodeProps: function generateNodeProps(_ref2) {
                             var node = _ref2.node;
                             return {
                                 buttons: node.type === "section" || node.type === "form" ? [_react2.default.createElement(
+                                    'button',
+                                    {
+                                        'data-title': node.title,
+                                        onClick: props.selectElement },
+                                    _react2.default.createElement('img', { src: '../bootstrap/pics/gear.png' })
+                                ), _react2.default.createElement(
                                     'button',
                                     {
                                         'data-pageid': props.activeTabPage,
@@ -23911,21 +23924,17 @@ function PanelLeftPage(props) {
                                 )] : [_react2.default.createElement(
                                     'button',
                                     {
+                                        'data-title': node.title,
+                                        onClick: props.selectElement },
+                                    _react2.default.createElement('img', { src: '../bootstrap/pics/gear.png' })
+                                ), _react2.default.createElement(
+                                    'button',
+                                    {
                                         'data-pageid': props.activeTabPage,
                                         'data-name': node.title,
                                         onClick: props.removeElement },
                                     _react2.default.createElement('img', { src: '../bootstrap/pics/trash.png' })
-                                )],
-                                title: _react2.default.createElement(
-                                    'span',
-                                    { onClick: props.selectElement, className: 'treeNode', 'data-title': node.title },
-                                    node.title
-                                ),
-                                subtitle: _react2.default.createElement(
-                                    'span',
-                                    { onClick: props.selectElement, className: 'treeNode', 'data-title': node.title },
-                                    node.subtitle
-                                )
+                                )]
                             };
                         }
                     })
@@ -23974,7 +23983,18 @@ function PanelRightPage(props) {
                         null,
                         'Name: '
                     ),
-                    _react2.default.createElement('input', { type: 'text', className: 'form-control pageSetting', 'data-attribute': 'name', value: props.selectedElement.name, placeholder: 'Element name', onChange: props.editElement })
+                    _react2.default.createElement('input', { type: 'text', className: 'form-control pageSetting', 'data-attribute': 'name', value: props.selectedElement.name, placeholder: 'Element name', onChange: props.editElement }),
+                    _react2.default.createElement(
+                        'select',
+                        { className: 'form-control pageSettingCombo', 'data-attribute': 'type', value: props.selectedElement.type, onChange: props.editElement },
+                        props.elementsList.map(function (element) {
+                            return _react2.default.createElement(
+                                'option',
+                                { key: element.toLowerCase(), value: element.toLowerCase() },
+                                element
+                            );
+                        })
+                    )
                 ),
                 _react2.default.createElement(
                     'div',
@@ -23984,7 +24004,18 @@ function PanelRightPage(props) {
                         null,
                         'Locator: '
                     ),
-                    _react2.default.createElement('input', { type: 'text', className: 'form-control pageSetting', 'data-attribute': 'locator', 'data-sub': 'path', value: props.selectedElement.locator.path, placeholder: 'Locator', onChange: props.editElement })
+                    _react2.default.createElement('input', { type: 'text', className: 'form-control pageSetting', 'data-attribute': 'locator', 'data-sub': 'path', value: props.selectedElement.locator.path, placeholder: 'Locator', onChange: props.editElement }),
+                    _react2.default.createElement(
+                        'select',
+                        { className: 'form-control pageSettingCombo', 'data-attribute': 'locator', 'data-sub': 'type', value: props.selectedElement.locator.type, onChange: props.editElement },
+                        props.locatorsList.map(function (locator) {
+                            return _react2.default.createElement(
+                                'option',
+                                { key: locator, value: locator },
+                                locator
+                            );
+                        })
+                    )
                 )
             ) : null
         )
@@ -49762,6 +49793,201 @@ function symbolObservablePonyfill(root) {
 
 	return result;
 };
+
+/***/ }),
+/* 548 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var Elements = ["Text", "Button", "TextField", "TextArea", "Checkbox", "FileInput", "DataPicker", "Selector", "Checklist", "Menu", "Dropdown", "DropList", "Table", "Form", "Section"];
+var Locators = ["class", "css", "xpath", "id", "name", "tag", "text"];
+// {
+//   "themes": [
+//     {
+//       "theme": "cerulean",
+//       "value": true
+//     },
+//     {
+//       "theme": "cosmo",
+//       "value": false
+//     },
+//     {
+//       "theme": "darkly",
+//       "value": false
+//     },
+//     {
+//       "theme": "flatly",
+//       "value": false
+//     },
+//     {
+//       "theme": "slate",
+//       "value": false
+//     },
+//     {
+//       "theme": "superhero",
+//       "value": false
+//     }
+//   ],
+//     "programmingLanguages": [
+//       {
+//         "language": "java",
+//         "selected": true
+//       },
+//       {
+//         "language": "c#",
+//         "selected": false
+//       }
+//     ],
+//       "staticIds": true,
+//         "customClassesTagsTypes": [
+//           {
+//             "element": "Button",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           },
+//           {
+//             "element": "Text",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           },
+//           {
+//             "element": "Label",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           },
+//           {
+//             "element": "Link",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           },
+//           {
+//             "element": "TextField",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           },
+//           {
+//             "element": "TextArea",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           },
+//           {
+//             "element": "Checkbox",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           },
+//           {
+//             "element": "DatePicker",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           },
+//           {
+//             "element": "FileInput",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           },
+//           {
+//             "element": "Image",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           },
+//           {
+//             "element": "DropDown",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           },
+//           {
+//             "element": "CheckList",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           },
+//           {
+//             "element": "DropList",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           },
+//           {
+//             "element": "Combobox",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           },
+//           {
+//             "element": "Table",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           },
+//           {
+//             "element": "Menu",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           },
+//           {
+//             "element": "Tabs",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           },
+//           {
+//             "element": "RadioButtonGroup",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           },
+//           {
+//             "element": "TextList",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           },
+//           {
+//             "element": "Section",
+//             "classes": [],
+//             "tags": [],
+//             "types": []
+//           }
+//         ],
+//           "angularDirectives": [
+//             {
+//               "directive": "ng-model",
+//               "selected": false
+//             },
+//             {
+//               "directive": "ng-option",
+//               "selected": false
+//             },
+//             {
+//               "directive": "ng-repeater",
+//               "selected": false
+//             },
+//             {
+//               "directive": "ng-binding",
+//               "selected": false
+//             }
+//           ]
+// }
+
+exports.Elements = Elements;
+exports.Locators = Locators;
 
 /***/ })
 /******/ ]);

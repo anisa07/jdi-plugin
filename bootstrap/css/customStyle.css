@@ -238,8 +238,3 @@ li a{
 .sectionNode{
     background: #1e90ff;
 }
-
-.treeNode{
-    display: inline-block;
-    width: 150px;
-}

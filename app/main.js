@@ -1,4 +1,5 @@
 import { PageObjectJSON, SiteInfoJSON } from './data/pageObject';
+import {Elements, Locators} from './data/settings';
 
 import { Tabs } from './functional parts/tabs';
 import { PanelLeftSite, PanelRightSite } from './functional parts/manageSite';
@@ -21,7 +22,9 @@ export class Main extends React.Component {
             activePageObject: {},
             resultTree: [],
             pageMap: new Map(),
-            selectedElement: ""
+            selectedElement: "",
+            elementsList: Elements.slice(),
+            locatorsList: Locators.slice()
         };
         this.addPage = this.addPage.bind(this);
         this.addElement = this.addElement.bind(this);
@@ -33,7 +36,7 @@ export class Main extends React.Component {
         this.removePage = this.removePage.bind(this);
         this.showPage = this.showPage.bind(this);
         this.onChangeTree = this.onChangeTree.bind(this);
-        this.expandTreeNode = this.expandTreeNode.bind(this);
+        //this.expandTreeNode = this.expandTreeNode.bind(this);
         this.removeElement = this.removeElement.bind(this);
         this.searchElement = this.searchElement.bind(this);
         this.selectElement = this.selectElement.bind(this);
@@ -89,11 +92,13 @@ export class Main extends React.Component {
                 selectedElement: selectedEl
             })
         }
+        console.log(selectedEl)
 
     }
 
     selectElement(e) {
-        let name = e.target.dataset.title;
+        let el = findParentData(e.target, "title");
+        let name = el.dataset.title;
         let pages = this.state.tabPages.slice();
         let activeTabPage = this.state.activeTabPageId;
         let pageElements = pages.find((page) => {
@@ -196,19 +201,19 @@ export class Main extends React.Component {
         })
     }
 
-    expandTreeNode(e) {
-        let el = e.target;
-        let pagesArray = this.state.tabPages.slice();
-        let page = findPage(el, pagesArray);
-        let element = findElement(el, pagesArray);
-        let resTree = [];
-        element.expanded = !element.expanded;
-        resTree = getChildren(this.state.pageMap, null);
-        this.setState({
-            tabPages: pagesArray,
-            resultTree: resTree
-        })
-    }
+    // expandTreeNode(e) {
+    //     let el = e.target;
+    //     let pagesArray = this.state.tabPages.slice();
+    //     let page = findPage(el, pagesArray);
+    //     let element = findElement(el, pagesArray);
+    //     let resTree = [];
+    //     element.expanded = !element.expanded;
+    //     resTree = getChildren(this.state.pageMap, null);
+    //     this.setState({
+    //         tabPages: pagesArray,
+    //         resultTree: resTree
+    //     })
+    // }
 
     onChangeTree(treeData) {
         return this.setState({ resultTree: treeData })
@@ -374,7 +379,7 @@ export class Main extends React.Component {
                         <div id="manage-site">
                             <PanelLeftPage tabPages={this.state.tabPages}
                                 activeTabPage={this.state.activeTabPageId}
-                                expandTreeNode={this.expandTreeNode}
+                                //expandTreeNode={this.expandTreeNode}
                                 removeElement={this.removeElement}
                                 addElement={this.addElement}
                                 resultTree={this.state.resultTree}
@@ -384,6 +389,8 @@ export class Main extends React.Component {
                             <PanelRightPage
                                 selectedElement={this.state.selectedElement}
                                 editElement={this.editElement}
+                                elementsList={this.state.elementsList}
+                                locatorsList={this.state.locatorsList}
                             />
                         </div>
                         : null

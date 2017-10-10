@@ -26,10 +26,14 @@ function PanelLeftPage(props) {
                             canDrop={canDrop}
                             treeData={props.resultTree}
                             onChange={props.onChangeTree}
-                            onClick={props.selectElement}
                             generateNodeProps={({ node }) => (
                                 {
                                     buttons: (node.type === "section" || node.type === "form") ? [
+                                        <button
+                                            data-title={node.title}
+                                            onClick={props.selectElement}>
+                                            <img src={'../bootstrap/pics/gear.png'} />
+                                        </button>,
                                         <button
                                             data-pageid={props.activeTabPage}
                                             data-name={node.title}
@@ -43,13 +47,16 @@ function PanelLeftPage(props) {
                                             <img src={'../bootstrap/pics/trash.png'} />
                                         </button>
                                     ] : [<button
+                                        data-title={node.title}
+                                        onClick={props.selectElement}>
+                                        <img src={'../bootstrap/pics/gear.png'} />
+                                    </button>,
+                                    <button
                                         data-pageid={props.activeTabPage}
                                         data-name={node.title}
                                         onClick={props.removeElement}>
                                         <img src={'../bootstrap/pics/trash.png'} />
-                                    </button>],
-                                    title: <span onClick={props.selectElement} className="treeNode" data-title={node.title}>{node.title}</span>,
-                                    subtitle: <span onClick={props.selectElement} className="treeNode" data-title={node.title}>{node.subtitle}</span>
+                                    </button>]
                                 }
                             )}
                         />
@@ -83,8 +90,28 @@ function PanelRightPage(props) {
         <div className="panel panel-default">
             <div className="panel-body">
                 {(typeof props.selectedElement === "object") ? <div>
-                    <div className="selectContainer"><span>Name: </span><input type="text" className="form-control pageSetting" data-attribute="name" value={props.selectedElement.name} placeholder="Element name" onChange={props.editElement} /></div>
-                    <div className="selectContainer"><span>Locator: </span><input type="text" className="form-control pageSetting" data-attribute="locator" data-sub="path" value={props.selectedElement.locator.path} placeholder="Locator" onChange={props.editElement} /></div>
+                    <div className="selectContainer"><span>Name: </span><input type="text" className="form-control pageSetting" data-attribute="name" value={props.selectedElement.name} placeholder="Element name" onChange={props.editElement} />
+                        <select className="form-control pageSettingCombo" data-attribute="type" value={props.selectedElement.type} onChange={props.editElement}>
+                            {
+                                props.elementsList.map((element) => {
+                                    return (
+                                        <option key={element.toLowerCase()} value={element.toLowerCase()}>{element}</option>
+                                    )
+                                })
+                            }
+                        </select>
+                    </div>
+                    <div className="selectContainer"><span>Locator: </span><input type="text" className="form-control pageSetting" data-attribute="locator" data-sub="path" value={props.selectedElement.locator.path} placeholder="Locator" onChange={props.editElement} />
+                        <select className="form-control pageSettingCombo" data-attribute="locator" data-sub="type" value={props.selectedElement.locator.type} onChange={props.editElement}>
+                            {
+                                props.locatorsList.map((locator) => {
+                                    return (
+                                        <option key={locator} value={locator}>{locator}</option>
+                                    )
+                                })
+                            }
+                        </select>
+                    </div>
                 </div> : null}
                 {/* {(typeof props.activeTabPageId === "number") ? <div>
                  <div className="selectContainer">
