@@ -1,7 +1,7 @@
 function PanelLeftSite(props) {
     return (
         <div className="panel panel-default">
-            <div className="panel-body">
+            <div className="panel-body leftContainer">
                 <div className="selectContainer">
                     <input type="text"
                         className="form-control searchInput"
@@ -13,39 +13,41 @@ function PanelLeftSite(props) {
                     <ul>
                         {
                             props.searchedPages.map(function (page, index) {
-                                return (<li key={"listItem" + index} 
-                                            data-pageid={page.pageId}>
-                                            <a onClick={props.selectPage}>{page.name}</a>
-                                            <button className="img-on-btn btn btn-default" 
-                                                data-pageid={page.pageId}
-                                                onClick={props.removePage}><img src={'../bootstrap/pics/trash.png'} /></button>
+                                return (<li key={"listItem" + index}
+                                    data-pageid={page.pageId}>
+                                    <a onClick={props.selectPage}
+                                        className={(props.selectPageId === page.pageId) ? "selectPage" : ""}>{page.name}</a>
+                                    <button className="img-on-btn btn btn-default"
+                                        data-pageid={page.pageId}
+                                        onClick={props.removePage}><img src={'../bootstrap/pics/trash.png'} /></button>
                                 </li>)
                             })
                         }
                     </ul>
                 </div>
                 <div className="selectContainer">
-                    <button className="btn btn-default customBtn addBtn" 
-                            onClick={props.addPage}>Add page</button>
+                    <button className="btn btn-default customBtn addBtn"
+                        onClick={props.addPage}>Add page</button>
                 </div>
             </div>
         </div>
     )
 }
-
+//selectPage
 PanelLeftSite.propTypes = {
     searchPage: PropTypes.func.isRequired,
     searchedPages: PropTypes.array.isRequired,
     selectPage: PropTypes.func.isRequired,
     addPage: PropTypes.func.isRequired,
-    removePage: PropTypes.func.isRequired
+    removePage: PropTypes.func.isRequired,
+    selectPageId: PropTypes.number.isRequired
 }
 
 function PanelRightSite(props) {
     return (
         <div className="panel panel-default">
             <div className="panel-body">
-                {(typeof props.activeTabPageId === "string") ? <div>
+                {(props.activeTabPageId === -1) ? <div>
                     <div className="selectContainer">
                         <span>Name: </span>
                         <input type="text"
@@ -67,15 +69,15 @@ function PanelRightSite(props) {
                             onChange={props.editValue} />
                     </div>
                 </div> : null}
-                {(typeof props.activeTabPageId === "number") ? <div>
+                {(props.activeTabPageId > -1) ? <div className="leftContainer">
                     <div className="selectContainer">
                         <span>Name: </span>
-                        <input type="text" 
+                        <input type="text"
                             className="form-control pageSetting"
-                            value={props.activePageObject.name} 
+                            value={props.activePageObject.name}
                             data-attribute="name"
                             placeholder="Page name" onChange={props.editValue} />
-                        <button className="btn btn-default" 
+                        <button className="btn btn-default"
                             id={"closePage" + props.activePageObject.pageId}
                             onClick={props.closePage}>X
                         </button>
@@ -88,13 +90,13 @@ function PanelRightSite(props) {
                             data-attribute="title"
                             placeholder="Title"
                             onChange={props.editValue} />
-                        <select className="form-control pageSettingCombo" 
+                        <select className="form-control pageSettingCombo"
                             value={props.activePageObject.titleMatch}
-                            onChange={props.editValue} 
+                            onChange={props.editValue}
                             data-attribute="titleMatch">
-                                <option value="Equals">Equals</option>
-                                <option value="Contains">Contains</option>
-                                <option value="Not contains">Not contains</option>
+                            <option value="Equals">Equals</option>
+                            <option value="Contains">Contains</option>
+                            <option value="Not contains">Not contains</option>
                         </select>
                     </div>
                     <div className="selectContainer">
@@ -105,13 +107,13 @@ function PanelRightSite(props) {
                             data-attribute="url"
                             placeholder="Page url"
                             onChange={props.editValue} />
-                        <select className="form-control pageSettingCombo" 
+                        <select className="form-control pageSettingCombo"
                             value={props.activePageObject.urlMatch}
-                            onChange={props.editValue} 
+                            onChange={props.editValue}
                             data-attribute="urlMatch">
-                                <option value="Equals">Equals</option>
-                                <option value="Contains">Contains</option>
-                                <option value="Not contains">Not contains</option>
+                            <option value="Equals">Equals</option>
+                            <option value="Contains">Contains</option>
+                            <option value="Not contains">Not contains</option>
                         </select>
                     </div>
                     <div className="selectContainer">
@@ -133,10 +135,7 @@ PanelRightSite.propTypes = {
     editValue: PropTypes.func.isRequired,
     siteInfo: PropTypes.object.isRequired,
     activePageObject: PropTypes.object.isRequired,
-    activeTabPageId: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number
-    ]),
+    activeTabPageId: PropTypes.number.isRequired,
     closePage: PropTypes.func.isRequired
 }
 

@@ -149,7 +149,7 @@ button[id^="closePage"]{
 }
 
 .panel-body .selectContainer{
-    margin-bottom: 15px; 
+    margin-bottom: 5px; 
 }
 
 
@@ -237,4 +237,20 @@ li a{
 
 .sectionNode{
     background: #1e90ff;
+}
+
+.selectPage {
+    font-weight: bold;
+}
+
+.selectPage {
+    font-weight: bold;
+}
+
+.leftContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding-bottom: 10px;
 }

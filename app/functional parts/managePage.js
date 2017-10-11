@@ -12,7 +12,7 @@ function PanelLeftPage(props) {
 
     return (
         <div className="panel panel-default">
-            <div className="panel-body">
+            <div className="panel-body leftContainer">
                 <div className="selectContainer">
                     <input type="text"
                         className="form-control searchInput"

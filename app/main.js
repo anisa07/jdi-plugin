@@ -16,15 +16,15 @@ export class Main extends React.Component {
         this.state = {
             tabPages: PageObjectJSON.slice(),
             siteInfo: SiteInfoJSON,
-            activeTabPageId: "",
+            activeTabPageId: -1,
             settingsForSite: true,
-            searchPage: "",
             activePageObject: {},
             resultTree: [],
             pageMap: new Map(),
             selectedElement: "",
             elementsList: Elements.slice(),
-            locatorsList: Locators.slice()
+            locatorsList: Locators.slice(),
+            searchedPages: PageObjectJSON.slice()
         };
         this.addPage = this.addPage.bind(this);
         this.addElement = this.addElement.bind(this);
@@ -246,13 +246,15 @@ export class Main extends React.Component {
         if (len > 1) {
             let pages = this.state.tabPages.slice();
             let id = findPage(e.target, pages).pageId;
+            let result = pages.filter(function (page) {
+                if (page.pageId !== id) {
+                    return page
+                }
+            });
             this.setState({
-                tabPages: pages.filter(function (page) {
-                    if (page.pageId !== id) {
-                        return page
-                    }
-                }),
-                activeTabPageId: ""
+                tabPages: result,
+                searchedPages: result,
+                activeTabPageId: -1
             })
         }
     }
@@ -260,7 +262,7 @@ export class Main extends React.Component {
     closePage() {
         this.setState(function () {
             return {
-                activeTabPageId: ""
+                activeTabPageId: -1
             }
         })
     }
@@ -284,7 +286,8 @@ export class Main extends React.Component {
         );
         this.setState(function () {
             return {
-                tabPages: updateArray
+                tabPages: updateArray,
+                searchedPages: updateArray
             }
         })
     }
@@ -320,7 +323,7 @@ export class Main extends React.Component {
         })
     }
 
-    debounce(page) {
+    debounce(pages) {
         let inDebounce = undefined;
         let context = this;
         return function () {
@@ -328,7 +331,8 @@ export class Main extends React.Component {
             return inDebounce = setTimeout(
                 context.setState(function () {
                     return {
-                        searchPage: page
+                        searchedPages: pages,
+                        activeTabPageId: -1
                     }
                 }), 1000);
         }();
@@ -336,14 +340,10 @@ export class Main extends React.Component {
 
     searchPage(e) {
         let page = document.getElementById("searchInput").value;
-        this.debounce(page);
-    }
-
-    render() {
         let searchedPages = [];
-        if (this.state.searchPage !== "") {
-            let searchPageName = this.state.searchPage;
-            searchedPages = this.state.tabPages.filter(function (page, index) {
+        if (page !== "") {
+            let searchPageName = page;
+            searchedPages = this.state.tabPages.filter(function (page) {
                 if (page.name.toLowerCase().includes(searchPageName.toLowerCase())) {
                     return page;
                 }
@@ -351,8 +351,11 @@ export class Main extends React.Component {
         } else {
             searchedPages = this.state.tabPages;
         }
+        this.debounce(searchedPages);
+    }
 
-        return (
+    render() {
+       return (
             <div className="start">
                 <Tabs tabPages={this.state.tabPages}
                     activeTabPage={this.state.activeTabPageId}
@@ -362,10 +365,14 @@ export class Main extends React.Component {
                     (this.state.settingsForSite) ?
                         <div id="manage-site">
                             <PanelLeftSite searchPage={this.searchPage}
-                                searchedPages={searchedPages}
+                                searchedPages={this.state.searchedPages}
                                 selectPage={this.selectPage}
                                 addPage={this.addPage}
-                                removePage={this.removePage} />
+                                selectPageId={this.state.activeTabPageId}
+                                removePage={this.removePage}
+                                focus={this.focusE}
+                                blur={this.blurE}
+                                setClass={this.state.setClass} />
                             <PanelRightSite siteInfo={this.state.siteInfo}
                                 activePageObject={this.state.activePageObject}
                                 editValue={this.editValue}
@@ -375,7 +382,7 @@ export class Main extends React.Component {
                         : null
                 }
                 {
-                    (!this.state.settingsForSite && this.state.activeTabPageId !== "") ?
+                    (!this.state.settingsForSite && this.state.activeTabPageId > -1) ?
                         <div id="manage-site">
                             <PanelLeftPage tabPages={this.state.tabPages}
                                 activeTabPage={this.state.activeTabPageId}
