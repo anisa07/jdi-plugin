@@ -2,7 +2,7 @@ var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var webpack = require('webpack');
-
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     entry: './app/index.js',
@@ -32,10 +32,48 @@ module.exports = {
             query: {
                 presets: ['react', 'es2015']
             }
-        },
+            },
             {
                 test: /\.css$/,
-                loader: 'style-loader!css-loader'
+                exclude: /node_modules/,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+
+                    // Could also be write as follow:
+                    // use: 'css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            query: {
+                                modules: true,
+                                localIdentName: '[name]__[local]___[hash:base64:5]'
+                            }
+                        },
+                        'postcss-loader'
+                    ]
+                }),
+            },
+            {
+                test: /\.scss$/,
+                exclude: /node_modules/,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+
+                    // Could also be write as follow:
+                    // use: 'css-loader?modules&importLoader=2&sourceMap&localIdentName=[name]__[local]___[hash:base64:5]!sass-loader'
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            query: {
+                                modules: true,
+                                sourceMap: true,
+                                importLoaders: 2,
+                                localIdentName: '[name]__[local]___[hash:base64:5]'
+                            }
+                        },
+                        'sass-loader'
+                    ]
+                }),
             },
             {
                 test: /\.jpg$/,
@@ -56,6 +94,7 @@ module.exports = {
             'React': 'react',
             'PropTypes': 'prop-types'
         }),
+        new ExtractTextPlugin({ filename: 'app/style/style.css', disable: false, allChunks: true })
         //new BundleAnalyzerPlugin(),
         // new webpack.DefinePlugin({
         //     'process.env.NODE_ENV': '"production"'
