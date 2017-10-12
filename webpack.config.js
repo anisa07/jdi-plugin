@@ -167,6 +167,7 @@ module.exports = {
             'React': 'react',
             'PropTypes': 'prop-types'
         }),
+        new CleanWebpackPlugin(['dist']),
         new ExtractTextPlugin({ filename: 'app/style/style.css', disable: false, allChunks: true })
         //new BundleAnalyzerPlugin(),
         // new webpack.DefinePlugin({
