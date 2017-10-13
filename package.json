@@ -49,7 +49,7 @@
   },
   "scripts": {
     "test": "mocha-webpack --webpack-config webpack.config-test.js \"tests/**/*.test.js\" --reporter mocha-simple-html-reporter --reporter-options output=tests/report.html",
-    "start": "webpack-dev-server --config webpack.dev.js",
+    "start": "webpack-dev-server --config webpack.dev.js --hotOnly",
     "build": "webpack --config webpack.prod.js"
   },
   "author": "A.A.",
