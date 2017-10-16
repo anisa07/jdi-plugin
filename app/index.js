@@ -4,7 +4,7 @@ import {Main} from './main.js';
 import './style/style.css';
 import {store} from './store/store';
 
-console.log(store.getState());
+//console.log(store.getState());
 
 class App extends React.Component {
     render(){

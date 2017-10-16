@@ -4,6 +4,6 @@ import {addPage} from '../actions/siteActions';
 
 let store = createStore(siteReducer, {a: "t1"});
 
-store.dispatch(addPage({m: "1"}));
+//store.dispatch(addPage({m: "1"}));
 
 export {store};

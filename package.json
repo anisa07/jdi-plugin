@@ -45,10 +45,11 @@
     "webpack": "^2.7.0",
     "webpack-bundle-analyzer": "^2.8.3",
     "webpack-dev-server": "^2.5.0",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.0",
+    "webpack-node-externals": "^1.6.0"
   },
   "scripts": {
-    "test": "mocha-webpack --webpack-config webpack.config-test.js \"tests/**/*.test.js\" --reporter mocha-simple-html-reporter --reporter-options output=tests/report.html",
+    "test": "mocha-webpack --webpack-config webpack.config-test.js \"tests/**/*.test.js\" --watch",
     "start": "webpack-dev-server --config webpack.dev.js --hot --inline",
     "build": "webpack --config webpack.prod.js"
   },
