@@ -1,4 +1,5 @@
 function PanelLeftSite(props) {
+    let state = props.state;
     return (
         <div className="panel panel-default">
             <div className="panel-body leftContainer">
@@ -7,19 +8,19 @@ function PanelLeftSite(props) {
                         className="form-control searchInput"
                         placeholder="Search page"
                         id="searchInput"
-                        onChange={props.searchPage} />
+                        onChange={(e)=>{let value = e.target.value; props.searchPage(value)}} />
                 </div>
                 <div>
                     <ul>
                         {
-                            props.searchedPages.map(function (page, index) {
+                            state.searchedPages.map(function (page, index) {
                                 return (<li key={"listItem" + index}
                                     data-pageid={page.pageId}>
-                                    <a onClick={props.selectPage}
-                                        className={(props.selectPageId === page.pageId) ? "selectPage" : ""}>{page.name}</a>
+                                    <a onClick={()=>(props.selectPage(page.pageId))}
+                                        className={(state.activeTabPageId === page.pageId) ? "selectPage" : ""}>{page.name}</a>
                                     <button className="img-on-btn btn btn-default"
                                         data-pageid={page.pageId}
-                                        onClick={props.removePage}><img src={'../bootstrap/pics/trash.png'} /></button>
+                                        onClick={()=>{props.deletePage(page.pageId)}}><img src={'../bootstrap/pics/trash.png'} /></button>
                                 </li>)
                             })
                         }
@@ -27,21 +28,21 @@ function PanelLeftSite(props) {
                 </div>
                 <div className="selectContainer">
                     <button className="btn btn-default customBtn addBtn"
-                        onClick={props.addPage}>Add page</button>
+                        onClick={()=>{props.addPage()}}>Add page</button>
                 </div>
             </div>
         </div>
     )
 }
 //selectPage
-PanelLeftSite.propTypes = {
-    searchPage: PropTypes.func.isRequired,
-    searchedPages: PropTypes.array.isRequired,
-    selectPage: PropTypes.func.isRequired,
-    addPage: PropTypes.func.isRequired,
-    removePage: PropTypes.func.isRequired,
-    selectPageId: PropTypes.number.isRequired
-}
+// PanelLeftSite.propTypes = {
+//     searchPage: PropTypes.func.isRequired,
+//     searchedPages: PropTypes.array.isRequired,
+//     selectPage: PropTypes.func.isRequired,
+//     addPage: PropTypes.func.isRequired,
+//     removePage: PropTypes.func.isRequired,
+//     selectPageId: PropTypes.number.isRequired
+// }
 
 function PanelRightSite(props) {
     return (
@@ -131,12 +132,12 @@ function PanelRightSite(props) {
     )
 }
 
-PanelRightSite.propTypes = {
-    editValue: PropTypes.func.isRequired,
-    siteInfo: PropTypes.object.isRequired,
-    activePageObject: PropTypes.object.isRequired,
-    activeTabPageId: PropTypes.number.isRequired,
-    closePage: PropTypes.func.isRequired
-}
+// PanelRightSite.propTypes = {
+//     editValue: PropTypes.func.isRequired,
+//     siteInfo: PropTypes.object.isRequired,
+//     activePageObject: PropTypes.object.isRequired,
+//     activeTabPageId: PropTypes.number.isRequired,
+//     closePage: PropTypes.func.isRequired
+// }
 
 export { PanelLeftSite, PanelRightSite };

@@ -1,35 +1,35 @@
-export function addPage(pageId) {
+export function addPage() {
     return {
-        type: 'ADD_PAGE', 
-        page:{
+        type: 'ADD_PAGE',
+        page: {
             "url": "",
             "urlHost": "",
             "urlTemplate": "",
             "urlMatch": "Equals",
             "title": "",
             "titleMatch": "Equals",
-            "name": "Default Page " + pageId,
-            "pageId": pageId,
+            "name": "Default Page ",
+            "pageId": 0,
             "package": "",
             "elements": []
         }
     }
 }
 
-export function deletePage(pageId){
+export function deletePage(pageId) {
     return {
         type: 'DELETE_PAGE',
         pageId
     }
 }
 
-export function closePage(){
+export function closePage() {
     return {
         type: "CLOSE_PAGE"
     }
 }
 
-export function editValue(element, value){
+export function editValue(element, value) {
     return {
         type: "EDIT_VALUE",
         element: element,
@@ -37,16 +37,17 @@ export function editValue(element, value){
     }
 }
 
-export function selectPage(page){
+export function selectPage(pageId) {
     return {
         type: "SELECT_PAGE",
-        page: page
+        pageId
     }
 }
 
-export function searchPage(page){
+export function searchPage(page) {
     return {
         type: "SEARCH_PAGE",
         page: page
     }
 }
+

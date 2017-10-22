@@ -1,10 +1,7 @@
-let chai = require('chai');
-let assert = chai.assert;
-let expect = chai.expect;
-import {siteReducer} from '../app/reducers/siteReducers';
-import {addPage, deletePage} from '../app/actions/siteActions';
+import {mainReducer} from '../app/reducers/mainReducer';
+import * as actions from '../app/actions/siteActions';
 
-let deleteState = [
+let deleteState = {PageObjects: [
     {
         "url": "",
         "urlHost": "",
@@ -17,8 +14,8 @@ let deleteState = [
         "package": "",
         "elements": []
     }
-]
-let deleteState2 = [
+]}
+let deleteState2 = {PageObjects: [
     {
         "url": "",
         "urlHost": "",
@@ -43,11 +40,14 @@ let deleteState2 = [
         "package": "",
         "elements": []
     }
-]
+],
+activePageObject: {},
+searchedPages: []}
 
 describe('Site reducer', function() {
     it('should handle ADD_PAGE', function() {
-        expect(siteReducer([],addPage(1))).to.eql([
+        let testRes = mainReducer({PageObjects:[]},actions.addPage()); 
+        chai.expect(testRes.PageObjects).to.eql([
             {
                 "url": "",
                 "urlHost": "",
@@ -55,18 +55,20 @@ describe('Site reducer', function() {
                 "urlMatch": "Equals",
                 "title": "",
                 "titleMatch": "Equals",
-                "name": "Default Page " + 1,
-                "pageId": 1,
+                "name": "Default Page " + 0,
+                "pageId": 0,
                 "package": "",
                 "elements": []
             }
         ])
     });
     it('should handle DELETE_PAGE', function() {
-        expect(siteReducer(deleteState,deletePage(1))).to.eql(
-            deleteState
+        let res1 = mainReducer(deleteState,actions.deletePage(1));
+        chai.expect(res1.PageObjects).to.eql(
+            deleteState.PageObjects
         );
-        expect(siteReducer(deleteState2,deletePage(1))).to.eql(
+        let res2 = mainReducer(deleteState2,actions.deletePage(1));
+        chai.expect(res2.PageObjects).to.eql(
             [
                 {
                     "url": "",
@@ -83,5 +85,36 @@ describe('Site reducer', function() {
             ]
         );
     });
+    it('should handle SEARCH_PAGE', function(){
+        let testRes = mainReducer(deleteState2,actions.searchPage("page 1"));
+        
+        chai.expect([{
+            "url": "",
+            "urlHost": "",
+            "urlTemplate": "",
+            "urlMatch": "Equals",
+            "title": "",
+            "titleMatch": "Equals",
+            "name": "Default Page " + 1,
+            "pageId": 1,
+            "package": "",
+            "elements": []
+        }]).to.eql(testRes.searchedPages);
+    })
+    it('should handle SELECT_PAGE', function(){
+        let testRes = mainReducer(deleteState2,actions.selectPage(1));
+        chai.expect({
+            "url": "",
+            "urlHost": "",
+            "urlTemplate": "",
+            "urlMatch": "Equals",
+            "title": "",
+            "titleMatch": "Equals",
+            "name": "Default Page " + 1,
+            "pageId": 1,
+            "package": "",
+            "elements": []
+        }).to.eql(testRes.activePageObject);
+    })
 
 });

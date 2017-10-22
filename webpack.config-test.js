@@ -1,4 +1,5 @@
 var nodeExternals = require('webpack-node-externals');
+const webpack = require('webpack');
 
 module.exports = {
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
@@ -10,5 +11,12 @@ module.exports = {
                 loader: "babel-loader"
             }
         ]
-    }
+    },
+    plugins: [
+        new webpack.ProvidePlugin({
+            'chai': 'chai',
+            // 'assert': 'chai.assert',
+            // 'expect': 'chai.expect'
+        })
+    ]
 };

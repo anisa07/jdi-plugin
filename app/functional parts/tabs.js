@@ -1,14 +1,16 @@
-function Tabs(props) {
+import * as pageActions from '../actions/pageActions';
+
+const Tabs = (props) => {
+    const state = props.state;
     return (
         <ul className="nav nav-tabs">
             {
-                props.tabPages.map(function (tabPage) {
+                state.PageObjects.map(function (tabPage) {
                     let tabPageName = tabPage.name || "Page " + (tabPage.pageId + 1);
                     return (
-                        <li role="presentation"
-                            key={"tabPage " + tabPage.pageId} onClick={props.showPage}>
+                        <li key={tabPage.pageId} onClick={()=>{props.showPage(tabPage.pageId)}}>
                             <a href="#" data-tabid={tabPage.pageId}
-                                className={((tabPage.pageId === props.activeTabPage) && !props.settingsForSite) ? "active" : ""}>{tabPageName}</a>
+                                className={((tabPage.pageId === state.activeTabPageId) && !state.settingsForSite) ? "active" : ""}>{tabPageName}</a>
                         </li>
                     )
                 })
@@ -17,14 +19,4 @@ function Tabs(props) {
     )
 }
 
-Tabs.propTypes = {
-    tabPages: PropTypes.array.isRequired,
-    activeTabPage: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number
-    ]),
-    settingsForSite: PropTypes.bool.isRequired,
-    showPage: PropTypes.func.isRequired
-}
-
-export {Tabs};
+export { Tabs };
