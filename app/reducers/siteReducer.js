@@ -57,3 +57,26 @@ export let searchPage = (mainObj, searchedPage) => {
     objCopy.activeTabPageId = -1;
     return objCopy;
 }
+
+export let editValue = (mainObj, element, value, pageId) => {
+    let objCopy = Object.assign({},mainObj);
+
+    if (element.length > 1){
+        objCopy[element[0]][element[1]] = value;
+    } else {
+        objCopy.PageObjects.map((page)=>{
+            if (page.pageId === pageId){
+                page[element[0]] = value;
+            }
+            return page;
+        });
+        objCopy.activePageObject[element[0]] = value;
+    }
+    return objCopy;    
+}
+
+export let closePage = (mainObj) =>{
+    let objCopy = Object.assign({},mainObj);
+    objCopy.activeTabPageId = -1;
+    return objCopy;
+}

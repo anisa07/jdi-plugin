@@ -18,6 +18,12 @@ export const mainReducer = (state, action) => {
         case 'SEARCH_PAGE':{
             return site.searchPage(state, action.page)
         }
+        case 'EDIT_VALUE':{
+            return site.editValue(state, action.element, action.value, action.pageId)
+        }
+        case 'CLOSE_PAGE':{
+            return site.closePage(state)
+        }
         default: {
             return state
         }

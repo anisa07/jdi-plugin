@@ -16,6 +16,7 @@ let addPage = () => {
 }
 let deletePage = (id) => {
     store.dispatch(siteActions.deletePage(id));
+    $("#searchInput")[0].value = "";
 }
 let selectPage = (id) =>{
     store.dispatch(siteActions.selectPage(id));
@@ -23,7 +24,12 @@ let selectPage = (id) =>{
 let searchPage = (page) =>{
     store.dispatch(siteActions.searchPage(page));
 }
-
+let editValue = (element, value, id) =>{
+    store.dispatch(siteActions.editValue(element, value, id))
+}
+let closePage = () => {
+    store.dispatch(siteActions.closePage());
+}
 
 export class Main extends React.Component {
     constructor() {
@@ -42,7 +48,7 @@ export class Main extends React.Component {
         return (
             <div className="start">
                 <Tabs state={this.state} showPage={showPage}/>
-                <Site state={this.state} addPage={addPage} deletePage={deletePage} selectPage={selectPage} searchPage={searchPage}/>
+                <Site state={this.state} addPage={addPage} deletePage={deletePage} selectPage={selectPage} searchPage={searchPage} editValue={editValue} closePage={closePage}/>
             </div>
         )
     }

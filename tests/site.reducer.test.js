@@ -42,7 +42,13 @@ let deleteState2 = {PageObjects: [
     }
 ],
 activePageObject: {},
-searchedPages: []}
+searchedPages: [],
+SiteInfo: {
+    "siteTitle": "",
+    "domainName": ""
+},
+activeTabPageId: 11,
+}
 
 describe('Site reducer', function() {
     it('should handle ADD_PAGE', function() {
@@ -115,6 +121,17 @@ describe('Site reducer', function() {
             "package": "",
             "elements": []
         }).to.eql(testRes.activePageObject);
+    })
+    it('should handle EDIT_VALUE', function(){
+        let testRes = mainReducer(deleteState2, actions.editValue(["SiteInfo","siteTitle"],"Test title"));
+        // console.log(testRes)
+        chai.expect(testRes.SiteInfo.siteTitle).to.eql("Test title");
+        let testRes2 = mainReducer(deleteState2, actions.editValue(["url"],"Test url", 1));
+        chai.expect(testRes2.PageObjects[0].url).to.eql("Test url");
+    })
+    it('should handle CLOSE_PAGE', function(){
+        let testRes = mainReducer(deleteState2,actions.closePage());
+        chai.expect(-1).to.eql(testRes.activeTabPageId);
     })
 
 });

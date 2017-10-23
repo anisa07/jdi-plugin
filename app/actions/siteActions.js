@@ -29,11 +29,12 @@ export function closePage() {
     }
 }
 
-export function editValue(element, value) {
+export function editValue(element, value, pageId) {
     return {
         type: "EDIT_VALUE",
-        element: element,
-        value: value
+        element,
+        value,
+        pageId
     }
 }
 
