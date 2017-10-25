@@ -1,5 +1,10 @@
+import * as siteActions from '../actions/siteActions';
+let clearValue = () => {
+    $("#searchInput")[0].value = "";
+}
 function PanelLeftSite(props) {
     let state = props.state;
+    let store = props.store;
     return (
         <div className="panel panel-default">
             <div className="panel-body leftContainer">
@@ -8,7 +13,7 @@ function PanelLeftSite(props) {
                         className="form-control searchInput"
                         placeholder="Search page"
                         id="searchInput"
-                        onChange={(e) => { let value = e.target.value; props.searchPage(value) }} />
+                        onChange={(e) => { let value = e.target.value; store.dispatch(siteActions.searchPage(value)) }} />
                 </div>
                 <div>
                     <ul>
@@ -16,11 +21,11 @@ function PanelLeftSite(props) {
                             state.searchedPages.map(function (page, index) {
                                 return (<li key={"listItem" + index}
                                     data-pageid={page.pageId}>
-                                    <a onClick={() => (props.selectPage(page.pageId))}
+                                    <a onClick={() => {store.dispatch(siteActions.selectPage(page.pageId))}}
                                         className={(state.activeTabPageId === page.pageId) ? "selectPage" : ""}>{page.name}</a>
                                     <button className="img-on-btn btn btn-default"
                                         data-pageid={page.pageId}
-                                        onClick={() => { props.deletePage(page.pageId) }}><img src={'../bootstrap/pics/trash.png'} /></button>
+                                        onClick={() => {clearValue(); store.dispatch(siteActions.deletePage(page.pageId))}}><img src={'../bootstrap/pics/trash.png'} /></button>
                                 </li>)
                             })
                         }
@@ -28,7 +33,7 @@ function PanelLeftSite(props) {
                 </div>
                 <div className="selectContainer">
                     <button className="btn btn-default customBtn addBtn"
-                        onClick={() => { props.addPage() }}>Add page</button>
+                        onClick={() => { store.dispatch(siteActions.addPage()) }}>Add page</button>
                 </div>
             </div>
         </div>
@@ -46,6 +51,7 @@ function PanelLeftSite(props) {
 
 function PanelRightSite(props) {
     let state = props.state;
+    let store = props.store;
     return (
         <div className="panel panel-default">
             <div className="panel-body">
@@ -56,7 +62,7 @@ function PanelRightSite(props) {
                             className="form-control pageSetting"
                             defaultValue={state.SiteInfo.siteTitle}
                             placeholder="Application name"
-                            onBlur={(e) => { let value = e.target.value; props.editValue(["SiteInfo", "siteTitle"], value) }} />
+                            onBlur={(e) => { let value = e.target.value; store.dispatch(siteActions.editValue(["SiteInfo", "siteTitle"], value))}} />
                     </div>
                     <div className="selectContainer">
                         <span>Domain: </span>
@@ -64,7 +70,7 @@ function PanelRightSite(props) {
                             className="form-control pageSetting"
                             defaultValue={state.SiteInfo.domainName}
                             placeholder="Domain name"
-                            onBlur={(e) => { let value = e.target.value; props.editValue(["SiteInfo", "domainName"], value) }} />
+                            onBlur={(e) => { let value = e.target.value; store.dispatch(siteActions.editValue(["SiteInfo", "domainName"], value))}} />
                     </div>
                 </div> : null}
                 {(state.activeTabPageId > -1) ? <div className="leftContainer">
@@ -74,7 +80,7 @@ function PanelRightSite(props) {
                             className="form-control pageSetting"
                             value={state.activePageObject.name}
                             placeholder="Page name" 
-                            onChange={(e) => { let value = e.target.value; props.editValue(["name"], value, state.activeTabPageId) }} />
+                            onChange={(e) => { let value = e.target.value; store.dispatch(siteActions.editValue(["name"], value, state.activeTabPageId)) }} />
                         <button className="btn btn-default"
                             id={"closePage" + state.activePageObject.pageId}
                             onClick={props.closePage}>X
@@ -86,10 +92,10 @@ function PanelRightSite(props) {
                             className="form-control pageSetting"
                             value={state.activePageObject.title}
                             placeholder="Title"
-                            onChange={(e) => { let value = e.target.value; props.editValue(["title"], value, state.activeTabPageId) }} />
+                            onChange={(e) => { let value = e.target.value;store.dispatch(siteActions.editValue(["title"], value, state.activeTabPageId)) }} />
                         <select className="form-control pageSettingCombo"
                             value={state.activePageObject.titleMatch}
-                            onChange={(e) => { let value = e.target.value; props.editValue(["titleMatch"], value, state.activeTabPageId) }}>
+                            onChange={(e) => { let value = e.target.value; store.dispatch(siteActions.editValue(["titleMatch"], value, state.activeTabPageId)) }}>
                             <option value="Equals">Equals</option>
                             <option value="Contains">Contains</option>
                             <option value="Not contains">Not contains</option>
@@ -101,10 +107,10 @@ function PanelRightSite(props) {
                             className="form-control pageSetting"
                             value={state.activePageObject.url}
                             placeholder="Page url"
-                            onChange={(e) => { let value = e.target.value; props.editValue(["url"], value, state.activeTabPageId) }} />
+                            onChange={(e) => { let value = e.target.value; store.dispatch(siteActions.editValue(["url"], value, state.activeTabPageId)) }} />
                         <select className="form-control pageSettingCombo"
                             value={state.activePageObject.urlMatch}
-                            onChange={(e) => { let value = e.target.value; props.editValue(["urlMatch"], value, state.activeTabPageId) }}>
+                            onChange={(e) => { let value = e.target.value; store.dispatch(siteActions.editValue(["urlMatch"], value, state.activeTabPageId))}}>
                             <option value="Equals">Equals</option>
                             <option value="Contains">Contains</option>
                             <option value="Not contains">Not contains</option>
@@ -116,7 +122,7 @@ function PanelRightSite(props) {
                             className="form-control pageSetting"
                             value={state.activePageObject.urlTemplate}
                             placeholder="Url template"
-                            onChange={(e) => { let value = e.target.value; props.editValue(["urlTemplate"], value, state.activeTabPageId) }} />
+                            onChange={(e) => { let value = e.target.value; store.dispatch(siteActions.editValue(["urlTemplate"], value, state.activeTabPageId)) }} />
                     </div>
                 </div> : null}
             </div>

@@ -8,28 +8,28 @@ import * as siteActions from './actions/siteActions';
 
 // import { Page } from './functional parts/page';
 
-let showPage = (id) => {
-    store.dispatch(pageActions.showPage(id))
-}
-let addPage = () => {
-    store.dispatch(siteActions.addPage());
-}
-let deletePage = (id) => {
-    store.dispatch(siteActions.deletePage(id));
-    $("#searchInput")[0].value = "";
-}
-let selectPage = (id) =>{
-    store.dispatch(siteActions.selectPage(id));
-}
-let searchPage = (page) =>{
-    store.dispatch(siteActions.searchPage(page));
-}
-let editValue = (element, value, id) =>{
-    store.dispatch(siteActions.editValue(element, value, id))
-}
-let closePage = () => {
-    store.dispatch(siteActions.closePage());
-}
+// let showPage = (id) => {
+//     store.dispatch(pageActions.showPage(id))
+// }
+// let addPage = () => {
+//     store.dispatch(siteActions.addPage());
+// }
+// let deletePage = (id) => {
+//     store.dispatch(siteActions.deletePage(id));
+//     $("#searchInput")[0].value = "";
+// }
+// let selectPage = (id) =>{
+//     store.dispatch(siteActions.selectPage(id));
+// }
+// let searchPage = (page) =>{
+//     store.dispatch(siteActions.searchPage(page));
+// }
+// let editValue = (element, value, id) =>{
+//     store.dispatch(siteActions.editValue(element, value, id))
+// }
+// let closePage = () => {
+//     store.dispatch(siteActions.closePage());
+// }
 
 export class Main extends React.Component {
     constructor() {
@@ -47,8 +47,8 @@ export class Main extends React.Component {
     render() {
         return (
             <div className="start">
-                <Tabs state={this.state} showPage={showPage}/>
-                <Site state={this.state} addPage={addPage} deletePage={deletePage} selectPage={selectPage} searchPage={searchPage} editValue={editValue} closePage={closePage}/>
+                <Tabs state={this.state} store={store}/>
+                <Site state={this.state} store={store}/>
             </div>
         )
     }
