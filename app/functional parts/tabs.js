@@ -21,5 +21,3 @@ const Tabs = (props) => {
 }
 
 export { Tabs };
-
-//onClick={()=>{props.showPage(tabPage.pageId)}}

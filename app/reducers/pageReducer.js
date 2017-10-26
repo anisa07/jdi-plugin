@@ -1,4 +1,3 @@
-
 import { getChildren, drawMap, searchElement } from '../functional parts/tree';
 let map = new Map();
 let resTree = [];
@@ -17,6 +16,49 @@ export let showPage = (mainObj, id) => {
         resultTree: resTree,
         pageMap: map
     })
+}
+
+export let changeTree = (mainObj, treeData) => {
+    let objCopy = Object.assign({}, mainObj);
+    let pageId = objCopy.activeTabPageId;
+    let copyPageObjectsArray = objCopy.PageObjects.find((page) => {
+        if (page.pageId === pageId) {
+            return page
+        }
+    }).elements;
+    
+    treeData.forEach((el) => {
+        el.parent = null;
+    })
+    function check(nodeArr) {
+        let result = [];
+        for (let k = 0; k < nodeArr.length; k++) {
+            let m = [];
+            let children = [];
+            if (nodeArr[k].children.length) {
+                //!!! no parent but parentId, id instead of name SOON
+                let newParent = nodeArr[k].name;
+                children = nodeArr[k].children;
+                children.forEach((el) => {
+                    el.parent = newParent;
+                })
+                //!!!
+                m = result.concat(nodeArr[k].children);
+                result = m;
+            }
+        }
+        if (result.length) {
+            check(result);
+        }
+    }
+    check(treeData);
+
+    map = drawMap(copyPageObjectsArray, new Map());
+
+    objCopy.pageMap = map;
+    objCopy.resultTree = treeData;
+    
+    return objCopy;
 }
 
     /*

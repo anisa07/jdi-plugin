@@ -6,6 +6,9 @@ export const mainReducer = (state, action) => {
         case 'SHOW_PAGE': {
             return page.showPage(state, action.pageId)
         }
+        case 'CHANGE_TREE':{
+            return page.changeTree(state, action.treeData)
+        }
         case 'ADD_PAGE': {
             return site.addPage(state, action.page);
         }

@@ -4,3 +4,10 @@ export function showPage(pageId){
         pageId
     }
 }
+
+export function changeTree(treeData){
+    return {
+        type: 'CHANGE_TREE',
+        treeData
+    }
+}

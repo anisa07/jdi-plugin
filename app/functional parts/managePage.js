@@ -1,8 +1,10 @@
 import SortableTree from 'react-sortable-tree';
-import React from 'react';
-
-
+import * as pageActions from '../actions/pageActions';
+//store.dispatch(pageActions.changeTree(data))
+//onClick={'props.selectElement'} onClick={'props.addElement'} onClick={'props.removeElement'} onClick={'props.selectElement'} onClick={'props.removeElement'} onClick={'props.addElement'}
 function PanelLeftPage(props) {
+    let state = props.state;
+    let store = props.store;
     const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
         if (nextParent === null || nextParent.type === "section" || nextParent.type === "form") {
             return true;
@@ -18,43 +20,43 @@ function PanelLeftPage(props) {
                         className="form-control searchInput"
                         placeholder="Search element"
                         id="searchElementInput"
-                        onChange={props.searchElement} />
+                        /*onChange={props.searchElement}*/ />
                 </div>
                 <div>
                     <div style={{ height: 400 }}>
                         <SortableTree
                             canDrop={canDrop}
-                            treeData={props.resultTree}
-                            onChange={props.onChangeTree}
+                            treeData={state.resultTree}
+                            onChange={(data)=>{store.dispatch(pageActions.changeTree(data))}}
                             generateNodeProps={({ node }) => (
                                 {
                                     buttons: (node.type === "section" || node.type === "form") ? [
                                         <button
                                             data-title={node.title}
-                                            onClick={props.selectElement}>
+                                            >
                                             <img src={'../bootstrap/pics/gear.png'} />
                                         </button>,
                                         <button
-                                            data-pageid={props.activeTabPage}
+                                            data-pageid={state.activeTabPage}
                                             data-name={node.title}
-                                            onClick={props.addElement}>
+                                            >
                                             <img src={'../bootstrap/pics/add.png'} />
                                         </button>,
                                         <button
-                                            data-pageid={props.activeTabPage}
+                                            data-pageid={state.activeTabPage}
                                             data-name={node.title}
-                                            onClick={props.removeElement}>
+                                            >
                                             <img src={'../bootstrap/pics/trash.png'} />
                                         </button>
                                     ] : [<button
-                                        data-title={node.title}
-                                        onClick={props.selectElement}>
+                                        data-title={state.title}
+                                        >
                                         <img src={'../bootstrap/pics/gear.png'} />
                                     </button>,
                                     <button
-                                        data-pageid={props.activeTabPage}
+                                        data-pageid={state.activeTabPage}
                                         data-name={node.title}
-                                        onClick={props.removeElement}>
+                                        >
                                         <img src={'../bootstrap/pics/trash.png'} />
                                     </button>]
                                 }
@@ -64,26 +66,26 @@ function PanelLeftPage(props) {
                 </div>
                 <div className="selectContainer">
                     <button className="btn btn-default addElemntBtn"
-                        data-pageid={props.activeTabPage}
+                        data-pageid={state.activeTabPage}
                         data-name="null"
-                        onClick={props.addElement}>Add element</button>
+                        >Add element</button>
                 </div>
             </div>
         </div>
     )
 }
 
-PanelLeftPage.propTypes = {
-    resultTree: PropTypes.array.isRequired,
-    activeTabPage: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number
-    ]),
-    addElement: PropTypes.func.isRequired,
-    removeElement: PropTypes.func.isRequired,
-    onChangeTree: PropTypes.func.isRequired,
-    searchElement: PropTypes.func.isRequired
-}
+// PanelLeftPage.propTypes = {
+//     resultTree: PropTypes.array.isRequired,
+//     activeTabPage: PropTypes.oneOfType([
+//         PropTypes.string,
+//         PropTypes.number
+//     ]),
+//     addElement: PropTypes.func.isRequired,
+//     removeElement: PropTypes.func.isRequired,
+//     onChangeTree: PropTypes.func.isRequired,
+//     searchElement: PropTypes.func.isRequired
+// }
 
 function PanelRightPage(props) {
     return (

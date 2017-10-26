@@ -1,5 +1,4 @@
 import { PanelLeftSite, PanelRightSite } from './manageSite';
-import { store } from '../store/store';
 
 export function Site(props) {
     let state = props.state;
