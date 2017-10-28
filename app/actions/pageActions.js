@@ -28,3 +28,10 @@ export function addElement(parentId){
         }
     }
 }
+
+export function deleteElement(elId){
+    return {
+        type: 'DELETE_ELEMENT',
+        elId
+    }
+}

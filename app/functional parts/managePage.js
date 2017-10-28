@@ -37,14 +37,12 @@ function PanelLeftPage(props) {
                                             <img src={'../bootstrap/pics/gear.png'} />
                                         </button>,
                                         <button
-                                            data-pageid={state.activeTabPage}
-                                            data-name={node.title}
+                                            onClick={()=>{store.dispatch(pageActions.addElement(node.elId))}}
                                             >
                                             <img src={'../bootstrap/pics/add.png'} />
                                         </button>,
                                         <button
-                                            data-pageid={state.activeTabPage}
-                                            data-name={node.title}
+                                            onClick={()=>{store.dispatch(pageActions.deleteElement(node.elId))}}
                                             >
                                             <img src={'../bootstrap/pics/trash.png'} />
                                         </button>
@@ -67,8 +65,6 @@ function PanelLeftPage(props) {
                 <div className="selectContainer">
                     <button className="btn btn-default addElemntBtn"
                         onClick={()=>{store.dispatch(pageActions.addElement(null))}}
-                        data-pageid={state.activeTabPage}
-                        data-name="null"
                         >Add element</button>
                 </div>
             </div>

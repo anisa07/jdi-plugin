@@ -8,7 +8,20 @@ let fakeTabPages = [{
     "name": "Default Page 1",
     "pageId": 0,
     "package": "",
-    "elements": []
+    "elements": [
+        {
+            "expanded": false,
+            "name": "",
+            "type": "button",
+            "parent": "",
+            "elId": "el123457",
+            "parentId": "el123456",
+            "locator": {
+                "type": "",
+                "path": ""
+            }
+        }
+    ]
 },
 {
     "url": "",

@@ -1,13 +1,8 @@
-function findElement(elem, arr) {
-    // while (el.dataset.name === undefined) {
-    //     el = el.parentNode;
-    // }
-    let el = findParentData(elem, "name")
-    let pageId = Number(el.dataset.pageid.replace(/\D/g, ""));
-    let name = el.dataset.name;
-    let pagesArray = arr;
-    let element = findPage(el, pagesArray).elements.find((element) => {
-        return element.name === name
+function findElement(id, arr) {
+    let element = arr.find((el) => {
+        if (el.elId === id){
+            return el;
+        } 
     })
     return element;
 }

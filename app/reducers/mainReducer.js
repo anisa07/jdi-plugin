@@ -12,6 +12,9 @@ export const mainReducer = (state, action) => {
         case 'ADD_ELEMENT':{
             return page.addElement(state, action.element)
         }
+        case 'DELETE_ELEMENT':{
+            return page.deleteElement(state, action.elId)
+        }
         case 'ADD_PAGE': {
             return site.addPage(state, action.page);
         }

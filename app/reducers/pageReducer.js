@@ -1,5 +1,5 @@
 import { getChildren, drawMap, searchElement } from '../functional parts/tree';
-import { findPage } from '../functional parts/common';
+import { findPage, findElement } from '../functional parts/common';
 
 let map = new Map();
 let resTree = [];
@@ -91,6 +91,42 @@ export let addElement = (mainObj, element) => {
     return objCopy;
 }
 
+export let deleteElement = (mainObj, elId) => {
+    function del(arr, id) {
+        return arr.filter((el) => {
+            if (el.elId !== id){
+                return el;
+            } 
+        })
+    }
+    let objCopy = Object.assign({}, mainObj);
+    let pageId = objCopy.activeTabPageId;
+    let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
+    let element = findElement(elId, elementsArray);
+    let newArr = del(elementsArray, elId);
+   
+    if (element.children && element.children.length){
+       let children = element.children;
+       children.forEach((child) => {
+           newArr = del(newArr, child.elId);
+       });
+    }
+
+    map = drawMap(newArr, new Map());
+    resTree = getChildren(map, null);
+
+    objCopy.PageObjects.map((page)=>{
+        if (pageId === page.pageId){
+            page.elements = newArr;
+        }
+        return page
+    })
+    
+    objCopy.pageMap = map;
+    objCopy.resultTree = resTree;
+
+    return objCopy;
+}
 
     /*
      PageObjects: PageObjectJSON.slice(),

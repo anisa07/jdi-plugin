@@ -19,4 +19,11 @@ describe('Page reducer', function() {
         let newState = mainReducer(testObj,actions.showPage(1));
         chai.expect(newState.activeTabPageId).to.equal(1);
     });
+    it('should handle DELETE_ELEMENT', function() {
+        let testObj = Object.assign({},fake.fakeState);
+        testObj.activeTabPageId = 0;
+        let newState = mainReducer(testObj,actions.deleteElement("el123457"));
+        chai.expect(newState.PageObjects[0].elements.length).to.equal(0);
+    });
+
 });
