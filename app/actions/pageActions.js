@@ -11,3 +11,20 @@ export function changeTree(treeData){
         treeData
     }
 }
+
+export function addElement(parentId){
+    return {
+        type: 'ADD_ELEMENT',
+        element: {
+            "expanded": false,
+            "name": "",
+            "type": "button",
+            "parent": "",
+            "parentId": parentId,
+            "locator": {
+                "type": "",
+                "path": ""
+            }
+        }
+    }
+}

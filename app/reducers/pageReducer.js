@@ -1,12 +1,15 @@
 import { getChildren, drawMap, searchElement } from '../functional parts/tree';
+import { findPage } from '../functional parts/common';
+
 let map = new Map();
 let resTree = [];
+let genRand = (name) => {
+    return (name + (Math.floor(Math.random() * (1000 - 1)) + 1) + (Math.floor(Math.random() * (1000 - 1)) + 1));
+}
 
 
 export let showPage = (mainObj, id) => {
-    let pageElements = mainObj.PageObjects.find((page) => {
-        return page.pageId === id
-    }).elements;
+    let pageElements = findPage(id, mainObj.PageObjects).elements;
     map = drawMap(pageElements, new Map());
     resTree = getChildren(map, null);
     return Object.assign({}, mainObj, {
@@ -21,28 +24,25 @@ export let showPage = (mainObj, id) => {
 export let changeTree = (mainObj, treeData) => {
     let objCopy = Object.assign({}, mainObj);
     let pageId = objCopy.activeTabPageId;
-    let copyPageObjectsArray = objCopy.PageObjects.find((page) => {
-        if (page.pageId === pageId) {
-            return page
-        }
-    }).elements;
+    let copyPageObjectsArray = findPage(pageId, objCopy.PageObjects).elements;
     
     treeData.forEach((el) => {
         el.parent = null;
     })
+   
     function check(nodeArr) {
         let result = [];
         for (let k = 0; k < nodeArr.length; k++) {
             let m = [];
             let children = [];
             if (nodeArr[k].children.length) {
-                //!!! no parent but parentId, id instead of name SOON
+                let newParentId = nodeArr[k].elId;
                 let newParent = nodeArr[k].name;
                 children = nodeArr[k].children;
                 children.forEach((el) => {
+                    el.parentId = newParentId;
                     el.parent = newParent;
                 })
-                //!!!
                 m = result.concat(nodeArr[k].children);
                 result = m;
             }
@@ -51,6 +51,7 @@ export let changeTree = (mainObj, treeData) => {
             check(result);
         }
     }
+
     check(treeData);
 
     map = drawMap(copyPageObjectsArray, new Map());
@@ -60,6 +61,36 @@ export let changeTree = (mainObj, treeData) => {
     
     return objCopy;
 }
+
+export let addElement = (mainObj, element) => {
+    let objCopy = Object.assign({}, mainObj);
+    let pageId = objCopy.activeTabPageId;
+    let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
+    let parent = null;
+    if (element.parentId !== null){
+        parent  = elementsArray.find((el)=>{
+            if (el.elId === element.parentId){
+                return el;
+            }
+        });
+        elementsArray.map((el) => {
+            if (el.elId === parent.elId) {
+                return el.expanded = true;
+            }
+        });
+    } 
+      
+    element.parent = parent;  
+    element.name = genRand("Element");
+    element.elId = genRand("El");
+    
+    elementsArray.push(element);
+    map = drawMap(elementsArray, new Map());
+    objCopy.pageMap = map
+    objCopy.resultTree = getChildren(map, null);
+    return objCopy;
+}
+
 
     /*
      PageObjects: PageObjectJSON.slice(),

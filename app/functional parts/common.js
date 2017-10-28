@@ -12,12 +12,7 @@ function findElement(elem, arr) {
     return element;
 }
 
-function findPage(elem, arr) {
-    // while (el.dataset.pageid === undefined) {
-    //     el = el.parentNode;
-    // }
-    let el = findParentData(elem, "pageid");
-    let id = Number(el.dataset.pageid.replace(/\D/g, ""));
+function findPage(id, arr) {
     let page = arr.find((page) => {
         return page.pageId === id;
     })

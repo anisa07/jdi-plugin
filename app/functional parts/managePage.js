@@ -66,6 +66,7 @@ function PanelLeftPage(props) {
                 </div>
                 <div className="selectContainer">
                     <button className="btn btn-default addElemntBtn"
+                        onClick={()=>{store.dispatch(pageActions.addElement(null))}}
                         data-pageid={state.activeTabPage}
                         data-name="null"
                         >Add element</button>

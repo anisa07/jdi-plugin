@@ -9,6 +9,9 @@ export const mainReducer = (state, action) => {
         case 'CHANGE_TREE':{
             return page.changeTree(state, action.treeData)
         }
+        case 'ADD_ELEMENT':{
+            return page.addElement(state, action.element)
+        }
         case 'ADD_PAGE': {
             return site.addPage(state, action.page);
         }

@@ -142,36 +142,6 @@ export class Main extends React.Component {
 //         })
 //     }
 
-//     addElement(e) {
-//         let el = findParentData(e.target, "pageid");
-//         let pages = this.state.tabPages.slice();
-//         let page = findPage(e.target, pages);
-//         let parent = (el.dataset.name === "null") ? null : el.dataset.name;
-//         let resTree = [];
-//         let map = new Map();
-//         page.elements.map((element) => {
-//             if (element.name === parent) {
-//                 return element.expanded = true;
-//             }
-//         })
-//         page.elements.push({
-//             "expanded": false,
-//             "name": "Element" + (Math.floor(Math.random() * (100 - 1)) + 1) + (Math.floor(Math.random() * (100 - 1)) + 1),
-//             "type": "button",
-//             "parent": parent,
-//             "locator": {
-//                 "type": "",
-//                 "path": ""
-//             }
-//         })
-//         map = drawMap(page.elements, new Map());
-//         resTree = getChildren(map, null);
-//         this.setState({
-//             tabPages: pages,
-//             resultTree: resTree,
-//             pageMap: map
-//         })
-//     }
 
 //     removeElement(e) {
 //         function del(arr, name) {

@@ -9,4 +9,18 @@ describe('Page actions', () => {
     }
     chai.expect(actions.showPage(1)).to.eql(expectedAction)
   })
+  it('should create an action to add element on a page', () => {
+    let element = {
+      "expanded": false,
+      "name": "",
+      "type": "button",
+      "parent": "",
+      "parentId": null,
+      "locator": {
+        "type": "",
+        "path": ""
+      }
+    }
+    chai.expect(actions.addElement(null).element).to.eql(element)
+  })
 })

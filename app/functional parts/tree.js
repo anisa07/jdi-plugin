@@ -1,6 +1,7 @@
-function getChildren(mapArr, parentName) {
+function getChildren(mapArr, parentId) {
     if (typeof mapArr.get === "function") {
-        let arr = mapArr.get(parentName);
+        let arr = mapArr.get(parentId);
+        //let arr = mapArr.get(parentName);
         //resTree = getChildren(map.get(null), map)
         let tree = [];
         if (arr){
@@ -8,9 +9,12 @@ function getChildren(mapArr, parentName) {
             for (let i = 0; i < len; i++) {
                 let element = arr[i];
                 element.children = [];
-                if (mapArr.has(element.name)) {
-                    element.children = getChildren(mapArr, element.name);
+                if (mapArr.has(element.elId)) {
+                    element.children = getChildren(mapArr, element.elId);
                 }
+                // if (mapArr.has(element.name)) {
+                //     element.children = getChildren(mapArr, element.name);
+                // }
                 tree.push(element)
             }
         }
@@ -24,12 +28,19 @@ function drawMap(arr, mapArr) {
             let element = arr[i];
             element.title = element.name;
             element.subtitle = element.type;
-            let parent = element.parent;
-            if (mapArr.has(parent)) {
-                let list = mapArr.get(parent);
+            // let parent = element.parent;
+            // if (mapArr.has(parent)) {
+            //     let list = mapArr.get(parent);
+            //     list.push(element);
+            // } else {
+            //     mapArr.set(parent, [element])
+            // }
+            let parentId = element.parentId;
+            if (mapArr.has(parentId)) {
+                let list = mapArr.get(parentId);
                 list.push(element);
             } else {
-                mapArr.set(parent, [element])
+                mapArr.set(parentId, [element])
             }
         }
         return mapArr;
