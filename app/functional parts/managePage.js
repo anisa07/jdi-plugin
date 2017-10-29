@@ -29,33 +29,33 @@ function PanelLeftPage(props) {
                         <SortableTree
                             canDrop={canDrop}
                             treeData={state.resultTree}
-                            onChange={(data)=>{store.dispatch(pageActions.changeTree(data))}}
+                            onChange={(data) => { store.dispatch(pageActions.changeTree(data)) }}
                             generateNodeProps={({ node }) => (
                                 {
                                     buttons: (node.type === "section" || node.type === "form") ? [
                                         <button
-                                            onClick={()=>{store.dispatch(pageActions.selectElement(node.elId))}}
-                                            >
+                                            onClick={() => { store.dispatch(pageActions.selectElement(node.elId)) }}
+                                        >
                                             <img src={'../bootstrap/pics/gear.png'} />
                                         </button>,
                                         <button
-                                            onClick={()=>{store.dispatch(pageActions.addElement(node.elId))}}
-                                            >
+                                            onClick={() => { store.dispatch(pageActions.addElement(node.elId)) }}
+                                        >
                                             <img src={'../bootstrap/pics/add.png'} />
                                         </button>,
                                         <button
-                                            onClick={()=>{store.dispatch(pageActions.deleteElement(node.elId))}}
-                                            >
+                                            onClick={() => { store.dispatch(pageActions.deleteElement(node.elId)) }}
+                                        >
                                             <img src={'../bootstrap/pics/trash.png'} />
                                         </button>
                                     ] : [<button
-                                        onClick={()=>{store.dispatch(pageActions.selectElement(node.elId))}}
-                                        >
+                                        onClick={() => { store.dispatch(pageActions.selectElement(node.elId)) }}
+                                    >
                                         <img src={'../bootstrap/pics/gear.png'} />
                                     </button>,
                                     <button
-                                       onClick={()=>{store.dispatch(pageActions.deleteElement(node.elId))}}
-                                        >
+                                        onClick={() => { store.dispatch(pageActions.deleteElement(node.elId)) }}
+                                    >
                                         <img src={'../bootstrap/pics/trash.png'} />
                                     </button>]
                                 }
@@ -65,8 +65,8 @@ function PanelLeftPage(props) {
                 </div>
                 <div className="selectContainer">
                     <button className="btn btn-default addElemntBtn"
-                        onClick={()=>{store.dispatch(pageActions.addElement(null))}}
-                        >Add element</button>
+                        onClick={() => { store.dispatch(pageActions.addElement(null)) }}
+                    >Add element</button>
                 </div>
             </div>
         </div>
@@ -86,14 +86,27 @@ function PanelLeftPage(props) {
 // }
 
 function PanelRightPage(props) {
+    let state = props.state;
+    let store = props.store;
     return (
         <div className="panel panel-default">
             <div className="panel-body">
-                {(typeof props.selectedElement === "object") ? <div>
-                    <div className="selectContainer"><span>Name: </span><input type="text" className="form-control pageSetting" data-attribute="name" value={props.selectedElement.name} placeholder="Element name" onChange={props.editElement} />
-                        <select className="form-control pageSettingCombo" data-attribute="type" value={props.selectedElement.type} onChange={props.editElement}>
+                {(typeof state.selectedElement === "object") ? <div>
+                    <div className="selectContainer">
+                        <span>Name: </span>
+                        <input type="text"
+                            className="form-control pageSetting"
+                            value={state.selectedElement.name}
+                            placeholder="Element name"
+                            onChange={(e) => {
+                                let value = e.target.value;
+                                store.dispatch(pageActions.editElement(["name"], value))
+                            }} />
+                        <select className="form-control pageSettingCombo" value={state.selectedElement.type} onChange={(e) => {
+                                let value = e.target.value;
+                                store.dispatch(pageActions.editElement(["type"], value))}}>
                             {
-                                props.elementsList.map((element) => {
+                                state.Elements.map((element) => {
                                     return (
                                         <option key={element.toLowerCase()} value={element.toLowerCase()}>{element}</option>
                                     )
@@ -101,10 +114,23 @@ function PanelRightPage(props) {
                             }
                         </select>
                     </div>
-                    <div className="selectContainer"><span>Locator: </span><input type="text" className="form-control pageSetting" data-attribute="locator" data-sub="path" value={props.selectedElement.locator.path} placeholder="Locator" onChange={props.editElement} />
-                        <select className="form-control pageSettingCombo" data-attribute="locator" data-sub="type" value={props.selectedElement.locator.type} onChange={props.editElement}>
+                    <div className="selectContainer">
+                        <span>Locator: </span>
+                        <input type="text" 
+                            className="form-control pageSetting" 
+                            value={state.selectedElement.locator.path} 
+                            placeholder="Locator"
+                            onChange={(e) => {
+                                let value = e.target.value;
+                                store.dispatch(pageActions.editElement(["locator","path"], value))
+                            }}/>
+                        <select className="form-control pageSettingCombo" 
+                            value={state.selectedElement.locator.type} 
+                            onChange={(e) => {
+                                let value = e.target.value;
+                                store.dispatch(pageActions.editElement(["locator","type"], value))}}>
                             {
-                                props.locatorsList.map((locator) => {
+                                state.Locators.map((locator) => {
                                     return (
                                         <option key={locator} value={locator}>{locator}</option>
                                     )
@@ -113,26 +139,6 @@ function PanelRightPage(props) {
                         </select>
                     </div>
                 </div> : null}
-                {/* {(typeof props.activeTabPageId === "number") ? <div>
-                 <div className="selectContainer">
-                 <span>Name: </span><input type="text" className="form-control pageSetting" value={props.activePageObject.name} data-attribute="name" placeholder="Page name" onChange={props.editValue} />
-                 <button className="btn btn-default" id={"closePage" + props.activePageObject.pageId} onClick={props.closePage}>X</button>
-                 </div>
-                 <div className="selectContainer"><span>Title: </span><input type="text" className="form-control pageSetting" value={props.activePageObject.title} data-attribute="title" placeholder="Title" onChange={props.editValue} />
-                 <select className="form-control pageSettingCombo" value={props.activePageObject.titleMatch} onChange={props.editValue} data-attribute="titleMatch">
-                 <option value="Equals">Equals</option>
-                 <option value="Contains">Contains</option>
-                 <option value="Not contains">Not contains</option>
-                 </select></div>
-                 <div className="selectContainer"><span>Url: </span><input type="text" className="form-control pageSetting" value={props.activePageObject.url} data-attribute="url" placeholder="Page url" onChange={props.editValue} />
-                 <select className="form-control pageSettingCombo" value={props.activePageObject.urlMatch} onChange={props.editValue} data-attribute="urlMatch">
-                 <option value="Equals">Equals</option>
-                 <option value="Contains">Contains</option>
-                 <option value="Not contains">Not contains</option>
-                 </select>
-                 </div>
-                 <div className="selectContainer"><span>Url template: </span><input type="text" className="form-control pageSetting" value={props.activePageObject.urlTemplate} data-attribute="urlTemplate" placeholder="Url template" onChange={props.editValue} /></div>
-                 </div> : null} */}
             </div>
         </div>
     )

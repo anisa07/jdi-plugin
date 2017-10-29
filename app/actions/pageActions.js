@@ -49,3 +49,11 @@ export function searchElement(elName){
         elName
     }
 }
+
+export function editElement(elField, value){
+    return {
+        type: 'EDIT_ELEMENT',
+        elField: elField,
+        value: value
+    }
+}

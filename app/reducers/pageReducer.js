@@ -137,7 +137,6 @@ export let selectElement = (mainObj, elId) => {
 }
 
 export let searchEl = (mainObj,elName) => {
-    console.log(elName)
     let objCopy = Object.assign({}, mainObj);
     let pageId = objCopy.activeTabPageId;
     let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
@@ -147,57 +146,62 @@ export let searchEl = (mainObj,elName) => {
         resTree = getChildren(map, null);
     } else {
         let res = searchElement(elName, elementsArray);
-        console.log(res)
         map = drawMap(res, new Map());
         resTree = getChildren(map, null);
     }
 
-    
-
     objCopy.resultTree = resTree;
     objCopy.pageMap = map;
+    objCopy.selectedElement = "";
 
     return objCopy;
 }
 
+export let editElement = (mainObj, elField, value) =>{
+    let objCopy = Object.assign({}, mainObj);
+    if (value.length){
+        let pageId = objCopy.activeTabPageId;
+        let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
+        let selectedElement = objCopy.selectedElement;
 
+        if (elField.length > 1){
+            selectedElement[elField[0]][elField[1]] = value;
+            elementsArray.map((element)=>{
+                if (element.elId === selectedElement.elId){
+                    element[elField[0]][elField[1]] = value;
+                }
+                return element;
+            })
+        } else {
+            selectedElement[elField[0]] = value;
+            elementsArray.map((element)=>{
+                if (element.elId === selectedElement.elId){
+                    element[elField[0]] = value;
+                }
+                return element;
+            })
+        }
 
+        if (elField[0] === "type" && (value !== "section" && value !== "form")){
+            let l = selectedElement.children.length;
+            for (let k=0; k<l; k++){
+                elementsArray = elementsArray.filter((el)=>{
+                    if (el.elId !== selectedElement.children[k].elId){
+                        return el;
+                    }
+                })
+            }
+        }
 
-//     searchElement(e) {
-//         let element = e.target.value.toLowerCase();
-//         let pages = this.state.tabPages.slice();
-//         let activeTabPage = this.state.activeTabPageId;
-//         let pageElements = pages.find((page) => {
-//             return page.pageId === activeTabPage
-//         }).elements;
-//         let map = new Map();
-//         let resTree = [];
-//         if (element === "" || element.replace(/\s/g, "") === "") {
-//             map = drawMap(pageElements, new Map());
-//             resTree = getChildren(map, null);
-//         } else {
-//             let res = searchElement(element, pageElements);
-//             map = drawMap(res, new Map());
-//             resTree = getChildren(map, null);
-//         }
-//         this.setState({
-//             tabPages: pages,
-//             resultTree: resTree,
-//             pageMap: map
-//         })
-//     }
+        objCopy.PageObjects.map((page)=>{
+            if (pageId === page.pageId){
+                page.elements = elementsArray;
+            }
+            return page
+        })
 
-
-    /*
-     PageObjects: PageObjectJSON.slice(),
-    SiteInfo: Object.assign({}, SiteInfoJSON),
-    Elements: Elements.slice(),
-    Locators: Locators.slice(),
-    activeTabPageId: -1,
-    settingsForSite: true,
-    activePageObject: {},
-    resultTree: [],
-    pageMap: new Map(),
-    selectedElement: "",
-    searchedPages: PageObjectJSON.slice()
-    */
+        map = drawMap(elementsArray, new Map());
+        resTree = getChildren(map, null);
+    }
+    return objCopy;
+}

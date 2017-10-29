@@ -21,6 +21,9 @@ export const mainReducer = (state, action) => {
         case 'SEARCH_ELEMENT':{
             return page.searchEl(state, action.elName)
         }
+        case 'EDIT_ELEMENT':{
+            return page.editElement(state, action.elField, action.value)
+        }
         case 'ADD_PAGE': {
             return site.addPage(state, action.page);
         }

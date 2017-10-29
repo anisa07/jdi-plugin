@@ -53,7 +53,11 @@ describe('Page actions', () => {
     }
     chai.expect(actions.selectElement("el12345").elId).to.eql(element.elId);
   })
-  
-
-
+  it('should create an action to edit element on a page', () => {
+    chai.expect(actions.editElement("name", "test")).to.eql({
+      type: 'EDIT_ELEMENT',
+      elField: "name",
+      value: "test"
+    });
+  })
 })
