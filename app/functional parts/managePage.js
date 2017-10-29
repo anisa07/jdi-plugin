@@ -1,7 +1,6 @@
 import SortableTree from 'react-sortable-tree';
 import * as pageActions from '../actions/pageActions';
-//store.dispatch(pageActions.changeTree(data))
-//onClick={'props.selectElement'} onClick={'props.addElement'} onClick={'props.removeElement'} onClick={'props.selectElement'} onClick={'props.removeElement'} onClick={'props.addElement'}
+
 function PanelLeftPage(props) {
     let state = props.state;
     let store = props.store;
@@ -20,7 +19,10 @@ function PanelLeftPage(props) {
                         className="form-control searchInput"
                         placeholder="Search element"
                         id="searchElementInput"
-                        /*onChange={props.searchElement}*/ />
+                        onChange={(e)=>{
+                            let value = e.target.value;
+                            store.dispatch(pageActions.searchElement(value))
+                        }} />
                 </div>
                 <div>
                     <div style={{ height: 400 }}>
@@ -32,7 +34,7 @@ function PanelLeftPage(props) {
                                 {
                                     buttons: (node.type === "section" || node.type === "form") ? [
                                         <button
-                                            data-title={node.title}
+                                            onClick={()=>{store.dispatch(pageActions.selectElement(node.elId))}}
                                             >
                                             <img src={'../bootstrap/pics/gear.png'} />
                                         </button>,
@@ -47,13 +49,12 @@ function PanelLeftPage(props) {
                                             <img src={'../bootstrap/pics/trash.png'} />
                                         </button>
                                     ] : [<button
-                                        data-title={state.title}
+                                        onClick={()=>{store.dispatch(pageActions.selectElement(node.elId))}}
                                         >
                                         <img src={'../bootstrap/pics/gear.png'} />
                                     </button>,
                                     <button
-                                        data-pageid={state.activeTabPage}
-                                        data-name={node.title}
+                                       onClick={()=>{store.dispatch(pageActions.deleteElement(node.elId))}}
                                         >
                                         <img src={'../bootstrap/pics/trash.png'} />
                                     </button>]

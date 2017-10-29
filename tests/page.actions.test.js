@@ -38,5 +38,22 @@ describe('Page actions', () => {
     }
     chai.expect(actions.deleteElement("el12345").elId).to.eql(element.elId);
   })
+  it('should create an action to select element on a page', () => {
+    let element = {
+      "expanded": false,
+      "name": "",
+      "type": "button",
+      "parent": "",
+      "parentId": null,
+      "elId": "el12345",
+      "locator": {
+        "type": "",
+        "path": ""
+      }
+    }
+    chai.expect(actions.selectElement("el12345").elId).to.eql(element.elId);
+  })
+  
+
 
 })

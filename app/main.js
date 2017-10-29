@@ -33,25 +33,6 @@ export class Main extends React.Component {
 
 
 
-// export class Main extends React.Component {
-//     constructor(props) {
-//         super();
-//         this.state = {
-//             tabPages: PageObjectJSON.slice(),
-//             siteInfo: SiteInfoJSON,
-//             activeTabPageId: -1,
-//             settingsForSite: true,
-//             activePageObject: {},
-//             resultTree: [],
-//             pageMap: new Map(),
-//             selectedElement: "",
-//             elementsList: Elements.slice(),
-//             locatorsList: Locators.slice(),
-//             searchedPages: PageObjectJSON.slice()
-//         };
-//     }
-
-
 //     editElement(e) {
 //         let value = e.target.value;
 //         let selectedEl = this.state.selectedElement;
@@ -100,79 +81,4 @@ export class Main extends React.Component {
 //         }
 //         console.log(selectedEl)
 
-//     }
-
-//     selectElement(e) {
-//         let el = findParentData(e.target, "title");
-//         let name = el.dataset.title;
-//         let pages = this.state.tabPages.slice();
-//         let activeTabPage = this.state.activeTabPageId;
-//         let pageElements = pages.find((page) => {
-//             return page.pageId === activeTabPage
-//         }).elements;
-//         let element = pageElements.find((element) => {
-//             return element.name === name
-//         })
-//         this.setState({
-//             selectedElement: element
-//         })
-//     }
-
-//     searchElement(e) {
-//         let element = e.target.value.toLowerCase();
-//         let pages = this.state.tabPages.slice();
-//         let activeTabPage = this.state.activeTabPageId;
-//         let pageElements = pages.find((page) => {
-//             return page.pageId === activeTabPage
-//         }).elements;
-//         let map = new Map();
-//         let resTree = [];
-//         if (element === "" || element.replace(/\s/g, "") === "") {
-//             map = drawMap(pageElements, new Map());
-//             resTree = getChildren(map, null);
-//         } else {
-//             let res = searchElement(element, pageElements);
-//             map = drawMap(res, new Map());
-//             resTree = getChildren(map, null);
-//         }
-//         this.setState({
-//             tabPages: pages,
-//             resultTree: resTree,
-//             pageMap: map
-//         })
-//     }
-
-
-//     removeElement(e) {
-//         function del(arr, name) {
-//             return arr.filter((el) => {
-//                 return el.name !== name
-//             })
-//         }
-//         let children = [];
-//         let resTree = [];
-//         let map = new Map();
-//         let pages = this.state.tabPages.slice();
-//         let page = findPage(e.target, pages);
-//         let element = findElement(e.target, pages);
-//         if (element.children.length) {
-//             children = element.children[0];
-//         }
-//         //let children = element.children[0];
-//         let name = element.name;
-//         let newArr = del(page.elements, name);
-//         if (children.length) {
-//             children.forEach((child) => {
-//                 newArr = del(newArr, child.name);
-//             });
-//         }
-//         page.elements = newArr;
-//         map = drawMap(page.elements, new Map());
-//         resTree = getChildren(map, null);
-
-//         this.setState({
-//             tabPages: pages,
-//             resultTree: resTree,
-//             pageMap: map
-//         })
 //     }

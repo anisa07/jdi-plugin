@@ -15,6 +15,12 @@ export const mainReducer = (state, action) => {
         case 'DELETE_ELEMENT':{
             return page.deleteElement(state, action.elId)
         }
+        case 'SELECT_ELEMENT':{
+            return page.selectElement(state, action.elId)
+        }
+        case 'SEARCH_ELEMENT':{
+            return page.searchEl(state, action.elName)
+        }
         case 'ADD_PAGE': {
             return site.addPage(state, action.page);
         }

@@ -35,3 +35,17 @@ export function deleteElement(elId){
         elId
     }
 }
+
+export function selectElement(elId){
+    return {
+        type: 'SELECT_ELEMENT',
+        elId
+    }
+}
+
+export function searchElement(elName){
+    return {
+        type: 'SEARCH_ELEMENT',
+        elName
+    }
+}

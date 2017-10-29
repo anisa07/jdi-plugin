@@ -63,24 +63,24 @@ function searchElement(searched, pageElements) {
         function findParent(p) {
             if (p === null) { return };
             let element = pageElements.find((element) => {
-                return element.name === p;
+                return element.elId === p;
             });
-            let e = result.find((r) => { return r.name === element.name });
+            let e = result.find((r) => { return r.elId === element.elId });
             if (e === undefined) {
                 element.children = [];
                 element.expanded = true;
                 result.push(element);
             }
-            findParent(element.parent);
+            findParent(element.parentId);
         }
 
         for (let i = 0; i < searchedArr.length; i++) {
             searchedArr[i].children = [];
-            if (!result.find((r) => { return r.name === searchedArr[i].name })) {
+            if (!result.find((r) => { return r.elId === searchedArr[i].elId })) {
                 searchedArr[i].expanded = true;
                 result.push(searchedArr[i]);
             };
-            findParent(searchedArr[i].parent);
+            findParent(searchedArr[i].parentId);
         }
     }
     return result;

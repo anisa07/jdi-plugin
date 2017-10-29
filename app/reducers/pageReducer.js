@@ -7,7 +7,6 @@ let genRand = (name) => {
     return (name + (Math.floor(Math.random() * (1000 - 1)) + 1) + (Math.floor(Math.random() * (1000 - 1)) + 1));
 }
 
-
 export let showPage = (mainObj, id) => {
     let pageElements = findPage(id, mainObj.PageObjects).elements;
     map = drawMap(pageElements, new Map());
@@ -127,6 +126,67 @@ export let deleteElement = (mainObj, elId) => {
 
     return objCopy;
 }
+
+export let selectElement = (mainObj, elId) => {
+    let objCopy = Object.assign({}, mainObj);
+    let pageId = objCopy.activeTabPageId;
+    let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
+    let element = findElement(elId, elementsArray);
+    objCopy.selectedElement = element;
+    return objCopy;
+}
+
+export let searchEl = (mainObj,elName) => {
+    console.log(elName)
+    let objCopy = Object.assign({}, mainObj);
+    let pageId = objCopy.activeTabPageId;
+    let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
+
+    if (elName === "" || elName.replace(/\s/g, "") === "") {
+        map = drawMap(elementsArray, new Map());
+        resTree = getChildren(map, null);
+    } else {
+        let res = searchElement(elName, elementsArray);
+        console.log(res)
+        map = drawMap(res, new Map());
+        resTree = getChildren(map, null);
+    }
+
+    
+
+    objCopy.resultTree = resTree;
+    objCopy.pageMap = map;
+
+    return objCopy;
+}
+
+
+
+
+//     searchElement(e) {
+//         let element = e.target.value.toLowerCase();
+//         let pages = this.state.tabPages.slice();
+//         let activeTabPage = this.state.activeTabPageId;
+//         let pageElements = pages.find((page) => {
+//             return page.pageId === activeTabPage
+//         }).elements;
+//         let map = new Map();
+//         let resTree = [];
+//         if (element === "" || element.replace(/\s/g, "") === "") {
+//             map = drawMap(pageElements, new Map());
+//             resTree = getChildren(map, null);
+//         } else {
+//             let res = searchElement(element, pageElements);
+//             map = drawMap(res, new Map());
+//             resTree = getChildren(map, null);
+//         }
+//         this.setState({
+//             tabPages: pages,
+//             resultTree: resTree,
+//             pageMap: map
+//         })
+//     }
+
 
     /*
      PageObjects: PageObjectJSON.slice(),
