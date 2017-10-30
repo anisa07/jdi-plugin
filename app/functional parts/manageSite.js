@@ -83,7 +83,7 @@ function PanelRightSite(props) {
                             onChange={(e) => { let value = e.target.value; store.dispatch(siteActions.editValue(["name"], value, state.activeTabPageId)) }} />
                         <button className="btn btn-default"
                             id={"closePage" + state.activePageObject.pageId}
-                            onClick={props.closePage}>X
+                            onClick={()=>{store.dispatch(siteActions.closePage())}}>X
                         </button>
                     </div>
                     <div className="selectContainer">

@@ -123,6 +123,7 @@ export let deleteElement = (mainObj, elId) => {
     
     objCopy.pageMap = map;
     objCopy.resultTree = resTree;
+    objCopy.selectedElement = "";
 
     return objCopy;
 }
@@ -183,6 +184,7 @@ export let editElement = (mainObj, elField, value) =>{
         }
 
         if (elField[0] === "type" && (value !== "section" && value !== "form")){
+
             let l = selectedElement.children.length;
             for (let k=0; k<l; k++){
                 elementsArray = elementsArray.filter((el)=>{
@@ -202,6 +204,8 @@ export let editElement = (mainObj, elField, value) =>{
 
         map = drawMap(elementsArray, new Map());
         resTree = getChildren(map, null);
+        objCopy.resultTree = resTree;
+        objCopy.pageMap = map;
     }
     return objCopy;
 }

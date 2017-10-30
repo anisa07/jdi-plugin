@@ -23,7 +23,7 @@ export class Main extends React.Component {
     render() {
         return (
             <div className="start">
-                <Tabs state={this.state} store={store}/>
+                <Tabs className="tabs" state={this.state} store={store}/>
                 <Site state={this.state} store={store}/>
                 <Page state={this.state} store={store}/>
             </div>

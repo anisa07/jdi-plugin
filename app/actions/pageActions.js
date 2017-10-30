@@ -20,8 +20,25 @@ export function addElement(parentId){
             "name": "",
             "type": "button",
             "parent": "",
+            "enum": "",
             "parentId": parentId,
+            "root":{
+                "type": "",
+                "path": ""
+            },
             "locator": {
+                "type": "",
+                "path": ""
+            },
+            "value": {
+                "type": "",
+                "path": ""
+            },
+            "list": {
+                "type": "",
+                "path": ""
+            },
+            "expand": {
                 "type": "",
                 "path": ""
             }

@@ -17,7 +17,24 @@ let PageObjectJSON = [
                 "parent": "a1",
                 "parentId": "el12342",
                 "elId": "el12347",
+                "enum":"",
+                "root":{
+                    "type": "",
+                    "path": ""
+                },
                 "locator": {
+                    "type": "",
+                    "path": ""
+                },
+                "value": {
+                    "type": "",
+                    "path": ""
+                },
+                "list": {
+                    "type": "",
+                    "path": ""
+                },
+                "expand": {
                     "type": "",
                     "path": ""
                 }
@@ -28,8 +45,25 @@ let PageObjectJSON = [
                 "type": "section",
                 "parent": null,
                 "elId": "el12341",
+                "enum":"",
                 "parentId": null,
+                "root":{
+                    "type": "",
+                    "path": ""
+                },
                 "locator": {
+                    "type": "",
+                    "path": ""
+                },
+                "value": {
+                    "type": "",
+                    "path": ""
+                },
+                "list": {
+                    "type": "",
+                    "path": ""
+                },
+                "expand": {
                     "type": "",
                     "path": ""
                 }
@@ -41,7 +75,24 @@ let PageObjectJSON = [
                 "parent": "t2",
                 "elId": "el12342",
                 "parentId": "el12343",
+                "enum":"",
+                "root":{
+                    "type": "",
+                    "path": ""
+                },
                 "locator": {
+                    "type": "",
+                    "path": ""
+                },
+                "value": {
+                    "type": "",
+                    "path": ""
+                },
+                "list": {
+                    "type": "",
+                    "path": ""
+                },
+                "expand": {
                     "type": "",
                     "path": ""
                 }
@@ -53,7 +104,24 @@ let PageObjectJSON = [
                 "parent": null,
                 "elId": "el12343",
                 "parentId": null,
+                "enum":"",
+                "root":{
+                    "type": "",
+                    "path": ""
+                },
                 "locator": {
+                    "type": "",
+                    "path": ""
+                },
+                "value": {
+                    "type": "",
+                    "path": ""
+                },
+                "list": {
+                    "type": "",
+                    "path": ""
+                },
+                "expand": {
                     "type": "",
                     "path": ""
                 }
@@ -65,7 +133,24 @@ let PageObjectJSON = [
                 "parent": "t1",
                 "elId": "el12344",
                 "parentId":"el12341",
+                "enum":"",
+                "root":{
+                    "type": "",
+                    "path": ""
+                },
                 "locator": {
+                    "type": "",
+                    "path": ""
+                },
+                "value": {
+                    "type": "",
+                    "path": ""
+                },
+                "list": {
+                    "type": "",
+                    "path": ""
+                },
+                "expand": {
                     "type": "",
                     "path": ""
                 }
@@ -77,7 +162,24 @@ let PageObjectJSON = [
                 "parent": "b3",
                 "elId": "el12345",
                 "parentId":"el12347",
+                "enum":"",
+                "root":{
+                    "type": "",
+                    "path": ""
+                },
                 "locator": {
+                    "type": "",
+                    "path": ""
+                },
+                "value": {
+                    "type": "",
+                    "path": ""
+                },
+                "list": {
+                    "type": "",
+                    "path": ""
+                },
+                "expand": {
                     "type": "",
                     "path": ""
                 }
@@ -89,7 +191,24 @@ let PageObjectJSON = [
                 "parent": "t1",
                 "elId": "el12346",
                 "parentId":"el12341",
+                "enum":"",
+                "root":{
+                    "type": "",
+                    "path": ""
+                },
                 "locator": {
+                    "type": "",
+                    "path": ""
+                },
+                "value": {
+                    "type": "",
+                    "path": ""
+                },
+                "list": {
+                    "type": "",
+                    "path": ""
+                },
+                "expand": {
                     "type": "",
                     "path": ""
                 }
@@ -101,7 +220,24 @@ let PageObjectJSON = [
                 "parent": null,
                 "elId": "el12348",
                 "parentId": null,
+                "enum":"",
+                "root":{
+                    "type": "",
+                    "path": ""
+                },
                 "locator": {
+                    "type": "",
+                    "path": ""
+                },
+                "value": {
+                    "type": "",
+                    "path": ""
+                },
+                "list": {
+                    "type": "",
+                    "path": ""
+                },
+                "expand": {
                     "type": "",
                     "path": ""
                 }
