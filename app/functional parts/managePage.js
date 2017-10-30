@@ -152,6 +152,7 @@ let loc = ["button", "checkbox", "image", "label", "link", "text", "textfield", 
 let val = ["combobox", "dropdown", "droplist", "search"];
 let listExpand = ["combobox", "dropdown", "droplist"];
 let tables = ["table", "dynamictable"];
+let tableVals = ["All Headers", "No Headers", "Columns Headers", "Rows Headers"]
 
 function PanelRightPage(props) {
     let state = props.state;
@@ -229,7 +230,7 @@ function PanelRightPage(props) {
                     {
                         (tables.includes(state.selectedElement.type)) ?
                             <div>
-
+                                
                             </div> : null
                     }
 

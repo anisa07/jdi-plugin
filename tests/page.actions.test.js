@@ -15,13 +15,112 @@ describe('Page actions', () => {
       "name": "",
       "type": "button",
       "parent": "",
+      "enum": "",
       "parentId": null,
+      "root":{
+          "type": "",
+          "path": ""
+      },
       "locator": {
-        "type": "",
-        "path": ""
+          "type": "",
+          "path": ""
+      },
+      "value": {
+          "type": "",
+          "path": ""
+      },
+      "list": {
+          "type": "",
+          "path": ""
+      },
+      "expand": {
+          "type": "",
+          "path": ""
+      },
+      "headers": "",
+      "rowHeaders": "",
+      "header": {
+          "type": "",
+          "path": ""
+      },
+      "rowHeader": {
+          "type": "",
+          "path": ""
+      },
+      "cell": {
+          "type": "",
+          "path": ""
+      },
+      "column": {
+          "type": "",
+          "path": ""
+      },
+      "row": {
+          "type": "",
+          "path": ""
+      },
+      "footer": {
+          "type": "",
+          "path": ""
+      },
+      "height": "",
+      "width": "",
+      "rowStartIndex": "",
+      "columnStartIndex": "",
+      "headerType": "",
+      "useCache": false,
+      "entity": "",
+      "isSection": false,
+      "next": {
+          "type": "",
+          "path": ""
+      },
+      "previous": {
+          "type": "",
+          "path": ""
+      },
+      "first": {
+          "type": "",
+          "path": ""
+      },
+      "last": {
+          "type": "",
+          "path": ""
+      },
+      "page": {
+          "type": "",
+          "path": ""
+      },
+      "ok": {
+          "type": "",
+          "path": ""
+      },
+      "cancel": {
+          "type": "",
+          "path": ""
+      },
+      "close": {
+          "type": "",
+          "path": ""
+      },
+      "yes": {
+          "type": "",
+          "path": ""
+      },
+      "no": {
+          "type": "",
+          "path": ""
+      },
+      "search button": {
+          "type": "",
+          "path": ""
+      },
+      "suggestions": {
+          "type": "",
+          "path": ""
       }
     }
-    chai.expect(actions.addElement(null).element).to.eql(element)
+  chai.expect(actions.addElement(null).element).to.eql(element)
   })
   it('should create an action to delete element from a page', () => {
     let element = {
