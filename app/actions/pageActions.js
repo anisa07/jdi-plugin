@@ -16,114 +16,12 @@ export function addElement(parentId){
     return {
         type: 'ADD_ELEMENT',
         element: {
-            "expanded": false,
-            "name": "",
-            "type": "button",
+            "Name": "",
+            "Type": ["Button"],
             "parent": "",
-            "enum": "",
             "parentId": parentId,
-            "root":{
-                "type": "",
-                "path": ""
-            },
-            "locator": {
-                "type": "",
-                "path": ""
-            },
-            "value": {
-                "type": "",
-                "path": ""
-            },
-            "list": {
-                "type": "",
-                "path": ""
-            },
-            "expand": {
-                "type": "",
-                "path": ""
-            },
-            "headers": "",
-            "rowHeaders": "",
-            "header": {
-                "type": "",
-                "path": ""
-            },
-            "rowHeader": {
-                "type": "",
-                "path": ""
-            },
-            "cell": {
-                "type": "",
-                "path": ""
-            },
-            "column": {
-                "type": "",
-                "path": ""
-            },
-            "row": {
-                "type": "",
-                "path": ""
-            },
-            "footer": {
-                "type": "",
-                "path": ""
-            },
-            "height": "",
-            "width": "",
-            "rowStartIndex": "",
-            "columnStartIndex": "",
-            "headerType": "",
-            "useCache": false,
-            "entity": "",
-            "isSection": false,
-            "next": {
-                "type": "",
-                "path": ""
-            },
-            "previous": {
-                "type": "",
-                "path": ""
-            },
-            "first": {
-                "type": "",
-                "path": ""
-            },
-            "last": {
-                "type": "",
-                "path": ""
-            },
-            "page": {
-                "type": "",
-                "path": ""
-            },
-            "ok": {
-                "type": "",
-                "path": ""
-            },
-            "cancel": {
-                "type": "",
-                "path": ""
-            },
-            "close": {
-                "type": "",
-                "path": ""
-            },
-            "yes": {
-                "type": "",
-                "path": ""
-            },
-            "no": {
-                "type": "",
-                "path": ""
-            },
-            "search button": {
-                "type": "",
-                "path": ""
-            },
-            "suggestions": {
-                "type": "",
-                "path": ""
-            }
+            "LocatorType": "",
+            "LocatorPath": ""
         }
     }
 }

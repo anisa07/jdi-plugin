@@ -1,7 +1,7 @@
 import { createStore, combineReducers } from 'redux';
 import { mainReducer } from '../reducers/mainReducer';
 import { PageObjectJSON, SiteInfoJSON } from '../data/pageObject';
-import { Elements, Locators } from '../data/settings';
+import { Elements, Locators, ElementFields, HeaderTypes } from '../data/settings';
 
 
 let initialState = {
@@ -9,14 +9,16 @@ let initialState = {
     SiteInfo: Object.assign({}, SiteInfoJSON),
     Elements: Elements.slice(),
     Locators: Locators.slice(),
+    ElementFields: ElementFields,
     activeTabPageId: -1,
     settingsForSite: true,
     activePageObject: {},
     resultTree: [],
     pageMap: new Map(),
     selectedElement: "",
-    searchedPages: PageObjectJSON.slice()
-}
+    searchedPages: PageObjectJSON.slice(),
+    HeaderTypes: HeaderTypes,
+};
 
 let store = createStore(mainReducer,initialState);
 

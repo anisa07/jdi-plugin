@@ -26,8 +26,8 @@ function drawMap(arr, mapArr) {
     if (arr.length) {
         for (let i = 0; i < arr.length; i++) {
             let element = arr[i];
-            element.title = element.name;
-            element.subtitle = element.type;
+            element.title = element.Name;
+            element.subtitle = element.Type;
             // let parent = element.parent;
             // if (mapArr.has(parent)) {
             //     let list = mapArr.get(parent);
@@ -54,7 +54,7 @@ function searchElement(searched, pageElements) {
     let result = [];
 
     searchedArr = pageElements.filter((element) => {
-        if (element.name.toLowerCase().includes(searched)) {
+        if (element.Name.toLowerCase().includes(searched)) {
             return element;
         }
     });

@@ -36,7 +36,7 @@ export let changeTree = (mainObj, treeData) => {
             let children = [];
             if (nodeArr[k].children.length) {
                 let newParentId = nodeArr[k].elId;
-                let newParent = nodeArr[k].name;
+                let newParent = nodeArr[k].Name;
                 children = nodeArr[k].children;
                 children.forEach((el) => {
                     el.parentId = newParentId;
@@ -80,7 +80,7 @@ export let addElement = (mainObj, element) => {
     } 
       
     element.parent = parent;  
-    element.name = genRand("Element");
+    element.Name = genRand("Element");
     element.elId = genRand("El");
     
     elementsArray.push(element);
@@ -164,26 +164,36 @@ export let editElement = (mainObj, elField, value) =>{
         let pageId = objCopy.activeTabPageId;
         let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
         let selectedElement = objCopy.selectedElement;
+        let typesMap = objCopy.ElementFields;
 
-        if (elField.length > 1){
-            selectedElement[elField[0]][elField[1]] = value;
-            elementsArray.map((element)=>{
+        // if (elField.length > 1){
+        //     selectedElement[elField[0]][elField[1]] = value;
+             elementsArray.map((element)=>{
                 if (element.elId === selectedElement.elId){
-                    element[elField[0]][elField[1]] = value;
+                    if (Array.isArray(element[elField])){
+                        element[elField].pop();
+                        element[elField].push(value);
+                    } else {
+                        element[elField] = value;
+                    }
                 }
                 return element;
-            })
-        } else {
-            selectedElement[elField[0]] = value;
-            elementsArray.map((element)=>{
-                if (element.elId === selectedElement.elId){
-                    element[elField[0]] = value;
-                }
-                return element;
-            })
-        }
+            });
+        // } else {
+        //     selectedElement[elField[0]] = value;
+        //     elementsArray.map((element)=>{
+        //         if (element.elId === selectedElement.elId){
+        //             if (Array.isArray(element[elField[0]])){
+        //                 element[elField[0]].push(value);
+        //             }
+        //             element[elField[0]] = value;
+        //         }
+        //         return element;
+        //     })
+        // }
 
-        if (elField[0] === "type" && (value !== "section" && value !== "form")){
+        if (elField === "Type" && (value !== "Section" && value !== "Form")){
+            let fields = typesMap.get(value);
 
             let l = selectedElement.children.length;
             for (let k=0; k<l; k++){
@@ -193,6 +203,18 @@ export let editElement = (mainObj, elField, value) =>{
                     }
                 })
             }
+
+            let parent = selectedElement.parent;
+            let parentId = selectedElement.parentId;
+            let elId = selectedElement.elId;
+            let name = selectedElement.Name;
+            selectedElement = {};
+            selectedElement = {...fields};
+            selectedElement.parent = parent;
+            selectedElement.parentId = parentId;
+            selectedElement.elId = elId;
+            selectedElement.Name = name;
+
         }
 
         objCopy.PageObjects.map((page)=>{
@@ -200,7 +222,7 @@ export let editElement = (mainObj, elField, value) =>{
                 page.elements = elementsArray;
             }
             return page
-        })
+        });
 
         map = drawMap(elementsArray, new Map());
         resTree = getChildren(map, null);

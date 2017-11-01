@@ -100,149 +100,93 @@ function PanelLeftPage(props) {
 //     searchElement: PropTypes.func.isRequired
 // }
 
+{/*<div className="selectContainer"> </div>*/
+}
 let Input = (props) => {
     let store = props.store;
-    return (
-        <div className="selectContainer">
-            <span>{props.inputName}</span>
-            <input type="text"
-                   className="form-control pageSetting"
-                   value={props.inputValue}
-                   onChange={(e) => {
-                       let value = e.target.value;
-                       store.dispatch(pageActions.editElement(props.inputEvArr, value))
-                   }}/>
-        </div>
-    )
+    return (<label>{props.inputName}: <input
+        type="text"
+        className="form-control pageSetting"
+        value={props.inputValue}
+        onChange={(e) => {
+        let value = e.target.value; store.dispatch(pageActions.editElement(props.inputName, value))}}/>
+    </label>)
 };
 
 let InputSelect = (props) => {
     let store = props.store;
-    return (<div className="selectContainer">
-        <span>{props.inputName}</span>
-        <input type="text"
-               className="form-control pageSetting"
-               value={props.inputValue}
-               onChange={(e) => {
-                   let value = e.target.value;
-                   store.dispatch(pageActions.editElement(props.inputEvArr, value))
-               }}/>
+    return (
         <select className="form-control pageSettingCombo" value={props.selectValue} onChange={(e) => {
             let value = e.target.value;
-            store.dispatch(pageActions.editElement(props.selectEvArr, value))
+            store.dispatch(pageActions.editElement(props.selectName, value))
         }}>
             {
                 props.arr.map((element) => {
                     return (
-                        <option key={element.toLowerCase()} value={element.toLowerCase()}>{element}</option>
+                        <option key={element.toLowerCase()}>{element}</option>
                     )
                 })
             }
         </select>
-    </div>)
+    )
 }
 
-
-//Button, Checkbox, Image, Label, Link, Text, TextField, Input, TextArea, DataPicker, FileInput
-let enUm = ["selector", "checkList", "menu", "radiobuttons", "tabs", "textlist", "chat", "combobox", "dropdown",
-    "droplist", "listofelements"];
-let root = ["combobox", "dropdown", "droplist", "table", "dynamictable"];
-let loc = ["button", "checkbox", "image", "label", "link", "text", "textfield", "input", "textarea", "datapicker",
-    "fileinput", "section", "form", "selector", "checkList", "menu", "radiobuttons", "tabs", "textlist", "chat", "listofelements"];
-let val = ["combobox", "dropdown", "droplist", "search"];
-let listExpand = ["combobox", "dropdown", "droplist"];
-let tables = ["table", "dynamictable"];
-let tableVals = ["All Headers", "No Headers", "Columns Headers", "Rows Headers"]
+function chooseArr(f, state) {
+    switch (f) {
+        case "HeaderType" :{
+            return state.HeaderTypes;
+        }
+        case "Type":{
+            return state.Elements;
+        }
+        case "ListOfElements": {
+            return state.Elements.filter((e)=>{if(e!=="ListOfElements"){return e}});
+        }
+        default:{
+            return state.Locators;
+        }
+    }
+}
 
 function PanelRightPage(props) {
     let state = props.state;
     let store = props.store;
+    let show = false;
+    let element = state.selectedElement;
+    if (element !== null && element !== "") {
+        show = true;
+    }
+    let notVisible = ["title", "subtitle", "elId", "parent", "parentId", "isSection", "expanded", "children"];
+    let allFields = Object.keys(element);
+    let visible = [];
+
+    for (let i = 0; i < allFields.length; i++) {
+        if (!notVisible.includes(allFields[i])) {
+            visible.push(allFields[i]);
+        }
+    }
+
     return (
         <div className="panel panel-default">
             <div className="panel-body">
-                {(typeof state.selectedElement === "object") ? <div>
-                    <InputSelect
-                        store={store}
-                        inputName={"Name: "}
-                        inputValue={state.selectedElement.name}
-                        inputEvArr={["name"]}
-                        selectValue={state.selectedElement.type}
-                        selectEvArr={["type"]}
-                        arr={state.Elements}
-                    />
+                {
+                    show ? visible.map((f) => {
+                        if (typeof element[f] === "string") {
+                            return (<div className="selectContainer" key={f}>
+                                <Input inputName={f} inputValue={element[f]} store={store}/>
+                            </div>)
+                        }
+                        if (typeof element[f] === "boolean") {
 
-                    {(loc.includes(state.selectedElement.type)) ?
-                        <InputSelect
-                            store={store}
-                            inputName={"Locator: "}
-                            inputValue={state.selectedElement.locator.path}
-                            inputEvArr={["locator", "path"]}
-                            selectValue={state.selectedElement.locator.type}
-                            selectEvArr={["locator", "type"]}
-                            arr={state.Locators}
-                        /> : null}
-
-                    { (root.includes(state.selectedElement.type)) ?
-                        <InputSelect
-                            store={store}
-                            inputName={"Root: "}
-                            inputValue={state.selectedElement.root.path}
-                            inputEvArr={["root", "path"]}
-                            selectValue={state.selectedElement.root.type}
-                            selectEvArr={["root", "type"]}
-                            arr={state.Locators}
-                        /> : null}
-
-                    { (val.includes(state.selectedElement.type)) ?
-                        <InputSelect
-                            store={store}
-                            inputName={"Value: "}
-                            inputValue={state.selectedElement.value.path}
-                            inputEvArr={["value", "path"]}
-                            selectValue={state.selectedElement.value.type}
-                            selectEvArr={["value", "type"]}
-                            arr={state.Locators}
-                        /> : null}
-
-                    { (listExpand.includes(state.selectedElement.type)) ?
-                        <div>
-                            <InputSelect
-                                store={store}
-                                inputName={"List: "}
-                                inputValue={state.selectedElement.list.path}
-                                inputEvArr={["list", "path"]}
-                                selectValue={state.selectedElement.list.type}
-                                selectEvArr={["list", "type"]}
-                                arr={state.Locators}
-                            />
-                            <InputSelect
-                                store={store}
-                                inputName={"Expand: "}
-                                inputValue={state.selectedElement.expand.path}
-                                inputEvArr={["expand", "path"]}
-                                selectValue={state.selectedElement.expand.type}
-                                selectEvArr={["expand", "type"]}
-                                arr={state.Locators}
-                            />
-                        </div>
-                        : null}
-
-                    {
-                        (tables.includes(state.selectedElement.type)) ?
-                            <div>
-                                
-                            </div> : null
-                    }
-
-                    { (enUm.includes(state.selectedElement.type)) ?
-                        <Input
-                            store={store}
-                            inputName={"Enum: "}
-                            inputValue={state.selectedElement.enum}
-                            inputEvArr={["enum"]}
-                        /> : null}
-
-                </div> : null}
+                        }
+                        if (Array.isArray(element[f])) {
+                            let a = chooseArr(f,state);
+                            return (<div className="selectContainer" key={f}>
+                                <InputSelect selectValue={element[f][0]} selectName={f} arr={a} store={store}/>
+                            </div>)
+                        }
+                    }) : null
+                }
             </div>
         </div>
     )
