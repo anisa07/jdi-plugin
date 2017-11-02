@@ -16,7 +16,8 @@ export let showPage = (mainObj, id) => {
         activeTabPageId: id,
         settingsForSite: false,
         resultTree: resTree,
-        pageMap: map
+        pageMap: map,
+        selectedElement: ""
     })
 }
 
@@ -167,20 +168,6 @@ export let editElement = (mainObj, elField, value) => {
         let selectedElement = objCopy.selectedElement;
         let typesMap = objCopy.ElementFields;
 
-        elementsArray.map((element) => {
-            if (element.elId === selectedElement.elId) {
-                if (Array.isArray(element[elField])) {
-                    selectedElement[elField].pop();
-                    selectedElement[elField].push(value);
-                    element[elField] = selectedElement[elField]
-                } else {
-                    element[elField] = value;
-                    selectedElement[elField] = value;
-                }
-            }
-            return element;
-        });
-
         if (elField === "Type") {
             let l = selectedElement.children.length;
             for (let k = 0; k < l; k++) {
@@ -202,12 +189,26 @@ export let editElement = (mainObj, elField, value) => {
             selectedElement.children = [];
         }
 
+        elementsArray = elementsArray.map((element) => {
+            if (element.elId === selectedElement.elId) {
+                if (Array.isArray(element[elField])) {
+                    selectedElement[elField].pop();
+                    selectedElement[elField].push(value);
+                } else {
+                    selectedElement[elField] = value;
+                }
+                element = selectedElement
+            }
+            return element;
+        });
+
         objCopy.PageObjects.map((page) => {
             if (pageId === page.pageId) {
                 page.elements = elementsArray;
             }
             return page
         });
+
 
         map = drawMap(elementsArray, new Map());
         resTree = getChildren(map, null);

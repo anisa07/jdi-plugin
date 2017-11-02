@@ -34,7 +34,7 @@ function PanelLeftPage(props) {
                             }}
                             generateNodeProps={({node}) => (
                                 {
-                                    buttons: (node.type === "section" || node.type === "form") ? [
+                                    buttons: (node.isSection) ? [
                                         <button
                                             onClick={() => {
                                                 store.dispatch(pageActions.selectElement(node.elId))
@@ -142,13 +142,13 @@ let InputSelect = (props) => {
 
 function chooseArr(f, state) {
     switch (f) {
-        case "HeaderType" : {
+        case "HeaderTypes" : {
             return state.HeaderTypes;
         }
         case "Type": {
             return state.Elements;
         }
-        case "ListOfElements": {
+        case "ListItemsTypes": {
             return state.Elements.filter((e) => {
                 if (e !== "ListOfElements") {
                     return e
@@ -182,9 +182,9 @@ function PanelRightPage(props) {
         <div className="panel panel-default">
             <div className="panel-body">
                 {
-                    show ? visible.map((f) => {
+                    show ? visible.map((f, i) => {
                         if (typeof element[f] === "string") {
-                            return (<div className="selectContainer" key={f}>
+                            return (<div className="selectContainer" key={f+i}>
                                 <Input inputName={f} inputValue={element[f]} store={store}/>
                             </div>)
                         }
@@ -192,7 +192,7 @@ function PanelRightPage(props) {
                         }
                         if (Array.isArray(element[f])) {
                             let a = chooseArr(f, state);
-                            return (<div className="selectContainer" key={f}>
+                            return (<div className="selectContainer" key={f+i}>
                                 <InputSelect selectValue={element[f][0]} selectName={f} arr={a} store={store}/>
                             </div>)
                         }

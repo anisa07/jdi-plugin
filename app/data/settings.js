@@ -13,14 +13,9 @@ let Elements = [
     "ListOfElements"
 ];
 let Locators = ["class","css","xpath","id","name","tag","text"];
-let HeaderTypes = ["All", "Headers" , "No Headers", "Columns", "Headers", "Rows Headers"];
+let HeaderTypes = ["All", "Headers" , "No Headers", "Columns Headers", "Rows Headers"];
 let ElementFields = new Map();
-let commonFields = {
-    "Name": "",
-    "Type": [],
-    "parent": "",
-    "parentId": ""
-};
+
 ElementFields.set("Button", {"LocatorType": [],"LocatorPath": ""});
 ElementFields.set("Image", {"LocatorType": [],"LocatorPath": ""});
 ElementFields.set("Checkbox", {"LocatorType": [],"LocatorPath": ""});
@@ -50,12 +45,12 @@ ElementFields.set("Droplist", {"RootType": [],"RootPath": "","ValueType": [],"Va
 ElementFields.set("Table", {"RootType": [],"RootPath": "","Headers": "","RowHeaders": "", "HeaderType": [],"HeaderPath": "",
     "RowHeaderType": [],"RowHeaderPath": "", "CellType": [],"CellPath": "", "ColumnType": [],"ColumnPath": "", "RowType": [],"RowPath": "",
     "FooterType": [],"FooterPath": "", "Height": "","Width": "","RowStartIndex": "", "UseCache": true,
-    "HeaderType" : []
+    "HeaderTypes" : []
 });
 ElementFields.set("DynamicTable", {"RootType": [],"RootPath": "","Headers": "","RowHeaders": "", "HeaderType": [],"HeaderPath": "",
     "RowHeaderType": [],"RowHeaderPath": "", "CellType": [],"CellPath": "", "ColumnType": [],"ColumnPath": "", "RowType": [],"RowPath": "",
     "FooterType": [],"FooterPath": "", "Height": "","Width": "","RowStartIndex": "", "UseCache": true,
-    "HeaderType" : []
+    "HeaderTypes" : []
 });
 ElementFields.set("Pagination", {"NextType": [],"NextPath": "", "PreviousType": [],"PreviousPath": "",
     "FirstType": [],"FirstPath": "", "LastType": [],"LastPath": "", "PageType": [],"PagePath": ""});

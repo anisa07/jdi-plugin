@@ -85,6 +85,7 @@ let PageObjectJSON = [
             },
             {
                 "expanded": false,
+                "isSection": true,
                 "Name": "t7",
                 "Type": ["Form"],
                 "parent": null,
