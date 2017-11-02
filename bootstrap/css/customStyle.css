@@ -180,7 +180,7 @@ button[id^="closePage"]{
 
 .pageSettingCombo {
     display: inline;
-    margin-top: 10px;
+    /*margin-top: 10px;*/
     min-width: 100px;
     width: 10%;
 }

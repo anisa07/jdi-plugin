@@ -1,5 +1,5 @@
-import { getChildren, drawMap, searchElement } from '../functional parts/tree';
-import { findPage, findElement } from '../functional parts/common';
+import {getChildren, drawMap, searchElement} from '../functional parts/tree';
+import {findPage, findElement} from '../functional parts/common';
 
 let map = new Map();
 let resTree = [];
@@ -24,11 +24,11 @@ export let changeTree = (mainObj, treeData) => {
     let objCopy = Object.assign({}, mainObj);
     let pageId = objCopy.activeTabPageId;
     let copyPageObjectsArray = findPage(pageId, objCopy.PageObjects).elements;
-    
+
     treeData.forEach((el) => {
         el.parent = null;
     })
-   
+
     function check(nodeArr) {
         let result = [];
         for (let k = 0; k < nodeArr.length; k++) {
@@ -57,7 +57,7 @@ export let changeTree = (mainObj, treeData) => {
 
     objCopy.pageMap = map;
     objCopy.resultTree = treeData;
-    
+
     return objCopy;
 }
 
@@ -66,9 +66,9 @@ export let addElement = (mainObj, element) => {
     let pageId = objCopy.activeTabPageId;
     let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
     let parent = null;
-    if (element.parentId !== null){
-        parent  = elementsArray.find((el)=>{
-            if (el.elId === element.parentId){
+    if (element.parentId !== null) {
+        parent = elementsArray.find((el) => {
+            if (el.elId === element.parentId) {
                 return el;
             }
         });
@@ -77,12 +77,12 @@ export let addElement = (mainObj, element) => {
                 return el.expanded = true;
             }
         });
-    } 
-      
-    element.parent = parent;  
+    }
+
+    element.parent = parent;
     element.Name = genRand("Element");
     element.elId = genRand("El");
-    
+
     elementsArray.push(element);
     map = drawMap(elementsArray, new Map());
     objCopy.pageMap = map
@@ -93,40 +93,41 @@ export let addElement = (mainObj, element) => {
 export let deleteElement = (mainObj, elId) => {
     function del(arr, id) {
         return arr.filter((el) => {
-            if (el.elId !== id){
+            if (el.elId !== id) {
                 return el;
-            } 
+            }
         })
     }
+
     let objCopy = Object.assign({}, mainObj);
     let pageId = objCopy.activeTabPageId;
     let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
     let element = findElement(elId, elementsArray);
     let newArr = del(elementsArray, elId);
-   
-    if (element.children && element.children.length){
-       let children = element.children;
-       children.forEach((child) => {
-           newArr = del(newArr, child.elId);
-       });
+
+    if (element.children && element.children.length) {
+        let children = element.children;
+        children.forEach((child) => {
+            newArr = del(newArr, child.elId);
+        });
     }
 
     map = drawMap(newArr, new Map());
     resTree = getChildren(map, null);
 
-    objCopy.PageObjects.map((page)=>{
-        if (pageId === page.pageId){
+    objCopy.PageObjects.map((page) => {
+        if (pageId === page.pageId) {
             page.elements = newArr;
         }
         return page
-    })
-    
+    });
+
     objCopy.pageMap = map;
     objCopy.resultTree = resTree;
     objCopy.selectedElement = "";
 
     return objCopy;
-}
+};
 
 export let selectElement = (mainObj, elId) => {
     let objCopy = Object.assign({}, mainObj);
@@ -135,9 +136,9 @@ export let selectElement = (mainObj, elId) => {
     let element = findElement(elId, elementsArray);
     objCopy.selectedElement = element;
     return objCopy;
-}
+};
 
-export let searchEl = (mainObj,elName) => {
+export let searchEl = (mainObj, elName) => {
     let objCopy = Object.assign({}, mainObj);
     let pageId = objCopy.activeTabPageId;
     let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
@@ -156,69 +157,53 @@ export let searchEl = (mainObj,elName) => {
     objCopy.selectedElement = "";
 
     return objCopy;
-}
+};
 
-export let editElement = (mainObj, elField, value) =>{
+export let editElement = (mainObj, elField, value) => {
     let objCopy = Object.assign({}, mainObj);
-    if (value.length){
+    if (value.length) {
         let pageId = objCopy.activeTabPageId;
         let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
         let selectedElement = objCopy.selectedElement;
         let typesMap = objCopy.ElementFields;
 
-        // if (elField.length > 1){
-        //     selectedElement[elField[0]][elField[1]] = value;
-             elementsArray.map((element)=>{
-                if (element.elId === selectedElement.elId){
-                    if (Array.isArray(element[elField])){
-                        element[elField].pop();
-                        element[elField].push(value);
-                    } else {
-                        element[elField] = value;
-                    }
+        elementsArray.map((element) => {
+            if (element.elId === selectedElement.elId) {
+                if (Array.isArray(element[elField])) {
+                    selectedElement[elField].pop();
+                    selectedElement[elField].push(value);
+                    element[elField] = selectedElement[elField]
+                } else {
+                    element[elField] = value;
+                    selectedElement[elField] = value;
                 }
-                return element;
-            });
-        // } else {
-        //     selectedElement[elField[0]] = value;
-        //     elementsArray.map((element)=>{
-        //         if (element.elId === selectedElement.elId){
-        //             if (Array.isArray(element[elField[0]])){
-        //                 element[elField[0]].push(value);
-        //             }
-        //             element[elField[0]] = value;
-        //         }
-        //         return element;
-        //     })
-        // }
+            }
+            return element;
+        });
 
-        if (elField === "Type" && (value !== "Section" && value !== "Form")){
-            let fields = typesMap.get(value);
-
+        if (elField === "Type") {
             let l = selectedElement.children.length;
-            for (let k=0; k<l; k++){
-                elementsArray = elementsArray.filter((el)=>{
-                    if (el.elId !== selectedElement.children[k].elId){
+            for (let k = 0; k < l; k++) {
+                elementsArray = elementsArray.filter((el) => {
+                    if (el.elId !== selectedElement.children[k].elId) {
                         return el;
                     }
                 })
             }
-
-            let parent = selectedElement.parent;
-            let parentId = selectedElement.parentId;
-            let elId = selectedElement.elId;
-            let name = selectedElement.Name;
-            selectedElement = {};
-            selectedElement = {...fields};
-            selectedElement.parent = parent;
-            selectedElement.parentId = parentId;
-            selectedElement.elId = elId;
-            selectedElement.Name = name;
-
+            let commonFields = {
+                "Name": selectedElement.Name,
+                "Type": selectedElement.Type,
+                "parent": selectedElement.parent,
+                "parentId": selectedElement.parentId,
+                "elId": selectedElement.elId
+            };
+            let fields = typesMap.get(value);
+            selectedElement = {...commonFields, ...fields};
+            selectedElement.children = [];
         }
 
-        objCopy.PageObjects.map((page)=>{
-            if (pageId === page.pageId){
+        objCopy.PageObjects.map((page) => {
+            if (pageId === page.pageId) {
                 page.elements = elementsArray;
             }
             return page
@@ -228,6 +213,7 @@ export let editElement = (mainObj, elField, value) =>{
         resTree = getChildren(map, null);
         objCopy.resultTree = resTree;
         objCopy.pageMap = map;
+        objCopy.selectedElement = selectedElement;
     }
     return objCopy;
-}
+};

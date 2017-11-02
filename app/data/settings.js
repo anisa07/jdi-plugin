@@ -3,7 +3,7 @@ let Elements = [
     "Section",
     "Form",
     "Selector", "CheckList", "Menu", "RadioButtons", "Tabs", "TextList", "Chat",
-    "Combobox", "Dropdown", "DropList",
+    "ComboBox", "Dropdown", "DropList",
     "Table", "DynamicTable",
     "Pagination",
     "Popup",
@@ -21,49 +21,49 @@ let commonFields = {
     "parent": "",
     "parentId": ""
 };
-ElementFields.set("Button", {"LocatorType": [],"LocatorPath": "", ...commonFields});
-ElementFields.set("Image", {"LocatorType": [],"LocatorPath": "", ...commonFields});
-ElementFields.set("Checkbox", {"LocatorType": [],"LocatorPath": "", ...commonFields});
-ElementFields.set("Label", {"LocatorType": [],"LocatorPath": "", ...commonFields});
-ElementFields.set("Link", {"LocatorType": [],"LocatorPath": "", ...commonFields});
-ElementFields.set("Text", {"LocatorType": [],"LocatorPath": "", ...commonFields});
-ElementFields.set("TextField",{"LocatorType": [],"LocatorPath": "", ...commonFields});
-ElementFields.set("Input", {"LocatorType": [],"LocatorPath": "", ...commonFields});
-ElementFields.set("TextArea", {"LocatorType": [],"LocatorPath": "", ...commonFields});
-ElementFields.set("DataPicker", {"LocatorType": [],"LocatorPath": "", ...commonFields});
-ElementFields.set("FileInput", {"LocatorType": [],"LocatorPath": "", ...commonFields});
-ElementFields.set("Section", {"LocatorType": [],"LocatorPath": "", ...commonFields, "isSection": true, "expanded": false});
-ElementFields.set("Form", {"LocatorType": [],"LocatorPath": "", ...commonFields, "isSection": true, "Entity": "", "expanded": false});
-ElementFields.set("Selector", {"LocatorType": [],"LocatorPath": "", ...commonFields, "Enum": ""});
-ElementFields.set("CheckList", {"LocatorType": [],"LocatorPath": "", ...commonFields, "Enum": ""});
-ElementFields.set("Menu", {"LocatorType": [],"LocatorPath": "", ...commonFields, "Enum": ""});
-ElementFields.set("RadioButtons", {"LocatorType": [],"LocatorPath": "", ...commonFields, "Enum": ""});
-ElementFields.set("Tabs", {"LocatorType": [],"LocatorPath": "", ...commonFields, "Enum": ""});
-ElementFields.set("TextList", {"LocatorType": [],"LocatorPath": "", ...commonFields, "Enum": ""});
-ElementFields.set("Chat", {"LocatorType": [],"LocatorPath": "", ...commonFields, "Enum": ""});
+ElementFields.set("Button", {"LocatorType": [],"LocatorPath": ""});
+ElementFields.set("Image", {"LocatorType": [],"LocatorPath": ""});
+ElementFields.set("Checkbox", {"LocatorType": [],"LocatorPath": ""});
+ElementFields.set("Label", {"LocatorType": [],"LocatorPath": ""});
+ElementFields.set("Link", {"LocatorType": [],"LocatorPath": ""});
+ElementFields.set("Text", {"LocatorType": [],"LocatorPath": ""});
+ElementFields.set("TextField",{"LocatorType": [],"LocatorPath": ""});
+ElementFields.set("Input", {"LocatorType": [],"LocatorPath": ""});
+ElementFields.set("TextArea", {"LocatorType": [],"LocatorPath": ""});
+ElementFields.set("DataPicker", {"LocatorType": [],"LocatorPath": ""});
+ElementFields.set("FileInput", {"LocatorType": [],"LocatorPath": ""});
+ElementFields.set("Section", {"LocatorType": [],"LocatorPath": "", "isSection": true, "expanded": false});
+ElementFields.set("Form", {"LocatorType": [],"LocatorPath": "", "isSection": true, "Entity": "", "expanded": false});
+ElementFields.set("Selector", {"LocatorType": [],"LocatorPath": "", "Enum": ""});
+ElementFields.set("CheckList", {"LocatorType": [],"LocatorPath": "", "Enum": ""});
+ElementFields.set("Menu", {"LocatorType": [],"LocatorPath": "", "Enum": ""});
+ElementFields.set("RadioButtons", {"LocatorType": [],"LocatorPath": "", "Enum": ""});
+ElementFields.set("Tabs", {"LocatorType": [],"LocatorPath": "", "Enum": ""});
+ElementFields.set("TextList", {"LocatorType": [],"LocatorPath": "", "Enum": ""});
+ElementFields.set("Chat", {"LocatorType": [],"LocatorPath": "", "Enum": ""});
 ElementFields.set("ComboBox", {"RootType": [],"RootPath": "","ValueType": [],"ValuePath": "",
-    "ListType": [],"ListPath": "", "ExpandType": [],"ExpandPath": "", ...commonFields, "Enum": "", });
+    "ListType": [],"ListPath": "", "ExpandType": [],"ExpandPath": "", "Enum": "", });
 ElementFields.set("Dropdown", {"RootType": [],"RootPath": "","ValueType": [],"ValuePath": "",
-    "ListType": [],"ListPath": "", "ExpandType": [],"ExpandPath": "", ...commonFields, "Enum": "", });
+    "ListType": [],"ListPath": "", "ExpandType": [],"ExpandPath": "", "Enum": "", });
 ElementFields.set("Droplist", {"RootType": [],"RootPath": "","ValueType": [],"ValuePath": "",
-    "listType": [],"listPath": "", "ExpandType": [],"ExpandPath": "", ...commonFields, "Enum": "", });
+    "listType": [],"listPath": "", "ExpandType": [],"ExpandPath": "", "Enum": "", });
 ElementFields.set("Table", {"RootType": [],"RootPath": "","Headers": "","RowHeaders": "", "HeaderType": [],"HeaderPath": "",
     "RowHeaderType": [],"RowHeaderPath": "", "CellType": [],"CellPath": "", "ColumnType": [],"ColumnPath": "", "RowType": [],"RowPath": "",
-    "FooterType": [],"FooterPath": "",  ...commonFields, "Height": "","Width": "","RowStartIndex": "", "UseCache": true,
+    "FooterType": [],"FooterPath": "", "Height": "","Width": "","RowStartIndex": "", "UseCache": true,
     "HeaderType" : []
 });
 ElementFields.set("DynamicTable", {"RootType": [],"RootPath": "","Headers": "","RowHeaders": "", "HeaderType": [],"HeaderPath": "",
     "RowHeaderType": [],"RowHeaderPath": "", "CellType": [],"CellPath": "", "ColumnType": [],"ColumnPath": "", "RowType": [],"RowPath": "",
-    "FooterType": [],"FooterPath": "",  ...commonFields, "Height": "","Width": "","RowStartIndex": "", "UseCache": true,
+    "FooterType": [],"FooterPath": "", "Height": "","Width": "","RowStartIndex": "", "UseCache": true,
     "HeaderType" : []
 });
 ElementFields.set("Pagination", {"NextType": [],"NextPath": "", "PreviousType": [],"PreviousPath": "",
-    "FirstType": [],"FirstPath": "", "LastType": [],"LastPath": "", "PageType": [],"PagePath": "", ...commonFields});
-ElementFields.set("Popup", {"OkType": [],"OkPath": "", "CancelType": [],"CancelPath": "", "CloseType": [],"ClosePath": "", ...commonFields});
-ElementFields.set("Yes/NoDialog", {"YesType": [],"YesPath": "", "NoType": [],"NoPath": "", "CloseType": [],"ClosePath": "", ...commonFields});
-ElementFields.set("Alert", {"OkType": [],"OkPath": "", "CloseType": [],"ClosePath": "", ...commonFields});
-ElementFields.set("Search", {"ValueType": [],"ValuePath": "", "SearchButtonType": [], "SearchButtonPath": "", "SuggestionsType": [],"SuggestionsPath": "", ...commonFields});
-ElementFields.set("ListOfElements", {"LocatorType": [],"LocatorPath": "", "ListItemsTypes": [], "Enum": "", ...commonFields});
+    "FirstType": [],"FirstPath": "", "LastType": [],"LastPath": "", "PageType": [],"PagePath": ""});
+ElementFields.set("Popup", {"OkType": [],"OkPath": "", "CancelType": [],"CancelPath": "", "CloseType": [],"ClosePath": ""});
+ElementFields.set("Yes/NoDialog", {"YesType": [],"YesPath": "", "NoType": [],"NoPath": "", "CloseType": [],"ClosePath": ""});
+ElementFields.set("Alert", {"OkType": [],"OkPath": "", "CloseType": [],"ClosePath": ""});
+ElementFields.set("Search", {"ValueType": [],"ValuePath": "", "SearchButtonType": [], "SearchButtonPath": "", "SuggestionsType": [],"SuggestionsPath": ""});
+ElementFields.set("ListOfElements", {"LocatorType": [],"LocatorPath": "", "ListItemsTypes": [], "Enum": ""});
 
 
 // {

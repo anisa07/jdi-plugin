@@ -104,45 +104,58 @@ function PanelLeftPage(props) {
 }
 let Input = (props) => {
     let store = props.store;
-    return (<label>{props.inputName}: <input
-        type="text"
-        className="form-control pageSetting"
-        value={props.inputValue}
-        onChange={(e) => {
-        let value = e.target.value; store.dispatch(pageActions.editElement(props.inputName, value))}}/>
-    </label>)
+    return (
+        <div className="selectContainer">
+            <span>{props.inputName}: </span>
+            <input
+                type="text"
+                className="form-control pageSetting"
+                value={props.inputValue}
+                onChange={(e) => {
+                    let value = e.target.value;
+                    store.dispatch(pageActions.editElement(props.inputName, value))
+                }}/>
+
+        </div>)
 };
 
 let InputSelect = (props) => {
     let store = props.store;
     return (
-        <select className="form-control pageSettingCombo" value={props.selectValue} onChange={(e) => {
-            let value = e.target.value;
-            store.dispatch(pageActions.editElement(props.selectName, value))
-        }}>
-            {
-                props.arr.map((element) => {
-                    return (
-                        <option key={element.toLowerCase()}>{element}</option>
-                    )
-                })
-            }
-        </select>
+        <div className="selectContainer">
+            <span>{props.selectName}: </span>
+            <select className="form-control pageSetting" value={props.selectValue}
+                    onChange={(e) => {
+                        let value = e.target.value;
+                        store.dispatch(pageActions.editElement(props.selectName, value))
+                    }}>
+                {
+                    props.arr.map((element) => {
+                        return (
+                            <option key={element.toLowerCase()}>{element}</option>
+                        )
+                    })
+                }
+            </select></div>
     )
 }
 
 function chooseArr(f, state) {
     switch (f) {
-        case "HeaderType" :{
+        case "HeaderType" : {
             return state.HeaderTypes;
         }
-        case "Type":{
+        case "Type": {
             return state.Elements;
         }
         case "ListOfElements": {
-            return state.Elements.filter((e)=>{if(e!=="ListOfElements"){return e}});
+            return state.Elements.filter((e) => {
+                if (e !== "ListOfElements") {
+                    return e
+                }
+            });
         }
-        default:{
+        default: {
             return state.Locators;
         }
     }
@@ -165,7 +178,6 @@ function PanelRightPage(props) {
             visible.push(allFields[i]);
         }
     }
-
     return (
         <div className="panel panel-default">
             <div className="panel-body">
@@ -177,10 +189,9 @@ function PanelRightPage(props) {
                             </div>)
                         }
                         if (typeof element[f] === "boolean") {
-
                         }
                         if (Array.isArray(element[f])) {
-                            let a = chooseArr(f,state);
+                            let a = chooseArr(f, state);
                             return (<div className="selectContainer" key={f}>
                                 <InputSelect selectValue={element[f][0]} selectName={f} arr={a} store={store}/>
                             </div>)
