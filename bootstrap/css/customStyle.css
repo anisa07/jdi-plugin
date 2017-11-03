@@ -175,7 +175,7 @@ button[id^="closePage"]{
     display: inline;
     width: 45%;
     min-width: 200px;
-    margin-right: 10px; 
+    /*margin-right: 10px; */
 }
 
 .pageSettingCombo {
@@ -204,7 +204,7 @@ li a{
 }
 
 .selectContainer span{
-    width: 100px;
+    width: 120px;
     display: inline-block;
     font-weight: bold;
 }

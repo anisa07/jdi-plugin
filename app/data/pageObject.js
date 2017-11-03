@@ -13,86 +13,15 @@ let PageObjectJSON = [
             {
                 "expanded": false,
                 "isSection": true,
-                "parent": "a1",
-                "parentId": "el12342",
-                "Name": "b3",
-                "Type": ["Section"],
-                "elId": "el12347",
-                "LocatorType": [],
-                "LocatorPath": ""
-            },
-            {
-                "expanded": false,
-                "isSection": true,
-                "Name": "t1",
-                "Type": ["Section"],
-                "parent": null,
-                "elId": "el12341",
-                "parentId": null,
-                "LocatorType": [],
-                "LocatorPath": ""
-            },
-            {
-                "expanded": false,
-                "isSection": true,
-                "Name": "a1",
-                "Type": ["Section"],
-                "parent": "t2",
-                "elId": "el12342",
-                "parentId": "el12343",
-                "LocatorType": [],
-                "LocatorPath": ""
-            },
-            {
-                "expanded": false,
-                "isSection": true,
-                "Name": "t2",
-                "Type": ["Section"],
-                "parent": null,
-                "elId": "el12343",
-                "parentId": null,
-                "LocatorType": [],
-                "LocatorPath": ""
-            },
-            {
-                "Name": "t04",
-                "Type": ["Button"],
-                "parent": "t1",
-                "elId": "el12344",
-                "parentId":"el12341",
-                "LocatorType": [],
-                "LocatorPath": ""
-            },
-            {
-                "expanded": false,
-                "Name": "a3",
-                "Type": ["Button"],
-                "parent": "b3",
-                "elId": "el12345",
-                "parentId":"el12347",
-                "LocatorType": [],
-                "LocatorPath": ""
-            },
-            {
-                "expanded": false,
-                "Name": "t0",
-                "Type": ["Button"],
-                "parent": "t1",
-                "elId": "el12346",
-                "parentId":"el12341",
-                "LocatorType": [],
-                "LocatorPath": ""
-            },
-            {
-                "expanded": false,
-                "isSection": true,
                 "Name": "t7",
-                "Type": ["Form"],
+                "Type": "Form",
                 "parent": null,
                 "elId": "el12348",
                 "parentId": null,
-                "LocatorType": [],
-                "LocatorPath": ""
+                "Locator": {
+                    "type": "",
+                    "path": ""
+                }
             },
 
         ]

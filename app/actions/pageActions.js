@@ -17,11 +17,13 @@ export function addElement(parentId){
         type: 'ADD_ELEMENT',
         element: {
             "Name": "",
-            "Type": ["Button"],
+            "Type": "Button",
             "parent": "",
             "parentId": parentId,
-            "LocatorType": "",
-            "LocatorPath": ""
+            "Locator":{
+                "path": "",
+                "type": ""
+            }
         }
     }
 }

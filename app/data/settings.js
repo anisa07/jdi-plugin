@@ -1,22 +1,29 @@
 let Elements = [
-    "Button", "Checkbox", "Image", "Label", "Link", "Text", "TextField", "Input", "TextArea", "DataPicker", "FileInput",
-    "Section",
-    "Form",
-    "Selector", "CheckList", "Menu", "RadioButtons", "Tabs", "TextList", "Chat",
-    "ComboBox", "Dropdown", "DropList",
-    "Table", "DynamicTable",
-    "Pagination",
-    "Popup",
-    "Yes/NoDialog",
-    "Alert",
-    "Search",
-    "ListOfElements"
+    "Button",
+    //"Checkbox", "Image", "Label", "Link", "Text", "TextField", "Input", "TextArea", "DataPicker", "FileInput",
+    // "Section",
+     "Form",
+    // "Selector", "CheckList", "Menu", "RadioButtons", "Tabs", "TextList", "Chat",
+    // "ComboBox", "Dropdown", "DropList",
+    // "Table", "DynamicTable",
+    // "Pagination",
+    // "Popup",
+    // "Yes/NoDialog",
+    // "Alert",
+    // "Search",
+    // "ListOfElements"
 ];
 let Locators = ["class","css","xpath","id","name","tag","text"];
 let HeaderTypes = ["All", "Headers" , "No Headers", "Columns Headers", "Rows Headers"];
+let commonFields = {
+    "Name": "TextField",
+    "Type": "ComboBox",
+    "parent": "internal",
+    "parentId": "internal",
+    "elId": "internal"
+};
 let ElementFields = new Map();
-
-ElementFields.set("Button", {"LocatorType": [],"LocatorPath": ""});
+ElementFields.set("Button", {...commonFields, "Locator":"ComboBoxTextField"});
 ElementFields.set("Image", {"LocatorType": [],"LocatorPath": ""});
 ElementFields.set("Checkbox", {"LocatorType": [],"LocatorPath": ""});
 ElementFields.set("Label", {"LocatorType": [],"LocatorPath": ""});
@@ -27,8 +34,9 @@ ElementFields.set("Input", {"LocatorType": [],"LocatorPath": ""});
 ElementFields.set("TextArea", {"LocatorType": [],"LocatorPath": ""});
 ElementFields.set("DataPicker", {"LocatorType": [],"LocatorPath": ""});
 ElementFields.set("FileInput", {"LocatorType": [],"LocatorPath": ""});
-ElementFields.set("Section", {"LocatorType": [],"LocatorPath": "", "isSection": true, "expanded": false});
-ElementFields.set("Form", {"LocatorType": [],"LocatorPath": "", "isSection": true, "Entity": "", "expanded": false});
+ElementFields.set("Section", {...commonFields, "Locator":"ComboBoxTextField","isSection":"internal","expanded":"internal"});
+ElementFields.set("Form", {...commonFields, "Locator":"ComboBoxTextField","isSection":"internal","Entity":"TextField","expanded":"internal"});
+
 ElementFields.set("Selector", {"LocatorType": [],"LocatorPath": "", "Enum": ""});
 ElementFields.set("CheckList", {"LocatorType": [],"LocatorPath": "", "Enum": ""});
 ElementFields.set("Menu", {"LocatorType": [],"LocatorPath": "", "Enum": ""});

@@ -5,7 +5,7 @@ let map = new Map();
 let resTree = [];
 let genRand = (name) => {
     return (name + (Math.floor(Math.random() * (1000 - 1)) + 1) + (Math.floor(Math.random() * (1000 - 1)) + 1));
-}
+};
 
 export let showPage = (mainObj, id) => {
     let pageElements = findPage(id, mainObj.PageObjects).elements;
@@ -19,7 +19,7 @@ export let showPage = (mainObj, id) => {
         pageMap: map,
         selectedElement: ""
     })
-}
+};
 
 export let changeTree = (mainObj, treeData) => {
     let objCopy = Object.assign({}, mainObj);
@@ -28,7 +28,7 @@ export let changeTree = (mainObj, treeData) => {
 
     treeData.forEach((el) => {
         el.parent = null;
-    })
+    });
 
     function check(nodeArr) {
         let result = [];
@@ -42,7 +42,7 @@ export let changeTree = (mainObj, treeData) => {
                 children.forEach((el) => {
                     el.parentId = newParentId;
                     el.parent = newParent;
-                })
+                });
                 m = result.concat(nodeArr[k].children);
                 result = m;
             }
@@ -60,7 +60,7 @@ export let changeTree = (mainObj, treeData) => {
     objCopy.resultTree = treeData;
 
     return objCopy;
-}
+};
 
 export let addElement = (mainObj, element) => {
     let objCopy = Object.assign({}, mainObj);
@@ -86,10 +86,10 @@ export let addElement = (mainObj, element) => {
 
     elementsArray.push(element);
     map = drawMap(elementsArray, new Map());
-    objCopy.pageMap = map
+    objCopy.pageMap = map;
     objCopy.resultTree = getChildren(map, null);
     return objCopy;
-}
+};
 
 export let deleteElement = (mainObj, elId) => {
     function del(arr, id) {
@@ -168,7 +168,7 @@ export let editElement = (mainObj, elField, value) => {
         let selectedElement = objCopy.selectedElement;
         let typesMap = objCopy.ElementFields;
 
-        if (elField === "Type") {
+        if (elField[0] === "Type") {
             let l = selectedElement.children.length;
             for (let k = 0; k < l; k++) {
                 elementsArray = elementsArray.filter((el) => {
@@ -185,18 +185,46 @@ export let editElement = (mainObj, elField, value) => {
                 "elId": selectedElement.elId
             };
             let fields = typesMap.get(value);
-            selectedElement = {...commonFields, ...fields};
+            for (let field in fields){
+                if (fields[field] === "ComboBoxTextField"){
+                    let n = {
+                        "path": "",
+                        "type": ""
+                    }
+                    selectedElement[field] = n;
+                }
+                if(fields[field] === "CheckBox"){
+                    selectedElement[field] = false;
+                }
+                if (fields[field] === "TextField"){
+                    selectedElement[field] = "";
+                }
+                if (fields[field] === "internal"){
+                    selectedElement[field] = false;
+                }
+                if(field === "Name"){
+                    selectedElement.Name = commonFields.Name
+                }
+                if(field === "parent"){
+                    selectedElement.parent = commonFields.parent
+                }
+                if(field === "parentId"){
+                    selectedElement.parentId = commonFields.parentId
+                }
+                if(field === "elId"){
+                    selectedElement.elId = commonFields.elId
+                }
+            }
             selectedElement.children = [];
         }
 
+        if (elField.length > 1){
+            selectedElement[elField[0]][elField[1]] = value;
+        } else {
+            selectedElement[elField[0]] = value;
+        }
         elementsArray = elementsArray.map((element) => {
             if (element.elId === selectedElement.elId) {
-                if (Array.isArray(element[elField])) {
-                    selectedElement[elField].pop();
-                    selectedElement[elField].push(value);
-                } else {
-                    selectedElement[elField] = value;
-                }
                 element = selectedElement
             }
             return element;

@@ -105,29 +105,27 @@ function PanelLeftPage(props) {
 let Input = (props) => {
     let store = props.store;
     return (
-        <div className="selectContainer">
-            <span>{props.inputName}: </span>
+        <label><span>{props.inputName}: </span>
             <input
                 type="text"
                 className="form-control pageSetting"
                 value={props.inputValue}
                 onChange={(e) => {
                     let value = e.target.value;
-                    store.dispatch(pageActions.editElement(props.inputName, value))
+                    store.dispatch(pageActions.editElement(props.inputArr, value))
                 }}/>
-
-        </div>)
+        </label>)
 };
 
 let InputSelect = (props) => {
     let store = props.store;
     return (
-        <div className="selectContainer">
-            <span>{props.selectName}: </span>
+        <label>
+            {props.inputName ? <span> {props.inputName} </span> : ""}
             <select className="form-control pageSetting" value={props.selectValue}
                     onChange={(e) => {
                         let value = e.target.value;
-                        store.dispatch(pageActions.editElement(props.selectName, value))
+                        store.dispatch(pageActions.editElement(props.selectArr, value))
                     }}>
                 {
                     props.arr.map((element) => {
@@ -136,7 +134,8 @@ let InputSelect = (props) => {
                         )
                     })
                 }
-            </select></div>
+            </select>
+        </label>
     )
 }
 
@@ -178,23 +177,35 @@ function PanelRightPage(props) {
             visible.push(allFields[i]);
         }
     }
+
+    let fieldsTypes = state.ElementFields.get(element.Type);
+
     return (
         <div className="panel panel-default">
             <div className="panel-body">
                 {
                     show ? visible.map((f, i) => {
-                        if (typeof element[f] === "string") {
-                            return (<div className="selectContainer" key={f+i}>
-                                <Input inputName={f} inputValue={element[f]} store={store}/>
-                            </div>)
+                        if (fieldsTypes[f] === "TextField") {
+                            return (
+                                <div className="selectContainer" key={f + i}>
+                                    <Input inputName={f} inputValue={element[f]} inputArr={[f]} store={store}/>
+                                </div>
+                            )
                         }
-                        if (typeof element[f] === "boolean") {
-                        }
-                        if (Array.isArray(element[f])) {
+                        if (fieldsTypes[f] === "ComboBoxTextField") {
                             let a = chooseArr(f, state);
-                            return (<div className="selectContainer" key={f+i}>
-                                <InputSelect selectValue={element[f][0]} selectName={f} arr={a} store={store}/>
+                            return (<div className="selectContainer" key={f + i}>
+                                <Input inputName={f} inputValue={element[f].path} inputArr={[f, "path"]} store={store}/>
+                                <InputSelect selectValue={element[f].type} selectArr={[f, "type"]} arr={a} store={store}/>
                             </div>)
+                        }
+                        if (fieldsTypes[f] === "ComboBox") {
+                            let a = chooseArr(f, state);
+                            return (
+                                <div className="selectContainer" key={f + i}>
+                                    <InputSelect inputName={f} selectValue={element[f]} selectArr={[f]} arr={a} store={store}/>
+                                </div>
+                            )
                         }
                     }) : null
                 }
