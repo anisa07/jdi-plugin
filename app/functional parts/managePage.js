@@ -147,7 +147,7 @@ function chooseArr(f, state) {
         case "Type": {
             return state.Elements;
         }
-        case "ListItemsTypes": {
+        case "ListItems": {
             return state.Elements.filter((e) => {
                 if (e !== "ListOfElements") {
                     return e
@@ -172,6 +172,7 @@ function PanelRightPage(props) {
     let allFields = Object.keys(element);
     let visible = [];
 
+    console.log(element)
     for (let i = 0; i < allFields.length; i++) {
         if (!notVisible.includes(allFields[i])) {
             visible.push(allFields[i]);

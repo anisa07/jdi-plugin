@@ -199,6 +199,9 @@ export let editElement = (mainObj, elField, value) => {
                 if (fields[field] === "TextField"){
                     selectedElement[field] = "";
                 }
+                if (fields[field] === "ComboBox"){
+                    selectedElement[field] = "";
+                }
                 if (fields[field] === "internal"){
                     selectedElement[field] = false;
                 }

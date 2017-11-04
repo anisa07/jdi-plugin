@@ -1,20 +1,20 @@
 let Elements = [
     "Button",
-    //"Checkbox", "Image", "Label", "Link", "Text", "TextField", "Input", "TextArea", "DataPicker", "FileInput",
-    // "Section",
-     "Form",
-    // "Selector", "CheckList", "Menu", "RadioButtons", "Tabs", "TextList", "Chat",
-    // "ComboBox", "Dropdown", "DropList",
-    // "Table", "DynamicTable",
-    // "Pagination",
-    // "Popup",
-    // "Yes/NoDialog",
-    // "Alert",
-    // "Search",
-    // "ListOfElements"
+    "Checkbox", "Image", "Label", "Link", "Text", "TextField", "Input", "TextArea", "DataPicker", "FileInput",
+    "Section",
+    "Form",
+    "Selector", "CheckList", "Menu", "RadioButtons", "Tabs", "TextList", "Chat",
+    "ComboBox", "Dropdown", "DropList",
+    "Table", "DynamicTable",
+    "Pagination",
+    "Popup",
+    "Yes/NoDialog",
+    "Alert",
+    "Search",
+    "ListOfElements"
 ];
-let Locators = ["class","css","xpath","id","name","tag","text"];
-let HeaderTypes = ["All", "Headers" , "No Headers", "Columns Headers", "Rows Headers"];
+let Locators = ["class", "css", "xpath", "id", "name", "tag", "text"];
+let HeaderTypes = ["All", "Headers", "No Headers", "Columns Headers", "Rows Headers"];
 let commonFields = {
     "Name": "TextField",
     "Type": "ComboBox",
@@ -23,50 +23,59 @@ let commonFields = {
     "elId": "internal"
 };
 let ElementFields = new Map();
-ElementFields.set("Button", {...commonFields, "Locator":"ComboBoxTextField"});
-ElementFields.set("Image", {"LocatorType": [],"LocatorPath": ""});
-ElementFields.set("Checkbox", {"LocatorType": [],"LocatorPath": ""});
-ElementFields.set("Label", {"LocatorType": [],"LocatorPath": ""});
-ElementFields.set("Link", {"LocatorType": [],"LocatorPath": ""});
-ElementFields.set("Text", {"LocatorType": [],"LocatorPath": ""});
-ElementFields.set("TextField",{"LocatorType": [],"LocatorPath": ""});
-ElementFields.set("Input", {"LocatorType": [],"LocatorPath": ""});
-ElementFields.set("TextArea", {"LocatorType": [],"LocatorPath": ""});
-ElementFields.set("DataPicker", {"LocatorType": [],"LocatorPath": ""});
-ElementFields.set("FileInput", {"LocatorType": [],"LocatorPath": ""});
-ElementFields.set("Section", {...commonFields, "Locator":"ComboBoxTextField","isSection":"internal","expanded":"internal"});
-ElementFields.set("Form", {...commonFields, "Locator":"ComboBoxTextField","isSection":"internal","Entity":"TextField","expanded":"internal"});
-
-ElementFields.set("Selector", {"LocatorType": [],"LocatorPath": "", "Enum": ""});
-ElementFields.set("CheckList", {"LocatorType": [],"LocatorPath": "", "Enum": ""});
-ElementFields.set("Menu", {"LocatorType": [],"LocatorPath": "", "Enum": ""});
-ElementFields.set("RadioButtons", {"LocatorType": [],"LocatorPath": "", "Enum": ""});
-ElementFields.set("Tabs", {"LocatorType": [],"LocatorPath": "", "Enum": ""});
-ElementFields.set("TextList", {"LocatorType": [],"LocatorPath": "", "Enum": ""});
-ElementFields.set("Chat", {"LocatorType": [],"LocatorPath": "", "Enum": ""});
-ElementFields.set("ComboBox", {"RootType": [],"RootPath": "","ValueType": [],"ValuePath": "",
-    "ListType": [],"ListPath": "", "ExpandType": [],"ExpandPath": "", "Enum": "", });
-ElementFields.set("Dropdown", {"RootType": [],"RootPath": "","ValueType": [],"ValuePath": "",
-    "ListType": [],"ListPath": "", "ExpandType": [],"ExpandPath": "", "Enum": "", });
-ElementFields.set("Droplist", {"RootType": [],"RootPath": "","ValueType": [],"ValuePath": "",
-    "listType": [],"listPath": "", "ExpandType": [],"ExpandPath": "", "Enum": "", });
-ElementFields.set("Table", {"RootType": [],"RootPath": "","Headers": "","RowHeaders": "", "HeaderType": [],"HeaderPath": "",
-    "RowHeaderType": [],"RowHeaderPath": "", "CellType": [],"CellPath": "", "ColumnType": [],"ColumnPath": "", "RowType": [],"RowPath": "",
-    "FooterType": [],"FooterPath": "", "Height": "","Width": "","RowStartIndex": "", "UseCache": true,
-    "HeaderTypes" : []
+ElementFields.set("Button", { ...commonFields, "Locator": "ComboBoxTextField" });
+ElementFields.set("Image", { ...commonFields, "Locator": "ComboBoxTextField" });
+ElementFields.set("Checkbox", { ...commonFields, "Locator": "ComboBoxTextField" });
+ElementFields.set("Label", { ...commonFields, "Locator": "ComboBoxTextField" });
+ElementFields.set("Link", { ...commonFields, "Locator": "ComboBoxTextField" });
+ElementFields.set("Text", { ...commonFields, "Locator": "ComboBoxTextField" });
+ElementFields.set("TextField", { ...commonFields, "Locator": "ComboBoxTextField" });
+ElementFields.set("Input", { ...commonFields, "Locator": "ComboBoxTextField" });
+ElementFields.set("TextArea", { ...commonFields, "Locator": "ComboBoxTextField" });
+ElementFields.set("DataPicker", { ...commonFields, "Locator": "ComboBoxTextField" });
+ElementFields.set("FileInput", { ...commonFields, "Locator": "ComboBoxTextField" });
+ElementFields.set("Section", { ...commonFields, "Locator": "ComboBoxTextField", "isSection": "internal", "expanded": "internal" });
+ElementFields.set("Form", { ...commonFields, "Locator": "ComboBoxTextField", "isSection": "internal", "Entity": "TextField", "expanded": "internal" });
+ElementFields.set("Selector", { ...commonFields, "Locator": "ComboBoxTextField", "Enum": "TextField" });
+ElementFields.set("CheckList", { ...commonFields, "Locator": "ComboBoxTextField", "Enum": "TextField" });
+ElementFields.set("Menu", { ...commonFields, "Locator": "ComboBoxTextField", "Enum": "TextField" });
+ElementFields.set("RadioButtons", { ...commonFields, "Locator": "ComboBoxTextField", "Enum": "TextField" });
+ElementFields.set("Tabs", { ...commonFields, "Locator": "ComboBoxTextField", "Enum": "TextField" });
+ElementFields.set("TextList", { ...commonFields, "Locator": "ComboBoxTextField", "Enum": "TextField" });
+ElementFields.set("Chat", { ...commonFields, "Locator": "ComboBoxTextField", "Enum": "TextField" });
+ElementFields.set("ComboBox", {
+    ...commonFields, "Root": "ComboBoxTextField", "Value": "ComboBoxTextField",
+    "List": "ComboBoxTextField", "Expand": "ComboBoxTextField", "Enum": "TextField"
 });
-ElementFields.set("DynamicTable", {"RootType": [],"RootPath": "","Headers": "","RowHeaders": "", "HeaderType": [],"HeaderPath": "",
-    "RowHeaderType": [],"RowHeaderPath": "", "CellType": [],"CellPath": "", "ColumnType": [],"ColumnPath": "", "RowType": [],"RowPath": "",
-    "FooterType": [],"FooterPath": "", "Height": "","Width": "","RowStartIndex": "", "UseCache": true,
-    "HeaderTypes" : []
+ElementFields.set("Dropdown", {
+    ...commonFields, "Root": "ComboBoxTextField", "Value": "ComboBoxTextField",
+    "List": "ComboBoxTextField", "Expand": "ComboBoxTextField", "Enum": "TextField"
 });
-ElementFields.set("Pagination", {"NextType": [],"NextPath": "", "PreviousType": [],"PreviousPath": "",
-    "FirstType": [],"FirstPath": "", "LastType": [],"LastPath": "", "PageType": [],"PagePath": ""});
-ElementFields.set("Popup", {"OkType": [],"OkPath": "", "CancelType": [],"CancelPath": "", "CloseType": [],"ClosePath": ""});
-ElementFields.set("Yes/NoDialog", {"YesType": [],"YesPath": "", "NoType": [],"NoPath": "", "CloseType": [],"ClosePath": ""});
-ElementFields.set("Alert", {"OkType": [],"OkPath": "", "CloseType": [],"ClosePath": ""});
-ElementFields.set("Search", {"ValueType": [],"ValuePath": "", "SearchButtonType": [], "SearchButtonPath": "", "SuggestionsType": [],"SuggestionsPath": ""});
-ElementFields.set("ListOfElements", {"LocatorType": [],"LocatorPath": "", "ListItemsTypes": [], "Enum": ""});
+ElementFields.set("Droplist", {
+    ...commonFields, "Root": "ComboBoxTextField", "Value": "ComboBoxTextField",
+    "List": "ComboBoxTextField", "Expand": "ComboBoxTextField", "Enum": "TextField"
+});
+ElementFields.set("Table", {
+    ...commonFields, "Root": "ComboBoxTextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "ComboBoxTextField",
+    "RowHeader": "ComboBoxTextField", "Cell": "ComboBoxTextField", "Column": "ComboBoxTextField", "Row": "ComboBoxTextField",
+    "Footer": "ComboBoxTextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
+    "HeaderTypes": "ComboBox"
+});
+ElementFields.set("DynamicTable", {
+    ...commonFields, "Root": "ComboBoxTextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "ComboBoxTextField",
+    "RowHeader": "ComboBoxTextField", "Cell": "ComboBoxTextField", "Column": "ComboBoxTextField", "Row": "ComboBoxTextField",
+    "Footer": "ComboBoxTextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
+    "HeaderTypes": "ComboBox"
+});
+ElementFields.set("Pagination", {
+    ...commonFields, "Next": "ComboBoxTextField", "Previous": "ComboBoxTextField",
+    "First": "ComboBoxTextField", "Last": "ComboBoxTextField", "Page": "ComboBoxTextField"
+});
+ElementFields.set("Popup", { ...commonFields, "Ok": "ComboBoxTextField", "Cancel": "ComboBoxTextField", "Close": "ComboBoxTextField" });
+ElementFields.set("Yes/NoDialog", { ...commonFields, "Yes": "ComboBoxTextField", "No": "ComboBoxTextField", "Close": "ComboBoxTextField" });
+ElementFields.set("Alert", { ...commonFields, "Ok": "ComboBoxTextField", "Close": "ComboBoxTextField" });
+ElementFields.set("Search", { ...commonFields, "Value": "ComboBoxTextField", "SearchButton": "ComboBoxTextField", "Suggestions": "ComboBoxTextField" });
+ElementFields.set("ListOfElements", { ...commonFields, "Locator": "ComboBoxTextField", "ListItems": "ComboBox", "Enum": "TextField" });
 
 
 // {
@@ -249,4 +258,4 @@ ElementFields.set("ListOfElements", {"LocatorType": [],"LocatorPath": "", "ListI
 //           ]
 // }
 
-export {Elements, Locators, ElementFields, HeaderTypes};
+export { Elements, Locators, ElementFields, HeaderTypes };

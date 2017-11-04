@@ -12,12 +12,12 @@ let PageObjectJSON = [
         "elements": [
             {
                 "expanded": false,
-                "isSection": true,
                 "Name": "t7",
                 "Type": "Form",
                 "parent": null,
                 "elId": "el12348",
                 "parentId": null,
+                "Enum":"",
                 "Locator": {
                     "type": "",
                     "path": ""
