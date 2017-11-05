@@ -172,7 +172,6 @@ function PanelRightPage(props) {
     let allFields = Object.keys(element);
     let visible = [];
 
-    console.log(element)
     for (let i = 0; i < allFields.length; i++) {
         if (!notVisible.includes(allFields[i])) {
             visible.push(allFields[i]);

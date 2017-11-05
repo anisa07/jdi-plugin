@@ -184,6 +184,7 @@ export let editElement = (mainObj, elField, value) => {
                 "parentId": selectedElement.parentId,
                 "elId": selectedElement.elId
             };
+            selectedElement = {};
             let fields = typesMap.get(value);
             for (let field in fields){
                 if (fields[field] === "ComboBoxTextField"){
@@ -204,6 +205,9 @@ export let editElement = (mainObj, elField, value) => {
                 }
                 if (fields[field] === "internal"){
                     selectedElement[field] = false;
+                    if (field === "isSection"){
+                        selectedElement[field] = true;
+                    }
                 }
                 if(field === "Name"){
                     selectedElement.Name = commonFields.Name

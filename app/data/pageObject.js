@@ -18,6 +18,7 @@ let PageObjectJSON = [
                 "elId": "el12348",
                 "parentId": null,
                 "Enum":"",
+                "isSection": true,
                 "Locator": {
                     "type": "",
                     "path": ""
