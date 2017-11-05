@@ -8,6 +8,12 @@ input[type="radio"],input[type="checkbox"] {
     overflow: overlay;
 }
 
+.topContainer{
+ display: flex;
+ flex-direction: row;   
+ justify-content: space-between;
+}
+
 .displayType{
     /*display: block;*/
 }

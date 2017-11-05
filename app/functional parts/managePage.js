@@ -14,7 +14,7 @@ function PanelLeftPage(props) {
     return (
         <div className="panel panel-default">
             <div className="panel-body leftContainer">
-                <div className="selectContainer">
+                <div className="selectContainer topContainer">
                     <input type="text"
                         className="form-control searchInput"
                         placeholder="Search element"
@@ -23,6 +23,8 @@ function PanelLeftPage(props) {
                             let value = e.target.value;
                             store.dispatch(pageActions.searchElement(value))
                         }} />
+                    <button className="btn btn-default">Generate</button>
+                    <button className="btn btn-default"><img src={'../bootstrap/pics/gear.png'} /></button>
                 </div>
                 <div>
                     <div style={{ height: 400 }}>
@@ -35,35 +37,35 @@ function PanelLeftPage(props) {
                             generateNodeProps={({ node }) => (
                                 {
                                     buttons: (node.isSection) ? [
-                                        <button
+                                        <button className="btn btn-default"
                                             onClick={() => {
                                                 store.dispatch(pageActions.selectElement(node.elId))
                                             }}
                                         >
                                             <img src={'../bootstrap/pics/gear.png'} />
                                         </button>,
-                                        <button
+                                        <button className="btn btn-default"
                                             onClick={() => {
                                                 store.dispatch(pageActions.addElement(node.elId))
                                             }}
                                         >
                                             <img src={'../bootstrap/pics/add.png'} />
                                         </button>,
-                                        <button
+                                        <button className="btn btn-default"
                                             onClick={() => {
                                                 store.dispatch(pageActions.deleteElement(node.elId))
                                             }}
                                         >
                                             <img src={'../bootstrap/pics/trash.png'} />
                                         </button>
-                                    ] : [<button
+                                    ] : [<button className="btn btn-default"
                                         onClick={() => {
                                             store.dispatch(pageActions.selectElement(node.elId))
                                         }}
                                     >
                                         <img src={'../bootstrap/pics/gear.png'} />
                                     </button>,
-                                    <button
+                                    <button className="btn btn-default"
                                         onClick={() => {
                                             store.dispatch(pageActions.deleteElement(node.elId))
                                         }}
@@ -120,13 +122,13 @@ let Checkbox = (props) => {
     let store = props.store;
     return (
         <label htmlFor={props.inputName}>
-            <input type="checkbox" 
-                id={props.inputName} 
+            <input type="checkbox"
+                id={props.inputName}
                 value={props.inputValue ? 'on' : 'off'}
-                onChange={(e)=>{
-                    let v = e.target.checked; 
-                    store.dispatch(pageActions.editElement([props.inputName], v)) 
-                }}/> {props.inputName}</label>
+                onChange={(e) => {
+                    let v = e.target.checked;
+                    store.dispatch(pageActions.editElement([props.inputName], v))
+                }} /> {props.inputName}</label>
     )
 }
 
@@ -205,8 +207,8 @@ function PanelRightPage(props) {
                                 </div>
                             )
                         }
-                        if (fieldsTypes[f] === "Checkbox"){
-                            return(
+                        if (fieldsTypes[f] === "Checkbox") {
+                            return (
                                 <div className="selectContainer" key={f + i}>
                                     <Checkbox inputName={f} inputValue={element[f]} store={store} />
                                 </div>
