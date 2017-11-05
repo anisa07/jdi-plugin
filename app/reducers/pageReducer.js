@@ -162,7 +162,7 @@ export let searchEl = (mainObj, elName) => {
 
 export let editElement = (mainObj, elField, value) => {
     let objCopy = Object.assign({}, mainObj);
-    if (value.length) {
+    if (value.length || typeof value === "boolean") {
         let pageId = objCopy.activeTabPageId;
         let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
         let selectedElement = objCopy.selectedElement;
@@ -194,7 +194,7 @@ export let editElement = (mainObj, elField, value) => {
                     }
                     selectedElement[field] = n;
                 }
-                if(fields[field] === "CheckBox"){
+                if(fields[field] === "Checkbox"){
                     selectedElement[field] = false;
                 }
                 if (fields[field] === "TextField"){
@@ -230,6 +230,7 @@ export let editElement = (mainObj, elField, value) => {
         } else {
             selectedElement[elField[0]] = value;
         }
+
         elementsArray = elementsArray.map((element) => {
             if (element.elId === selectedElement.elId) {
                 element = selectedElement
