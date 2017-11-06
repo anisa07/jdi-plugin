@@ -18,6 +18,8 @@ let initialState = {
     selectedElement: "",
     searchedPages: PageObjectJSON.slice(),
     HeaderTypes: HeaderTypes,
+    mainSettings: false,
+    elementSettings: false 
 };
 
 let store = createStore(mainReducer,initialState);
