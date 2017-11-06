@@ -51,7 +51,8 @@ let fakeState = {
     pageMap: new Map(),
     selectedElement: "",
     searchedPages: fakeTabPages.slice(),
-    ElementFields: ElementFields
+    ElementFields: ElementFields,
+    selectedRule: ''
 }
 
 

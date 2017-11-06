@@ -1,6 +1,7 @@
 import { Tabs } from './functional parts/tabs';
 import { Site } from './functional parts/site';
 import { Page } from './functional parts/page';
+import { Rules } from './functional parts/rules';
 
 import { store } from './store/store';
 
@@ -26,6 +27,7 @@ export class Main extends React.Component {
                 <Tabs className="tabs" state={this.state} store={store}/>
                 <Site state={this.state} store={store}/>
                 <Page state={this.state} store={store}/>
+                <Rules state={this.state} store={store}/>
             </div>
         )
     }

@@ -17,7 +17,9 @@ export let showPage = (mainObj, id) => {
         settingsForSite: false,
         resultTree: resTree,
         pageMap: map,
-        selectedElement: ""
+        selectedElement: "",
+        rulesSettings: false,
+        mainSettings: false
     })
 };
 

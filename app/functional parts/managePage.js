@@ -1,5 +1,6 @@
 import SortableTree from 'react-sortable-tree';
 import * as pageActions from '../actions/pageActions';
+import * as rulesActions from '../actions/rulesActions';
 
 function PanelLeftPage(props) {
     let state = props.state;
@@ -24,7 +25,7 @@ function PanelLeftPage(props) {
                             store.dispatch(pageActions.searchElement(value))
                         }} />
                     <button className="btn btn-default">Generate</button>
-                    <button className="btn btn-default"><img src={'../bootstrap/pics/gear.png'} /></button>
+                    <button className="btn btn-default" onClick={() => { store.dispatch(rulesActions.openRules()) }}><img src={'../bootstrap/pics/gear.png'} /></button>
                 </div>
                 <div>
                     <div style={{ height: 400 }}>

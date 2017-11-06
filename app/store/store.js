@@ -19,7 +19,8 @@ let initialState = {
     searchedPages: PageObjectJSON.slice(),
     HeaderTypes: HeaderTypes,
     mainSettings: false,
-    elementSettings: false 
+    rulesSettings: false,
+    selectedRule: '' 
 };
 
 let store = createStore(mainReducer,initialState);

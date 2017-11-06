@@ -87,5 +87,7 @@ export let backToSite = (mainObj) => {
     objCopy.selectedElement = "";
     objCopy.settingsForSite = true;
     objCopy.activePageObject = {};
+    objCopy.rulesSettings = false;
+    objCopy.mainSettings = false;
     return objCopy;
 }
