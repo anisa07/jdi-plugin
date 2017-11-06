@@ -162,6 +162,7 @@ export let searchEl = (mainObj, elName) => {
 
 export let editElement = (mainObj, elField, value) => {
     let objCopy = Object.assign({}, mainObj);
+    
     if (value.length || typeof value === "boolean") {
         let pageId = objCopy.activeTabPageId;
         let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
@@ -169,13 +170,15 @@ export let editElement = (mainObj, elField, value) => {
         let typesMap = objCopy.ElementFields;
 
         if (elField[0] === "Type") {
-            let l = selectedElement.children.length;
-            for (let k = 0; k < l; k++) {
-                elementsArray = elementsArray.filter((el) => {
-                    if (el.elId !== selectedElement.children[k].elId) {
-                        return el;
-                    }
-                })
+            if (selectedElement.children){
+                let l = selectedElement.children.length;
+                for (let k = 0; k < l; k++) {
+                    elementsArray = elementsArray.filter((el) => {
+                        if (el.elId !== selectedElement.children[k].elId) {
+                            return el;
+                        }
+                    })
+                }
             }
             let commonFields = {
                 "Name": selectedElement.Name,

@@ -1,3 +1,5 @@
+import { Elements, Locators, ElementFields, HeaderTypes } from '../app/data/settings';
+
 let fakeTabPages = [{
     "url": "",
     "urlHost": "",
@@ -11,12 +13,12 @@ let fakeTabPages = [{
     "elements": [
         {
             "expanded": false,
-            "name": "",
-            "type": "button",
+            "Name": "",
+            "Type": "Button",
             "parent": "",
             "elId": "el123457",
             "parentId": "el123456",
-            "locator": {
+            "Locator": {
                 "type": "",
                 "path": ""
             }
@@ -48,7 +50,8 @@ let fakeState = {
     resultTree: [],
     pageMap: new Map(),
     selectedElement: "",
-    searchedPages: fakeTabPages.slice()
+    searchedPages: fakeTabPages.slice(),
+    ElementFields: ElementFields
 }
 
 

@@ -29,6 +29,15 @@ describe('Page reducer', function() {
         let newState = mainReducer(testObj,actions.selectElement("el123457"));
         chai.expect(newState.selectedElement).to.equal(newState.PageObjects[0].elements[0]);
     });
+    it('should handle EDIT_ELEMENT', function() {
+        let testObj = fakeState;
+        testObj.activeTabPageId = 0;
+        testObj.selectedElement = testObj.PageObjects[0].elements[0];
+        let newState = mainReducer(testObj,actions.editElement(["Name"], "NewName"));
+        chai.expect(newState.selectedElement.Name).to.equal("NewName");
+        let newState2 = mainReducer(newState,actions.editElement(["Type"], "Chat"));
+        chai.expect(newState2.selectedElement.Type).to.equal("Chat");
+    });
     it('should handle DELETE_ELEMENT', function() {
         let testObj = fakeState;
         testObj.activeTabPageId = 0;
