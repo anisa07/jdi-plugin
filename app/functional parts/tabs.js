@@ -1,4 +1,5 @@
 import * as pageActions from '../actions/pageActions';
+import * as siteActions from '../actions/siteActions';
 
 const Tabs = (props) => {
     const state = props.state;
@@ -20,7 +21,7 @@ const Tabs = (props) => {
             </ul>
             <div>
                 <button className="btn btn-default"><img src={'../bootstrap/pics/arrow.png'} /></button>
-                <button className="btn btn-default">Back to Site</button>
+                <button className="btn btn-default" onClick={() => { store.dispatch(siteActions.backToSite()) }}>Back to Site</button>
                 <button className="btn btn-default"><img src={'../bootstrap/pics/gear.png'} /></button>
             </div>
         </div>

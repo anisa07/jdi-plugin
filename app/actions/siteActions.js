@@ -52,3 +52,9 @@ export function searchPage(page) {
     }
 }
 
+export function backToSite(){
+    return{
+        type: "BACK_TO_SITE"
+    }
+}
+

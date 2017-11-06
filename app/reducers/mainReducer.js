@@ -42,6 +42,9 @@ export const mainReducer = (state, action) => {
         case 'CLOSE_PAGE':{
             return site.closePage(state)
         }
+        case 'BACK_TO_SITE':{
+            return site.backToSite(state)
+        }
         default: {
             return state
         }

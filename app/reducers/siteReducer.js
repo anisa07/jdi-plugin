@@ -80,3 +80,12 @@ export let closePage = (mainObj) =>{
     objCopy.activeTabPageId = -1;
     return objCopy;
 }
+
+export let backToSite = (mainObj) => {
+    let objCopy = Object.assign({},mainObj);
+    objCopy.activeTabPageId = -1;
+    objCopy.selectedElement = "";
+    objCopy.settingsForSite = true;
+    objCopy.activePageObject = {};
+    return objCopy;
+}
