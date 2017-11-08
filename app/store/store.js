@@ -1,7 +1,7 @@
 import { createStore, combineReducers } from 'redux';
 import { mainReducer } from '../reducers/mainReducer';
 import { PageObjectJSON, SiteInfoJSON } from '../data/pageObject';
-import { Elements, Locators, ElementFields, HeaderTypes } from '../data/settings';
+import { Elements, Locators, ElementFields, HeaderTypes, Rules} from '../data/settings';
 
 
 let initialState = {
@@ -9,6 +9,7 @@ let initialState = {
     SiteInfo: Object.assign({}, SiteInfoJSON),
     Elements: Elements.slice(),
     Locators: Locators.slice(),
+    Rules: Object.assign({}, Rules),
     ElementFields: ElementFields,
     activeTabPageId: -1,
     settingsForSite: true,
