@@ -19,7 +19,9 @@ export let showPage = (mainObj, id) => {
         pageMap: map,
         selectedElement: "",
         rulesSettings: false,
-        mainSettings: false
+        mainSettings: false,
+        selectedRule: '',
+        ruleId: -1
     })
 };
 

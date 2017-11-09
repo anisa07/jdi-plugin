@@ -21,7 +21,8 @@ let initialState = {
     HeaderTypes: HeaderTypes,
     mainSettings: false,
     rulesSettings: false,
-    selectedRule: '' 
+    selectedRule: '',
+    ruleId: -1 
 };
 
 let store = createStore(mainReducer,initialState);

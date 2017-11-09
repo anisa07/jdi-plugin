@@ -261,6 +261,9 @@ li a{
     padding-bottom: 10px;
 }
 
+select {
+    margin-right: 15px;
+}
 /*.tabs{*/
     /*width:*/
 /*}*/

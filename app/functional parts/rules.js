@@ -7,8 +7,7 @@ export function Rules(props) {
         (state.rulesSettings) ?
             <div id="manage-site">
                 <PanelLeftRules state={state} store={store} />
+                <PanelRightRules state={state} store={store} />
             </div> : null
     )
 }
-/*<PanelLeftSite state={state} store={store} />
-                <PanelRightSite state={state} store={store}/>*/

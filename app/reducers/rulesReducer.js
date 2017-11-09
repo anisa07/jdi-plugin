@@ -13,5 +13,7 @@ export let openRules = (mainObj) => {
 export let selectRule = (mainObj, rule) => {
     let objCopy = Object.assign({},mainObj);
     objCopy.selectedRule = rule;
+    objCopy.ruleId = objCopy.Rules[rule][0].id;
+    
     return objCopy;
 }

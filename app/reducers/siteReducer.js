@@ -89,5 +89,7 @@ export let backToSite = (mainObj) => {
     objCopy.activePageObject = {};
     objCopy.rulesSettings = false;
     objCopy.mainSettings = false;
+    objCopy.selectedRule = '';
+    objCopy.ruleId = -1;
     return objCopy;
 }
