@@ -46,36 +46,41 @@ function PanelRightRules(props) {
     return (
         <div className="panel panel-default">
             <div className="panel-body">
-                {
-                    visibleRules.map(function (rule, index) {
-                        return (<div key={"rule-" + index} className="selectContainer">
-                            <label>
-                                <span>{rule}: </span>
-                                <input
-                                    type="text"
-                                    className="form-control pageSetting"
-                                    value={elementRule[rule]["path"]} />
-                            </label>
-                            <label>
-                                <select className="form-control pageSetting" value={elementRule[rule]["type"]}>
-                                    {
-                                        state.Locators.map((element) => {
-                                            return (
-                                                <option key={element.toLowerCase()}>{element}</option>
-                                            )
-                                        })
-                                    }
-                                </select>
-                            </label>
-                            <label>
-                                <input
-                                    type="text"
-                                    className="form-control pageSetting"
-                                    value={elementRule[rule]["uniqness"]} />
-                            </label>
-                        </div>)
-                    })
-                }
+                <div>
+                    {
+                        visibleRules.map(function (rule, index) {
+                            return (<div key={"rule-" + index} className="selectContainer">
+                                <label>
+                                    <span>{rule}: </span>
+                                    <input
+                                        type="text"
+                                        className="form-control pageSetting"
+                                        onChange={(e) => { let value = e.target.value; store.dispatch(rulesActions.editRule([rule, "path"], value)) }}
+                                        value={elementRule[rule]["path"]} />
+                                </label>
+                                <label>
+                                    <select className="form-control pageSetting" value={elementRule[rule]["type"]}
+                                    onChange={(e) => { let value = e.target.value; store.dispatch(rulesActions.editRule([rule, "type"], value)) }}>
+                                        {
+                                            state.Locators.map((element) => {
+                                                return (
+                                                    <option key={element.toLowerCase()}>{element}</option>
+                                                )
+                                            })
+                                        }
+                                    </select>
+                                </label>
+                                <label>
+                                    <input
+                                        type="text"
+                                        className="form-control pageSetting"
+                                        value={elementRule[rule]["uniqness"]}
+                                        onChange={(e) => { let value = e.target.value; store.dispatch(rulesActions.editRule([rule, "uniqness"], value)) }} />
+                                </label>
+                            </div>)
+                        })
+                    }
+                </div>
                 <div className="topContainer">
                     <ul className="nav nav-tabs">
                         {
@@ -83,15 +88,16 @@ function PanelRightRules(props) {
                                 let ruleName = "Rule " + (++index);
                                 return (
                                     <li key={ruleName}>
-                                        <a href="#" className={(rule.id === ruleId) ? "active" : ""}>{ruleName}</a>
+                                        <a href="#" className={(rule.id === ruleId) ? "active" : ""}
+                                            onClick={() => { store.dispatch(rulesActions.showRule(rule.id)) }}>{ruleName}</a>
                                     </li>
                                 )
                             })
                         }
-                        {rulesArray.length ? 
-                        <li>
-                            <a><img src={'../bootstrap/pics/add.png'} /> Add rule</a>
-                        </li> : null}
+                        {rulesArray.length ?
+                            <li>
+                                <a onClick={() => { store.dispatch(rulesActions.addRule(selectedRule)) }} ><img src={'../bootstrap/pics/add.png'} /> Add rule</a>
+                            </li> : null}
                     </ul>
 
                 </div>
@@ -99,5 +105,5 @@ function PanelRightRules(props) {
         </div>)
 }
 
-//onClick={() => { store.dispatch(pageActions.showPage(tabPage.pageId)) }}
+//onClick={() => { store.dispatch(rulesActions.showRule(rule.id)) }}
 export { PanelLeftRules, PanelRightRules };

@@ -52,6 +52,15 @@ export const mainReducer = (state, action) => {
         case 'SELECT_RULE':{
             return rules.selectRule(state, action.rule)
         }
+        case 'ADD_RULE': {
+            return rules.addRule(state, action.ruleType)
+        }
+        case 'SHOW_RULE': {
+            return rules.showRule(state, action.ruleId)
+        }
+        case 'EDIT_RULE': {
+            return rules.editRule(state, action.field, action.value)
+        }
         default: {
             return state
         }

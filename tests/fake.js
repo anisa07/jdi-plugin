@@ -1,4 +1,4 @@
-import { Elements, Locators, ElementFields, HeaderTypes } from '../app/data/settings';
+import { Elements, Locators, ElementFields, HeaderTypes, Rules } from '../app/data/settings';
 
 let fakeTabPages = [{
     "url": "",
@@ -52,8 +52,12 @@ let fakeState = {
     selectedElement: "",
     searchedPages: fakeTabPages.slice(),
     ElementFields: ElementFields,
-    selectedRule: ''
+    selectedRule: '',
+    ruleId: -1,
+    Rules: {
+        "Button": [{ Locator: { path: "", type: "", uniqness: "" }, id: 0 }]
+    }
 }
 
 
-export {fakeTabPages,fakeState}
+export { fakeTabPages, fakeState }
