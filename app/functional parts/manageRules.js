@@ -38,7 +38,7 @@ function PanelRightRules(props) {
     let allFields = Object.keys(elementRule);
 
     let visibleRules = allFields.filter((field) => {
-        if (elementFields[field] === "ComboBoxTextField") {
+        if (elementFields[field] === "TextField") {
             return field
         }
     }) || [];
@@ -55,10 +55,10 @@ function PanelRightRules(props) {
                                     <input
                                         type="text"
                                         className="form-control pageSetting"
-                                        onChange={(e) => { let value = e.target.value; store.dispatch(rulesActions.editRule([rule, "path"], value)) }}
-                                        value={elementRule[rule]["path"]} />
+                                        onChange={(e) => { let value = e.target.value; store.dispatch(rulesActions.editRule(rule, value)) }}
+                                        value={elementRule[rule]} />
                                 </label>
-                                <label>
+                                {/* <label>
                                     <select className="form-control pageSetting" value={elementRule[rule]["type"]}
                                     onChange={(e) => { let value = e.target.value; store.dispatch(rulesActions.editRule([rule, "type"], value)) }}>
                                         {
@@ -76,7 +76,7 @@ function PanelRightRules(props) {
                                         className="form-control pageSetting"
                                         value={elementRule[rule]["uniqness"]}
                                         onChange={(e) => { let value = e.target.value; store.dispatch(rulesActions.editRule([rule, "uniqness"], value)) }} />
-                                </label>
+                                </label> */}
                             </div>)
                         })
                     }

@@ -24,14 +24,12 @@ export let addRule = (mainObj, ruleType) =>{
     let res = {};
     let lastItemNum = objCopy.Rules[ruleType].length-1
     let id  = objCopy.Rules[ruleType][lastItemNum].id + 1;
-    for (let f in allFields){
-        if (allFields[f] === "ComboBoxTextField"){
-            res[f] = { path: "", type: "", uniqness: "" }
-        }
+    let ruleFields =Object.assign({}, objCopy.Rules[ruleType][0]);    
+    for (let f in ruleFields){
+        res[f] = "";
     }
     res.id = id;  
-    objCopy.Rules[ruleType].push(res)
-    
+    objCopy.Rules[ruleType].push(res);
     return objCopy;
 }
 
@@ -50,7 +48,8 @@ export let editRule = (mainObj, field, value) =>{
     let allRules = objCopy.Rules[selectedRule];
     allRules.map((rule)=>{
         if (rule.id === id){
-            rule[field[0]][field[1]] = value;
+            rule[field] = value;
+            //rule[field[0]][field[1]] = value;
         }
         return rule;
     })
