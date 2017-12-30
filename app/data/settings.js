@@ -76,9 +76,10 @@ ElementFields.set("Yes/NoDialog", { ...commonFields, "Yes": "TextField", "No": "
 ElementFields.set("Alert", { ...commonFields, "Ok": "TextField", "Close": "TextField" });
 ElementFields.set("Search", { ...commonFields, "Value": "TextField", "SearchButton": "TextField", "Suggestions": "TextField" });
 ElementFields.set("ListOfElements", { ...commonFields, "Locator": "TextField", "ListItems": "ComboBox", "Enum": "TextField" });
-
+// //*button[@type='submit'] button[type=submit]
 let Rules = {
-    "Button": [{ Locator: "", id: 0 }],
+    "Button": [{ Locator: "input[type=submit]", id: 0 }, { Locator: "input[type=button]", id: 1 }, { Locator: "button[type=button]", id: 2 },
+    { Locator: "button.btn", id: 3 }, { Locator: "a.btn", id: 4 }, { Locator: 'button[type=submit]', id: 5 }],
     "Checkbox": [{ Locator: "", id: 0 }],
     "Image": [{ Locator: "", id: 0 }],
     "Label": [{ Locator: "", id: 0 }],
@@ -89,7 +90,7 @@ let Rules = {
     "TextArea": [{ Locator: "", id: 0 }],
     "DataPicker": [{ Locator: "", id: 0 }],
     "FileInput": [{ Locator: "", id: 0 }],
-    "Section": [{ Locator: "", id: 0 }],
+    "Section": [{ Locator: ".section", id: 0 }, { Locator: "header", id: 1 }, { Locator: "footer", id: 2 }, { Locator: "#sidebar", id: 3 }, { Locator: "#content", id: 4 }],
     "Form": [{ Locator: "", id: 0 }],
     "Selector": [{ Locator: "", id: 0 }],
     "CheckList": [{ Locator: "", id: 0 }],
@@ -98,11 +99,11 @@ let Rules = {
     "Tabs": [{ Locator: "", id: 0 }],
     "TextList": [{ Locator: "", id: 0 }],
     "Chat": [{ Locator: "", id: 0 }],
-    "ComboBox": [{ Root: "", Value: "", List: "", Expand: "", id: 0 }],
-    "Dropdown": [{ Root: "", Value: "", List: "", Expand: "", id: 0 }],
+    "ComboBox": [{ Root: "[data-toggle=dropdown]", Value: "", List: "li", Expand: ".caret", id: 0 }],
+    "Dropdown": [{ Root: "select", Value: "", List: "", Expand: "", id: 0 }],
     "Droplist": [{ Root: "", Value: "", List: "", Expand: "", id: 0 }],
     "Table": [{
-        Root: "", Header: "", RowHeader: "", Cell: "",
+        Root: "table", Header: "", RowHeader: "", Cell: "",
         Column: "", Row: "", Footer: "", id: 0
     }],
     "DynamicTable": [{
@@ -119,6 +120,16 @@ let Rules = {
     "Search": [{ Value: "", SearchButton: "", Suggestions: "", id: 0 }],
     "ListOfElements": [{ Locator: "", ListItems: "", id: 0 }]
 }
+// header //*input[@type='submit']
+/*
+"ComboBox": [{{ Root: { path: "[data-toggle=dropdown]", type: "css"}, Value: { path: "", type: ""}, List: { path: "li", type: ""}, Expand: { path: ".caret", type: "css"}, id: 0 }],
+    "Dropdown": [{ Root: { path: "[data-toggle=dropdown]", type: "css"}, Value: { path: "", type: ""}, List: { path: "li", type: ""}, Expand: { path: ".caret", type: "css"}, id: 0 },
+	{ Root: { path: "select", type: "css"}, Value: { path: "", type: ""}, List: { path: "", type: ""}, Expand: { path: "", type: ""}, id: 0 }],
+    "SelectList": [{ Root: { path: "select[multiple]", type: "css"}, Value: { path: "", type: ""}, List: { path: "", type: ""}, Expand: { path: "", type: ""}, id: 0 }],
+    "Table": [{
+        Root: { path: "table", type: "css"}, Header: { path: "", type: ""}, RowHeader: { path: "", type: ""}, Cell: { path: "", type: ""},
+        Column: { path: "", type: ""}, Row: { path: "", type: ""}, Footer: { path: "", type: ""}, id: 0
+    }],*/
 
 // {
 //   "themes": [

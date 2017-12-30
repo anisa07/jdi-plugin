@@ -28,6 +28,7 @@ export class Main extends React.Component {
                 <Site state={this.state} store={store}/>
                 <Page state={this.state} store={store}/>
                 <Rules state={this.state} store={store}/>
+                <div id="test"></div>
             </div>
         )
     }

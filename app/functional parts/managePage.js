@@ -24,7 +24,7 @@ function PanelLeftPage(props) {
                             let value = e.target.value;
                             store.dispatch(pageActions.searchElement(value))
                         }} />
-                    <button className="btn btn-default">Generate</button>
+                    <button className="btn btn-default" onClick={()=>{store.dispatch(pageActions.generateElements())}}>Generate</button>
                     <button className="btn btn-default" onClick={() => { store.dispatch(rulesActions.openRules()) }}><img src={'../bootstrap/pics/gear.png'} /></button>
                 </div>
                 <div>

@@ -59,7 +59,7 @@
   "scripts": {
     "test": "mocha-webpack --webpack-config webpack.config-test.js tests/**/*.*.js --watch",
     "start": "webpack-dev-server --config webpack.dev.js --hot --inline",
-    "build": "webpack --config webpack.prod.js"
+    "build": "webpack --config webpack.prod.js --watch"
   },
   "author": "A.A.",
   "license": "ISC"

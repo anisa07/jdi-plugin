@@ -19,10 +19,7 @@ let PageObjectJSON = [
                 "parentId": null,
                 "Enum":"",
                 "isSection": true,
-                "Locator": {
-                    "type": "",
-                    "path": ""
-                }
+                "Locator": ""
             },
 
         ]

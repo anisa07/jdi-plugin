@@ -56,3 +56,9 @@ export function editElement(elField, value){
         value: value
     }
 }
+
+export function generateElements(){
+    return {
+        type: 'GENERATE_ELEMENTS'
+    }
+}
