@@ -276,7 +276,7 @@ export let generateElements = (mainObj) => {
         }
     })
 
-    let composites = ["Section"/*, "Form", "ListOfElements"*/];
+    let composites = ["Section", "Form"/*, "ListOfElements"*/]; 
     let complex = ["ComboBox", "Dropdown", "Table"];
     let simple = ["Button"];
 
@@ -288,21 +288,35 @@ export let generateElements = (mainObj) => {
 
             let parser = new DOMParser();
             let observedDOM = parser.parseFromString(r, "text/html").body;
+            let copyOfDom = parser.parseFromString(r, "text/html").body;
 
-            //let test = document.getElementById("test");
-            //test.appendChild(observedDOM)
-
-            //alert (test.outerHTML)
-
-            //alert(observedDOM.body.innerHTML)
+            let isDescendant = (parent, child) => {
+                let node = child.parentNode;
+                let deep = 0;
+                while (node != null) {
+                    deep++;
+                    if (node == parent) {
+                        return {
+                            parent: true,
+                            deep
+                        };
+                    }
+                    node = node.parentNode;
+                }
+                return {
+                    parent: false,
+                    deep: -1
+                };
+            }
 
             let getComposite = (dom, t) => {
                 let rules = objCopy.Rules[t];
 
                 rules.forEach((rule, i) => {
-                    observedDOM = search(rule.Locator, t, dom);
+                    if(!!rule.Locator){
+                        search(rule.Locator, t, dom);
+                    }
                 })
-
             }
 
             let getComplex = (dom, t, parentLocator) => {
@@ -311,7 +325,7 @@ export let generateElements = (mainObj) => {
                 observedDOM = dom;
                 rules.forEach((rule, i) => {
                     if (rule.Root) {
-                        observedDOM = search(rule.Root, t, observedDOM, parentLocator, rule.id);
+                        search(rule.Root, t, observedDOM, parentLocator, rule.id);
                     }
                 });
             }
@@ -321,11 +335,9 @@ export let generateElements = (mainObj) => {
                 
                 observedDOM = dom;
                 rules.forEach((rule, i) => {
-                    observedDOM = search(rule.Locator, t, observedDOM, parentLocator, rule.id);
+                    search(rule.Locator, t, observedDOM, parentLocator, rule.id);
                 });
             }
-
-            
 
             function getElementByXpath(path, dom) {
                 return document.evaluate(path, dom, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
@@ -350,16 +362,17 @@ export let generateElements = (mainObj) => {
                     fields = objCopy.ElementFields.get(type);
                 }
                 if (composites.indexOf(type) > -1) {
-                    result.push({ Locator: locator, type: type, content: content });
+                    let eid = genRand("El");
                     page.elements.push({
                         "expanded": false,
                         "Name": genRand(type),
                         "parent": null,
-                        "elId": genRand("El"),
+                        "elId": eid,
                         "parentId": null,
                         "Locator": locator,
                         "Type": type
                     })
+                    result.push({ Locator: locator, type: type, content: content, elId: eid, parentId: null, nest: -1, parent: null});
                     for (let f in fields) {
                         if (!page.elements[page.elements.length - 1].hasOwnProperty(f)) {
                             page.elements[page.elements.length - 1][f] = "";
@@ -424,7 +437,7 @@ export let generateElements = (mainObj) => {
                     let locUp = "";
                     if (res === 1) {
                         applyResult(locator, type, dom.querySelector(locator), parentLocator, ruleId);
-                        dom = dom.querySelector(locator).parentNode.removeChild(dom.querySelector(locator));
+                        //dom = dom.querySelector(locator).parentNode.removeChild(dom.querySelector(locator));
                     }
                     if (res === 0) {
                         let els = dom.querySelectorAll(locator);
@@ -439,7 +452,7 @@ export let generateElements = (mainObj) => {
                                     res = searchBySelector(dom, l);
                                     if (res === 1) {
                                         applyResult(l, type, dom.querySelector(l), parentLocator, ruleId);
-                                        dom = dom.querySelector(locator).parentNode.removeChild(dom.querySelector(locator));
+                                        //dom = dom.querySelector(locator).parentNode.removeChild(dom.querySelector(locator));
                                         break;
                                     }
                                 }    
@@ -481,7 +494,7 @@ export let generateElements = (mainObj) => {
                     let locUp = "";
                     if (len === 1) {
                         applyResult(locator, type, elements.snapshotItem(0), parentLocator, ruleId);
-                        dom = elements.snapshotItem(0).parentNode.removeChild(elements.snapshotItem(0));
+                        //dom = elements.snapshotItem(0).parentNode.removeChild(elements.snapshotItem(0));
                     }
                     if (len > 1) {
                         let e = {};
@@ -497,7 +510,7 @@ export let generateElements = (mainObj) => {
                                     e = getElementByXpath(l, dom);
                                     if (e.snapshotLength === 1) {
                                         applyResult(l, type, e, parentLocator, ruleId);
-                                        dom = e.snapshotItem(0).parentNode.removeChild(e.snapshotItem(0));
+                                        //dom = e.snapshotItem(0).parentNode.removeChild(e.snapshotItem(0));
                                         break;
                                     }        
                                 }
@@ -535,15 +548,68 @@ export let generateElements = (mainObj) => {
                 }
                 return dom;
             }
-            //}
 
             composites.forEach((rule) => {
                 getComposite(observedDOM, rule);
-            })
+            });
 
-            result.push({ Locator: "body", type: "", content: observedDOM });
+            for (let i = 0; i < result.length; i++){
+                let composite = result[i];
+                let check;
+                for (let j = 0; j < result.length; j++){
+                    let parent = result[j];
+                    if (composite !== parent){
+                        check = isDescendant(parent.content, composite.content);
+                        if (check.parent){
+                            if (composite.nest === -1 || composite.nest > check.deep ){
+                                composite.nest = check.deep;
+                                composite.parentId = parent.elId; 
+                                composite.parent = parent.type;
+                            } 
+                        }
+                    }
+                }
+            }
 
-            //alert("COMPLEX")
+            for (let i = 0; i < page.elements.length; i++){
+                let element = page.elements[i];
+                for (let j = 0; j < result.length; j++){
+                    let res = result[j];
+                    if (element.elId === res.elId){
+                        element.parentId = res.parentId;
+                        element.parent = res.parent;
+                    }
+                }
+            }
+
+            for (let i=0; i < result.length; i++){
+                let res = result[i];
+                if (res.parentId === null){
+                    if (res.Locator.indexOf('/') !== 0) {
+                        observedDOM.querySelector(res.Locator).parentNode.removeChild(observedDOM.querySelector(res.Locator));
+                    } else {
+                        let e = getElementByXpath(res.Locator, observedDOM);
+                        e.snapshotItem(0).parentNode.removeChild(e.snapshotItem(0));
+                    }
+                } else {
+                    for (let n=0; n<result.length; n++){
+                        if (result[n].elId === res.parentId){
+                            if (res.Locator.indexOf('/') !== 0) {
+                                result[n].content.querySelector(res.Locator).parentNode.removeChild(result[n].content.querySelector(res.Locator));
+                            } else {
+                                let e = getElementByXpath(res.Locator, result[n].content);
+                                e.snapshotItem(0).parentNode.removeChild(e.snapshotItem(0));
+                            }       
+                        }
+                    }
+                }
+            }
+            
+            alert("TEST compostes!")
+         
+            result.push({ Locator: "body", type: null, content: observedDOM, elId: null, nest: -1, parentId: null });
+
+            alert("COMPLEX")
             result.forEach((res) => {
                 complex.forEach((element) => {
                     getComplex(res.content, element, res.Locator)
