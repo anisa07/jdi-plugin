@@ -275,10 +275,12 @@ export let generateElements = (mainObj) => {
             return page
         }
     })
-
+    
     let composites = ["Section", "Form"/*, "ListOfElements"*/]; 
     let complex = ["ComboBox", "Dropdown", "Table"];
     let simple = ["Button"];
+
+    page.elements = [];
 
     chrome.devtools.inspectedWindow.eval(
         'document.body.outerHTML', (r, err) => {
@@ -488,7 +490,7 @@ export let generateElements = (mainObj) => {
                       //  }
                     //}
                 } else {
-                    alert("TEST5")
+                    
                     let elements = getElementByXpath(locator, dom);
                     let len = elements.snapshotLength;
                     let locUp = "";
@@ -604,26 +606,55 @@ export let generateElements = (mainObj) => {
                     }
                 }
             }
-            
-            alert("TEST compostes!")
          
             result.push({ Locator: "body", type: null, content: observedDOM, elId: null, nest: -1, parentId: null });
 
-            alert("COMPLEX")
-            result.forEach((res) => {
+            for (let i = 0; i < result.length; i++){
+                let res = result[i];
                 complex.forEach((element) => {
                     getComplex(res.content, element, res.Locator)
-                })
+                });
                 
                 simple.forEach((element) => {
                     getSimple(res.content, element, res.Locator)
-                })
+                });
+            }
+
+            for (let k=0; k<objCopy.PageObjects.length; k++){
+                if (objCopy.PageObjects.pageId === objCopy.activeTabPageId){
+                    objCopy.PageObjects.elements = page.elements;
+                }
+            }
+
+            objCopy.PageObjects.find((page) => {
+                if (page.pageId === objCopy.activeTabPageId) {
+                    return page
+                }
             })
+            objCopy.PageObjects[0].elements = page.elements;
+            //showPage(objCopy, objCopy.activeTabPageId);
 
+            document.querySelector('[data-tabid="'+ objCopy.activeTabPageId +'"]').click();
+            
+            // result.forEach((res) => {
+            //     complex.forEach((element) => {
+            //         getComplex(res.content, element, res.Locator)
+            //     })
+                
+            //     simple.forEach((element) => {
+            //         getSimple(res.content, element, res.Locator)
+            //     })
+            //     //showPage
+            // })
 
-            alert("TEST LAST")
+            
+            //alert(JSON.stringify(objCopy.PageObjects[0].elements))
         }
     );
+
+    /*map = drawMap(page.elements, new Map());
+    objCopy.pageMap = map;
+    objCopy.resultTree = getChildren(map, null);*/
 
     return objCopy;
 }

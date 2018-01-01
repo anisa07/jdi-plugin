@@ -24,7 +24,7 @@ let PageObjectJSON = [
 
         ]
     },
-    {
+    /*{
         "url": "",
         "urlHost": "",
         "urlTemplate": "",
@@ -47,7 +47,7 @@ let PageObjectJSON = [
         "pageId": 2,
         "package": "",
         "elements": []
-    }
+    }*/
 ]
 
 let SiteInfoJSON = {
