@@ -1,4 +1,4 @@
-import {PanelLeftPage, PanelRightPage} from './managePage';
+import {PanelLeftPage, PanelRightPage, PanelRightPageCode} from './managePage';
 
 export function Page(props) {
     let state = props.state;
@@ -7,7 +7,8 @@ export function Page(props) {
         (!state.settingsForSite && state.activeTabPageId > -1) ?
             <div id="manage-site">
                 <PanelLeftPage state={state} store={store} />
-                <PanelRightPage state={state} store={store} />
+                { !state.showCode && <PanelRightPage state={state} store={store} /> }
+                <PanelRightPageCode state={state} store={store}/>
             </div> : null
     )
 }

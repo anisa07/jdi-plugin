@@ -1,6 +1,7 @@
 import * as site from './siteReducer';
 import * as page from './pageReducer';
 import * as rules from './rulesReducer';
+import * as code from './codeReducer';
 
 export const mainReducer = (state, action) => {
     switch (action.type) {
@@ -63,6 +64,9 @@ export const mainReducer = (state, action) => {
         }
         case 'GENERATE_ELEMENTS': {
             return page.generateElements(state)
+        }
+        case 'SHOW_CODE': {
+            return code.showCode(state)          
         }
         default: {
             return state

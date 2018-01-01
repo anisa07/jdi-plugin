@@ -7,6 +7,7 @@ export let openRules = (mainObj) => {
     objCopy.activePageObject = {};
     objCopy.mainSettings = false;
     objCopy.rulesSettings = true;
+    objCopy.showCode = false;
     return objCopy;
 }
 

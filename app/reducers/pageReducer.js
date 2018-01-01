@@ -21,6 +21,7 @@ export let showPage = (mainObj, id) => {
         rulesSettings: false,
         mainSettings: false,
         selectedRule: '',
+        showCode: false,
         ruleId: -1
     })
 };
@@ -140,6 +141,7 @@ export let selectElement = (mainObj, elId) => {
     let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
     let element = findElement(elId, elementsArray);
     objCopy.selectedElement = element;
+    objCopy.showCode = false; 
     return objCopy;
 };
 

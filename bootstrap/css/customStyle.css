@@ -264,6 +264,21 @@ li a{
 select {
     margin-right: 15px;
 }
+
+.codeContainer{
+    position: relative;
+    height: 100%;
+}
+
+.details{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.codeBtn{
+    width: 100%
+}
 /*.tabs{*/
     /*width:*/
 /*}*/

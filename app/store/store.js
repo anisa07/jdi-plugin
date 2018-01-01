@@ -22,7 +22,8 @@ let initialState = {
     mainSettings: false,
     rulesSettings: false,
     selectedRule: '',
-    ruleId: -1 
+    ruleId: -1,
+    showCode: false 
 };
 
 let store = createStore(mainReducer,initialState);

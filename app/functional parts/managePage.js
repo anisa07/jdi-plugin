@@ -1,6 +1,7 @@
 import SortableTree from 'react-sortable-tree';
 import * as pageActions from '../actions/pageActions';
 import * as rulesActions from '../actions/rulesActions';
+import * as codeActions from '../actions/codeActions';
 
 function PanelLeftPage(props) {
     let state = props.state;
@@ -24,7 +25,8 @@ function PanelLeftPage(props) {
                             let value = e.target.value;
                             store.dispatch(pageActions.searchElement(value))
                         }} />
-                    <button className="btn btn-default" onClick={()=>{store.dispatch(pageActions.generateElements())}}>Generate</button>
+                    { !state.showCode && <button className="btn btn-default" onClick={()=>{store.dispatch(pageActions.generateElements())}}>Generate PO</button> }
+                    { state.showCode && <button className="btn btn-default" onClick={()=>{store.dispatch(pageActions.generateElements())}}>Generate code</button> }
                     <button className="btn btn-default" onClick={() => { store.dispatch(rulesActions.openRules()) }}><img src={'../bootstrap/pics/gear.png'} /></button>
                 </div>
                 <div>
@@ -176,6 +178,26 @@ function chooseArr(f, state) {
     }
 }
 
+function PanelRightPageCode(props) {
+    let state = props.state;
+    let store = props.store;
+    return (
+        state.showCode && <div className="panel panel-default">
+            <div className="panel-body codeContainer">
+                <div></div>
+                <div className="details">
+                    <button className="btn btn-default codeBtn">Download</button>
+                    <div>
+                        <button className="btn btn-default">Java</button>
+                        <button className="btn btn-default">C#</button>
+                    </div>
+                    <button className="btn btn-default codeBtn">Details</button>
+                </div>
+            </div>
+        </div>
+    )
+}
+
 function PanelRightPage(props) {
     let state = props.state;
     let store = props.store;
@@ -232,9 +254,13 @@ function PanelRightPage(props) {
                         }
                     }) : null
                 }
+                { show && <button className="btn btn-default"
+                    onClick={() => {
+                        store.dispatch(codeActions.showCode())
+                    }}>View code</button> }
             </div>
         </div>
     )
 }
 
-export { PanelLeftPage, PanelRightPage }
+export { PanelLeftPage, PanelRightPage, PanelRightPageCode }
