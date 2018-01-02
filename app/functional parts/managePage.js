@@ -26,7 +26,7 @@ function PanelLeftPage(props) {
                             store.dispatch(pageActions.searchElement(value))
                         }} />
                     { !state.showCode && <button className="btn btn-default" onClick={()=>{store.dispatch(pageActions.generateElements())}}>Generate PO</button> }
-                    { state.showCode && <button className="btn btn-default" onClick={()=>{store.dispatch(pageActions.generateElements())}}>Generate code</button> }
+                    { state.showCode && <button className="btn btn-default" onClick={()=>{store.dispatch(codeActions.genCode())}}>Generate code</button> }
                     <button className="btn btn-default" onClick={() => { store.dispatch(rulesActions.openRules()) }}><img src={'../bootstrap/pics/gear.png'} /></button>
                 </div>
                 <div>
@@ -181,10 +181,22 @@ function chooseArr(f, state) {
 function PanelRightPageCode(props) {
     let state = props.state;
     let store = props.store;
+    let page = state.PageObjects.find((page)=>{
+        if (page.pageId === state.activeTabPageId){
+            return page;
+        }
+    })
+    console.log(page.POcode)
+    function textAreaAdjust(o) {
+        o.style.height = "1px";
+        o.style.height = (25+o.scrollHeight)+"px";
+      }
     return (
         state.showCode && <div className="panel panel-default">
             <div className="panel-body codeContainer">
-                <div></div>
+                <div className="code">
+                    <textarea value={ page.POcode }/>
+                </div>
                 <div className="details">
                     <button className="btn btn-default codeBtn">Download</button>
                     <div>

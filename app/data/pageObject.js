@@ -9,6 +9,7 @@ let PageObjectJSON = [
         "name": "Default Page",
         "pageId": 0,
         "package": "",
+        "POcode": "",
         "elements": [
             {
                 "expanded": false,

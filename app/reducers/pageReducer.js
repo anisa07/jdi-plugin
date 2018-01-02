@@ -264,13 +264,10 @@ export let editElement = (mainObj, elField, value) => {
     return objCopy;
 };
 
-//".section", "header", "footer", "#sidebar", "#content"
+
 export let generateElements = (mainObj) => {
     let objCopy = mainObj;
     let result = [];
-    //text for xpath
-    // //*[@class='test'] -> //*[@class='test' and @id='unique-id']
-    // .test -> .test[id=unique]
     let unique = ["className", "id", "name", "value", "alt", "title"];
     let page = objCopy.PageObjects.find((page) => {
         if (page.pageId === objCopy.activeTabPageId) {
@@ -278,11 +275,30 @@ export let generateElements = (mainObj) => {
         }
     })
     
-    let composites = ["Section", "Form"/*, "ListOfElements"*/]; 
-    let complex = ["ComboBox", "Dropdown", "Table"];
-    let simple = ["Button"];
+    let composites = Object.keys(objCopy.CompositeRules);
+    let complex = Object.keys(objCopy.ComplexRules);
+    let simple = Object.keys(objCopy.SimpleRules);
 
     page.elements = [];
+
+    chrome.devtools.inspectedWindow.eval('document.location', (r, err) => {
+        page.url = r.href;
+        page.urlHost = r.host;
+        page.title = r.pathname.split("/").pop().replace(/\.html|\.htm/, '');
+    });
+
+    chrome.devtools.inspectedWindow.eval('document.domain', (r, err) => {
+        if (r !== objCopy.SiteInfo.domainName){
+            objCopy.SiteInfo.domainName = r;
+        }
+    });
+
+    chrome.devtools.inspectedWindow.eval('document.title', (r, err) => {
+        if (r !== objCopy.SiteInfo.siteTitle){
+            objCopy.SiteInfo.siteTitle = r;
+        }
+    });
+    
 
     chrome.devtools.inspectedWindow.eval(
         'document.body.outerHTML', (r, err) => {
@@ -314,6 +330,8 @@ export let generateElements = (mainObj) => {
             }
 
             let getComposite = (dom, t) => {
+                //change composite
+
                 let rules = objCopy.Rules[t];
 
                 rules.forEach((rule, i) => {
@@ -324,22 +342,27 @@ export let generateElements = (mainObj) => {
             }
 
             let getComplex = (dom, t, parentLocator) => {
+                //change complex
                 let rules = objCopy.Rules[t];
 
                 observedDOM = dom;
                 rules.forEach((rule, i) => {
-                    if (rule.Root) {
+                    if (!!rule.Root) {
                         search(rule.Root, t, observedDOM, parentLocator, rule.id);
                     }
                 });
             }
 
             let getSimple= (dom, t, parentLocator) => {
+                //change simple
                 let rules = objCopy.Rules[t];
                 
                 observedDOM = dom;
                 rules.forEach((rule, i) => {
-                    search(rule.Locator, t, observedDOM, parentLocator, rule.id);
+                    if(!!rule.Locator){
+                        search(rule.Locator, t, observedDOM, parentLocator, rule.id);
+                    }
+                    
                 });
             }
 
@@ -393,6 +416,7 @@ export let generateElements = (mainObj) => {
                         "Root": locator,
                         "Type": type
                     })
+                    //change RULES
                     let rules = objCopy.Rules[type];
                     let r = rules.find((rule) => {
                         if (rule.id === ruleId) {
@@ -622,18 +646,18 @@ export let generateElements = (mainObj) => {
                 });
             }
 
-            for (let k=0; k<objCopy.PageObjects.length; k++){
+            /*for (let k=0; k<objCopy.PageObjects.length; k++){
                 if (objCopy.PageObjects.pageId === objCopy.activeTabPageId){
-                    objCopy.PageObjects.elements = page.elements;
+                    objCopy.PageObjects = page;
                 }
-            }
+            }*/
 
-            objCopy.PageObjects.find((page) => {
-                if (page.pageId === objCopy.activeTabPageId) {
-                    return page
-                }
-            })
-            objCopy.PageObjects[0].elements = page.elements;
+            // objCopy.PageObjects.find((page) => {
+            //     if (page.pageId === objCopy.activeTabPageId) {
+            //         return page
+            //     }
+            // })
+            //objCopy.PageObjects[0].elements = page.elements;
             //showPage(objCopy, objCopy.activeTabPageId);
 
             document.querySelector('[data-tabid="'+ objCopy.activeTabPageId +'"]').click();

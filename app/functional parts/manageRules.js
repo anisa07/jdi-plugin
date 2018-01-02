@@ -27,6 +27,7 @@ function PanelRightRules(props) {
     let store = props.store;
     let selectedRule = state.selectedRule;
     let ruleId = state.ruleId;
+    //change here RULES
     let rulesArray = state.Rules[selectedRule] || [];
     let elementFields = state.ElementFields.get(selectedRule) || {};
     let elementRule = rulesArray.find((rule) => {

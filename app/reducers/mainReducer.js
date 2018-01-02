@@ -68,6 +68,9 @@ export const mainReducer = (state, action) => {
         case 'SHOW_CODE': {
             return code.showCode(state)          
         }
+        case 'GEN_CODE': {
+            return code.genCode(state)
+        }
         default: {
             return state
         }

@@ -279,6 +279,11 @@ select {
 .codeBtn{
     width: 100%
 }
+
+.code textarea{
+    width: 100%;
+    resize: none;
+}
 /*.tabs{*/
     /*width:*/
 /*}*/
