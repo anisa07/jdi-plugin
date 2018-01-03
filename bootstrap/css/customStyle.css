@@ -282,7 +282,7 @@ select {
 
 .code textarea{
     width: 100%;
-    resize: none;
+    resize: none; 
 }
 /*.tabs{*/
     /*width:*/

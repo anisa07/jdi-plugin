@@ -186,16 +186,13 @@ function PanelRightPageCode(props) {
             return page;
         }
     })
-    console.log(page.POcode)
-    function textAreaAdjust(o) {
-        o.style.height = "1px";
-        o.style.height = (25+o.scrollHeight)+"px";
-      }
+    let h = 20 * page.elements.length + 200;
+   
     return (
         state.showCode && <div className="panel panel-default">
             <div className="panel-body codeContainer">
                 <div className="code">
-                    <textarea value={ page.POcode }/>
+                    <textarea style = {{height: h}} value={ page.POcode }/>
                 </div>
                 <div className="details">
                     <button className="btn btn-default codeBtn">Download</button>
