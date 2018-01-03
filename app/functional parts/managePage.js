@@ -25,8 +25,8 @@ function PanelLeftPage(props) {
                             let value = e.target.value;
                             store.dispatch(pageActions.searchElement(value))
                         }} />
-                    { !state.showCode && <button className="btn btn-default" onClick={()=>{store.dispatch(pageActions.generateElements())}}>Generate PO</button> }
-                    { state.showCode && <button className="btn btn-default" onClick={()=>{store.dispatch(codeActions.genCode())}}>Generate code</button> }
+                    <button className="btn btn-default" onClick={()=>{store.dispatch(pageActions.generateElements())}}>Generate PO</button>
+                    <button className="btn btn-default" onClick={()=>{store.dispatch(codeActions.genCode())}}>Generate code</button>
                     <button className="btn btn-default" onClick={() => { store.dispatch(rulesActions.openRules()) }}><img src={'../bootstrap/pics/gear.png'} /></button>
                 </div>
                 <div>
@@ -192,7 +192,7 @@ function PanelRightPageCode(props) {
         state.showCode && <div className="panel panel-default">
             <div className="panel-body codeContainer">
                 <div className="code">
-                    <textarea style = {{height: h}} value={ page.POcode }/>
+                    <textarea style = {{height: h}} value={ state.sectionCode || page.POcode }/>
                 </div>
                 <div className="details">
                     <button className="btn btn-default codeBtn">Download</button>
@@ -212,7 +212,7 @@ function PanelRightPage(props) {
     let store = props.store;
     let show = false;
     let element = state.selectedElement;
-    if (element !== null && element !== "") {
+    if (element !== null && element !== "" && !state.showCode) {
         show = true;
     }
     let notVisible = ["title", "subtitle", "elId", "parent", "parentId", "isSection", "expanded", "children"];
@@ -263,7 +263,7 @@ function PanelRightPage(props) {
                         }
                     }) : null
                 }
-                { show && <button className="btn btn-default"
+                { show && state.CompositeRules[element.Type] && <button className="btn btn-default"
                     onClick={() => {
                         store.dispatch(codeActions.showCode())
                     }}>View code</button> }

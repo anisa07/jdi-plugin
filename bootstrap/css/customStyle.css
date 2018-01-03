@@ -161,7 +161,7 @@ button[id^="closePage"]{
 
 .searchInput{
     display: inline;
-    width: 100%; 
+    width: 90%; 
 }
 
 .searchElementInput{

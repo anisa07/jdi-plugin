@@ -1,7 +1,43 @@
 export let showCode = (mainObj)=>{
     let objCopy = Object.assign({},mainObj);
     objCopy.showCode = true;
-    objCopy.selectedElement = '';
+    //objCopy.selectedElement = '';
+    let page = objCopy.PageObjects.find((page)=>{
+        if (page.pageId === objCopy.activeTabPageId){
+            return page;
+        }
+    });
+    let pack = objCopy.SiteInfo.domainName + '.package.pages';
+    page.package = page.package || pack;
+    let el = objCopy.selectedElement;
+
+    function c(){
+    return 'package ' + page.package + 
+        '\n\nimport '+ objCopy.SiteInfo.domainName +' .sections.*;'+
+        '\n\nimport com.epam.jdi.uitests.web.selenium.elements.common.*;'+
+        '\nimport com.epam.jdi.uitests.web.selenium.elements.complex.*;'+
+        '\nimport com.epam.jdi.uitests.web.selenium.elements.composite.*;'+
+        '\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;'+
+        '\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.*;'+
+        '\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;'+
+        '\nimport org.openqa.selenium.support.FindBy;' + 
+        '\n\npublic class ' + el.Name[0].toUpperCase() + el.Name.slice(1) + ' extends '+ el.Type +'{' +
+        genCodeOfElements(el.elId, page.elements, objCopy.SimpleRules, objCopy.ComplexRules, objCopy.CompositeRules) + '\n}'
+    }
+    //found code and regenerate it
+    let code = page.compositeCode.find((section) => {
+        if (section.elId === el.elId){
+            return section;
+        }
+    });
+    if (!code){
+        page.compositeCode.push({elId: el.elId, sectionCode: c()}) 
+    } else {
+        code.sectionCode = c();
+    }
+    
+    objCopy.sectionCode = c();
+
     return objCopy;
 }
 
@@ -41,11 +77,16 @@ export let genCode = (mainObj) => {
         }
     })
     page.POcode = "";
+    objCopy.sectionCode = "";
+    objCopy.showCode = true;
+    objCopy.selectedElement = '';
     let pack = objCopy.SiteInfo.domainName + '.package.pages';
+    page.package = page.package || pack; 
     let pageName = page.name.replace(/\s/g, '');
 
     page.POcode = 
-        'package ' + pack + 
+        'package ' + page.package + 
+        '\n\nimport ' + objCopy.SiteInfo.domainName + '.sections.*;' +
         '\n\nimport com.epam.jdi.uitests.web.selenium.elements.common.*;'+
         '\nimport com.epam.jdi.uitests.web.selenium.elements.complex.*;'+
         '\nimport com.epam.jdi.uitests.web.selenium.elements.composite.*;'+

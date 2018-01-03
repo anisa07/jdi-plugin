@@ -10,6 +10,7 @@ let PageObjectJSON = [
         "pageId": 0,
         "package": "",
         "POcode": "",
+        "compositeCode": [],
         "elements": [
             {
                 "expanded": false,

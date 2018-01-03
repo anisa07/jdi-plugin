@@ -27,6 +27,7 @@ let initialState = {
     selectedRule: '',
     ruleId: -1,
     showCode: false,
+    sectionCode: "",
     language: 'Java',
     genPOWholeSite: '' 
 };
