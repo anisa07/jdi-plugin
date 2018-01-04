@@ -1,3 +1,5 @@
+import { commonFields } from '../data/settings';
+
 export let showCode = (mainObj)=>{
     let objCopy = Object.assign({},mainObj);
     objCopy.showCode = true;
@@ -22,7 +24,7 @@ export let showCode = (mainObj)=>{
         '\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;'+
         '\nimport org.openqa.selenium.support.FindBy;' + 
         '\n\npublic class ' + el.Name[0].toUpperCase() + el.Name.slice(1) + ' extends '+ el.Type +'{' +
-        genCodeOfElements(el.elId, page.elements, objCopy.SimpleRules, objCopy.ComplexRules, objCopy.CompositeRules) + '\n}'
+        genCodeOfElements(el.elId, page.elements, objCopy) + '\n}'
     }
     //found code and regenerate it
     let code = page.compositeCode.find((section) => {
@@ -41,26 +43,33 @@ export let showCode = (mainObj)=>{
     return objCopy;
 }
 
-function genCodeOfElements (parentId, arrOfElements, simple, complex, composite) {
+function genCodeOfElements (parentId, arrOfElements, objCopy) {
     let result = '';
     for (let i = 0; i < arrOfElements.length; i++ ){
         if (arrOfElements[i].parentId === parentId){
-            if (composite[arrOfElements[i].Type]){
+            if (objCopy.CompositeRules[arrOfElements[i].Type]){
                 result += '\n\t@'+ (arrOfElements[i].Locator.indexOf('/') !== 0 ? 'Css("' : 'Xpath("') + arrOfElements[i].Locator +'") public ' + 
                 arrOfElements[i].Name + ' ' + arrOfElements[i].Name.toLowerCase() + ';'   
             }
-            if (complex[arrOfElements[i].Type]){
-               if (arrOfElements[i].hasOwnProperty('Root') && arrOfElements[i].hasOwnProperty('Expand') 
-               && arrOfElements[i].hasOwnProperty('List') && arrOfElements[i].hasOwnProperty('Value')) {
-                result += '\n\t@J' + arrOfElements[i].Type + '(' +
-                '\n\t\troot = @FindBy(' +  (arrOfElements[i].Root.indexOf('/') !== 0 ? 'css' : 'xpath') + ' = ' + arrOfElements[i].Root + '),' +
-                '\n\t\texpand = @FindBy(' +  (arrOfElements[i].Expand.indexOf('/') !== 0 ? 'css' : 'xpath') + ' = ' + arrOfElements[i].Expand + '),' +
-                '\n\t\tlist = @FindBy(' +  (arrOfElements[i].List.indexOf('/') !== 0 ? 'css' : 'xpath') + ' = ' + arrOfElements[i].List + '),' +
-                '\n\t\tvalue = @FindBy(' +  (arrOfElements[i].Value.indexOf('/') !== 0 ? 'css' : 'xpath') + ' = ' + arrOfElements[i].Value + ')' + 
-                '\n\t) public ' + arrOfElements[i].Type + ' ' + arrOfElements[i].Name + ';'
-               }
+            if (objCopy.ComplexRules[arrOfElements[i].Type]){
+                let clone = Object.assign({}, objCopy.ElementFields.get(arrOfElements[i].Type));
+                for (let field in commonFields){
+                    delete clone[field];    
+                }
+
+                if (arrOfElements[i].hasOwnProperty('Root')){
+                   result += '\n\t@J' + arrOfElements[i].Type + '(' +
+                   '\n\t\troot = @FindBy(' +  (arrOfElements[i].Root.indexOf('/') !== 0 ? 'css' : 'xpath') + ' = ' + arrOfElements[i].Root + ')';    
+                   delete clone.Root;  
+                   for (let field in clone){
+                       if (arrOfElements[i][field]){
+                           result += ',\n\t\t'+ field.toLowerCase() +' = @FindBy(' +  (arrOfElements[i][field].indexOf('/') !== 0 ? 'css' : 'xpath') + ' = ' + arrOfElements[i][field] + ')'
+                        }      
+                    }
+                }
+                result += '\n\t) public ' + arrOfElements[i].Type + ' ' + arrOfElements[i].Name + ';'
             }
-            if (simple[arrOfElements[i].Type]){
+            if (objCopy.SimpleRules[arrOfElements[i].Type]){
                 result += '\n\t@'+ (arrOfElements[i].Locator.indexOf('/') !== 0 ? 'Css("' : 'Xpath("') + arrOfElements[i].Locator +'") public ' + 
                 arrOfElements[i].Type + ' ' + arrOfElements[i].Name + ';'   
             }
@@ -95,7 +104,7 @@ export let genCode = (mainObj) => {
         '\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;'+
         '\nimport org.openqa.selenium.support.FindBy;'+
         '\n\npublic class '+ pageName[0].toUpperCase() + pageName.slice(1) + ' extends WebPage {'+
-            genCodeOfElements(null, page.elements, objCopy.SimpleRules, objCopy.ComplexRules, objCopy.CompositeRules) + '\n}'
+            genCodeOfElements(null, page.elements, objCopy) + '\n}'
 
     return objCopy;
 } 

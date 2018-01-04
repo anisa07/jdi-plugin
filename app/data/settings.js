@@ -6,12 +6,12 @@ let Elements = [
     "Selector", "CheckList", "Menu", "RadioButtons", "Tabs", "TextList", "Chat",
     "ComboBox", "Dropdown", "DropList",
     "Table", "DynamicTable",
-    "Pagination",
-    "Popup",
-    "Yes/NoDialog",
-    "Alert",
-    "Search",
-    "ListOfElements"
+    // "Pagination",
+    // "Popup",
+    // "Yes/NoDialog",
+    // "Alert",
+    // "Search",
+    // "ListOfElements"
 ];
 let Locators = ["class", "css", "xpath", "id", "name", "tag", "text"];
 let HeaderTypes = ["All", "Headers", "No Headers", "Columns Headers", "Rows Headers"];
@@ -67,15 +67,15 @@ ElementFields.set("DynamicTable", {
     "Footer": "TextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
     "HeaderTypes": "ComboBox"
 });
-ElementFields.set("Pagination", {
+/*ElementFields.set("Pagination", {
     ...commonFields, "Next": "TextField", "Previous": "TextField",
     "First": "TextField", "Last": "TextField", "Page": "TextField"
-});
-ElementFields.set("Popup", { ...commonFields, "Ok": "TextField", "Cancel": "TextField", "Close": "TextField" });
-ElementFields.set("Yes/NoDialog", { ...commonFields, "Yes": "TextField", "No": "TextField", "Close": "TextField" });
-ElementFields.set("Alert", { ...commonFields, "Ok": "TextField", "Close": "TextField" });
-ElementFields.set("Search", { ...commonFields, "Value": "TextField", "SearchButton": "TextField", "Suggestions": "TextField" });
-ElementFields.set("ListOfElements", { ...commonFields, "Locator": "TextField", "ListItems": "ComboBox", "Enum": "TextField" });
+});*/
+//ElementFields.set("Popup", { ...commonFields, "Ok": "TextField", "Cancel": "TextField", "Close": "TextField" });
+//ElementFields.set("Yes/NoDialog", { ...commonFields, "Yes": "TextField", "No": "TextField", "Close": "TextField" });
+//ElementFields.set("Alert", { ...commonFields, "Ok": "TextField", "Close": "TextField" });
+//ElementFields.set("Search", { ...commonFields, "Value": "TextField", "SearchButton": "TextField", "Suggestions": "TextField" });
+//ElementFields.set("ListOfElements", { ...commonFields, "Locator": "TextField", "ListItems": "ComboBox", "Enum": "TextField" });
 
 let SimpleRules = {
     "Button": [{ Locator: "input[type=submit]", id: 0 }, { Locator: "input[type=button]", id: 1 }, { Locator: "button[type=button]", id: 2 },
@@ -96,16 +96,7 @@ let SimpleRules = {
     "RadioButtons": [{ Locator: "", id: 0 }],
     "Tabs": [{ Locator: "", id: 0 }],
     "TextList": [{ Locator: "", id: 0 }],
-    "Chat": [{ Locator: "", id: 0 }],
-    "Pagination": [{
-        Next: "", Previous: "", First: "", Last: "",
-        Page: "", id: 0
-    }],
-    "Popup": [{ Ok: "", Cancel: "", Close: "", id: 0 }],
-    "Yes/NoDialog": [{ Yes: "", No: "", Close: "", id: 0 }],
-    "Alert": [{ Ok: "", Close: "", id: 0 }],
-    "Search": [{ Value: "", SearchButton: "", Suggestions: "", id: 0 }],
-    "ListOfElements": [{ Locator: "", ListItems: "", id: 0 }]
+    "Chat": [{ Locator: "", id: 0 }]
 };
 let ComplexRules = {
     "ComboBox": [{ Root: "[data-toggle=dropdown]", Value: "", List: "li", Expand: ".caret", id: 0 }],
@@ -118,7 +109,16 @@ let ComplexRules = {
     "DynamicTable": [{
         Root: "", Header: "", RowHeader: "", Cell: "",
         Column: "", Row: "", Footer: "", id: 0
-    }],
+    }]
+    // "Pagination": [{
+    //     Next: "", Previous: "", First: "", Last: "",
+    //     Page: "", id: 0
+    // }],
+    // "Popup": [{ Ok: "", Cancel: "", Close: "", id: 0 }],
+    // "Yes/NoDialog": [{ Yes: "", No: "", Close: "", id: 0 }],
+    // "Alert": [{ Ok: "", Close: "", id: 0 }],
+    // "Search": [{ Value: "", SearchButton: "", Suggestions: "", id: 0 }],
+    // "ListOfElements": [{ Locator: "", ListItems: "", id: 0 }
 };
 let CompositeRules = {
     "Section": [{ Locator: ".section", id: 0 }, { Locator: "header", id: 1 }, { Locator: "//footer", id: 2 }, { Locator: "#sidebar", id: 3 }, { Locator: "#content", id: 4 }],
@@ -306,4 +306,4 @@ let CompositeRules = {
 //           ]
 // }
 
-export { Elements, Locators, ElementFields, HeaderTypes, SimpleRules, ComplexRules, CompositeRules };
+export { Elements, Locators, ElementFields, HeaderTypes, SimpleRules, ComplexRules, CompositeRules, commonFields };
