@@ -195,7 +195,7 @@ function PanelRightPageCode(props) {
                     <textarea style = {{height: h}} value={ state.sectionCode || page.POcode }/>
                 </div>
                 <div className="details">
-                    <button className="btn btn-default codeBtn">Download</button>
+                    <button className="btn btn-default codeBtn" onClick = {()=>{store.dispatch(codeActions.downloadCode())}} >Download</button>
                     <div>
                         <button className="btn btn-default">Java</button>
                         <button className="btn btn-default">C#</button>

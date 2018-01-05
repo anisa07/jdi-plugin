@@ -1,4 +1,5 @@
 import * as siteActions from '../actions/siteActions';
+
 let clearValue = () => {
     $("#searchInput")[0].value = "";
 }

@@ -282,9 +282,10 @@ export let generateElements = (mainObj) => {
     page.elements = [];
 
     chrome.devtools.inspectedWindow.eval('document.location', (r, err) => {
-        page.url = r.href;
-        page.urlHost = r.host;
+        page.url = r.pathname;
+        objCopy.SiteInfo.hostName = r.hostname;
         page.title = r.pathname.split("/").pop().replace(/\.html|\.htm/, '');
+        objCopy.SiteInfo.origin = r.origin;
     });
 
     chrome.devtools.inspectedWindow.eval('document.domain', (r, err) => {
@@ -473,9 +474,9 @@ export let generateElements = (mainObj) => {
                             for (let i = 0; i < unique.length; i++) { 
                                 if (els[j][unique[i]]){
                                     if (unique[i] === "className"){
-                                        l = locator + '[class="' + els[j][unique[i]] + '"]';
+                                        l = locator + "[class='" + els[j][unique[i]] + "']";
                                     } else {
-                                        l = locator + '['+ unique[i] + '="' + els[j][unique[i]] + '"]';
+                                        l = locator + "["+ unique[i] + "='" + els[j][unique[i]] + "']";
                                     }
                                     res = searchBySelector(dom, l);
                                     if (res === 1) {
@@ -496,9 +497,9 @@ export let generateElements = (mainObj) => {
                                 for (let i = 0; i < unique.length; i++) {
                                     if (locUp[unique[i]]){
                                         if (unique[i] === "className"){
-                                            l =  locUp.tagName.toLowerCase() + '[class="' + locUp[unique[i]] + '"] ' + locator;
+                                            l =  locUp.tagName.toLowerCase() + "[class='" + locUp[unique[i]] + "'] " + locator;
                                         } else {
-                                            l =  locUp.tagName.toLowerCase() + '['+ unique[i] + '="' + locUp[unique[i]] + '"] ' + locator;
+                                            l =  locUp.tagName.toLowerCase() + "["+ unique[i] + "='" + locUp[unique[i]] + "'] " + locator;
                                         }                    
                                         res = searchBySelector(dom, l);
                                         if (res === 1) {
@@ -531,9 +532,9 @@ export let generateElements = (mainObj) => {
                             for (let j = 0; j < unique.length; j++) {
                                 if (elements.snapshotItem(i)[unique[j]]){
                                     if (unique[j] === "className"){
-                                       l = locator + '[@class' + '="' + elements.snapshotItem(i)[unique[j]]+ '"]';     
+                                       l = locator + "[@class" + "='" + elements.snapshotItem(i)[unique[j]]+ "']";     
                                     }else {
-                                        l = locator + '[@'+ unique[j] + '="' + elements.snapshotItem(i)[unique[j]]+ '"]';
+                                        l = locator + "[@"+ unique[j] + "='" + elements.snapshotItem(i)[unique[j]]+ "']";
                                     }
                                     e = getElementByXpath(l, dom);
                                     if (e.snapshotLength === 1) {
@@ -555,9 +556,9 @@ export let generateElements = (mainObj) => {
                                 for (let i = 0; i < unique.length; i++) {
                                      if (locUp[unique[i]]){
                                         if (unique[i] === "className"){
-                                            l = '//' + locUp.tagName.toLowerCase() + '[@class="' + locUp[unique[i]] + '"]/' + locator;
+                                            l = '//' + locUp.tagName.toLowerCase() + "[@class='" + locUp[unique[i]] + "']/" + locator;
                                         } else {
-                                            l = '//' + locUp.tagName.toLowerCase() + '[@'+ unique[i] + '="' + locUp[unique[i]] + '"]/' + locator;
+                                            l = '//' + locUp.tagName.toLowerCase() + "[@"+ unique[i] + "='" + locUp[unique[i]] + "']/" + locator;
                                         }                    
                                         len = getElementByXpath(l, dom).snapshotLength;
                                         if (len === 1) {
@@ -660,7 +661,7 @@ export let generateElements = (mainObj) => {
             //objCopy.PageObjects[0].elements = page.elements;
             //showPage(objCopy, objCopy.activeTabPageId);
 
-            document.querySelector('[data-tabid="'+ objCopy.activeTabPageId +'"]').click();
+            document.querySelector("[data-tabid='"+ objCopy.activeTabPageId +"']").click();
             
             // result.forEach((res) => {
             //     complex.forEach((element) => {

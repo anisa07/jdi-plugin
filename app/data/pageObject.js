@@ -1,7 +1,6 @@
 let PageObjectJSON = [
     {
         "url": "",
-        "urlHost": "",
         "urlTemplate": "",
         "urlMatch": "Contains",
         "title": "",
@@ -12,17 +11,17 @@ let PageObjectJSON = [
         "POcode": "",
         "compositeCode": [],
         "elements": [
-            {
-                "expanded": false,
-                "Name": "t7",
-                "Type": "Form",
-                "parent": null,
-                "elId": "el12348",
-                "parentId": null,
-                "Enum":"",
-                "isSection": true,
-                "Locator": ""
-            },
+            // {
+            //     "expanded": false,
+            //     "Name": "t7",
+            //     "Type": "Form",
+            //     "parent": null,
+            //     "elId": "el12348",
+            //     "parentId": null,
+            //     "Enum":"",
+            //     "isSection": true,
+            //     "Locator": ""
+            // },
 
         ]
     },
@@ -54,7 +53,9 @@ let PageObjectJSON = [
 
 let SiteInfoJSON = {
     "siteTitle": "",
-    "domainName": ""
+    "domainName": "",
+    "hostName": "",
+    "origin": ""
 }
 
 export {PageObjectJSON, SiteInfoJSON};

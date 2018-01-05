@@ -71,6 +71,12 @@ export const mainReducer = (state, action) => {
         case 'GEN_CODE': {
             return code.genCode(state)
         }
+        case 'DOWNLOAD_CODE': {
+            return code.downloadCode(state)
+        }
+        case 'ZIP_CODE': {
+            return code.zipAllCode(state)
+        }
         default: {
             return state
         }

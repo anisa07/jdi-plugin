@@ -9,3 +9,15 @@ export function genCode(){
         type: 'GEN_CODE'
     }
 }
+
+export function downloadCode(){
+    return {
+        type: 'DOWNLOAD_CODE'
+    }
+}
+
+export function zipAllCode(){
+    return {
+        type: 'ZIP_CODE'
+    }
+}
