@@ -20,10 +20,7 @@ export function addElement(parentId){
             "Type": "Button",
             "parent": "",
             "parentId": parentId,
-            "Locator":{
-                "path": "",
-                "type": ""
-            }
+            "Locator": ""
         }
     }
 }

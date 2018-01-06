@@ -72,6 +72,9 @@ export let addElement = (mainObj, element) => {
     let pageId = objCopy.activeTabPageId;
     let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
     let parent = null;
+    element.Name = genRand("Element");
+    element.elId = genRand("El");
+
     if (element.parentId !== null) {
         parent = elementsArray.find((el) => {
             if (el.elId === element.parentId) {
@@ -83,18 +86,74 @@ export let addElement = (mainObj, element) => {
                 return el.expanded = true;
             }
         });
+
+        let result = objCopy.sections.map((section) => {
+            if (section.elId === element.parentId) {
+                if (section.children){
+                    section.children.push(element)
+                } else {
+                    section.children = [];
+                    section.children.push(element);
+                }
+                element.parent = section.Name;
+            }
+            return section;    
+        });        
+        objCopy.sections = result;
+    } else {
+        element.parent = null;
     }
 
-    element.parent = parent;
-    element.Name = genRand("Element");
-    element.elId = genRand("El");
-
     elementsArray.push(element);
+    if (element.parentId !== null) {
+        let found = false;
+        for (let i = 0; i < objCopy.PageObjects.length; i++) {
+            let page = objCopy.PageObjects[i];
+            let r = page.elements.map((e) => {
+                if (e.elId === element.parentId && page.pageId !== pageId) {
+                    if (!e.children){
+                        e.children = [];
+                    }
+                    e.children.push(element);
+                    found = true;
+                }
+                return e;
+            });
+            page.elements = r;
+            if (found){
+                page.elements.push(element);
+                found = false;
+            }
+        }
+    }
+
     map = drawMap(elementsArray, new Map());
     objCopy.pageMap = map;
     objCopy.resultTree = getChildren(map, null);
     return objCopy;
 };
+
+function sectionIsUsed(arr, elId, pageId) {
+    let found = false;
+    for (let i = 0; i < arr.length; i++) {
+        found = arr[i].elements.find((element) => element.elId === elId && pageId !== arr[i].pageId)
+        if (!!found) {
+            return !!found;
+        }
+    }
+    return found;
+}
+
+function removeFromSection(arr, elId) {
+    let index = arr.findIndex((section) => section.elId === elId);
+    if (index > -1) {
+        let result = arr.slice();
+        result.splice(index, 1);
+        return result;
+    } else {
+        return arr;
+    }
+}
 
 export let deleteElement = (mainObj, elId) => {
     function del(arr, id) {
@@ -116,6 +175,12 @@ export let deleteElement = (mainObj, elId) => {
         children.forEach((child) => {
             newArr = del(newArr, child.elId);
         });
+    }
+
+    let found = sectionIsUsed(objCopy.PageObjects, elId, pageId);
+
+    if (!found) {
+        objCopy.sections = removeFromSection(objCopy.sections, elId);
     }
 
     map = drawMap(newArr, new Map());
@@ -141,7 +206,7 @@ export let selectElement = (mainObj, elId) => {
     let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
     let element = findElement(elId, elementsArray);
     objCopy.selectedElement = element;
-    objCopy.showCode = false; 
+    objCopy.showCode = false;
     return objCopy;
 };
 
@@ -166,8 +231,10 @@ export let searchEl = (mainObj, elName) => {
     return objCopy;
 };
 
+//change edit section
 export let editElement = (mainObj, elField, value) => {
     let objCopy = Object.assign({}, mainObj);
+    let composites = Object.keys(objCopy.CompositeRules);
 
     if (value.length || typeof value === "boolean") {
         let pageId = objCopy.activeTabPageId;
@@ -176,6 +243,13 @@ export let editElement = (mainObj, elField, value) => {
         let typesMap = objCopy.ElementFields;
 
         if (elField[0] === "Type") {
+            if (composites.includes(value)){
+                let found = sectionIsUsed(objCopy.PageObjects, selectedElement.elI, pageId);
+                if (!found) {
+                    objCopy.sections = removeFromSection(objCopy.sections, selectedElement.elId);
+                }    
+            } 
+
             if (selectedElement.children) {
                 let l = selectedElement.children.length;
                 for (let k = 0; k < l; k++) {
@@ -242,10 +316,62 @@ export let editElement = (mainObj, elField, value) => {
 
         elementsArray = elementsArray.map((element) => {
             if (element.elId === selectedElement.elId) {
-                element = selectedElement
+                if (composites.includes(value) && elField[0] === "Type") {
+                    selectedElement.elId = genRand("El");
+                    element = selectedElement;
+                    objCopy.sections.push(selectedElement);
+                }
+                if (composites.includes(selectedElement.Type) && elField[0] !== "Type") {
+                    let result = objCopy.sections.map((section) => {
+                        if (section.elId === selectedElement.elId) {
+                            return section = element;
+                        } else {
+                            return section;
+                        }
+                    })
+                    objCopy.sections = result;
+                    let r;
+                    for (let i = 0; i < objCopy.PageObjects.length; i++) {
+                        r = objCopy.PageObjects[i].elements.map((e) => {
+                            if (e.elId === selectedElement.elId) {
+                                return e = element;
+                            }
+                        })
+                    }
+
+                }
+                if (!composites.includes(selectedElement.Type)) {
+                    element = selectedElement;
+                    if (selectedElement.parentId !== null){
+                        let result = objCopy.sections.map((section) => {
+                            if (section.elId === selectedElement.parentId) {
+                                for (let i = 0; i < section.children.length; i++){
+                                    let child = section.children[i];
+                                    if (child.elId === selectedElement.elId){
+                                        child = selectedElement;
+                                    }
+                                }
+                            }
+                            return section;    
+                        });        
+                        objCopy.sections = result;
+                    }
+         
+                    for (let i = 0; i < objCopy.PageObjects.length; i++) {
+                        let page = objCopy.PageObjects[i];
+                        let r = page.elements.map((e) => {
+                            if (e.elId === selectedElement.elId) {
+                                e = selectedElement;
+                            }
+                            return e;
+                        });
+                        page.elements = r;
+                    }
+                }
             }
             return element;
         });
+
 
         objCopy.PageObjects.map((page) => {
             if (pageId === page.pageId) {
@@ -274,7 +400,7 @@ export let generateElements = (mainObj) => {
             return page
         }
     })
-    
+
     let composites = Object.keys(objCopy.CompositeRules);
     let complex = Object.keys(objCopy.ComplexRules);
     let simple = Object.keys(objCopy.SimpleRules);
@@ -289,17 +415,17 @@ export let generateElements = (mainObj) => {
     });
 
     chrome.devtools.inspectedWindow.eval('document.domain', (r, err) => {
-        if (r !== objCopy.SiteInfo.domainName){
+        if (r !== objCopy.SiteInfo.domainName) {
             objCopy.SiteInfo.domainName = r;
         }
     });
 
     chrome.devtools.inspectedWindow.eval('document.title', (r, err) => {
-        if (r !== objCopy.SiteInfo.siteTitle){
+        if (r !== objCopy.SiteInfo.siteTitle) {
             objCopy.SiteInfo.siteTitle = r;
         }
     });
-    
+
 
     chrome.devtools.inspectedWindow.eval(
         'document.body.outerHTML', (r, err) => {
@@ -336,7 +462,7 @@ export let generateElements = (mainObj) => {
                 let rules = objCopy.Rules[t];
 
                 rules.forEach((rule, i) => {
-                    if(!!rule.Locator){
+                    if (!!rule.Locator) {
                         search(rule.Locator, t, dom);
                     }
                 })
@@ -354,16 +480,16 @@ export let generateElements = (mainObj) => {
                 });
             }
 
-            let getSimple= (dom, t, parentLocator) => {
+            let getSimple = (dom, t, parentLocator) => {
                 //change simple
                 let rules = objCopy.Rules[t];
-                
+
                 observedDOM = dom;
                 rules.forEach((rule, i) => {
-                    if(!!rule.Locator){
+                    if (!!rule.Locator) {
                         search(rule.Locator, t, observedDOM, parentLocator, rule.id);
                     }
-                    
+
                 });
             }
 
@@ -390,17 +516,27 @@ export let generateElements = (mainObj) => {
                     fields = objCopy.ElementFields.get(type);
                 }
                 if (composites.indexOf(type) > -1) {
-                    let eid = genRand("El");
-                    page.elements.push({
-                        "expanded": false,
-                        "Name": genRand(type),
-                        "parent": null,
-                        "elId": eid,
-                        "parentId": null,
-                        "Locator": locator,
-                        "Type": type
-                    })
-                    result.push({ Locator: locator, type: type, content: content, elId: eid, parentId: null, nest: -1, parent: null});
+                    let found = objCopy.sections.find((section) => {
+                        if (section.Locator === locator && section.Type === type) {
+                            return section;
+                        }
+                    });
+                    let elId = genRand("El");
+                    if (!!found) {
+                        page.elements.push(found);
+                        result.push({ Locator: locator, type: type, content: content, elId: found.elId, parentId: found.parentId, nest: -1, parent: found.parent });
+                    } else {
+                        page.elements.push({
+                            "expanded": false,
+                            "Name": genRand(type),
+                            "parent": null,
+                            "elId": elId,
+                            "parentId": null,
+                            "Locator": locator,
+                            "Type": type
+                        })
+                        result.push({ Locator: locator, type: type, content: content, elId: elId, parentId: null, nest: -1, parent: null });
+                    }
                     for (let f in fields) {
                         if (!page.elements[page.elements.length - 1].hasOwnProperty(f)) {
                             page.elements[page.elements.length - 1][f] = "";
@@ -410,48 +546,84 @@ export let generateElements = (mainObj) => {
                         }
                     }
                 }
+                function sectionCheck(element){
+                    let found = false;
+                    if (parentLocator) {
+                        for (let i = 0; i < objCopy.sections.length; i++) {
+                            let section = objCopy.sections[i];
+                            if (section.Locator === parentLocator) {
+                                if (section.children){
+                                    found = section.children.find((child) => {
+                                        let check = child.Root || child.Locator;
+                                        if (check === locator && child.Type === type) {
+                                            return child;
+                                        }
+                                    });
+                                    if (!!found) {
+                                        page.elements.push(found)
+                                    } else {
+                                        section.children.push(element);
+                                    }
+                                } else {
+                                    section.children = [];
+                                    section.children.push(element)
+                                }
+                                break;
+                            }
+
+                        }
+                    }
+                    return found;
+                }
                 if (complex.indexOf(type) > -1) {
-                    page.elements.push({
+                    let element = {
                         "Name": genRand(type),
                         "elId": genRand("El"),
                         "Root": locator,
                         "Type": type
-                    })
-                    //change RULES
+                    };
                     let rules = objCopy.Rules[type];
                     let r = rules.find((rule) => {
                         if (rule.id === ruleId) {
                             return rule;
                         }
                     })
-                    
+
                     for (let f in r) {
-                       if (!page.elements[page.elements.length - 1].hasOwnProperty(f) && f !== 'Root') {
-                            page.elements[page.elements.length - 1][f] = r[f];
+                        if (!element.hasOwnProperty(f) && f !== 'Root') {
+                            element[f] = r[f];
                         }
                     }
-
+                    let found = sectionCheck(element);
+                    if (!found) {
+                        page.elements.push(element)
+                    }
                 }
-                if (simple.indexOf(type) > -1){
-                    page.elements.push({
+                if (simple.indexOf(type) > -1) {
+                    let element = { 
                         "Name": genRand(type),
                         "elId": genRand("El"),
                         "Locator": locator,
                         "Type": type
-                    })
+                    }
+                    let found = sectionCheck(element);
+                    if (!found) {
+                        page.elements.push(element)
+                    }
                 }
-                if ("body" === parentLocator) {
-                    page.elements[page.elements.length - 1].parent = null;
-                    page.elements[page.elements.length - 1].parentId = null;
-                } else {
-                    page.elements.find((pElement) => {
-                        if (pElement.Locator === parentLocator) {
-                            page.elements[page.elements.length - 1].parent = pElement.Name;
-                            page.elements[page.elements.length - 1].parentId = pElement.elId;
-                        }
-                    })
+                if (!page.elements[page.elements.length - 1].parent || page.elements[page.elements.length - 1].parentId === null) {
+                    if ("body" === parentLocator) {
+                        page.elements[page.elements.length - 1].parent = null;
+                        page.elements[page.elements.length - 1].parentId = null;
+                    } else {
+                        page.elements.find((pElement) => {
+                            if (pElement.Locator === parentLocator) {
+                                page.elements[page.elements.length - 1].parent = pElement.Name;
+                                page.elements[page.elements.length - 1].parentId = pElement.elId;
+                            }
+                        })
+                    }
                 }
-
             }
 
             let createCorrectXpath = (locator, addPart, value) => {
@@ -471,12 +643,12 @@ export let generateElements = (mainObj) => {
                     if (res === 0) {
                         let els = dom.querySelectorAll(locator);
                         for (let j = 0; j < els.length; j++) {
-                            for (let i = 0; i < unique.length; i++) { 
-                                if (els[j][unique[i]]){
-                                    if (unique[i] === "className"){
+                            for (let i = 0; i < unique.length; i++) {
+                                if (els[j][unique[i]]) {
+                                    if (unique[i] === "className") {
                                         l = locator + "[class='" + els[j][unique[i]] + "']";
                                     } else {
-                                        l = locator + "["+ unique[i] + "='" + els[j][unique[i]] + "']";
+                                        l = locator + "[" + unique[i] + "='" + els[j][unique[i]] + "']";
                                     }
                                     res = searchBySelector(dom, l);
                                     if (res === 1) {
@@ -484,9 +656,9 @@ export let generateElements = (mainObj) => {
                                         //dom = dom.querySelector(locator).parentNode.removeChild(dom.querySelector(locator));
                                         break;
                                     }
-                                }    
+                                }
                             }
-                            locUp = dom.querySelectorAll(locator)[j].parentNode; 
+                            locUp = dom.querySelectorAll(locator)[j].parentNode;
                             while (locUp !== dom.parentNode && res === 0) {
                                 l = locUp.tagName.toLowerCase() + " " + locator;
                                 res = searchBySelector(dom, l);
@@ -495,29 +667,29 @@ export let generateElements = (mainObj) => {
                                     break;
                                 }
                                 for (let i = 0; i < unique.length; i++) {
-                                    if (locUp[unique[i]]){
-                                        if (unique[i] === "className"){
-                                            l =  locUp.tagName.toLowerCase() + "[class='" + locUp[unique[i]] + "'] " + locator;
+                                    if (locUp[unique[i]]) {
+                                        if (unique[i] === "className") {
+                                            l = locUp.tagName.toLowerCase() + "[class='" + locUp[unique[i]] + "'] " + locator;
                                         } else {
-                                            l =  locUp.tagName.toLowerCase() + "["+ unique[i] + "='" + locUp[unique[i]] + "'] " + locator;
-                                        }                    
+                                            l = locUp.tagName.toLowerCase() + "[" + unique[i] + "='" + locUp[unique[i]] + "'] " + locator;
+                                        }
                                         res = searchBySelector(dom, l);
                                         if (res === 1) {
                                             applyResult(l, type, dom.querySelector(l), parentLocator, ruleId);
                                             break;
                                         }
                                         if (res === 0) {
-                                            locUp = locUp.parentNode; 
+                                            locUp = locUp.parentNode;
                                         }
-                                    }    
+                                    }
                                 }
                             }
                         }
                     }
-                      //  }
+                    //  }
                     //}
                 } else {
-                    
+
                     let elements = getElementByXpath(locator, dom);
                     let len = elements.snapshotLength;
                     let locUp = "";
@@ -530,45 +702,45 @@ export let generateElements = (mainObj) => {
                         let l = "";
                         for (let i = 0; i < len; i++) {
                             for (let j = 0; j < unique.length; j++) {
-                                if (elements.snapshotItem(i)[unique[j]]){
-                                    if (unique[j] === "className"){
-                                       l = locator + "[@class" + "='" + elements.snapshotItem(i)[unique[j]]+ "']";     
-                                    }else {
-                                        l = locator + "[@"+ unique[j] + "='" + elements.snapshotItem(i)[unique[j]]+ "']";
+                                if (elements.snapshotItem(i)[unique[j]]) {
+                                    if (unique[j] === "className") {
+                                        l = locator + "[@class" + "='" + elements.snapshotItem(i)[unique[j]] + "']";
+                                    } else {
+                                        l = locator + "[@" + unique[j] + "='" + elements.snapshotItem(i)[unique[j]] + "']";
                                     }
                                     e = getElementByXpath(l, dom);
                                     if (e.snapshotLength === 1) {
                                         applyResult(l, type, e, parentLocator, ruleId);
                                         //dom = e.snapshotItem(0).parentNode.removeChild(e.snapshotItem(0));
                                         break;
-                                    }        
+                                    }
                                 }
                             }
-                            locUp = elements.snapshotItem(i).parentNode; 
+                            locUp = elements.snapshotItem(i).parentNode;
                             while (locUp !== dom.parentNode && len !== 1) {
                                 let l = '//' + locUp.tagName.toLowerCase() + locator.slice(1);
                                 let elems = getElementByXpath(l, dom);
-                                if (elems.snapshotLength === 1){
+                                if (elems.snapshotLength === 1) {
                                     len = 1;
                                     applyResult(l, type, elems.snapshotItem(0), parentLocator, ruleId);
                                     break;
                                 };
                                 for (let i = 0; i < unique.length; i++) {
-                                     if (locUp[unique[i]]){
-                                        if (unique[i] === "className"){
+                                    if (locUp[unique[i]]) {
+                                        if (unique[i] === "className") {
                                             l = '//' + locUp.tagName.toLowerCase() + "[@class='" + locUp[unique[i]] + "']/" + locator;
                                         } else {
-                                            l = '//' + locUp.tagName.toLowerCase() + "[@"+ unique[i] + "='" + locUp[unique[i]] + "']/" + locator;
-                                        }                    
+                                            l = '//' + locUp.tagName.toLowerCase() + "[@" + unique[i] + "='" + locUp[unique[i]] + "']/" + locator;
+                                        }
                                         len = getElementByXpath(l, dom).snapshotLength;
                                         if (len === 1) {
                                             applyResult(l, type, getElementByXpath(l, dom).snapshotItem(0), parentLocator, ruleId);
                                         }
                                         if (len > 0) {
                                             locator = '//' + locUp.tagName.toLowerCase() + '/' + locator;
-                                            locUp = locUp.parentNode; 
+                                            locUp = locUp.parentNode;
                                         }
-                                    }    
+                                    }
                                 }
                             }
                             len = 2;
@@ -582,38 +754,46 @@ export let generateElements = (mainObj) => {
                 getComposite(observedDOM, rule);
             });
 
-            for (let i = 0; i < result.length; i++){
+            for (let i = 0; i < result.length; i++) {
                 let composite = result[i];
                 let check;
-                for (let j = 0; j < result.length; j++){
+                for (let j = 0; j < result.length; j++) {
                     let parent = result[j];
-                    if (composite !== parent){
+                    if (composite !== parent) {
                         check = isDescendant(parent.content, composite.content);
-                        if (check.parent){
-                            if (composite.nest === -1 || composite.nest > check.deep ){
+                        if (check.parent) {
+                            if (composite.nest === -1 || composite.nest > check.deep) {
                                 composite.nest = check.deep;
-                                composite.parentId = parent.elId; 
+                                composite.parentId = parent.elId;
                                 composite.parent = parent.type;
-                            } 
+                            }
                         }
                     }
                 }
             }
 
-            for (let i = 0; i < page.elements.length; i++){
+            for (let i = 0; i < page.elements.length; i++) {
                 let element = page.elements[i];
-                for (let j = 0; j < result.length; j++){
+                for (let j = 0; j < result.length; j++) {
                     let res = result[j];
-                    if (element.elId === res.elId){
-                        element.parentId = res.parentId;
-                        element.parent = res.parent;
+                    if (element.elId === res.elId) {
+                        let found = objCopy.sections.find((section) => {
+                            if (section.Locator === element.Locator && section.Type === element.Type) {
+                                return section;
+                            }
+                        });
+                        if (!found) {
+                            element.parentId = res.parentId;
+                            element.parent = res.parent;
+                            objCopy.sections.push(element);
+                        }
                     }
                 }
             }
 
-            for (let i=0; i < result.length; i++){
+            for (let i = 0; i < result.length; i++) {
                 let res = result[i];
-                if (res.parentId === null){
+                if (res.parentId === null) {
                     if (res.Locator.indexOf('/') !== 0) {
                         observedDOM.querySelector(res.Locator).parentNode.removeChild(observedDOM.querySelector(res.Locator));
                     } else {
@@ -621,37 +801,37 @@ export let generateElements = (mainObj) => {
                         e.snapshotItem(0).parentNode.removeChild(e.snapshotItem(0));
                     }
                 } else {
-                    for (let n=0; n<result.length; n++){
-                        if (result[n].elId === res.parentId){
+                    for (let n = 0; n < result.length; n++) {
+                        if (result[n].elId === res.parentId) {
                             if (res.Locator.indexOf('/') !== 0) {
                                 result[n].content.querySelector(res.Locator).parentNode.removeChild(result[n].content.querySelector(res.Locator));
                             } else {
                                 let e = getElementByXpath(res.Locator, result[n].content);
                                 e.snapshotItem(0).parentNode.removeChild(e.snapshotItem(0));
-                            }       
+                            }
                         }
                     }
                 }
             }
-         
+
             result.push({ Locator: "body", type: null, content: observedDOM, elId: null, nest: -1, parentId: null });
 
-            for (let i = 0; i < result.length; i++){
+            for (let i = 0; i < result.length; i++) {
                 let res = result[i];
                 complex.forEach((element) => {
                     getComplex(res.content, element, res.Locator)
                 });
-                
+
                 simple.forEach((element) => {
                     getSimple(res.content, element, res.Locator)
                 });
             }
 
-            /*for (let k=0; k<objCopy.PageObjects.length; k++){
-                if (objCopy.PageObjects.pageId === objCopy.activeTabPageId){
+            for (let k = 0; k < objCopy.PageObjects.length; k++) {
+                if (objCopy.PageObjects.pageId === objCopy.activeTabPageId) {
                     objCopy.PageObjects = page;
                 }
-            }*/
+            }
 
             // objCopy.PageObjects.find((page) => {
             //     if (page.pageId === objCopy.activeTabPageId) {
@@ -661,27 +841,27 @@ export let generateElements = (mainObj) => {
             //objCopy.PageObjects[0].elements = page.elements;
             //showPage(objCopy, objCopy.activeTabPageId);
 
-            document.querySelector("[data-tabid='"+ objCopy.activeTabPageId +"']").click();
-            
+            document.querySelector("[data-tabid='" + objCopy.activeTabPageId + "']").click();
+
             // result.forEach((res) => {
             //     complex.forEach((element) => {
             //         getComplex(res.content, element, res.Locator)
             //     })
-                
+
             //     simple.forEach((element) => {
             //         getSimple(res.content, element, res.Locator)
             //     })
             //     //showPage
             // })
 
-            
+
             //alert(JSON.stringify(objCopy.PageObjects[0].elements))
         }
     );
 
-    /*map = drawMap(page.elements, new Map());
+    map = drawMap(page.elements, new Map());
     objCopy.pageMap = map;
-    objCopy.resultTree = getChildren(map, null);*/
+    objCopy.resultTree = getChildren(map, null);
 
     return objCopy;
 }

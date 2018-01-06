@@ -29,7 +29,9 @@ let initialState = {
     showCode: false,
     sectionCode: "",
     language: 'Java',
-    genPOWholeSite: '' 
+    genPOWholeSite: '',
+    sections: [],
+    secCode: [] 
 };
 
 let store = createStore(mainReducer,initialState);
