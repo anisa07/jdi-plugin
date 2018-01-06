@@ -6,8 +6,10 @@ import * as codeActions from '../actions/codeActions';
 function PanelLeftPage(props) {
     let state = props.state;
     let store = props.store;
+    let  droppedItem;
     const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
-        if (nextParent === null || nextParent.type === "section" || nextParent.type === "form") {
+        if (nextParent === null || nextParent.isSection) {
+            droppedItem = node;
             return true;
         }
         return false;
@@ -35,7 +37,7 @@ function PanelLeftPage(props) {
                             canDrop={canDrop}
                             treeData={state.resultTree}
                             onChange={(data) => {
-                                store.dispatch(pageActions.changeTree(data))
+                                store.dispatch(pageActions.changeTree(data, droppedItem))
                             }}
                             generateNodeProps={({ node }) => (
                                 {

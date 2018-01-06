@@ -26,7 +26,7 @@ export let showPage = (mainObj, id) => {
     })
 };
 
-export let changeTree = (mainObj, treeData) => {
+export let changeTree = (mainObj, treeData, droppedItem) => {
     let objCopy = Object.assign({}, mainObj);
     let pageId = objCopy.activeTabPageId;
     let copyPageObjectsArray = findPage(pageId, objCopy.PageObjects).elements;
@@ -59,6 +59,44 @@ export let changeTree = (mainObj, treeData) => {
 
     check(treeData);
 
+    if (droppedItem) {
+        let element = copyPageObjectsArray.find((e) => e.elId === droppedItem.elId);
+        let result = objCopy.sections.map((section) => {
+            if (section.elId === element.elId) {
+                section.parentId = element.parentId;
+                section.parent = element.parent;
+            }
+            if (section.children) {
+                for (let i = 0; i < section.children.length; i++) {
+                    let child = section.children[i];
+                    if (child.elId === element.elId) {
+                        child.parent = element.parent;
+                        child.parentId = element.parentId;
+                        break;
+                    }
+                }
+            }
+            return section;
+        })
+        objCopy.sections = result;
+
+        let pages = objCopy.PageObjects.map((p) => {
+            console.log(p)
+            if (p.elements) {
+                for (let k = 0; k < p.elements.length; k++) {
+                    let e = p.elements[k];
+                    console.log(e)
+                    if (e.elId === element.elId) {
+                        e.parentId = element.parentId;
+                        e.parent = element.parent;
+                    }
+                }
+            }
+            return p;
+        })
+        objCopy.PageObjects = pages;
+    }
+
     map = drawMap(copyPageObjectsArray, new Map());
 
     objCopy.pageMap = map;
@@ -89,7 +127,7 @@ export let addElement = (mainObj, element) => {
 
         let result = objCopy.sections.map((section) => {
             if (section.elId === element.parentId) {
-                if (section.children){
+                if (section.children) {
                     section.children.push(element)
                 } else {
                     section.children = [];
@@ -97,8 +135,8 @@ export let addElement = (mainObj, element) => {
                 }
                 element.parent = section.Name;
             }
-            return section;    
-        });        
+            return section;
+        });
         objCopy.sections = result;
     } else {
         element.parent = null;
@@ -111,7 +149,7 @@ export let addElement = (mainObj, element) => {
             let page = objCopy.PageObjects[i];
             let r = page.elements.map((e) => {
                 if (e.elId === element.parentId && page.pageId !== pageId) {
-                    if (!e.children){
+                    if (!e.children) {
                         e.children = [];
                     }
                     e.children.push(element);
@@ -120,7 +158,7 @@ export let addElement = (mainObj, element) => {
                 return e;
             });
             page.elements = r;
-            if (found){
+            if (found) {
                 page.elements.push(element);
                 found = false;
             }
@@ -243,12 +281,12 @@ export let editElement = (mainObj, elField, value) => {
         let typesMap = objCopy.ElementFields;
 
         if (elField[0] === "Type") {
-            if (composites.includes(value)){
+            if (composites.includes(value)) {
                 let found = sectionIsUsed(objCopy.PageObjects, selectedElement.elI, pageId);
                 if (!found) {
                     objCopy.sections = removeFromSection(objCopy.sections, selectedElement.elId);
-                }    
-            } 
+                }
+            }
 
             if (selectedElement.children) {
                 let l = selectedElement.children.length;
@@ -342,21 +380,21 @@ export let editElement = (mainObj, elField, value) => {
                 }
                 if (!composites.includes(selectedElement.Type)) {
                     element = selectedElement;
-                    if (selectedElement.parentId !== null){
+                    if (selectedElement.parentId !== null) {
                         let result = objCopy.sections.map((section) => {
                             if (section.elId === selectedElement.parentId) {
-                                for (let i = 0; i < section.children.length; i++){
+                                for (let i = 0; i < section.children.length; i++) {
                                     let child = section.children[i];
-                                    if (child.elId === selectedElement.elId){
+                                    if (child.elId === selectedElement.elId) {
                                         child = selectedElement;
                                     }
                                 }
                             }
-                            return section;    
-                        });        
+                            return section;
+                        });
                         objCopy.sections = result;
                     }
-         
+
                     for (let i = 0; i < objCopy.PageObjects.length; i++) {
                         let page = objCopy.PageObjects[i];
                         let r = page.elements.map((e) => {
@@ -546,13 +584,13 @@ export let generateElements = (mainObj) => {
                         }
                     }
                 }
-                function sectionCheck(element){
+                function sectionCheck(element) {
                     let found = false;
                     if (parentLocator) {
                         for (let i = 0; i < objCopy.sections.length; i++) {
                             let section = objCopy.sections[i];
                             if (section.Locator === parentLocator) {
-                                if (section.children){
+                                if (section.children) {
                                     found = section.children.find((child) => {
                                         let check = child.Root || child.Locator;
                                         if (check === locator && child.Type === type) {
@@ -600,7 +638,7 @@ export let generateElements = (mainObj) => {
                     }
                 }
                 if (simple.indexOf(type) > -1) {
-                    let element = { 
+                    let element = {
                         "Name": genRand(type),
                         "elId": genRand("El"),
                         "Locator": locator,

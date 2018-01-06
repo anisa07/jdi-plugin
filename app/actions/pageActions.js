@@ -5,10 +5,11 @@ export function showPage(pageId){
     }
 }
 
-export function changeTree(treeData){
+export function changeTree(treeData, droppedItem){
     return {
         type: 'CHANGE_TREE',
-        treeData
+        treeData,
+        droppedItem
     }
 }
 

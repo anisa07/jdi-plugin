@@ -148,6 +148,7 @@ export let zipAllCode = (mainObj) => {
     let siteName = siteHostName[0].toUpperCase() + siteHostName.slice(1);
     let pages = objCopy.PageObjects;
     let pageName = "";
+    let sectionName = "";
 
     let site = "";
     site = "package " + objCopy.SiteInfo.domainName + ".pageobject;" +
@@ -163,15 +164,28 @@ export let zipAllCode = (mainObj) => {
     }
     site += "}";
 
-    //create pages folder, found all page .java
     for (let i = 0; i < pages.length; i++){
         pageName = pages[i].name.replace(/\s/g, '');
         zip.folder("pages").file(pageName + ".java", pages[i].POcode);
     }
 
-    //create section folder , found all sections
-
-    //generate file
+    let pack = objCopy.SiteInfo.domainName + '.sections';
+    
+    for (let i = 0; i < objCopy.sections.length; i++){
+        console.log("test")
+        let section = "package " + pack + ";"+
+        "\n\nimport com.epam.jdi.uitests.web.selenium.elements.common.*;" +
+        "\nimport com.epam.jdi.uitests.web.selenium.elements.complex.*;" +
+        "\nimport com.epam.jdi.uitests.web.selenium.elements.composite.*;" +
+        "\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;" +
+        "\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.*;" +
+        "\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;" +
+        "\nimport org.openqa.selenium.support.FindBy;" 
+        sectionName = objCopy.sections[i].Name.replace(/\s/g, '');
+        section += "\n\npublic class " + sectionName[0].toUpperCase() + sectionName.slice(1) + " extends "+ objCopy.sections[i].Type +"{" +
+        genCodeOfElements(objCopy.sections[i].elId, objCopy.sections[i].children, objCopy) + "\n}";
+        zip.folder("sections").file(sectionName + ".java", section);
+    }
 
     zip.file(siteName + '.java', site);
     zip.generateAsync({type: "blob"}).then(
