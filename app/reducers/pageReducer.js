@@ -269,7 +269,7 @@ export let searchEl = (mainObj, elName) => {
     return objCopy;
 };
 
-//change edit section
+
 export let editElement = (mainObj, elField, value) => {
     let objCopy = Object.assign({}, mainObj);
     let composites = Object.keys(objCopy.CompositeRules);
@@ -281,12 +281,26 @@ export let editElement = (mainObj, elField, value) => {
         let typesMap = objCopy.ElementFields;
 
         if (elField[0] === "Type") {
-            if (composites.includes(value)) {
-                let found = sectionIsUsed(objCopy.PageObjects, selectedElement.elI, pageId);
-                if (!found) {
-                    objCopy.sections = removeFromSection(objCopy.sections, selectedElement.elId);
+            if (!composites.includes(value)){
+                let item = -1;
+                for (let i=0; i<objCopy.sections.length; i++){
+                    if (objCopy.sections[i].elId === selectedElement.elId){
+                        item = i; 
+                    }
                 }
+                if (item > -1){
+                    let r = objCopy.sections.slice();
+                    r.splice(item, 1);
+                    objCopy.sections = r;    
+                }           
             }
+
+            // if (composites.includes(value)) {
+            //     let found = sectionIsUsed(objCopy.PageObjects, selectedElement.elI, pageId);
+            //     if (!found) {
+            //         objCopy.sections = removeFromSection(objCopy.sections, selectedElement.elId);
+            //     }
+            // }
 
             if (selectedElement.children) {
                 let l = selectedElement.children.length;
@@ -354,13 +368,49 @@ export let editElement = (mainObj, elField, value) => {
 
         elementsArray = elementsArray.map((element) => {
             if (element.elId === selectedElement.elId) {
+                //section changes type
                 if (composites.includes(value) && elField[0] === "Type") {
-                    selectedElement.elId = genRand("El");
+                    console.log("1")
+                    let newId = genRand("El");
+                    let result = objCopy.sections.map((section) => {
+                        if (section.elId === selectedElement.parentId) {
+                            for (let i = 0; i < section.children.length; i++) {
+                                let child = section.children[i];
+                                if (child.elId === selectedElement.elId) {
+                                    child = selectedElement;
+                                    child.elId = newId;
+                                }
+                            }
+                        }
+                        return section;
+                    })
+                    objCopy.sections = result;
+                    for (let i = 0; i < objCopy.PageObjects.length; i++) {
+                        let page = objCopy.PageObjects[i];
+                        let r = page.elements.map((e) => {
+                            if (e.elId === selectedElement.elId) {
+                                e = selectedElement;
+                                e.elId = newId;
+                            }
+                            return e;
+                        });
+                        page.elements = r;
+                    }
+                    selectedElement.elId = newId;
                     element = selectedElement;
                     objCopy.sections.push(selectedElement);
                 }
+                //section changes some property
                 if (composites.includes(selectedElement.Type) && elField[0] !== "Type") {
                     let result = objCopy.sections.map((section) => {
+                        if (section.elId === selectedElement.parentId) {
+                            for (let i = 0; i < section.children.length; i++) {
+                                let child = section.children[i];
+                                if (child.elId === selectedElement.elId) {
+                                    child = selectedElement;
+                                }
+                            }
+                        }
                         if (section.elId === selectedElement.elId) {
                             return section = element;
                         } else {
@@ -376,8 +426,8 @@ export let editElement = (mainObj, elField, value) => {
                             }
                         })
                     }
-
                 }
+                //any element changes any property 
                 if (!composites.includes(selectedElement.Type)) {
                     element = selectedElement;
                     if (selectedElement.parentId !== null) {

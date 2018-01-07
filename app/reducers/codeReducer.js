@@ -172,7 +172,6 @@ export let zipAllCode = (mainObj) => {
     let pack = objCopy.SiteInfo.domainName + '.sections';
     
     for (let i = 0; i < objCopy.sections.length; i++){
-        console.log("test")
         let section = "package " + pack + ";"+
         "\n\nimport com.epam.jdi.uitests.web.selenium.elements.common.*;" +
         "\nimport com.epam.jdi.uitests.web.selenium.elements.complex.*;" +
