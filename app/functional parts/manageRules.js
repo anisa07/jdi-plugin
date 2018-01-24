@@ -39,7 +39,7 @@ function PanelRightRules(props) {
     let allFields = Object.keys(elementRule);
 
     let visibleRules = allFields.filter((field) => {
-        if (elementFields[field] === "TextField") {
+        if (elementFields[field] === "TextField" || field === "uniqness") {
             return field
         }
     }) || [];
