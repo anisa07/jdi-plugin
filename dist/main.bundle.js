@@ -24862,6 +24862,7 @@ var genEl = exports.genEl = function genEl(objCopy) {
     var simple = Object.keys(objCopy.SimpleRules);
 
     page.elements = [];
+    objCopy.sections.clear();
 
     chrome.devtools.inspectedWindow.eval('document.location', function (r, err) {
         page.url = r.pathname;
@@ -24957,15 +24958,15 @@ var genEl = exports.genEl = function genEl(objCopy) {
         };
 
         function fillEl(e, t, parent, ruleId) {
-            var result = _extends({}, e, { Type: t });
+            var result = _extends({}, e, { Type: t, elId: (0, _pageReducer.genRand)('El') });
             if (composites.includes(t)) {
                 result.parent = null;
                 result.parentId = null;
-                results.push(e);
+                results.push(result);
             } else {
                 result.parentId = parent.elId;
                 result.parent = parent.Name;
-                applyFoundResult(e, parent, ruleId);
+                applyFoundResult(result, parent, ruleId);
             }
         }
 
@@ -24985,8 +24986,7 @@ var genEl = exports.genEl = function genEl(objCopy) {
                 var e = {
                     Locator: firstSearch.locatorType.locator,
                     content: elements[0],
-                    Name: nameElement(firstSearch.locatorType.locator, uniq, '', elements[0]),
-                    elId: (0, _pageReducer.genRand)('El')
+                    Name: nameElement(firstSearch.locatorType.locator, uniq, '', elements[0])
                 };
                 fillEl(e, t, parent, ruleId);
             };
@@ -25058,30 +25058,31 @@ var genEl = exports.genEl = function genEl(objCopy) {
 
         var findInParent = function findInParent(element, parent) {
             var loc = element.Locator ? "Locator" : "Root";
-            var found = objCopy.sections.find(function (section) {
-                return parent.Locator === section.Locator && parent.Type === section.Type;
+            //let found = objCopy.sections.find((section) => parent.Locator === section.Locator && parent.Type === section.Type);
+            var found = void 0,
+                find = void 0;
+            objCopy.sections.forEach(function (value, key) {
+                if (value.Locator === parent.Locator && value.Type === parent.Type) {
+                    found = key;
+                }
             });
+
             if (found) {
-                if (found.children) {
-                    for (var i = 0; i < found.children; i++) {
-                        if (found.children[i][loc] === element[loc]) {
-                            element.elId = found.children[i].elId;
+                var children = objCopy.sections.get(found).children;
+                if (children) {
+                    for (var i = 0; i < children; i++) {
+                        if (children[i][loc] === element[loc]) {
+                            element.elId = children[i].elId;
                             find = true;
                             break;
                         }
                     }
                     if (!find) {
-                        found.children.push(element);
-                    } else {
-                        //push to pages
+                        children.push(element);
                     }
-                } else {
-                    found.children = [];
-                    found.children.push(element);
                 }
-            } else {
-                //push to page.elements 
             }
+            page.elements.push(element);
         };
 
         function camelCase(n) {
@@ -25118,7 +25119,8 @@ var genEl = exports.genEl = function genEl(objCopy) {
                 Name: e.Name || (0, _pageReducer.genRand)(e.Type),
                 Type: e.Type,
                 parent: e.parent,
-                parentId: e.parentId
+                parentId: e.parentId,
+                elId: e.elId
             };
             if (simple.indexOf(e.Type) > -1) {
                 element.Locator = e.Locator;
@@ -25140,22 +25142,29 @@ var genEl = exports.genEl = function genEl(objCopy) {
             }
             var fields = objCopy.ElementFields.get(e.Type);
             if (composites.indexOf(e.Type) > -1) {
+                console.log('e', element);
                 element.Locator = e.Locator;
                 element.isSection = true;
                 element.children = [];
-                var found = objCopy.sections.find(function (section) {
-                    return element.Locator === section.Locator && element.Type === section.Type;
+                //let found = objCopy.sections.find((section) => element.Locator === section.Locator && element.Type === section.Type);
+                var found = void 0;
+                objCopy.sections.forEach(function (value) {
+                    if (value.Locator === element.Locator && value.Type === element.Type) {
+                        found = value;
+                    }
                 });
                 if (found) {
                     element = found;
-                    //push found to page elements
+                    page.elements.push(found);
                 } else {
                     for (var _f in fields) {
                         if (!element.hasOwnProperty(_f)) {
                             element[_f] = "";
                         }
                     }
-                    objCopy.sections.push(element);
+                    //objCopy.sections.push(element);
+                    page.elements.push(element);
+                    objCopy.sections.set(element.elId, element);
                 }
                 return;
             }
@@ -25225,9 +25234,10 @@ var genEl = exports.genEl = function genEl(objCopy) {
             _loop(i);
         }
 
-        results.push({ Locator: "body", type: null, content: observedDOM, elId: null, parentId: null });
+        results.push({ Locator: "body", Type: null, content: observedDOM, elId: null, parentId: null });
 
         for (var i = 0; i < results.length - 1; i++) {
+            console.log('results[i]', results[i]);
             applyFoundResult(results[i]);
         }
 
@@ -25240,6 +25250,8 @@ var genEl = exports.genEl = function genEl(objCopy) {
                 getComplex(section, rule);
             });
         });
+
+        console.log(page.elements);
 
         results.forEach(function (section) {
             simple.forEach(function (rule) {
@@ -25798,7 +25810,7 @@ var initialState = {
     activePageObject: {},
     resultTree: [],
     pageMap: new Map(),
-    selectedElement: "",
+    selectedElement: '',
     searchedPages: _pageObject.PageObjectJSON.slice(),
     HeaderTypes: _settings.HeaderTypes,
     mainSettings: false,
@@ -25806,10 +25818,11 @@ var initialState = {
     selectedRule: '',
     ruleId: -1,
     showCode: false,
-    sectionCode: "",
+    sectionCode: '',
     language: 'Java',
     genPOWholeSite: '',
-    sections: [],
+    warningLog: '',
+    sections: new Map(),
     secCode: []
 };
 

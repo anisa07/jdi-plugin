@@ -19,7 +19,7 @@ let initialState = {
     activePageObject: {},
     resultTree: [],
     pageMap: new Map(),
-    selectedElement: "",
+    selectedElement: '',
     searchedPages: PageObjectJSON.slice(),
     HeaderTypes: HeaderTypes,
     mainSettings: false,
@@ -27,10 +27,11 @@ let initialState = {
     selectedRule: '',
     ruleId: -1,
     showCode: false,
-    sectionCode: "",
+    sectionCode: '',
     language: 'Java',
     genPOWholeSite: '',
-    sections: [],
+    warningLog: '',
+    sections: new Map(),
     secCode: [] 
 };
 
