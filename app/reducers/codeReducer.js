@@ -49,8 +49,8 @@ function genCodeOfElements (parentId, arrOfElements, objCopy) {
     for (let i = 0; i < arrOfElements.length; i++ ){
         if (arrOfElements[i].parentId === parentId){
             if (objCopy.CompositeRules[arrOfElements[i].Type]){
-                result += '\n\t@'+ (arrOfElements[i].Locator.indexOf('/') !== 0 ? 'Css("' : 'XPath("') + arrOfElements[i].Locator +'") public ' + 
-                arrOfElements[i].Name + ' ' + arrOfElements[i].Name.toLowerCase() + ';'   
+                result += '\n\t@'+ (arrOfElements[i].Locator.indexOf('/') !== 1 ? 'Css("' : 'XPath("') + arrOfElements[i].Locator +'") public ' + 
+                arrOfElements[i].Name + ' ' + arrOfElements[i].Name[0].toLowerCase() + arrOfElements[i].Name.slice(1) + ';'   
             }
             if (objCopy.ComplexRules[arrOfElements[i].Type]){
                 let clone = Object.assign({}, objCopy.ElementFields.get(arrOfElements[i].Type));
@@ -60,7 +60,7 @@ function genCodeOfElements (parentId, arrOfElements, objCopy) {
 
                 if (arrOfElements[i].hasOwnProperty('Root')){
                    result += '\n\t@J' + arrOfElements[i].Type + '(' +
-                   '\n\t\troot = @FindBy(' +  (arrOfElements[i].Root.indexOf('/') !== 0 ? 'css' : 'xpath') + ' ="' + arrOfElements[i].Root + '")';    
+                   '\n\t\troot = @FindBy(' +  (arrOfElements[i].Root.indexOf('/') !== 1 ? 'css' : 'xpath') + ' ="' + arrOfElements[i].Root + '")';    
                    delete clone.Root;  
                    for (let field in clone){
                        if (arrOfElements[i][field]){
@@ -68,15 +68,31 @@ function genCodeOfElements (parentId, arrOfElements, objCopy) {
                         }      
                     }
                 }
-                result += '\n\t) public ' + arrOfElements[i].Type + ' ' + arrOfElements[i].Name + ';'
+                result += '\n\t) public ' + arrOfElements[i].Type + ' ' + arrOfElements[i].Name[0].toLowerCase() + arrOfElements[i].Name.slice(1) + ';'
             }
             if (objCopy.SimpleRules[arrOfElements[i].Type]){
-                result += '\n\t@'+ (arrOfElements[i].Locator.indexOf('/') !== 0 ? 'Css("' : 'XPath("') + arrOfElements[i].Locator +'") public ' + 
-                arrOfElements[i].Type + ' ' + arrOfElements[i].Name + ';'   
+                result += '\n\t@'+ (arrOfElements[i].Locator.indexOf('/') !== 1 ? 'Css("' : 'XPath("') + arrOfElements[i].Locator +'") public ' + 
+                arrOfElements[i].Type + ' ' + arrOfElements[i].Name[0].toLowerCase() + arrOfElements[i].Name.slice(1) + ';'   
             }
         }
     }
     return result;
+}
+
+let genPageCode = (page, domainName, objCopy) => {
+    let pageName = page.name.replace(/\s/g, '');
+    let p = domainName.split(/\W/).reverse().join('.');
+    return 'package ' + p + '.pages;'+
+    '\n\nimport ' + p + '.sections.*;' +
+    '\n\nimport com.epam.jdi.uitests.web.selenium.elements.common.*;'+
+    '\nimport com.epam.jdi.uitests.web.selenium.elements.complex.*;'+
+    '\nimport com.epam.jdi.uitests.web.selenium.elements.composite.*;'+
+    '\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;'+
+    '\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.*;'+
+    '\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;'+
+    '\nimport org.openqa.selenium.support.FindBy;'+
+    '\n\npublic class '+ pageName[0].toUpperCase() + pageName.slice(1) + ' extends WebPage {'+
+        genCodeOfElements(null, page.elements, objCopy) + '\n}'
 }
 
 export let genCode = (mainObj) => {
@@ -90,22 +106,8 @@ export let genCode = (mainObj) => {
     objCopy.sectionCode = "";
     objCopy.showCode = true;
     objCopy.selectedElement = '';
-    let pack = objCopy.SiteInfo.domainName + '.pages';
-   
-    let pageName = page.name.replace(/\s/g, '');
-
-    page.POcode = 
-        'package ' + pack + ';'+
-        '\n\nimport ' + objCopy.SiteInfo.domainName + '.sections.*;' +
-        '\n\nimport com.epam.jdi.uitests.web.selenium.elements.common.*;'+
-        '\nimport com.epam.jdi.uitests.web.selenium.elements.complex.*;'+
-        '\nimport com.epam.jdi.uitests.web.selenium.elements.composite.*;'+
-        '\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;'+
-        '\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.*;'+
-        '\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;'+
-        '\nimport org.openqa.selenium.support.FindBy;'+
-        '\n\npublic class '+ pageName[0].toUpperCase() + pageName.slice(1) + ' extends WebPage {'+
-            genCodeOfElements(null, page.elements, objCopy) + '\n}'
+       
+    page.POcode = genPageCode(page, objCopy.SiteInfo.domainName, objCopy)
 
     return objCopy;
 } 
@@ -144,15 +146,22 @@ export let zipAllCode = (mainObj) => {
     let objCopy = Object.assign({},mainObj);
     let zip = new JSZip();
     //let title = objCopy.SiteInfo.siteTitle.replace(/\s/g, '');
-    let siteHostName = objCopy.SiteInfo.hostName.replace(/\./g, '');
-    let siteName = siteHostName[0].toUpperCase() + siteHostName.slice(1);
+    let siteHostName = objCopy.SiteInfo.hostName.split(/\W/);
+    let siteName = "";
+    siteHostName[siteHostName.length-1] = siteHostName.length > 1 ? "Site" : siteHostName[siteHostName.length-1];
+    for (let i=0; i<siteHostName.length; i++){
+        siteName += siteHostName[i][0].toUpperCase() + siteHostName[i].slice(1);
+    }
     let pages = objCopy.PageObjects;
     let pageName = "";
     let sectionName = "";
 
     let site = "";
-    site = "package " + objCopy.SiteInfo.domainName + ".pageobject;" +
-    "\n\nimport com.epam.jdi.site.example.pages.*;" +
+    
+    let pack = objCopy.SiteInfo.domainName.split(/\W/).reverse().join('.');
+
+    site = "package " + pack + ";" +
+    "\n\nimport " + pack +".pages.*;" +
     "\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;" +
     "\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.*;" +
     "\n\n@JSite(\"" + objCopy.SiteInfo.origin + "\")" +
@@ -160,19 +169,18 @@ export let zipAllCode = (mainObj) => {
     for (let i = 0; i < pages.length; i++){
         pageName = pages[i].name.replace(/\s/g, '');
         site += '\n\t@JPage(url = "' + pages[i].url + '", title = "'+ pages[i].title +'")' + 
-        '\n\tpublic static ' + (pageName[0].toUpperCase() + pageName.slice(1)) + (pageName[0].toLowerCase() + pageName.slice(1)) + ';' 
+        '\n\tpublic static ' + (pageName[0].toUpperCase() + pageName.slice(1)) + " " + (pageName[0].toLowerCase() + pageName.slice(1)) + ';' 
     }
-    site += "}";
+    site += "\n}";
 
     for (let i = 0; i < pages.length; i++){
         pageName = pages[i].name.replace(/\s/g, '');
-        zip.folder("pages").file(pageName + ".java", pages[i].POcode);
+        zip.folder("pages").file(pageName + ".java", genPageCode(pages[i], objCopy.SiteInfo.domainName, objCopy));
     }
-
-    let pack = objCopy.SiteInfo.domainName + '.sections';
+//page, pack, domainName, objCopy
     
-    for (let i = 0; i < objCopy.sections.length; i++){
-        let section = "package " + pack + ";"+
+    objCopy.sections.forEach((section) => {
+        let result = "package " + pack + ".sections;"+
         "\n\nimport com.epam.jdi.uitests.web.selenium.elements.common.*;" +
         "\nimport com.epam.jdi.uitests.web.selenium.elements.complex.*;" +
         "\nimport com.epam.jdi.uitests.web.selenium.elements.composite.*;" +
@@ -180,11 +188,10 @@ export let zipAllCode = (mainObj) => {
         "\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.*;" +
         "\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;" +
         "\nimport org.openqa.selenium.support.FindBy;" 
-        sectionName = objCopy.sections[i].Name.replace(/\s/g, '');
-        section += "\n\npublic class " + sectionName[0].toUpperCase() + sectionName.slice(1) + " extends "+ objCopy.sections[i].Type +"{" +
-        genCodeOfElements(objCopy.sections[i].elId, objCopy.sections[i].children, objCopy) + "\n}";
-        zip.folder("sections").file(sectionName + ".java", section);
-    }
+        result += "\n\npublic class " + section.Name + " extends "+ section.Type +"{" +
+        genCodeOfElements(section.elId, section.children, objCopy) + "\n}";
+        zip.folder("sections").file(section.Name + ".java", result);
+    })
 
     zip.file(siteName + '.java', site);
     zip.generateAsync({type: "blob"}).then(

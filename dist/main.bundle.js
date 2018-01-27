@@ -24872,14 +24872,15 @@ var genEl = exports.genEl = function genEl(objCopy) {
     });
 
     chrome.devtools.inspectedWindow.eval('document.domain', function (r, err) {
-        if (r !== objCopy.SiteInfo.domainName) {
+        if (r !== objCopy.SiteInfo.domainName && r !== "") {
             objCopy.SiteInfo.domainName = r;
         }
     });
 
     chrome.devtools.inspectedWindow.eval('document.title', function (r, err) {
-        if (r !== objCopy.SiteInfo.siteTitle) {
+        if (r !== objCopy.SiteInfo.siteTitle && r !== "") {
             objCopy.SiteInfo.siteTitle = r;
+            page.name = r;
         }
     });
 
@@ -25091,7 +25092,7 @@ var genEl = exports.genEl = function genEl(objCopy) {
                 var arrayName = n.split(/\W/);
                 for (var j = 0; j < arrayName.length; j++) {
                     if (arrayName[j]) {
-                        name += j === 0 ? arrayName[j].toLowerCase() : arrayName[j][0].toUpperCase() + arrayName[j].slice(1);
+                        name += arrayName[j][0].toUpperCase() + arrayName[j].slice(1);
                     }
                 }
             }
@@ -25103,10 +25104,10 @@ var genEl = exports.genEl = function genEl(objCopy) {
                 return camelCase(value) || camelCase(content.innerText);
             }
             if (uniqness.includes('tag')) {
-                return content.tagName.toLowerCase();
+                return camelCase(content.tagName.toLowerCase());
             }
             if (uniqness.indexOf('[') === 0) {
-                return locator.replace(/[\.\/\*\[\]@]/g, '');
+                return camelCase(locator.replace(/[\.\/\*\[\]@]/g, ''));
             }
             if (uniqness === "class") {
                 return camelCase(content.classList.value);
@@ -25182,7 +25183,7 @@ var genEl = exports.genEl = function genEl(objCopy) {
         };
 
         var createCorrectXpath = function createCorrectXpath(originalLocator, uniqness, value, locator) {
-            var result = uniqness === "text" ? 'contains(.,"' + value /*.split(/\n/)[0]*/ + '")' : '@' + uniqness + '="' + value + '")';
+            var result = uniqness === "text" ? 'contains(.,\'' + value /*.split(/\n/)[0]*/ + '\')' : '@' + uniqness + '=\'' + value + '\')';
             if (locator) {
                 return '' + originalLocator + locator + result;
             }
@@ -25331,7 +25332,7 @@ function genCodeOfElements(parentId, arrOfElements, objCopy) {
     for (var i = 0; i < arrOfElements.length; i++) {
         if (arrOfElements[i].parentId === parentId) {
             if (objCopy.CompositeRules[arrOfElements[i].Type]) {
-                result += '\n\t@' + (arrOfElements[i].Locator.indexOf('/') !== 0 ? 'Css("' : 'XPath("') + arrOfElements[i].Locator + '") public ' + arrOfElements[i].Name + ' ' + arrOfElements[i].Name.toLowerCase() + ';';
+                result += '\n\t@' + (arrOfElements[i].Locator.indexOf('/') !== 1 ? 'Css("' : 'XPath("') + arrOfElements[i].Locator + '") public ' + arrOfElements[i].Name + ' ' + arrOfElements[i].Name[0].toLowerCase() + arrOfElements[i].Name.slice(1) + ';';
             }
             if (objCopy.ComplexRules[arrOfElements[i].Type]) {
                 var clone = Object.assign({}, objCopy.ElementFields.get(arrOfElements[i].Type));
@@ -25340,7 +25341,7 @@ function genCodeOfElements(parentId, arrOfElements, objCopy) {
                 }
 
                 if (arrOfElements[i].hasOwnProperty('Root')) {
-                    result += '\n\t@J' + arrOfElements[i].Type + '(' + '\n\t\troot = @FindBy(' + (arrOfElements[i].Root.indexOf('/') !== 0 ? 'css' : 'xpath') + ' ="' + arrOfElements[i].Root + '")';
+                    result += '\n\t@J' + arrOfElements[i].Type + '(' + '\n\t\troot = @FindBy(' + (arrOfElements[i].Root.indexOf('/') !== 1 ? 'css' : 'xpath') + ' ="' + arrOfElements[i].Root + '")';
                     delete clone.Root;
                     for (var _field in clone) {
                         if (arrOfElements[i][_field]) {
@@ -25348,15 +25349,21 @@ function genCodeOfElements(parentId, arrOfElements, objCopy) {
                         }
                     }
                 }
-                result += '\n\t) public ' + arrOfElements[i].Type + ' ' + arrOfElements[i].Name + ';';
+                result += '\n\t) public ' + arrOfElements[i].Type + ' ' + arrOfElements[i].Name[0].toLowerCase() + arrOfElements[i].Name.slice(1) + ';';
             }
             if (objCopy.SimpleRules[arrOfElements[i].Type]) {
-                result += '\n\t@' + (arrOfElements[i].Locator.indexOf('/') !== 0 ? 'Css("' : 'XPath("') + arrOfElements[i].Locator + '") public ' + arrOfElements[i].Type + ' ' + arrOfElements[i].Name + ';';
+                result += '\n\t@' + (arrOfElements[i].Locator.indexOf('/') !== 1 ? 'Css("' : 'XPath("') + arrOfElements[i].Locator + '") public ' + arrOfElements[i].Type + ' ' + arrOfElements[i].Name[0].toLowerCase() + arrOfElements[i].Name.slice(1) + ';';
             }
         }
     }
     return result;
 }
+
+var genPageCode = function genPageCode(page, domainName, objCopy) {
+    var pageName = page.name.replace(/\s/g, '');
+    var p = domainName.split(/\W/).reverse().join('.');
+    return 'package ' + p + '.pages;' + '\n\nimport ' + p + '.sections.*;' + '\n\nimport com.epam.jdi.uitests.web.selenium.elements.common.*;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.complex.*;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.composite.*;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.*;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;' + '\nimport org.openqa.selenium.support.FindBy;' + '\n\npublic class ' + pageName[0].toUpperCase() + pageName.slice(1) + ' extends WebPage {' + genCodeOfElements(null, page.elements, objCopy) + '\n}';
+};
 
 var genCode = exports.genCode = function genCode(mainObj) {
     var objCopy = Object.assign({}, mainObj);
@@ -25369,11 +25376,8 @@ var genCode = exports.genCode = function genCode(mainObj) {
     objCopy.sectionCode = "";
     objCopy.showCode = true;
     objCopy.selectedElement = '';
-    var pack = objCopy.SiteInfo.domainName + '.pages';
 
-    var pageName = page.name.replace(/\s/g, '');
-
-    page.POcode = 'package ' + pack + ';' + '\n\nimport ' + objCopy.SiteInfo.domainName + '.sections.*;' + '\n\nimport com.epam.jdi.uitests.web.selenium.elements.common.*;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.complex.*;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.composite.*;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.*;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;' + '\nimport org.openqa.selenium.support.FindBy;' + '\n\npublic class ' + pageName[0].toUpperCase() + pageName.slice(1) + ' extends WebPage {' + genCodeOfElements(null, page.elements, objCopy) + '\n}';
+    page.POcode = genPageCode(page, objCopy.SiteInfo.domainName, objCopy);
 
     return objCopy;
 };
@@ -25412,33 +25416,38 @@ var zipAllCode = exports.zipAllCode = function zipAllCode(mainObj) {
     var objCopy = Object.assign({}, mainObj);
     var zip = new _jszip2.default();
     //let title = objCopy.SiteInfo.siteTitle.replace(/\s/g, '');
-    var siteHostName = objCopy.SiteInfo.hostName.replace(/\./g, '');
-    var siteName = siteHostName[0].toUpperCase() + siteHostName.slice(1);
+    var siteHostName = objCopy.SiteInfo.hostName.split(/\W/);
+    var siteName = "";
+    siteHostName[siteHostName.length - 1] = siteHostName.length > 1 ? "Site" : siteHostName[siteHostName.length - 1];
+    for (var i = 0; i < siteHostName.length; i++) {
+        siteName += siteHostName[i][0].toUpperCase() + siteHostName[i].slice(1);
+    }
     var pages = objCopy.PageObjects;
     var pageName = "";
     var sectionName = "";
 
     var site = "";
-    site = "package " + objCopy.SiteInfo.domainName + ".pageobject;" + "\n\nimport com.epam.jdi.site.example.pages.*;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.*;" + "\n\n@JSite(\"" + objCopy.SiteInfo.origin + "\")" + "\npublic class " + siteName + " extends WebSite {";
-    for (var i = 0; i < pages.length; i++) {
-        pageName = pages[i].name.replace(/\s/g, '');
-        site += '\n\t@JPage(url = "' + pages[i].url + '", title = "' + pages[i].title + '")' + '\n\tpublic static ' + (pageName[0].toUpperCase() + pageName.slice(1)) + (pageName[0].toLowerCase() + pageName.slice(1)) + ';';
-    }
-    site += "}";
 
+    var pack = objCopy.SiteInfo.domainName.split(/\W/).reverse().join('.');
+
+    site = "package " + pack + ";" + "\n\nimport " + pack + ".pages.*;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.*;" + "\n\n@JSite(\"" + objCopy.SiteInfo.origin + "\")" + "\npublic class " + siteName + " extends WebSite {";
     for (var _i = 0; _i < pages.length; _i++) {
         pageName = pages[_i].name.replace(/\s/g, '');
-        zip.folder("pages").file(pageName + ".java", pages[_i].POcode);
+        site += '\n\t@JPage(url = "' + pages[_i].url + '", title = "' + pages[_i].title + '")' + '\n\tpublic static ' + (pageName[0].toUpperCase() + pageName.slice(1)) + " " + (pageName[0].toLowerCase() + pageName.slice(1)) + ';';
     }
+    site += "\n}";
 
-    var pack = objCopy.SiteInfo.domainName + '.sections';
-
-    for (var _i2 = 0; _i2 < objCopy.sections.length; _i2++) {
-        var section = "package " + pack + ";" + "\n\nimport com.epam.jdi.uitests.web.selenium.elements.common.*;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.complex.*;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.composite.*;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.*;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;" + "\nimport org.openqa.selenium.support.FindBy;";
-        sectionName = objCopy.sections[_i2].Name.replace(/\s/g, '');
-        section += "\n\npublic class " + sectionName[0].toUpperCase() + sectionName.slice(1) + " extends " + objCopy.sections[_i2].Type + "{" + genCodeOfElements(objCopy.sections[_i2].elId, objCopy.sections[_i2].children, objCopy) + "\n}";
-        zip.folder("sections").file(sectionName + ".java", section);
+    for (var _i2 = 0; _i2 < pages.length; _i2++) {
+        pageName = pages[_i2].name.replace(/\s/g, '');
+        zip.folder("pages").file(pageName + ".java", genPageCode(pages[_i2], objCopy.SiteInfo.domainName, objCopy));
     }
+    //page, pack, domainName, objCopy
+
+    objCopy.sections.forEach(function (section) {
+        var result = "package " + pack + ".sections;" + "\n\nimport com.epam.jdi.uitests.web.selenium.elements.common.*;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.complex.*;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.composite.*;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.*;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;" + "\nimport org.openqa.selenium.support.FindBy;";
+        result += "\n\npublic class " + section.Name + " extends " + section.Type + "{" + genCodeOfElements(section.elId, section.children, objCopy) + "\n}";
+        zip.folder("sections").file(section.Name + ".java", result);
+    });
 
     zip.file(siteName + '.java', site);
     zip.generateAsync({ type: "blob" }).then(function (content) {

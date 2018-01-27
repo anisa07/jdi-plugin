@@ -3,7 +3,6 @@ import { getChildren, drawMap, searchElement } from '../../functional parts/tree
 import { relative } from 'path';
 import cssToXpath from '../../../cssToXpath/cssToXPath';
 
-
 let map = new Map();
 let resTree = [];
 
@@ -35,14 +34,15 @@ export let genEl = (objCopy) => {
     });
 
     chrome.devtools.inspectedWindow.eval('document.domain', (r, err) => {
-        if (r !== objCopy.SiteInfo.domainName) {
+        if (r !== objCopy.SiteInfo.domainName && r !== "") {
             objCopy.SiteInfo.domainName = r;
         }
     });
 
     chrome.devtools.inspectedWindow.eval('document.title', (r, err) => {
-        if (r !== objCopy.SiteInfo.siteTitle) {
+        if (r !== objCopy.SiteInfo.siteTitle && r !== "") {
             objCopy.SiteInfo.siteTitle = r;
+            page.name = r;
         }
     });
 
@@ -250,7 +250,7 @@ export let genEl = (objCopy) => {
                     let arrayName = n.split(/\W/);
                     for (let j = 0; j < arrayName.length; j++) {
                         if (arrayName[j]) {
-                            name += (j === 0) ? arrayName[j].toLowerCase() : arrayName[j][0].toUpperCase() + arrayName[j].slice(1);
+                            name += arrayName[j][0].toUpperCase() + arrayName[j].slice(1);
                         }
                     }
                 }
@@ -263,10 +263,10 @@ export let genEl = (objCopy) => {
                     return (camelCase(value) || camelCase(content.innerText));
                 }
                 if (uniqness.includes('tag')) {
-                    return content.tagName.toLowerCase();
+                    return camelCase(content.tagName.toLowerCase());
                 }
                 if (uniqness.indexOf('[') === 0) {
-                    return locator.replace(/[\.\/\*\[\]@]/g, '');
+                    return camelCase(locator.replace(/[\.\/\*\[\]@]/g, ''));
                 }
                 if (uniqness === "class") {
                     return camelCase(content.classList.value);
@@ -340,7 +340,7 @@ export let genEl = (objCopy) => {
             }
 
             let createCorrectXpath = (originalLocator, uniqness, value, locator) => {
-                let result = uniqness === "text" ? `contains(.,"${value/*.split(/\n/)[0]*/}")` : `@${uniqness}="${value}")`;
+                let result = uniqness === "text" ? `contains(.,'${value/*.split(/\n/)[0]*/}')` : `@${uniqness}='${value}')`;
                 if (locator) {
                     return `${originalLocator}${locator}${result}`
                 }
