@@ -106,6 +106,24 @@ export let changeTree = (mainObj, treeData, droppedItem) => {
     return objCopy;
 };
 
+function updateSections(objCopy, element, option) {
+    let sectionId = element.parentId; 
+    let section = objCopy.sections.get(sectionId);
+    for (let i = 0; i < objCopy.PageObjects.length; i++) {
+        let page = objCopy.PageObjects[i];
+        for (let j = 0; j < page.elements.length; j++) {
+            if (page.elements[j].elId === sectionId) {
+                page.elements[j] = section;
+                if (option === 'ADD'){
+                    page.elements.push(element);
+                }
+                break;
+            }
+        }
+    }
+    return objCopy;
+}
+
 export let addElement = (mainObj, element) => {
     let objCopy = Object.assign({}, mainObj);
     let pageId = objCopy.activeTabPageId;
@@ -115,57 +133,19 @@ export let addElement = (mainObj, element) => {
     element.elId = genRand("El");
 
     if (element.parentId !== null) {
-        parent = elementsArray.find((el) => {
-            if (el.elId === element.parentId) {
-                return el;
-            }
-        });
-        elementsArray.map((el) => {
-            if (el.elId === parent.elId) {
-                return el.expanded = true;
-            }
-        });
+        parent = elementsArray.find((el) => el.elId === element.parentId);
+        //parent.expanded = true;
+        element.parent = parent.Name;
 
-        let result = objCopy.sections.map((section) => {
-            if (section.elId === element.parentId) {
-                if (section.children) {
-                    section.children.push(element)
-                } else {
-                    section.children = [];
-                    section.children.push(element);
-                }
-                element.parent = section.Name;
-            }
-            return section;
-        });
-        objCopy.sections = result;
+        let section = objCopy.sections.get(element.parentId);
+        section.children.push(element);
+        objCopy.sections.set(element.parentId, section);
+        objCopy = updateSections(objCopy, element, "ADD");
     } else {
         element.parent = null;
+        elementsArray.push(element);
     }
-
-    elementsArray.push(element);
-    if (element.parentId !== null) {
-        let found = false;
-        for (let i = 0; i < objCopy.PageObjects.length; i++) {
-            let page = objCopy.PageObjects[i];
-            let r = page.elements.map((e) => {
-                if (e.elId === element.parentId && page.pageId !== pageId) {
-                    if (!e.children) {
-                        e.children = [];
-                    }
-                    e.children.push(element);
-                    found = true;
-                }
-                return e;
-            });
-            page.elements = r;
-            if (found) {
-                page.elements.push(element);
-                found = false;
-            }
-        }
-    }
-
+    
     map = drawMap(elementsArray, new Map());
     objCopy.pageMap = map;
     objCopy.resultTree = getChildren(map, null);
@@ -282,18 +262,18 @@ export let editElement = (mainObj, elField, value) => {
         let typesMap = objCopy.ElementFields;
 
         if (elField[0] === "Type") {
-            if (!composites.includes(value)){
+            if (!composites.includes(value)) {
                 let item = -1;
-                for (let i=0; i<objCopy.sections.length; i++){
-                    if (objCopy.sections[i].elId === selectedElement.elId){
-                        item = i; 
+                for (let i = 0; i < objCopy.sections.length; i++) {
+                    if (objCopy.sections[i].elId === selectedElement.elId) {
+                        item = i;
                     }
                 }
-                if (item > -1){
+                if (item > -1) {
                     let r = objCopy.sections.slice();
                     r.splice(item, 1);
-                    objCopy.sections = r;    
-                }           
+                    objCopy.sections = r;
+                }
             }
 
             // if (composites.includes(value)) {

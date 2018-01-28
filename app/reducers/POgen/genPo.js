@@ -24,7 +24,7 @@ export let genEl = (objCopy) => {
     let simple = Object.keys(objCopy.SimpleRules);
 
     page.elements = [];
-    objCopy.sections.clear();
+    //objCopy.sections.clear();
 
     chrome.devtools.inspectedWindow.eval('document.location', (r, err) => {
         page.url = r.pathname;
@@ -122,16 +122,28 @@ export let genEl = (objCopy) => {
             }
 
             function fillEl(e, t, parent, ruleId) {
-                let result = { ...e, Type: t, elId: genRand('El') }
+                let result = { ...e, Type: t}
                 if (composites.includes(t)) {
                     result.parent = null;
                     result.parentId = null;
+                    result.elId = findSection(e.Locator, t) || genRand('El');
                     results.push(result);
                 } else {
                     result.parentId = parent.elId;
                     result.parent = parent.Name;
+                    result.elId = genRand('El');
                     applyFoundResult(result, parent, ruleId);
                 }
+            }
+
+            function findSection(locator, type) {
+                let id;
+                objCopy.sections.forEach((value, key) => {
+                    if (value.Locator === locator && value.Type === type) {
+                        id = key;
+                    }
+                });
+                return id;
             }
 
             function defineElements(dom, Locator, uniq, t, ruleId, parent) {
@@ -220,13 +232,13 @@ export let genEl = (objCopy) => {
                 let loc = element.Locator ? "Locator" : "Root";
                 //let found = objCopy.sections.find((section) => parent.Locator === section.Locator && parent.Type === section.Type);
                 let found, find;
-                    objCopy.sections.forEach((value,key) => {
-                        if (value.Locator === parent.Locator && value.Type === parent.Type){
-                            found = key;
-                        }
-                    });
+                objCopy.sections.forEach((value, key) => {
+                    if (value.Locator === parent.Locator && value.Type === parent.Type) {
+                        found = key;
+                    }
+                });
 
-                if (found) {
+                if (!!found) {
                     let children = objCopy.sections.get(found).children;
                     if (children) {
                         for (let i = 0; i < children; i++) {
@@ -239,7 +251,7 @@ export let genEl = (objCopy) => {
                         if (!find) {
                             children.push(element);
                         }
-                    } 
+                    }
                 }
                 page.elements.push(element);
             }
@@ -300,18 +312,17 @@ export let genEl = (objCopy) => {
                 }
                 let fields = objCopy.ElementFields.get(e.Type);
                 if (composites.indexOf(e.Type) > -1) {
-                    console.log('e', element) 
                     element.Locator = e.Locator;
                     element.isSection = true;
                     element.children = [];
                     //let found = objCopy.sections.find((section) => element.Locator === section.Locator && element.Type === section.Type);
-                    let found;
-                    objCopy.sections.forEach((value) => {
-                        if (value.Locator === element.Locator && value.Type === element.Type){
+                    let found = objCopy.sections.get(element.elId);
+                    /*objCopy.sections.forEach((value) => {
+                        if (value.Locator === element.Locator && value.Type === element.Type) {
                             found = value;
                         }
-                    });
-                    if (found) {
+                    });*/
+                    if (!!found) {
                         element = found;
                         page.elements.push(found);
                     } else {
@@ -359,14 +370,6 @@ export let genEl = (objCopy) => {
                 }
             }
 
-            let search = (dom, locator, xpath) => {
-                if (xpath) {
-                    return document.evaluate(locator, dom, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null).snapshotLength === 1;
-                } else {
-                    return document.querySelectorAll(locator).length === 1;
-                }
-            }
-
             composites.forEach((rule) => {
                 getComposite(observedDOM, rule);
             });
@@ -386,7 +389,6 @@ export let genEl = (objCopy) => {
             results.push({ Locator: "body", Type: null, content: observedDOM, elId: null, parentId: null });
 
             for (let i = 0; i < results.length - 1; i++) {
-                console.log('results[i]', results[i]);
                 applyFoundResult(results[i]);
             }
 
@@ -399,8 +401,6 @@ export let genEl = (objCopy) => {
                     getComplex(section, rule);
                 });
             });
-
-            console.log(page.elements);
 
             results.forEach((section) => {
                 simple.forEach((rule) => {

@@ -9618,6 +9618,24 @@ var changeTree = exports.changeTree = function changeTree(mainObj, treeData, dro
     return objCopy;
 };
 
+function updateSections(objCopy, element, option) {
+    var sectionId = element.parentId;
+    var section = objCopy.sections.get(sectionId);
+    for (var i = 0; i < objCopy.PageObjects.length; i++) {
+        var page = objCopy.PageObjects[i];
+        for (var j = 0; j < page.elements.length; j++) {
+            if (page.elements[j].elId === sectionId) {
+                page.elements[j] = section;
+                if (option === 'ADD') {
+                    page.elements.push(element);
+                }
+                break;
+            }
+        }
+    }
+    return objCopy;
+}
+
 var addElement = exports.addElement = function addElement(mainObj, element) {
     var objCopy = Object.assign({}, mainObj);
     var pageId = objCopy.activeTabPageId;
@@ -9628,59 +9646,18 @@ var addElement = exports.addElement = function addElement(mainObj, element) {
 
     if (element.parentId !== null) {
         parent = elementsArray.find(function (el) {
-            if (el.elId === element.parentId) {
-                return el;
-            }
+            return el.elId === element.parentId;
         });
-        elementsArray.map(function (el) {
-            if (el.elId === parent.elId) {
-                return el.expanded = true;
-            }
-        });
+        //parent.expanded = true;
+        element.parent = parent.Name;
 
-        var result = objCopy.sections.map(function (section) {
-            if (section.elId === element.parentId) {
-                if (section.children) {
-                    section.children.push(element);
-                } else {
-                    section.children = [];
-                    section.children.push(element);
-                }
-                element.parent = section.Name;
-            }
-            return section;
-        });
-        objCopy.sections = result;
+        var section = objCopy.sections.get(element.parentId);
+        section.children.push(element);
+        objCopy.sections.set(element.parentId, section);
+        objCopy = updateSections(objCopy, element, "ADD");
     } else {
         element.parent = null;
-    }
-
-    elementsArray.push(element);
-    if (element.parentId !== null) {
-        var found = false;
-
-        var _loop = function _loop(i) {
-            var page = objCopy.PageObjects[i];
-            var r = page.elements.map(function (e) {
-                if (e.elId === element.parentId && page.pageId !== pageId) {
-                    if (!e.children) {
-                        e.children = [];
-                    }
-                    e.children.push(element);
-                    found = true;
-                }
-                return e;
-            });
-            page.elements = r;
-            if (found) {
-                page.elements.push(element);
-                found = false;
-            }
-        };
-
-        for (var i = 0; i < objCopy.PageObjects.length; i++) {
-            _loop(i);
-        }
+        elementsArray.push(element);
     }
 
     map = (0, _tree.drawMap)(elementsArray, new Map());
@@ -9692,7 +9669,7 @@ var addElement = exports.addElement = function addElement(mainObj, element) {
 function sectionIsUsed(arr, elId, pageId) {
     var found = false;
 
-    var _loop2 = function _loop2(i) {
+    var _loop = function _loop(i) {
         found = arr[i].elements.find(function (element) {
             return element.elId === elId && pageId !== arr[i].pageId;
         });
@@ -9704,9 +9681,9 @@ function sectionIsUsed(arr, elId, pageId) {
     };
 
     for (var i = 0; i < arr.length; i++) {
-        var _ret3 = _loop2(i);
+        var _ret2 = _loop(i);
 
-        if ((typeof _ret3 === 'undefined' ? 'undefined' : _typeof(_ret3)) === "object") return _ret3.v;
+        if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
     }
     return found;
 }
@@ -9836,7 +9813,7 @@ var editElement = exports.editElement = function editElement(mainObj, elField, v
                 if (selectedElement.children) {
                     var l = selectedElement.children.length;
 
-                    var _loop3 = function _loop3(k) {
+                    var _loop2 = function _loop2(k) {
                         elementsArray = elementsArray.filter(function (el) {
                             if (el.elId !== selectedElement.children[k].elId) {
                                 return el;
@@ -9845,7 +9822,7 @@ var editElement = exports.editElement = function editElement(mainObj, elField, v
                     };
 
                     for (var k = 0; k < l; k++) {
-                        _loop3(k);
+                        _loop2(k);
                     }
                 }
                 var commonFields = {
@@ -9923,15 +9900,15 @@ var editElement = exports.editElement = function editElement(mainObj, elField, v
                             });
                             objCopy.sections = result;
                             for (var _i2 = 0; _i2 < objCopy.PageObjects.length; _i2++) {
-                                var _page = objCopy.PageObjects[_i2];
-                                var _r = _page.elements.map(function (e) {
+                                var page = objCopy.PageObjects[_i2];
+                                var _r = page.elements.map(function (e) {
                                     if (e.elId === selectedElement.elId) {
                                         e = selectedElement;
                                         e.elId = newId;
                                     }
                                     return e;
                                 });
-                                _page.elements = _r;
+                                page.elements = _r;
                             }
                             selectedElement.elId = newId;
                             element = selectedElement;
@@ -9984,14 +9961,14 @@ var editElement = exports.editElement = function editElement(mainObj, elField, v
                         }
 
                         for (var _i6 = 0; _i6 < objCopy.PageObjects.length; _i6++) {
-                            var _page2 = objCopy.PageObjects[_i6];
-                            var _r3 = _page2.elements.map(function (e) {
+                            var page = objCopy.PageObjects[_i6];
+                            var _r3 = page.elements.map(function (e) {
                                 if (e.elId === selectedElement.elId) {
                                     e = selectedElement;
                                 }
                                 return e;
                             });
-                            _page2.elements = _r3;
+                            page.elements = _r3;
                         }
                     }
                 }
@@ -24862,7 +24839,7 @@ var genEl = exports.genEl = function genEl(objCopy) {
     var simple = Object.keys(objCopy.SimpleRules);
 
     page.elements = [];
-    objCopy.sections.clear();
+    //objCopy.sections.clear();
 
     chrome.devtools.inspectedWindow.eval('document.location', function (r, err) {
         page.url = r.pathname;
@@ -24959,16 +24936,28 @@ var genEl = exports.genEl = function genEl(objCopy) {
         };
 
         function fillEl(e, t, parent, ruleId) {
-            var result = _extends({}, e, { Type: t, elId: (0, _pageReducer.genRand)('El') });
+            var result = _extends({}, e, { Type: t });
             if (composites.includes(t)) {
                 result.parent = null;
                 result.parentId = null;
+                result.elId = findSection(e.Locator, t) || (0, _pageReducer.genRand)('El');
                 results.push(result);
             } else {
                 result.parentId = parent.elId;
                 result.parent = parent.Name;
+                result.elId = (0, _pageReducer.genRand)('El');
                 applyFoundResult(result, parent, ruleId);
             }
+        }
+
+        function findSection(locator, type) {
+            var id = void 0;
+            objCopy.sections.forEach(function (value, key) {
+                if (value.Locator === locator && value.Type === type) {
+                    id = key;
+                }
+            });
+            return id;
         }
 
         function defineElements(dom, Locator, uniq, t, ruleId, parent) {
@@ -25068,7 +25057,7 @@ var genEl = exports.genEl = function genEl(objCopy) {
                 }
             });
 
-            if (found) {
+            if (!!found) {
                 var children = objCopy.sections.get(found).children;
                 if (children) {
                     for (var i = 0; i < children; i++) {
@@ -25143,18 +25132,17 @@ var genEl = exports.genEl = function genEl(objCopy) {
             }
             var fields = objCopy.ElementFields.get(e.Type);
             if (composites.indexOf(e.Type) > -1) {
-                console.log('e', element);
                 element.Locator = e.Locator;
                 element.isSection = true;
                 element.children = [];
                 //let found = objCopy.sections.find((section) => element.Locator === section.Locator && element.Type === section.Type);
-                var found = void 0;
-                objCopy.sections.forEach(function (value) {
+                var found = objCopy.sections.get(element.elId);
+                /*objCopy.sections.forEach((value) => {
                     if (value.Locator === element.Locator && value.Type === element.Type) {
                         found = value;
                     }
-                });
-                if (found) {
+                });*/
+                if (!!found) {
                     element = found;
                     page.elements.push(found);
                 } else {
@@ -25205,14 +25193,6 @@ var genEl = exports.genEl = function genEl(objCopy) {
             }
         };
 
-        var search = function search(dom, locator, xpath) {
-            if (xpath) {
-                return document.evaluate(locator, dom, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null).snapshotLength === 1;
-            } else {
-                return document.querySelectorAll(locator).length === 1;
-            }
-        };
-
         composites.forEach(function (rule) {
             getComposite(observedDOM, rule);
         });
@@ -25238,7 +25218,6 @@ var genEl = exports.genEl = function genEl(objCopy) {
         results.push({ Locator: "body", Type: null, content: observedDOM, elId: null, parentId: null });
 
         for (var i = 0; i < results.length - 1; i++) {
-            console.log('results[i]', results[i]);
             applyFoundResult(results[i]);
         }
 
@@ -25251,8 +25230,6 @@ var genEl = exports.genEl = function genEl(objCopy) {
                 getComplex(section, rule);
             });
         });
-
-        console.log(page.elements);
 
         results.forEach(function (section) {
             simple.forEach(function (rule) {
