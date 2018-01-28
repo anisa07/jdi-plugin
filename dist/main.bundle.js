@@ -25303,12 +25303,12 @@ var showCode = exports.showCode = function showCode(mainObj) {
             return page;
         }
     });
-    var pack = objCopy.SiteInfo.domainName + '.sections';
+    var pack = objCopy.SiteInfo.domainName.split(/\W/).reverse().join('.');
 
     var el = objCopy.selectedElement;
 
     function c() {
-        return 'package ' + pack + ';' + '\n\nimport com.epam.jdi.uitests.web.selenium.elements.common.*;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.complex.*;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.composite.*;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.*;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;' + '\nimport org.openqa.selenium.support.FindBy;' + '\n\npublic class ' + el.Name[0].toUpperCase() + el.Name.slice(1) + ' extends ' + el.Type + '{' + genCodeOfElements(el.elId, page.elements, objCopy) + '\n}';
+        return 'package ' + pack + ';' + commonImport() + '\n\npublic class ' + el.Name + ' extends ' + el.Type + '{' + genCodeOfElements(el.elId, page.elements, objCopy) + '\n}';
     }
     //found code and regenerate it
     var code = page.compositeCode.find(function (section) {
@@ -25326,6 +25326,10 @@ var showCode = exports.showCode = function showCode(mainObj) {
 
     return objCopy;
 };
+
+function commonImport() {
+    return '\nimport com.epam.jdi.uitests.web.selenium.elements.common.*;\nimport com.epam.jdi.uitests.web.selenium.elements.complex.*;\nimport com.epam.jdi.uitests.web.selenium.elements.composite.*;\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.*;\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;\nimport org.openqa.selenium.support.FindBy;';
+}
 
 function genCodeOfElements(parentId, arrOfElements, objCopy) {
     var result = '';
@@ -25362,7 +25366,7 @@ function genCodeOfElements(parentId, arrOfElements, objCopy) {
 var genPageCode = function genPageCode(page, domainName, objCopy) {
     var pageName = page.name.replace(/\s/g, '');
     var p = domainName.split(/\W/).reverse().join('.');
-    return 'package ' + p + '.pages;' + '\n\nimport ' + p + '.sections.*;' + '\n\nimport com.epam.jdi.uitests.web.selenium.elements.common.*;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.complex.*;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.composite.*;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.*;' + '\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;' + '\nimport org.openqa.selenium.support.FindBy;' + '\n\npublic class ' + pageName[0].toUpperCase() + pageName.slice(1) + ' extends WebPage {' + genCodeOfElements(null, page.elements, objCopy) + '\n}';
+    return 'package ' + p + '.pages;' + '\n\nimport ' + p + '.sections.*;' + commonImport() + '\n\npublic class ' + pageName[0].toUpperCase() + pageName.slice(1) + ' extends WebPage {' + genCodeOfElements(null, page.elements, objCopy) + '\n}';
 };
 
 var genCode = exports.genCode = function genCode(mainObj) {
@@ -25372,8 +25376,8 @@ var genCode = exports.genCode = function genCode(mainObj) {
             return page;
         }
     });
-    page.POcode = "";
-    objCopy.sectionCode = "";
+    page.POcode = '';
+    objCopy.sectionCode = '';
     objCopy.showCode = true;
     objCopy.selectedElement = '';
 
@@ -25415,60 +25419,51 @@ var downloadCode = exports.downloadCode = function downloadCode(mainObj) {
 var zipAllCode = exports.zipAllCode = function zipAllCode(mainObj) {
     var objCopy = Object.assign({}, mainObj);
     var zip = new _jszip2.default();
-    //let title = objCopy.SiteInfo.siteTitle.replace(/\s/g, '');
     var siteHostName = objCopy.SiteInfo.hostName.split(/\W/);
-    var siteName = "";
-    siteHostName[siteHostName.length - 1] = siteHostName.length > 1 ? "Site" : siteHostName[siteHostName.length - 1];
-    for (var i = 0; i < siteHostName.length; i++) {
-        siteName += siteHostName[i][0].toUpperCase() + siteHostName[i].slice(1);
+    var gen = false;
+    for (var i = 0; i < objCopy.PageObjects.length; i++) {
+        if (objCopy.PageObjects[i].elements.length > 0 && siteHostName) {
+            gen = true;
+        }
     }
-    var pages = objCopy.PageObjects;
-    var pageName = "";
-    var sectionName = "";
+    if (gen) {
+        var siteName = "";
+        siteHostName[siteHostName.length - 1] = siteHostName.length > 1 ? "Site" : siteHostName[siteHostName.length - 1] + "Site";
+        for (var _i = 0; _i < siteHostName.length; _i++) {
+            siteName += siteHostName[_i][0].toUpperCase() + siteHostName[_i].slice(1);
+        }
+        var pages = objCopy.PageObjects;
+        var pageName = "";
 
-    var site = "";
+        var site = "";
 
-    var pack = objCopy.SiteInfo.domainName.split(/\W/).reverse().join('.');
+        var pack = objCopy.SiteInfo.domainName.split(/\W/).reverse().join('.');
 
-    site = "package " + pack + ";" + "\n\nimport " + pack + ".pages.*;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.*;" + "\n\n@JSite(\"" + objCopy.SiteInfo.origin + "\")" + "\npublic class " + siteName + " extends WebSite {";
-    for (var _i = 0; _i < pages.length; _i++) {
-        pageName = pages[_i].name.replace(/\s/g, '');
-        site += '\n\t@JPage(url = "' + pages[_i].url + '", title = "' + pages[_i].title + '")' + '\n\tpublic static ' + (pageName[0].toUpperCase() + pageName.slice(1)) + " " + (pageName[0].toLowerCase() + pageName.slice(1)) + ';';
+        site = "package " + pack + ";" + "\n\nimport " + pack + ".pages.*;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.*;" + "\n\n@JSite(\"" + objCopy.SiteInfo.origin + "\")" + "\npublic class " + siteName + " extends WebSite {";
+        for (var _i2 = 0; _i2 < pages.length; _i2++) {
+            pageName = pages[_i2].name.replace(/\s/g, '');
+            site += '\n\t@JPage(url = "' + pages[_i2].url + '", title = "' + pages[_i2].title + '")' + '\n\tpublic static ' + (pageName[0].toUpperCase() + pageName.slice(1)) + " " + (pageName[0].toLowerCase() + pageName.slice(1)) + ';';
+        }
+        site += "\n}";
+
+        for (var _i3 = 0; _i3 < pages.length; _i3++) {
+            pageName = pages[_i3].name.replace(/\s/g, '');
+            zip.folder("pages").file(pageName + ".java", genPageCode(pages[_i3], objCopy.SiteInfo.domainName, objCopy));
+        }
+
+        objCopy.sections.forEach(function (section) {
+            var result = "package " + pack + ".sections;" + commonImport();
+            result += "\n\npublic class " + section.Name + " extends " + section.Type + "{" + genCodeOfElements(section.elId, section.children, objCopy) + "\n}";
+            zip.folder("sections").file(section.Name + ".java", result);
+        });
+
+        zip.file(siteName + '.java', site);
+        zip.generateAsync({ type: "blob" }).then(function (content) {
+            (0, _fileSaver.saveAs)(content, "pageobject.zip");
+        });
     }
-    site += "\n}";
-
-    for (var _i2 = 0; _i2 < pages.length; _i2++) {
-        pageName = pages[_i2].name.replace(/\s/g, '');
-        zip.folder("pages").file(pageName + ".java", genPageCode(pages[_i2], objCopy.SiteInfo.domainName, objCopy));
-    }
-    //page, pack, domainName, objCopy
-
-    objCopy.sections.forEach(function (section) {
-        var result = "package " + pack + ".sections;" + "\n\nimport com.epam.jdi.uitests.web.selenium.elements.common.*;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.complex.*;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.composite.*;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.*;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;" + "\nimport org.openqa.selenium.support.FindBy;";
-        result += "\n\npublic class " + section.Name + " extends " + section.Type + "{" + genCodeOfElements(section.elId, section.children, objCopy) + "\n}";
-        zip.folder("sections").file(section.Name + ".java", result);
-    });
-
-    zip.file(siteName + '.java', site);
-    zip.generateAsync({ type: "blob" }).then(function (content) {
-        (0, _fileSaver.saveAs)(content, "pageobject.zip");
-    });
-
     return objCopy;
 };
-
-/*
-
-    let name = document.getElementById("saveFile").innerText.replace(/(Save )/, "");
-    let content = document.getElementById("code").value;
-
-    zip.file(name, content);
-
-    zip.generateAsync({type: "blob"}).then(
-        function(content){
-            saveAs(content, name.replace(/\w+\./,"")+".zip");
-        }
-    )*/
 
 /***/ }),
 /* 261 */
