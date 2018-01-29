@@ -9701,40 +9701,56 @@ function removeFromSection(arr, elId) {
     }
 }
 
-var deleteElement = exports.deleteElement = function deleteElement(mainObj, elId) {
-    function del(arr, id) {
-        return arr.filter(function (el) {
-            if (el.elId !== id) {
-                return el;
-            }
-        });
-    }
+function delEl(arr, id) {
+    return arr.filter(function (el) {
+        return el.elId !== id;
+    });
+}
 
+function removeChildrenFromElementsArr(objCopy, childrenArr) {
+    for (var i = 0; i < objCopy.PageObjects.length; i++) {
+        var page = objCopy.PageObjects[i];
+        var newArr = page.elements.slice();
+        for (var j = 0; j < childrenArr.length; j++) {
+            page.elements = delEl(newArr, childrenArr[j].elId);
+        }
+    }
+    return objCopy;
+}
+
+var deleteElement = exports.deleteElement = function deleteElement(mainObj, elId) {
     var objCopy = Object.assign({}, mainObj);
     var pageId = objCopy.activeTabPageId;
+    var parent = void 0,
+        element = void 0;
     var elementsArray = (0, _common.findPage)(pageId, objCopy.PageObjects).elements;
-    var element = (0, _common.findElement)(elId, elementsArray);
-    var newArr = del(elementsArray, elId);
 
-    if (element.children && element.children.length) {
+    if (!!objCopy.sections.get(elId)) {
+        element = objCopy.sections.get(elId);
         var children = element.children;
-        children.forEach(function (child) {
-            newArr = del(newArr, child.elId);
-        });
+        objCopy = removeChildrenFromElementsArr(objCopy, children);
+    } else {
+        element = (0, _common.findElement)(elId, elementsArray);
+    }
+    parent = element.parentId;
+
+    if (!!parent) {
+        var parentSection = objCopy.sections.get(parent);
+        var parentChildren = parentSection.children.slice();
+        parentSection.children = delEl(parentChildren, elId);
+        objCopy.sections.set(parent, parentSection);
+        objCopy = updateSections(objCopy, element);
     }
 
-    var found = sectionIsUsed(objCopy.PageObjects, elId, pageId);
+    objCopy = removeChildrenFromElementsArr(objCopy, [element]);
+    elementsArray = (0, _common.findPage)(pageId, objCopy.PageObjects).elements;
 
-    if (!found) {
-        objCopy.sections = removeFromSection(objCopy.sections, elId);
-    }
-
-    map = (0, _tree.drawMap)(newArr, new Map());
+    map = (0, _tree.drawMap)(elementsArray, new Map());
     resTree = (0, _tree.getChildren)(map, null);
 
     objCopy.PageObjects.map(function (page) {
         if (pageId === page.pageId) {
-            page.elements = newArr;
+            page.elements = elementsArray;
         }
         return page;
     });
@@ -25108,7 +25124,7 @@ var genEl = exports.genEl = function genEl(objCopy) {
             var element = {
                 Name: e.Name || (0, _pageReducer.genRand)(e.Type),
                 Type: e.Type,
-                parent: e.parent,
+                parent: e.parent || null,
                 parentId: e.parentId,
                 elId: e.elId
             };

@@ -290,7 +290,7 @@ export let genEl = (objCopy) => {
                 let element = {
                     Name: e.Name || genRand(e.Type),
                     Type: e.Type,
-                    parent: e.parent,
+                    parent: e.parent || null,
                     parentId: e.parentId,
                     elId: e.elId
                 }

@@ -145,7 +145,7 @@ export let addElement = (mainObj, element) => {
         element.parent = null;
         elementsArray.push(element);
     }
-    
+
     map = drawMap(elementsArray, new Map());
     objCopy.pageMap = map;
     objCopy.resultTree = getChildren(map, null);
@@ -174,40 +174,53 @@ function removeFromSection(arr, elId) {
     }
 }
 
-export let deleteElement = (mainObj, elId) => {
-    function del(arr, id) {
-        return arr.filter((el) => {
-            if (el.elId !== id) {
-                return el;
-            }
-        })
-    }
+function delEl(arr, id) {
+    return arr.filter((el) => el.elId !== id);
+}
 
+function removeChildrenFromElementsArr (objCopy, childrenArr) {
+    for (let i = 0; i < objCopy.PageObjects.length; i++) {
+        let page = objCopy.PageObjects[i];
+        let newArr = page.elements.slice();
+        for (let j = 0; j < childrenArr.length; j++) {
+            page.elements = delEl(newArr, childrenArr[j].elId);
+        }
+    }
+    return objCopy;
+}
+
+export let deleteElement = (mainObj, elId) => {
     let objCopy = Object.assign({}, mainObj);
     let pageId = objCopy.activeTabPageId;
+    let parent, element;
     let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
-    let element = findElement(elId, elementsArray);
-    let newArr = del(elementsArray, elId);
 
-    if (element.children && element.children.length) {
+    if(!!objCopy.sections.get(elId)){
+        element = objCopy.sections.get(elId)
         let children = element.children;
-        children.forEach((child) => {
-            newArr = del(newArr, child.elId);
-        });
+        objCopy = removeChildrenFromElementsArr(objCopy, children); 
+    } else {
+        element = findElement(elId, elementsArray);
+    }
+    parent = element.parentId;
+
+    if (!!parent){
+        let parentSection = objCopy.sections.get(parent);
+        let parentChildren = parentSection.children.slice();
+        parentSection.children = delEl(parentChildren, elId);
+        objCopy.sections.set(parent, parentSection);
+        objCopy = updateSections(objCopy, element);
     }
 
-    let found = sectionIsUsed(objCopy.PageObjects, elId, pageId);
+    objCopy = removeChildrenFromElementsArr(objCopy, [element]);
+    elementsArray = findPage(pageId, objCopy.PageObjects).elements;
 
-    if (!found) {
-        objCopy.sections = removeFromSection(objCopy.sections, elId);
-    }
-
-    map = drawMap(newArr, new Map());
+    map = drawMap(elementsArray, new Map());
     resTree = getChildren(map, null);
 
     objCopy.PageObjects.map((page) => {
         if (pageId === page.pageId) {
-            page.elements = newArr;
+            page.elements = elementsArray;
         }
         return page
     });
