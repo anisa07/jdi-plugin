@@ -210,8 +210,14 @@ export let genEl = (objCopy) => {
                 return results;
             }
             function getElements(dom, locatorType) {
+                let elements = [];
+                try {
+                    elements = locatorType.xpath ? getElementsByXpath(dom, locatorType.locator) : dom.querySelectorAll(locatorType.locator);
+                } catch(e) {
+                    addToLog(`Error!: cannot get elements by ${locatorType.locator}`);
+                } 
                 return {
-                    elements: locatorType.xpath ? getElementsByXpath(dom, locatorType.locator) : dom.querySelectorAll(locatorType.locator),
+                    elements: elements,
                     locatorType: locatorType
                 };
             }
@@ -317,7 +323,7 @@ export let genEl = (objCopy) => {
                     element.isSection = true;
                     element.children = [];
                     let found = objCopy.sections.get(element.elId);
-                 
+
                     if (!!found) {
                         element = found;
                         page.elements.push(found);
@@ -335,14 +341,17 @@ export let genEl = (objCopy) => {
             }
 
             let valueToXpath = (originalLocator, uniqness, value) => {
-                if (!!uniqness.locator) {
-                    return createCorrectXpath(originalLocator, uniqness, value, uniqness.locator);
+                if (!!value) {
+                    if (!!uniqness.locator) {
+                        return createCorrectXpath(originalLocator, uniqness, value, uniqness.locator);
+                    }
+                    if (isXpath(uniqness.value)) {
+                        return createCorrectXpath(originalLocator, uniqness, value);
+                    } else {
+                        return createCorrectXpath(originalLocator, uniqness.value, value);
+                    }
                 }
-                if (isXpath(uniqness.value)) {
-                    return createCorrectXpath(originalLocator, uniqness, value);
-                } else {
-                    return createCorrectXpath(originalLocator, uniqness.value, value);
-                }
+                return originalLocator;
             }
 
             let createCorrectXpath = (originalLocator, uniqness, value, locator) => {
@@ -358,15 +367,22 @@ export let genEl = (objCopy) => {
             }
 
             let valueToCss = (uniqness, value) => {
-                switch (uniqness.value) {
-                    case "class": return `.${value.replace(/\s/g, '.')}`;
-                    case "id": return `#${value}`;
-                    default: return `[${uniqness.value}='${value}']`
+                if (!!value){
+                    switch (uniqness.value) {
+                        case "class": return `.${value.replace(/\s/g, '.')}`;
+                        case "id": return `#${value}`;
+                        default: return `[${uniqness.value}='${value}']`
+                    }
                 }
+                return '';
             }
 
             composites.forEach((rule) => {
-                getComposite(observedDOM, rule);
+                try {
+                    getComposite(observedDOM, rule)
+                } catch(e){
+                    addToLog(`Error! Getting composite element...`)
+                };
             });
 
             for (let i = 0; i < results.length; i++) {
@@ -394,13 +410,21 @@ export let genEl = (objCopy) => {
 
             results.forEach((section) => {
                 complex.forEach((rule) => {
-                    getComplex(section, rule);
+                    try {
+                        getComplex(section, rule);
+                    } catch (e){
+                        addToLog(`Error! Getting complex element...`)
+                    }
                 });
             });
 
             results.forEach((section) => {
                 simple.forEach((rule) => {
-                    getSimple(section, rule);
+                    try {
+                        getSimple(section, rule);
+                    } catch (e){
+                        addToLog(`Error! Getting simple element...`)
+                    }
                 });
             });
 

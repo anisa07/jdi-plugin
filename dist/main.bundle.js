@@ -24902,8 +24902,14 @@ var genEl = exports.genEl = function genEl(objCopy) {
             return results;
         }
         function getElements(dom, locatorType) {
+            var elements = [];
+            try {
+                elements = locatorType.xpath ? getElementsByXpath(dom, locatorType.locator) : dom.querySelectorAll(locatorType.locator);
+            } catch (e) {
+                addToLog('Error!: cannot get elements by ' + locatorType.locator);
+            }
             return {
-                elements: locatorType.xpath ? getElementsByXpath(dom, locatorType.locator) : dom.querySelectorAll(locatorType.locator),
+                elements: elements,
                 locatorType: locatorType
             };
         }
@@ -25032,14 +25038,17 @@ var genEl = exports.genEl = function genEl(objCopy) {
         };
 
         var valueToXpath = function valueToXpath(originalLocator, uniqness, value) {
-            if (!!uniqness.locator) {
-                return createCorrectXpath(originalLocator, uniqness, value, uniqness.locator);
+            if (!!value) {
+                if (!!uniqness.locator) {
+                    return createCorrectXpath(originalLocator, uniqness, value, uniqness.locator);
+                }
+                if (isXpath(uniqness.value)) {
+                    return createCorrectXpath(originalLocator, uniqness, value);
+                } else {
+                    return createCorrectXpath(originalLocator, uniqness.value, value);
+                }
             }
-            if (isXpath(uniqness.value)) {
-                return createCorrectXpath(originalLocator, uniqness, value);
-            } else {
-                return createCorrectXpath(originalLocator, uniqness.value, value);
-            }
+            return originalLocator;
         };
 
         var createCorrectXpath = function createCorrectXpath(originalLocator, uniqness, value, locator) {
@@ -25055,18 +25064,25 @@ var genEl = exports.genEl = function genEl(objCopy) {
         };
 
         var valueToCss = function valueToCss(uniqness, value) {
-            switch (uniqness.value) {
-                case "class":
-                    return '.' + value.replace(/\s/g, '.');
-                case "id":
-                    return '#' + value;
-                default:
-                    return '[' + uniqness.value + '=\'' + value + '\']';
+            if (!!value) {
+                switch (uniqness.value) {
+                    case "class":
+                        return '.' + value.replace(/\s/g, '.');
+                    case "id":
+                        return '#' + value;
+                    default:
+                        return '[' + uniqness.value + '=\'' + value + '\']';
+                }
             }
+            return '';
         };
 
         composites.forEach(function (rule) {
-            getComposite(observedDOM, rule);
+            try {
+                getComposite(observedDOM, rule);
+            } catch (e) {
+                addToLog('Error! Getting composite element...');
+            };
         });
 
         var _loop = function _loop(i) {
@@ -25099,13 +25115,21 @@ var genEl = exports.genEl = function genEl(objCopy) {
 
         results.forEach(function (section) {
             complex.forEach(function (rule) {
-                getComplex(section, rule);
+                try {
+                    getComplex(section, rule);
+                } catch (e) {
+                    addToLog('Error! Getting complex element...');
+                }
             });
         });
 
         results.forEach(function (section) {
             simple.forEach(function (rule) {
-                getSimple(section, rule);
+                try {
+                    getSimple(section, rule);
+                } catch (e) {
+                    addToLog('Error! Getting simple element...');
+                }
             });
         });
 
