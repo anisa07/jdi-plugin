@@ -107,14 +107,14 @@ export let changeTree = (mainObj, treeData, droppedItem) => {
 };
 
 function updateSections(objCopy, element, option) {
-    let sectionId = element.parentId; 
+    let sectionId = element.parentId;
     let section = objCopy.sections.get(sectionId);
     for (let i = 0; i < objCopy.PageObjects.length; i++) {
         let page = objCopy.PageObjects[i];
         for (let j = 0; j < page.elements.length; j++) {
             if (page.elements[j].elId === sectionId) {
                 page.elements[j] = section;
-                if (option === 'ADD'){
+                if (option === 'ADD') {
                     page.elements.push(element);
                 }
                 break;
@@ -178,11 +178,11 @@ function delEl(arr, id) {
     return arr.filter((el) => el.elId !== id);
 }
 
-function removeChildrenFromElementsArr (objCopy, childrenArr) {
+function removeChildrenFromElementsArr(objCopy, childrenArr) {
     for (let i = 0; i < objCopy.PageObjects.length; i++) {
         let page = objCopy.PageObjects[i];
-        let newArr = page.elements.slice();
         for (let j = 0; j < childrenArr.length; j++) {
+            let newArr = page.elements.slice();
             page.elements = delEl(newArr, childrenArr[j].elId);
         }
     }
@@ -195,16 +195,16 @@ export let deleteElement = (mainObj, elId) => {
     let parent, element;
     let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
 
-    if(!!objCopy.sections.get(elId)){
+    if (!!objCopy.sections.get(elId)) {
         element = objCopy.sections.get(elId)
         let children = element.children;
-        objCopy = removeChildrenFromElementsArr(objCopy, children); 
+        objCopy = removeChildrenFromElementsArr(objCopy, children);
     } else {
         element = findElement(elId, elementsArray);
     }
     parent = element.parentId;
 
-    if (!!parent){
+    if (!!parent) {
         let parentSection = objCopy.sections.get(parent);
         let parentChildren = parentSection.children.slice();
         parentSection.children = delEl(parentChildren, elId);
@@ -263,6 +263,51 @@ export let searchEl = (mainObj, elName) => {
     return objCopy;
 };
 
+function updateParent(objCopy, element) {
+    if (!!element.parentId) {
+        let parent = objCopy.sections.get(element.parentId);
+        for (let j = 0; j < parent.children.length; j++) {
+            let child = parent.children[j];
+            if (child === element.elId) {
+                child = element;
+                break;
+            }
+        }
+        objCopy.sections.set(element.parentId, parent);
+        objCopy = updateOtherPages(objCopy, parent);
+    }
+    return objCopy;
+}
+
+function updateOtherPages(objCopy, element) {
+    for (let i = 0; i < objCopy.PageObjects.length; i++) {
+        let elements = objCopy.PageObjects[i].elements;
+        for (let j = 0; j < elements.length; j++) {
+            if (elements[j].elId === element.elId) {
+                elements[j] = element;
+                break;
+            }
+        }
+    }
+    return objCopy;
+}
+
+function createNewElem(objCopy, oldElem){
+    let newElem = {
+        Name: oldElem.Name,
+        parentId: oldElem.parentId,
+        parent: oldElem.parent,
+        elId: oldElem.elId,
+        Type: oldElem.Type,
+    }
+    let fields = objCopy.ElementFields.get(newElem.Type);
+    for (let f in fields) {
+        if (!newElem.hasOwnProperty(f)) {
+            newElem[f] = "";
+        }
+    }
+    return newElem;
+}
 
 export let editElement = (mainObj, elField, value) => {
     let objCopy = Object.assign({}, mainObj);
@@ -270,204 +315,63 @@ export let editElement = (mainObj, elField, value) => {
 
     if (value.length || typeof value === "boolean") {
         let pageId = objCopy.activeTabPageId;
-        let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
         let selectedElement = objCopy.selectedElement;
-        let typesMap = objCopy.ElementFields;
 
-        if (elField[0] === "Type") {
-            if (!composites.includes(value)) {
-                let item = -1;
-                for (let i = 0; i < objCopy.sections.length; i++) {
-                    if (objCopy.sections[i].elId === selectedElement.elId) {
-                        item = i;
-                    }
-                }
-                if (item > -1) {
-                    let r = objCopy.sections.slice();
-                    r.splice(item, 1);
-                    objCopy.sections = r;
-                }
-            }
-
-            // if (composites.includes(value)) {
-            //     let found = sectionIsUsed(objCopy.PageObjects, selectedElement.elI, pageId);
-            //     if (!found) {
-            //         objCopy.sections = removeFromSection(objCopy.sections, selectedElement.elId);
-            //     }
-            // }
-
-            if (selectedElement.children) {
-                let l = selectedElement.children.length;
-                for (let k = 0; k < l; k++) {
-                    elementsArray = elementsArray.filter((el) => {
-                        if (el.elId !== selectedElement.children[k].elId) {
-                            return el;
+        if (composites.includes(selectedElement.Type)) {
+            selectedElement[elField[0]] = value;
+            let sec = objCopy.sections.get(selectedElement.elId);
+            if (elField[0] === "Type") {
+                objCopy = removeChildrenFromElementsArr(objCopy, selectedElement.children);
+                if (composites.includes(value)) {
+                    sec.children.length = 0;
+                    selectedElement.children.length = 0;
+                    sec[elField[0]] = value;
+                    objCopy.sections.set(selectedElement.elId, sec);
+                    objCopy = updateOtherPages(objCopy, sec);
+                } else {
+                    selectedElement = createNewElem(objCopy, selectedElement);
+                    objCopy.sections.delete(selectedElement.elId);
+                    for (let j = 0; j < objCopy.PageObjects.length; j++) {
+                        if (objCopy.PageObjects[j].pageId !== pageId) {
+                            let newArr = objCopy.PageObjects[j].elements.slice();
+                            objCopy.PageObjects[j].elements = delEl(newArr, selectedElement.elId);
+                        } else {
+                            let elements = objCopy.PageObjects[j].elements;
+                            for (let i = 0; i < elements.length; i++) {
+                                if (elements[i].elId === selectedElement.elId) {
+                                    elements[i] = selectedElement;
+                                    break;
+                                }
+                            }
                         }
-                    })
-                }
-            }
-            let commonFields = {
-                "Name": selectedElement.Name,
-                "Type": selectedElement.Type,
-                "parent": selectedElement.parent,
-                "parentId": selectedElement.parentId,
-                "elId": selectedElement.elId
-            };
-            selectedElement = {};
-            let fields = typesMap.get(value);
-            for (let field in fields) {
-                if (fields[field] === "ComboBoxTextField") {
-                    let n = {
-                        "path": "",
-                        "type": ""
-                    }
-                    selectedElement[field] = n;
-                }
-                if (fields[field] === "Checkbox") {
-                    selectedElement[field] = false;
-                }
-                if (fields[field] === "TextField") {
-                    selectedElement[field] = "";
-                }
-                if (fields[field] === "ComboBox") {
-                    selectedElement[field] = "";
-                }
-                if (fields[field] === "internal") {
-                    selectedElement[field] = false;
-                    if (field === "isSection") {
-                        selectedElement[field] = true;
                     }
                 }
-                if (field === "Name") {
-                    selectedElement.Name = commonFields.Name
-                }
-                if (field === "parent") {
-                    selectedElement.parent = commonFields.parent
-                }
-                if (field === "parentId") {
-                    selectedElement.parentId = commonFields.parentId
-                }
-                if (field === "elId") {
-                    selectedElement.elId = commonFields.elId
-                }
+            } else {
+                sec[elField[0]] = value;
+                objCopy.sections.set(selectedElement.elId, sec);
+                objCopy = updateOtherPages(objCopy, sec);
             }
-            selectedElement.children = [];
-        }
-
-        if (elField.length > 1) {
-            selectedElement[elField[0]][elField[1]] = value;
+            //ordinary component    
         } else {
             selectedElement[elField[0]] = value;
+            if (elField[0] === "Type") {
+                selectedElement = createNewElem(objCopy, selectedElement);
+                if (composites.includes(value)) {
+                    selectedElement.children = [];
+                    objCopy.sections.set(selectedElement.elId, selectedElement);
+                    objCopy = updateOtherPages(objCopy, selectedElement);
+                } else {
+                    objCopy = updateOtherPages(objCopy, selectedElement);
+                }
+            } else {
+                objCopy = updateOtherPages(objCopy, selectedElement);        
+            }
         }
-
-        elementsArray = elementsArray.map((element) => {
-            if (element.elId === selectedElement.elId) {
-                //section changes type
-                if (composites.includes(value) && elField[0] === "Type") {
-                    console.log("1")
-                    let newId = genRand("El");
-                    let result = objCopy.sections.map((section) => {
-                        if (section.elId === selectedElement.parentId) {
-                            for (let i = 0; i < section.children.length; i++) {
-                                let child = section.children[i];
-                                if (child.elId === selectedElement.elId) {
-                                    child = selectedElement;
-                                    child.elId = newId;
-                                }
-                            }
-                        }
-                        return section;
-                    })
-                    objCopy.sections = result;
-                    for (let i = 0; i < objCopy.PageObjects.length; i++) {
-                        let page = objCopy.PageObjects[i];
-                        let r = page.elements.map((e) => {
-                            if (e.elId === selectedElement.elId) {
-                                e = selectedElement;
-                                e.elId = newId;
-                            }
-                            return e;
-                        });
-                        page.elements = r;
-                    }
-                    selectedElement.elId = newId;
-                    element = selectedElement;
-                    objCopy.sections.push(selectedElement);
-                }
-                //section changes some property
-                if (composites.includes(selectedElement.Type) && elField[0] !== "Type") {
-                    let result = objCopy.sections.map((section) => {
-                        if (section.elId === selectedElement.parentId) {
-                            for (let i = 0; i < section.children.length; i++) {
-                                let child = section.children[i];
-                                if (child.elId === selectedElement.elId) {
-                                    child = selectedElement;
-                                }
-                            }
-                        }
-                        if (section.elId === selectedElement.elId) {
-                            return section = element;
-                        } else {
-                            return section;
-                        }
-                    })
-                    objCopy.sections = result;
-                    let r;
-                    for (let i = 0; i < objCopy.PageObjects.length; i++) {
-                        r = objCopy.PageObjects[i].elements.map((e) => {
-                            if (e.elId === selectedElement.elId) {
-                                return e = element;
-                            }
-                        })
-                    }
-                }
-                //any element changes any property 
-                if (!composites.includes(selectedElement.Type)) {
-                    element = selectedElement;
-                    if (selectedElement.parentId !== null) {
-                        let result = objCopy.sections.map((section) => {
-                            if (section.elId === selectedElement.parentId) {
-                                for (let i = 0; i < section.children.length; i++) {
-                                    let child = section.children[i];
-                                    if (child.elId === selectedElement.elId) {
-                                        child = selectedElement;
-                                    }
-                                }
-                            }
-                            return section;
-                        });
-                        objCopy.sections = result;
-                    }
-
-                    for (let i = 0; i < objCopy.PageObjects.length; i++) {
-                        let page = objCopy.PageObjects[i];
-                        let r = page.elements.map((e) => {
-                            if (e.elId === selectedElement.elId) {
-                                e = selectedElement;
-                            }
-                            return e;
-                        });
-                        page.elements = r;
-                    }
-                }
-            }
-            return element;
-        });
-
-
-        objCopy.PageObjects.map((page) => {
-            if (pageId === page.pageId) {
-                page.elements = elementsArray;
-            }
-            return page
-        });
-
-
-        map = drawMap(elementsArray, new Map());
+        objCopy = updateParent(objCopy, selectedElement);
+        map = drawMap(findPage(pageId, objCopy.PageObjects).elements, new Map());
         resTree = getChildren(map, null);
         objCopy.resultTree = resTree;
         objCopy.pageMap = map;
-        objCopy.selectedElement = selectedElement;
     }
     return objCopy;
 };

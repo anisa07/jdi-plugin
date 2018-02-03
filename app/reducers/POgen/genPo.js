@@ -122,7 +122,7 @@ export let genEl = (objCopy) => {
             }
 
             function fillEl(e, t, parent, ruleId) {
-                let result = { ...e, Type: t}
+                let result = { ...e, Type: t }
                 if (composites.includes(t)) {
                     result.parent = null;
                     result.parentId = null;
@@ -233,24 +233,24 @@ export let genEl = (objCopy) => {
                 //let found = objCopy.sections.find((section) => parent.Locator === section.Locator && parent.Type === section.Type);
                 let found, find;
                 objCopy.sections.forEach((value, key) => {
-                    if (value.Locator === parent.Locator && value.Type === parent.Type) {
+                    if (value.elId === parent.elId && value.Name === parent.Name) {
                         found = key;
                     }
                 });
 
                 if (!!found) {
-                    let children = objCopy.sections.get(found).children;
-                    if (children) {
-                        for (let i = 0; i < children; i++) {
-                            if (children[i][loc] === element[loc]) {
-                                element.elId = children[i].elId;
-                                find = true;
-                                break;
-                            }
+                    let sec = objCopy.sections.get(found);
+                    let children = sec.children;
+                    for (let i = 0; i < children.length; i++) {
+                        if (children[i][loc] === element[loc]) {
+                            element.elId = children[i].elId;
+                            find = true;
+                            break;
                         }
-                        if (!find) {
-                            children.push(element);
-                        }
+                    }
+                    if (!find) {
+                        children.push(element);
+                        objCopy.sections.set(found, sec);
                     }
                 }
                 page.elements.push(element);

@@ -9710,8 +9710,8 @@ function delEl(arr, id) {
 function removeChildrenFromElementsArr(objCopy, childrenArr) {
     for (var i = 0; i < objCopy.PageObjects.length; i++) {
         var page = objCopy.PageObjects[i];
-        var newArr = page.elements.slice();
         for (var j = 0; j < childrenArr.length; j++) {
+            var newArr = page.elements.slice();
             page.elements = delEl(newArr, childrenArr[j].elId);
         }
     }
@@ -9793,217 +9793,115 @@ var searchEl = exports.searchEl = function searchEl(mainObj, elName) {
     return objCopy;
 };
 
+function updateParent(objCopy, element) {
+    if (!!element.parentId) {
+        var parent = objCopy.sections.get(element.parentId);
+        for (var j = 0; j < parent.children.length; j++) {
+            var child = parent.children[j];
+            if (child === element.elId) {
+                child = element;
+                break;
+            }
+        }
+        objCopy.sections.set(element.parentId, parent);
+        objCopy = updateOtherPages(objCopy, parent);
+    }
+    return objCopy;
+}
+
+function updateOtherPages(objCopy, element) {
+    for (var i = 0; i < objCopy.PageObjects.length; i++) {
+        var elements = objCopy.PageObjects[i].elements;
+        for (var j = 0; j < elements.length; j++) {
+            if (elements[j].elId === element.elId) {
+                elements[j] = element;
+                break;
+            }
+        }
+    }
+    return objCopy;
+}
+
+function createNewElem(objCopy, oldElem) {
+    var newElem = {
+        Name: oldElem.Name,
+        parentId: oldElem.parentId,
+        parent: oldElem.parent,
+        elId: oldElem.elId,
+        Type: oldElem.Type
+    };
+    var fields = objCopy.ElementFields.get(newElem.Type);
+    for (var f in fields) {
+        if (!newElem.hasOwnProperty(f)) {
+            newElem[f] = "";
+        }
+    }
+    return newElem;
+}
+
 var editElement = exports.editElement = function editElement(mainObj, elField, value) {
     var objCopy = Object.assign({}, mainObj);
     var composites = Object.keys(objCopy.CompositeRules);
 
     if (value.length || typeof value === "boolean") {
-        (function () {
-            var pageId = objCopy.activeTabPageId;
-            var elementsArray = (0, _common.findPage)(pageId, objCopy.PageObjects).elements;
-            var selectedElement = objCopy.selectedElement;
-            var typesMap = objCopy.ElementFields;
+        var pageId = objCopy.activeTabPageId;
+        var selectedElement = objCopy.selectedElement;
 
+        if (composites.includes(selectedElement.Type)) {
+            selectedElement[elField[0]] = value;
+            var sec = objCopy.sections.get(selectedElement.elId);
             if (elField[0] === "Type") {
-                if (!composites.includes(value)) {
-                    var item = -1;
-                    for (var i = 0; i < objCopy.sections.length; i++) {
-                        if (objCopy.sections[i].elId === selectedElement.elId) {
-                            item = i;
-                        }
-                    }
-                    if (item > -1) {
-                        var r = objCopy.sections.slice();
-                        r.splice(item, 1);
-                        objCopy.sections = r;
-                    }
-                }
-
-                // if (composites.includes(value)) {
-                //     let found = sectionIsUsed(objCopy.PageObjects, selectedElement.elI, pageId);
-                //     if (!found) {
-                //         objCopy.sections = removeFromSection(objCopy.sections, selectedElement.elId);
-                //     }
-                // }
-
-                if (selectedElement.children) {
-                    var l = selectedElement.children.length;
-
-                    var _loop2 = function _loop2(k) {
-                        elementsArray = elementsArray.filter(function (el) {
-                            if (el.elId !== selectedElement.children[k].elId) {
-                                return el;
+                objCopy = removeChildrenFromElementsArr(objCopy, selectedElement.children);
+                if (composites.includes(value)) {
+                    sec.children.length = 0;
+                    selectedElement.children.length = 0;
+                    sec[elField[0]] = value;
+                    objCopy.sections.set(selectedElement.elId, sec);
+                    objCopy = updateOtherPages(objCopy, sec);
+                } else {
+                    selectedElement = createNewElem(objCopy, selectedElement);
+                    objCopy.sections.delete(selectedElement.elId);
+                    for (var j = 0; j < objCopy.PageObjects.length; j++) {
+                        if (objCopy.PageObjects[j].pageId !== pageId) {
+                            var newArr = objCopy.PageObjects[j].elements.slice();
+                            objCopy.PageObjects[j].elements = delEl(newArr, selectedElement.elId);
+                        } else {
+                            var elements = objCopy.PageObjects[j].elements;
+                            for (var i = 0; i < elements.length; i++) {
+                                if (elements[i].elId === selectedElement.elId) {
+                                    elements[i] = selectedElement;
+                                    break;
+                                }
                             }
-                        });
-                    };
-
-                    for (var k = 0; k < l; k++) {
-                        _loop2(k);
-                    }
-                }
-                var commonFields = {
-                    "Name": selectedElement.Name,
-                    "Type": selectedElement.Type,
-                    "parent": selectedElement.parent,
-                    "parentId": selectedElement.parentId,
-                    "elId": selectedElement.elId
-                };
-                selectedElement = {};
-                var fields = typesMap.get(value);
-                for (var field in fields) {
-                    if (fields[field] === "ComboBoxTextField") {
-                        var n = {
-                            "path": "",
-                            "type": ""
-                        };
-                        selectedElement[field] = n;
-                    }
-                    if (fields[field] === "Checkbox") {
-                        selectedElement[field] = false;
-                    }
-                    if (fields[field] === "TextField") {
-                        selectedElement[field] = "";
-                    }
-                    if (fields[field] === "ComboBox") {
-                        selectedElement[field] = "";
-                    }
-                    if (fields[field] === "internal") {
-                        selectedElement[field] = false;
-                        if (field === "isSection") {
-                            selectedElement[field] = true;
                         }
                     }
-                    if (field === "Name") {
-                        selectedElement.Name = commonFields.Name;
-                    }
-                    if (field === "parent") {
-                        selectedElement.parent = commonFields.parent;
-                    }
-                    if (field === "parentId") {
-                        selectedElement.parentId = commonFields.parentId;
-                    }
-                    if (field === "elId") {
-                        selectedElement.elId = commonFields.elId;
-                    }
                 }
-                selectedElement.children = [];
-            }
-
-            if (elField.length > 1) {
-                selectedElement[elField[0]][elField[1]] = value;
             } else {
-                selectedElement[elField[0]] = value;
+                sec[elField[0]] = value;
+                objCopy.sections.set(selectedElement.elId, sec);
+                objCopy = updateOtherPages(objCopy, sec);
             }
-
-            elementsArray = elementsArray.map(function (element) {
-                if (element.elId === selectedElement.elId) {
-                    //section changes type
-                    if (composites.includes(value) && elField[0] === "Type") {
-                        (function () {
-                            console.log("1");
-                            var newId = genRand("El");
-                            var result = objCopy.sections.map(function (section) {
-                                if (section.elId === selectedElement.parentId) {
-                                    for (var _i = 0; _i < section.children.length; _i++) {
-                                        var child = section.children[_i];
-                                        if (child.elId === selectedElement.elId) {
-                                            child = selectedElement;
-                                            child.elId = newId;
-                                        }
-                                    }
-                                }
-                                return section;
-                            });
-                            objCopy.sections = result;
-                            for (var _i2 = 0; _i2 < objCopy.PageObjects.length; _i2++) {
-                                var page = objCopy.PageObjects[_i2];
-                                var _r = page.elements.map(function (e) {
-                                    if (e.elId === selectedElement.elId) {
-                                        e = selectedElement;
-                                        e.elId = newId;
-                                    }
-                                    return e;
-                                });
-                                page.elements = _r;
-                            }
-                            selectedElement.elId = newId;
-                            element = selectedElement;
-                            objCopy.sections.push(selectedElement);
-                        })();
-                    }
-                    //section changes some property
-                    if (composites.includes(selectedElement.Type) && elField[0] !== "Type") {
-                        var result = objCopy.sections.map(function (section) {
-                            if (section.elId === selectedElement.parentId) {
-                                for (var _i3 = 0; _i3 < section.children.length; _i3++) {
-                                    var child = section.children[_i3];
-                                    if (child.elId === selectedElement.elId) {
-                                        child = selectedElement;
-                                    }
-                                }
-                            }
-                            if (section.elId === selectedElement.elId) {
-                                return section = element;
-                            } else {
-                                return section;
-                            }
-                        });
-                        objCopy.sections = result;
-                        var _r2 = void 0;
-                        for (var _i4 = 0; _i4 < objCopy.PageObjects.length; _i4++) {
-                            _r2 = objCopy.PageObjects[_i4].elements.map(function (e) {
-                                if (e.elId === selectedElement.elId) {
-                                    return e = element;
-                                }
-                            });
-                        }
-                    }
-                    //any element changes any property 
-                    if (!composites.includes(selectedElement.Type)) {
-                        element = selectedElement;
-                        if (selectedElement.parentId !== null) {
-                            var _result = objCopy.sections.map(function (section) {
-                                if (section.elId === selectedElement.parentId) {
-                                    for (var _i5 = 0; _i5 < section.children.length; _i5++) {
-                                        var child = section.children[_i5];
-                                        if (child.elId === selectedElement.elId) {
-                                            child = selectedElement;
-                                        }
-                                    }
-                                }
-                                return section;
-                            });
-                            objCopy.sections = _result;
-                        }
-
-                        for (var _i6 = 0; _i6 < objCopy.PageObjects.length; _i6++) {
-                            var page = objCopy.PageObjects[_i6];
-                            var _r3 = page.elements.map(function (e) {
-                                if (e.elId === selectedElement.elId) {
-                                    e = selectedElement;
-                                }
-                                return e;
-                            });
-                            page.elements = _r3;
-                        }
-                    }
+            //ordinary component    
+        } else {
+            selectedElement[elField[0]] = value;
+            if (elField[0] === "Type") {
+                selectedElement = createNewElem(objCopy, selectedElement);
+                if (composites.includes(value)) {
+                    selectedElement.children = [];
+                    objCopy.sections.set(selectedElement.elId, selectedElement);
+                    objCopy = updateOtherPages(objCopy, selectedElement);
+                } else {
+                    objCopy = updateOtherPages(objCopy, selectedElement);
                 }
-                return element;
-            });
-
-            objCopy.PageObjects.map(function (page) {
-                if (pageId === page.pageId) {
-                    page.elements = elementsArray;
-                }
-                return page;
-            });
-
-            map = (0, _tree.drawMap)(elementsArray, new Map());
-            resTree = (0, _tree.getChildren)(map, null);
-            objCopy.resultTree = resTree;
-            objCopy.pageMap = map;
-            objCopy.selectedElement = selectedElement;
-        })();
+            } else {
+                objCopy = updateOtherPages(objCopy, selectedElement);
+            }
+        }
+        objCopy = updateParent(objCopy, selectedElement);
+        map = (0, _tree.drawMap)((0, _common.findPage)(pageId, objCopy.PageObjects).elements, new Map());
+        resTree = (0, _tree.getChildren)(map, null);
+        objCopy.resultTree = resTree;
+        objCopy.pageMap = map;
     }
     return objCopy;
 };
@@ -25068,24 +24966,24 @@ var genEl = exports.genEl = function genEl(objCopy) {
             var found = void 0,
                 find = void 0;
             objCopy.sections.forEach(function (value, key) {
-                if (value.Locator === parent.Locator && value.Type === parent.Type) {
+                if (value.elId === parent.elId && value.Name === parent.Name) {
                     found = key;
                 }
             });
 
             if (!!found) {
-                var children = objCopy.sections.get(found).children;
-                if (children) {
-                    for (var i = 0; i < children; i++) {
-                        if (children[i][loc] === element[loc]) {
-                            element.elId = children[i].elId;
-                            find = true;
-                            break;
-                        }
+                var sec = objCopy.sections.get(found);
+                var children = sec.children;
+                for (var i = 0; i < children.length; i++) {
+                    if (children[i][loc] === element[loc]) {
+                        element.elId = children[i].elId;
+                        find = true;
+                        break;
                     }
-                    if (!find) {
-                        children.push(element);
-                    }
+                }
+                if (!find) {
+                    children.push(element);
+                    objCopy.sections.set(found, sec);
                 }
             }
             page.elements.push(element);
