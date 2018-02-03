@@ -9502,8 +9502,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.generateElements = exports.editElement = exports.searchEl = exports.selectElement = exports.deleteElement = exports.addElement = exports.changeTree = exports.showPage = exports.genRand = undefined;
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _tree = __webpack_require__(138);
 
 var _common = __webpack_require__(250);
@@ -9665,41 +9663,6 @@ var addElement = exports.addElement = function addElement(mainObj, element) {
     objCopy.resultTree = (0, _tree.getChildren)(map, null);
     return objCopy;
 };
-
-function sectionIsUsed(arr, elId, pageId) {
-    var found = false;
-
-    var _loop = function _loop(i) {
-        found = arr[i].elements.find(function (element) {
-            return element.elId === elId && pageId !== arr[i].pageId;
-        });
-        if (!!found) {
-            return {
-                v: !!found
-            };
-        }
-    };
-
-    for (var i = 0; i < arr.length; i++) {
-        var _ret2 = _loop(i);
-
-        if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
-    }
-    return found;
-}
-
-function removeFromSection(arr, elId) {
-    var index = arr.findIndex(function (section) {
-        return section.elId === elId;
-    });
-    if (index > -1) {
-        var result = arr.slice();
-        result.splice(index, 1);
-        return result;
-    } else {
-        return arr;
-    }
-}
 
 function delEl(arr, id) {
     return arr.filter(function (el) {
@@ -24797,12 +24760,13 @@ var genEl = exports.genEl = function genEl(objCopy) {
             });
 
             for (var k = 0; k < results.length; k++) {
+                relatives.set(results[k].elId, 0);
                 var child = results[k];
                 for (var j = 0; j < results.length; j++) {
                     parent = results[j];
-                    var _r = getElements(parent.content, child.Locator).elements;
+                    var _r = isXpath(child.Locator) ? getElementsByXpath(parent.content, child.Locator) : parent.content.querySelectorAll(child.Locator);
                     for (var i = 0; i < _r.length; i++) {
-                        if (_r.results[i] === child.content) {
+                        if (_r[i] === child.content) {
                             var v = relatives.get(child.elId);
                             relatives.set(child.elId, ++v);
                         }
@@ -24814,9 +24778,9 @@ var genEl = exports.genEl = function genEl(objCopy) {
                 var _child = results[_k];
                 for (var _j = 0; _j < results.length; _j++) {
                     parent = results[_j];
-                    var _r2 = getElements(parent.content, _child.Locator).elements;
+                    var _r2 = isXpath(_child.Locator) ? getElementsByXpath(parent.content, _child.Locator) : parent.content.querySelectorAll(_child.Locator);
                     for (var _i = 0; _i < _r2.length; _i++) {
-                        if (_r2.results[_i] === _child.content) {
+                        if (_r2[_i] === _child.content) {
                             var c = relatives.get(_child.elId);
                             var p = relatives.get(parent.elId);
                             if (c - p === 1) {
@@ -25049,13 +25013,8 @@ var genEl = exports.genEl = function genEl(objCopy) {
                 element.Locator = e.Locator;
                 element.isSection = true;
                 element.children = [];
-                //let found = objCopy.sections.find((section) => element.Locator === section.Locator && element.Type === section.Type);
                 var found = objCopy.sections.get(element.elId);
-                /*objCopy.sections.forEach((value) => {
-                    if (value.Locator === element.Locator && value.Type === element.Type) {
-                        found = value;
-                    }
-                });*/
+
                 if (!!found) {
                     element = found;
                     page.elements.push(found);
@@ -25065,7 +25024,6 @@ var genEl = exports.genEl = function genEl(objCopy) {
                             element[_f] = "";
                         }
                     }
-                    //objCopy.sections.push(element);
                     page.elements.push(element);
                     objCopy.sections.set(element.elId, element);
                 }

@@ -69,12 +69,13 @@ export let genEl = (objCopy) => {
                 })
 
                 for (let k = 0; k < results.length; k++) {
+                    relatives.set(results[k].elId, 0);
                     let child = results[k];
                     for (let j = 0; j < results.length; j++) {
                         parent = results[j];
-                        let r = getElements(parent.content, child.Locator).elements;
+                        let r = isXpath(child.Locator) ? getElementsByXpath(parent.content, child.Locator) : parent.content.querySelectorAll(child.Locator);
                         for (let i = 0; i < r.length; i++) {
-                            if (r.results[i] === child.content) {
+                            if (r[i] === child.content) {
                                 let v = relatives.get(child.elId);
                                 relatives.set(child.elId, ++v);
                             }
@@ -86,9 +87,9 @@ export let genEl = (objCopy) => {
                     let child = results[k];
                     for (let j = 0; j < results.length; j++) {
                         parent = results[j];
-                        let r = getElements(parent.content, child.Locator).elements;
+                        let r = isXpath(child.Locator) ? getElementsByXpath(parent.content, child.Locator) : parent.content.querySelectorAll(child.Locator);
                         for (let i = 0; i < r.length; i++) {
-                            if (r.results[i] === child.content) {
+                            if (r[i] === child.content) {
                                 let c = relatives.get(child.elId);
                                 let p = relatives.get(parent.elId);
                                 if (c - p === 1) {
@@ -315,13 +316,8 @@ export let genEl = (objCopy) => {
                     element.Locator = e.Locator;
                     element.isSection = true;
                     element.children = [];
-                    //let found = objCopy.sections.find((section) => element.Locator === section.Locator && element.Type === section.Type);
                     let found = objCopy.sections.get(element.elId);
-                    /*objCopy.sections.forEach((value) => {
-                        if (value.Locator === element.Locator && value.Type === element.Type) {
-                            found = value;
-                        }
-                    });*/
+                 
                     if (!!found) {
                         element = found;
                         page.elements.push(found);
@@ -331,7 +327,6 @@ export let genEl = (objCopy) => {
                                 element[f] = "";
                             }
                         }
-                        //objCopy.sections.push(element);
                         page.elements.push(element);
                         objCopy.sections.set(element.elId, element);
                     }
@@ -385,6 +380,7 @@ export let genEl = (objCopy) => {
                     }
                 }
             }
+
 
             results.push({ Locator: "body", Type: null, content: observedDOM, elId: null, parentId: null });
 

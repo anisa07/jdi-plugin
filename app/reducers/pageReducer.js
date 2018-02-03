@@ -152,28 +152,6 @@ export let addElement = (mainObj, element) => {
     return objCopy;
 };
 
-function sectionIsUsed(arr, elId, pageId) {
-    let found = false;
-    for (let i = 0; i < arr.length; i++) {
-        found = arr[i].elements.find((element) => element.elId === elId && pageId !== arr[i].pageId)
-        if (!!found) {
-            return !!found;
-        }
-    }
-    return found;
-}
-
-function removeFromSection(arr, elId) {
-    let index = arr.findIndex((section) => section.elId === elId);
-    if (index > -1) {
-        let result = arr.slice();
-        result.splice(index, 1);
-        return result;
-    } else {
-        return arr;
-    }
-}
-
 function delEl(arr, id) {
     return arr.filter((el) => el.elId !== id);
 }
