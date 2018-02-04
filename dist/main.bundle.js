@@ -9572,14 +9572,44 @@ var changeTree = exports.changeTree = function changeTree(mainObj, treeData, dro
         var element = copyPageObjectsArray.find(function (e) {
             return e.elId === droppedItem.elId;
         });
-        var result = objCopy.sections.map(function (section) {
+        var result = objCopy.sections.get(element.elId);
+        if (!!result) {
+            result.parentId = element.parentId;
+            result.parent = element.parent;
+            objCopy.sections.set(element.elId, result);
+            /*if (!!result.children){
+                for (let i = 0; i < result.children.length; i++) {
+                    let child = result.children[i];
+                    if (child.elId === element.elId) {
+                        child.parent = element.parent;
+                        child.parentId = element.parentId;
+                        break;
+                    }
+                }    
+            }*/
+        }
+        objCopy.sections.forEach(function (section, key) {
+            if (!!section.children) {
+                var children = section.children;
+                for (var i = 0; i < children.length; i++) {
+                    var child = children[i];
+                    if (child.elId === element.elId) {
+                        child.parent = element.parent;
+                        child.parentId = element.parentId;
+                        break;
+                    }
+                }
+                objCopy.sections.set(key, section);
+            }
+        });
+        /*let result = objCopy.sections.map((section) => {
             if (section.elId === element.elId) {
                 section.parentId = element.parentId;
                 section.parent = element.parent;
             }
             if (section.children) {
-                for (var i = 0; i < section.children.length; i++) {
-                    var child = section.children[i];
+                for (let i = 0; i < section.children.length; i++) {
+                    let child = section.children[i];
                     if (child.elId === element.elId) {
                         child.parent = element.parent;
                         child.parentId = element.parentId;
@@ -9588,8 +9618,8 @@ var changeTree = exports.changeTree = function changeTree(mainObj, treeData, dro
                 }
             }
             return section;
-        });
-        objCopy.sections = result;
+        })
+        objCopy.sections = result;*/
 
         var pages = objCopy.PageObjects.map(function (p) {
             console.log(p);
@@ -24962,7 +24992,8 @@ var genEl = exports.genEl = function genEl(objCopy) {
         function camelCase(n) {
             var name = "";
             if (n) {
-                var arrayName = n.split(/\W/);
+                //[^a-zA-Zа-яёА-ЯЁ0-9]
+                var arrayName = n.split(/\s/);
                 for (var j = 0; j < arrayName.length; j++) {
                     if (arrayName[j]) {
                         name += arrayName[j][0].toUpperCase() + arrayName[j].slice(1);

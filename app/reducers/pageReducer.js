@@ -62,7 +62,37 @@ export let changeTree = (mainObj, treeData, droppedItem) => {
 
     if (droppedItem) {
         let element = copyPageObjectsArray.find((e) => e.elId === droppedItem.elId);
-        let result = objCopy.sections.map((section) => {
+        let result = objCopy.sections.get(element.elId);
+        if (!!result){
+            result.parentId = element.parentId;
+            result.parent = element.parent;
+            objCopy.sections.set(element.elId, result);
+            /*if (!!result.children){
+                for (let i = 0; i < result.children.length; i++) {
+                    let child = result.children[i];
+                    if (child.elId === element.elId) {
+                        child.parent = element.parent;
+                        child.parentId = element.parentId;
+                        break;
+                    }
+                }    
+            }*/
+        }
+        objCopy.sections.forEach((section, key) => {
+            if (!!section.children) {
+                let children = section.children;
+                for (let i = 0; i < children.length; i++) {
+                    let child = children[i];
+                    if (child.elId === element.elId) {
+                        child.parent = element.parent;
+                        child.parentId = element.parentId;
+                        break;
+                    }
+                }
+                objCopy.sections.set(key, section);
+            }
+        })
+        /*let result = objCopy.sections.map((section) => {
             if (section.elId === element.elId) {
                 section.parentId = element.parentId;
                 section.parent = element.parent;
@@ -79,7 +109,7 @@ export let changeTree = (mainObj, treeData, droppedItem) => {
             }
             return section;
         })
-        objCopy.sections = result;
+        objCopy.sections = result;*/
 
         let pages = objCopy.PageObjects.map((p) => {
             console.log(p)
