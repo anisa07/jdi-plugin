@@ -14,7 +14,7 @@ const Tabs = (props) => {
                         return (
                             <li key={tabPage.pageId} onClick={() => { store.dispatch(pageActions.showPage(tabPage.pageId)) }}>
                                 <a href="#" data-tabid={tabPage.pageId}
-                                    className={((tabPage.pageId === state.activeTabPageId) && !state.settingsForSite) ? "active" : ""}>{tabPageName}</a>
+                                    className={((tabPage.pageId === state.activeTabPageId) && !state.settingsForSite) ? "shortText active" : "shortText"}>{tabPageName}</a>
                             </li>
                         )
                     })

@@ -24648,7 +24648,7 @@ var Tabs = function Tabs(props) {
                     React.createElement(
                         'a',
                         { href: '#', 'data-tabid': tabPage.pageId,
-                            className: tabPage.pageId === state.activeTabPageId && !state.settingsForSite ? "active" : "" },
+                            className: tabPage.pageId === state.activeTabPageId && !state.settingsForSite ? "shortText active" : "shortText" },
                         tabPageName
                     )
                 );

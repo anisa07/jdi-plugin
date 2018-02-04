@@ -219,6 +219,13 @@ li a{
     cursor: pointer;
 }
 
+.shortText {
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .active{
     background: #EBE9E9;
     color: #157ab5;
