@@ -434,7 +434,7 @@ export let genEl = (objCopy) => {
             document.querySelector("[data-tabid='" + objCopy.activeTabPageId + "']").click();
         }
     );
-
+    
     map = drawMap(page.elements, new Map());
     objCopy.pageMap = map;
     objCopy.resultTree = getChildren(map, null);

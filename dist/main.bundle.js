@@ -23780,7 +23780,7 @@ function PanelLeftPage(props) {
                 null,
                 React.createElement(
                     'div',
-                    { style: { height: 400 } },
+                    { /*style={{ height: 400 }}*/className: 'tree' },
                     React.createElement(_reactSortableTree2.default, {
                         canDrop: canDrop,
                         treeData: state.resultTree,
@@ -23979,7 +23979,7 @@ function PanelRightPageCode(props) {
             React.createElement(
                 'div',
                 { className: 'code' },
-                React.createElement('textarea', { style: { height: h }, value: state.sectionCode || page.POcode })
+                React.createElement('textarea', { id: 'code-snippet', style: { height: h }, value: state.sectionCode || page.POcode })
             ),
             React.createElement(
                 'div',

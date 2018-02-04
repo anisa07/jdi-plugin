@@ -143,6 +143,7 @@ button[id^="closePage"]{
 
 #manage-site{
     display: flex;
+    height: 100%;
 }
 
 #manage-site .panel:first-child{
@@ -220,7 +221,7 @@ li a{
 }
 
 .shortText {
-    width: 100px;
+    width: 120px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -263,7 +264,7 @@ li a{
 .leftContainer{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     height: 100%;
     padding-bottom: 10px;
 }
@@ -294,3 +295,7 @@ select {
 /*.tabs{*/
     /*width:*/
 /*}*/
+
+.tree {
+    height: 1000px;
+}

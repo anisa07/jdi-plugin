@@ -32,7 +32,7 @@ function PanelLeftPage(props) {
                     <button className="btn btn-default" onClick={() => { store.dispatch(rulesActions.openRules()) }}><img src={'../bootstrap/pics/gear.png'} /></button>
                 </div>
                 <div>
-                    <div style={{ height: 400 }}>
+                    <div /*style={{ height: 400 }}*/ className = "tree">
                         <SortableTree
                             canDrop={canDrop}
                             treeData={state.resultTree}
@@ -194,7 +194,7 @@ function PanelRightPageCode(props) {
         state.showCode && <div className="panel panel-default">
             <div className="panel-body codeContainer">
                 <div className="code">
-                    <textarea style = {{height: h}} value={ state.sectionCode || page.POcode }/>
+                    <textarea id="code-snippet" style = {{height: h}} value={ state.sectionCode || page.POcode }/>
                 </div>
                 <div className="details">
                     <button className="btn btn-default codeBtn" onClick = {()=>{store.dispatch(codeActions.downloadCode())}} >Download</button>

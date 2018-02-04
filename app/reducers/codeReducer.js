@@ -104,7 +104,7 @@ export let genCode = (mainObj) => {
     objCopy.showCode = true;
     objCopy.selectedElement = '';
        
-    page.POcode = genPageCode(page, objCopy.SiteInfo.domainName, objCopy)
+    page.POcode = genPageCode(page, objCopy.SiteInfo.domainName, objCopy);
 
     return objCopy;
 } 
