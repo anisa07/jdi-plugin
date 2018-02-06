@@ -1,6 +1,7 @@
 import { getChildren, drawMap, searchElement } from '../functional parts/tree';
 import { findPage, findElement } from '../functional parts/common';
 import { genEl } from './POgen/genPo';
+import cssToXpath from '../../cssToXpath/cssToXPath';
 
 let map = new Map();
 let resTree = [];
@@ -240,13 +241,79 @@ export let deleteElement = (mainObj, elId) => {
     return objCopy;
 };
 
+function locatorF(element) {
+    return element.Locator || element.Root;
+}
+function isXpath(locator) { return locator[1] === '/'; }
+
+function createFullLocator(objCopy, element){
+    let locator = locatorF(element);
+    let parentId = element.parentId;
+    if(!!parentId){
+        let sections = objCopy.sections;
+        let xpath = isXpath(locator);
+        while (!!parentId){
+            console.log(parentId);
+            let parent = sections.get(parentId);
+            let parentLocator = locatorF(parent);
+            if (xpath){
+                let l = (locator.indexOf('.') === 0) ? locator.slice(1) : locator;
+                locator = isXpath(parentLocator) ? parentLocator + l : cssToXpath(parentLocator) + l;
+            } else {
+                if (!isXpath(parentLocator)) {
+                    locator = parentLocator + ' ' + locator;
+                } else {
+                    locator = parentLocator + cssToXpath(locator);
+                    xpath = true;
+                }
+            }
+            parentId = parent.parentId;
+        }
+        return locator;
+    }
+    return locator;
+}
+
+function getElementBy (locator, dom) {
+    return isXpath(locator) ? document.evaluate(`.${locator}`, dom, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue 
+    : dom.querySelector(locator);
+}
+
 export let selectElement = (mainObj, elId) => {
     let objCopy = Object.assign({}, mainObj);
     let pageId = objCopy.activeTabPageId;
     let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
     let element = findElement(elId, elementsArray);
-    objCopy.selectedElement = element;
+    let selectedElement = objCopy.selectedElement;
+    /*if (!!selectedElement.content){
+        selectedElement.content.classList.remove('highlightSelectedElementOnPage');
+    }*/
+    selectedElement = element;
     objCopy.showCode = false;
+
+    //DO IT!!!
+    
+    //let fullLocator = createFullLocator(objCopy, element);
+    //let command = getElementBy(fullLocator);
+    
+    //document.querySelector("header").style.border = "2px solid blue"
+   /* chrome.devtools.inspectedWindow.eval('document.evaluate("//footer", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.border = "2px solid blue"', (result) => {
+        //let parser = new DOMParser();
+        //let observedDOM = parser.parseFromString(result, "text/html").body;
+        //let elementDOM = getElementBy(fullLocator, observedDOM);
+        
+        //elementDOM.classList.add("highlightSelectedElementOnPage");
+        //elementDOM.style.border = "1px solid blue"
+
+        //chrome.devtools.inspectedWindow.eval('elementDOM.style.border = "2px solid blue"')
+        //console.log(elementDOM.offsetWidth)
+    });*/
+
+    //create full locator
+
+    //get element from page, create content in element
+    //set class to this element
+    
     return objCopy;
 };
 
@@ -383,7 +450,6 @@ export let editElement = (mainObj, elField, value) => {
     }
     return objCopy;
 };
-
 
 export let generateElements = (mainObj) => {
     return genEl(mainObj);

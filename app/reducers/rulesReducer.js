@@ -15,7 +15,8 @@ export let selectRule = (mainObj, rule) => {
     let objCopy = Object.assign({},mainObj);
     objCopy.selectedRule = rule;
     //change here
-    objCopy.ruleId = objCopy.Rules[rule][0].id;
+
+    objCopy.ruleId = !!objCopy.Rules[rule][0] ? objCopy.Rules[rule][0].id : '';
    
     return objCopy;
 }
@@ -57,5 +58,26 @@ export let editRule = (mainObj, field, value) =>{
         return rule;
     })
   
+    return objCopy;
+}
+
+export let deleteRule = (mainObj, id) => {
+    let objCopy = Object.assign({}, mainObj);
+    let selectedRule = objCopy.selectedRule; 
+    let allRulesOfSelectedtype = objCopy.Rules[selectedRule];
+    let newArr = [];
+    if (allRulesOfSelectedtype.length === 1){
+        newArr.push({});
+        for (let f in allRulesOfSelectedtype[0]){
+            newArr[0][f] = "";
+        }
+        newArr[0].id = 0;
+    } else {
+        newArr = allRulesOfSelectedtype.filter(rule => rule.id !== id);
+    }
+    if (id === objCopy.ruleId){
+        objCopy.ruleId = newArr[0].id;
+    }
+    objCopy.Rules[selectedRule] = newArr;
     return objCopy;
 }

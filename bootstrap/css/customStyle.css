@@ -299,3 +299,23 @@ select {
 .tree {
     height: 1000px;
 }
+
+.highlightSelectedElementOnPage{
+    border: 2px solid #BADA55;
+}
+
+.btnWithoutPM{
+    padding: 0;
+    margin: 0;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    position: absolute;
+    top: 25%;
+    bottom: 50%;
+    right: 5px;
+}
+
+.rules {
+    position: relative;
+}

@@ -76,23 +76,23 @@ let SimpleRules = {
     "Button": [{ Locator: "input[type=submit]", uniqness: "value", id: 0 }, { Locator: "input[type=button]", uniqness: "value", id: 1 }, 
     { Locator: "button[type=button]", uniqness: "text", id: 2 }, { Locator: "button.btn", uniqness: "text", id: 3 }, { Locator: "a.btn", uniqness: "text", id: 4 },
     { Locator: 'button[type=submit]', uniqness: "text", id: 5 }],
-    "Checkbox": [{ Locator: "", id: 0 }],
-    "Image": [{ Locator: "", id: 0 }],
-    "Label": [{ Locator: "", id: 0 }],
+    "Checkbox": [{ Locator: "", id: 0, uniqness: "" }],
+    "Image": [{ Locator: "", id: 0, uniqness: "" }],
+    "Label": [{ Locator: "", id: 0, uniqness: "" }],
     "Link": [{ Locator: "a[href]", uniqness: "text", id: 0 }],
-    "Text": [{ Locator: "", id: 0 }],
-    "TextField": [{ Locator: "", id: 0 }],
-    "Input": [{ Locator: "", id: 0 }],
-    "TextArea": [{ Locator: "", id: 0 }],
-    "DataPicker": [{ Locator: "", id: 0 }],
-    "FileInput": [{ Locator: "", id: 0 }],
-    "Selector": [{ Locator: "", id: 0 }],
-    "CheckList": [{ Locator: "", id: 0 }],
-    "Menu": [{ Locator: "", id: 0 }],
-    "RadioButtons": [{ Locator: "", id: 0 }],
-    "Tabs": [{ Locator: "", id: 0 }],
-    "TextList": [{ Locator: "", id: 0 }],
-    "Chat": [{ Locator: "", id: 0 }]
+    "Text": [{ Locator: "", id: 0, uniqness: "" }],
+    "TextField": [{ Locator: "", id: 0, uniqness: "" }],
+    "Input": [{ Locator: "", id: 0, uniqness: "" }],
+    "TextArea": [{ Locator: "", id: 0, uniqness: "" }],
+    "DataPicker": [{ Locator: "", id: 0, uniqness: "" }],
+    "FileInput": [{ Locator: "", id: 0, uniqness: "" }],
+    "Selector": [{ Locator: "", id: 0, uniqness: "" }],
+    "CheckList": [{ Locator: "", id: 0, uniqness: "" }],
+    "Menu": [{ Locator: "", id: 0, uniqness: "" }],
+    "RadioButtons": [{ Locator: "", id: 0, uniqness: "" }],
+    "Tabs": [{ Locator: "", id: 0, uniqness: "" }],
+    "TextList": [{ Locator: "", id: 0, uniqness: "" }],
+    "Chat": [{ Locator: "", id: 0, uniqness: "" }]
 };
 let ComplexRules = {
     "ComboBox": [{ Root: "[jtype=dropdown] button", uniqness: ".filter-option#text", Value: "", List: "li", Expand: ".caret", id: 0 }],
@@ -106,7 +106,7 @@ let ComplexRules = {
     }],
     "DynamicTable": [{
         Root: "", Header: "", RowHeader: "", Cell: "",
-        Column: "", Row: "", Footer: "", id: 0
+        Column: "", Row: "", Footer: "", id: 0, uniqness: "class"
     }]
 };
 let CompositeRules = {

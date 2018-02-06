@@ -32,3 +32,10 @@ export function editRule(field, value){
         value
     }
 }
+
+export function deleteRule(ruleId){
+    return{
+        type: "DELETE_RULE",
+        ruleId
+    }
+}

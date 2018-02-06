@@ -90,15 +90,18 @@ function PanelRightRules(props) {
                                 return (
                                     <li key={ruleName}>
                                         <a href="#" className={(rule.id === ruleId) ? "active" : ""}
-                                            onClick={() => { store.dispatch(rulesActions.showRule(rule.id)) }}>{ruleName}</a>
+                                            onClick={() => { store.dispatch(rulesActions.showRule(rule.id)) }}>{ruleName}
+                                        </a>
+                                        <button className = 'btnWithoutPM' onClick={() => { store.dispatch(rulesActions.deleteRule(rule.id))}}> 
+                                                <img src={'../bootstrap/pics/trash.png'} />
+                                        </button>
                                     </li>
                                 )
                             })
                         }
-                        {rulesArray.length ?
-                            <li>
-                                <a onClick={() => { store.dispatch(rulesActions.addRule(selectedRule)) }} ><img src={'../bootstrap/pics/add.png'} /> Add rule</a>
-                            </li> : null}
+                        <li>
+                            <a onClick={() => { store.dispatch(rulesActions.addRule(selectedRule)) }} ><img src={'../bootstrap/pics/add.png'} /> Add rule</a>
+                        </li>
                     </ul>
 
                 </div>
