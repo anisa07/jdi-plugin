@@ -47,19 +47,20 @@ function PanelRightRules(props) {
     return (
         <div className="panel panel-default">
             <div className="panel-body">
-                <div>
-                    {
-                        visibleRules.map(function (rule, index) {
-                            return (<div key={"rule-" + index} className="selectContainer">
-                                <label>
-                                    <span>{rule}: </span>
-                                    <input
-                                        type="text"
-                                        className="form-control pageSetting"
-                                        onChange={(e) => { let value = e.target.value; store.dispatch(rulesActions.editRule(rule, value)) }}
-                                        value={elementRule[rule]} />
-                                </label>
-                                {/* <label>
+                <div className='absolutContainer'>
+                    <div>
+                        {
+                            visibleRules.map(function (rule, index) {
+                                return (<div key={"rule-" + index} className="selectContainer">
+                                    <label>
+                                        <span>{rule}: </span>
+                                        <input
+                                            type="text"
+                                            className="form-control pageSetting"
+                                            onChange={(e) => { let value = e.target.value; store.dispatch(rulesActions.editRule(rule, value)) }}
+                                            value={elementRule[rule]} />
+                                    </label>
+                                    {/* <label>
                                     <select className="form-control pageSetting" value={elementRule[rule]["type"]}
                                     onChange={(e) => { let value = e.target.value; store.dispatch(rulesActions.editRule([rule, "type"], value)) }}>
                                         {
@@ -78,32 +79,32 @@ function PanelRightRules(props) {
                                         value={elementRule[rule]["uniqness"]}
                                         onChange={(e) => { let value = e.target.value; store.dispatch(rulesActions.editRule([rule, "uniqness"], value)) }} />
                                 </label> */}
-                            </div>)
-                        })
-                    }
-                </div>
-                <div className="topContainer">
-                    <ul className="nav nav-tabs">
-                        {
-                            rulesArray.map(function (rule, index) {
-                                let ruleName = "Rule " + (++index);
-                                return (
-                                    <li key={ruleName}>
-                                        <a href="#" className={(rule.id === ruleId) ? "active" : ""}
-                                            onClick={() => { store.dispatch(rulesActions.showRule(rule.id)) }}>{ruleName}
-                                        </a>
-                                        <button className = 'btnWithoutPM' onClick={() => { store.dispatch(rulesActions.deleteRule(rule.id))}}> 
-                                                <img src={'../bootstrap/pics/trash.png'} />
-                                        </button>
-                                    </li>
-                                )
+                                </div>)
                             })
                         }
-                        <li>
-                            <a onClick={() => { store.dispatch(rulesActions.addRule(selectedRule)) }} ><img src={'../bootstrap/pics/add.png'} /> Add rule</a>
-                        </li>
-                    </ul>
-
+                    </div>
+                    <div className="topContainer">
+                        <ul className="nav nav-tabs">
+                            {
+                                rulesArray.map(function (rule, index) {
+                                    let ruleName = "Rule " + (++index);
+                                    return (
+                                        <li key={ruleName}>
+                                            <a href="#" className={(rule.id === ruleId) ? "active" : ""}
+                                                onClick={() => { store.dispatch(rulesActions.showRule(rule.id)) }}>{ruleName}
+                                            </a>
+                                            <button className='btnWithoutPM' onClick={() => { store.dispatch(rulesActions.deleteRule(rule.id)) }}>
+                                                <img src={'../bootstrap/pics/trash.png'} />
+                                            </button>
+                                        </li>
+                                    )
+                                })
+                            }
+                            <li>
+                                <a onClick={() => { store.dispatch(rulesActions.addRule(selectedRule)) }} ><img src={'../bootstrap/pics/add.png'} /> Add rule</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>)

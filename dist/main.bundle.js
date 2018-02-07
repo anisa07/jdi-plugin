@@ -9323,7 +9323,7 @@ ElementFields.set("Logout", _extends({}, commonFields, { "Root": "TextField", "V
 ElementFields.set("Dropdown", _extends({}, commonFields, { "Root": "TextField", "Value": "TextField",
     "List": "TextField", "Expand": "TextField", "Enum": "TextField"
 }));
-ElementFields.set("Droplist", _extends({}, commonFields, { "Root": "TextField", "Value": "TextField",
+ElementFields.set("DropList", _extends({}, commonFields, { "Root": "TextField", "Value": "TextField",
     "List": "TextField", "Expand": "TextField", "Enum": "TextField"
 }));
 ElementFields.set("Table", _extends({}, commonFields, { "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
@@ -9360,7 +9360,7 @@ var SimpleRules = {
 var ComplexRules = {
     "ComboBox": [{ Root: "[jtype=dropdown] button", uniqness: ".filter-option#text", Value: "", List: "li", Expand: ".caret", id: 0 }],
     "Dropdown": [{ Root: "[jtype=combobox] button", uniqness: ".filter-option#text", Value: "", List: "", Expand: "", id: 0 }],
-    "Droplist": [{ Root: "[jtype=droplist] button", uniqness: "text", Value: "", List: "", Expand: "", id: 0 }],
+    "DropList": [{ Root: "[jtype=droplist] button", uniqness: "text", Value: "", List: "", Expand: "", id: 0 }],
     "MenuDropdown": [{ Root: ".open [data-toggle]", uniqness: "text", Value: "", List: "", Expand: "", id: 0 }],
     "Logout": [{ Root: ".uui-profile-menu", uniqness: ".profile-photo span#text", Value: "", List: "", Expand: "", id: 0 }],
     "Table": [{
@@ -9817,8 +9817,9 @@ var selectElement = exports.selectElement = function selectElement(mainObj, elId
     /*if (!!selectedElement.content){
         selectedElement.content.classList.remove('highlightSelectedElementOnPage');
     }*/
-    selectedElement = element;
+    //selectedElement = element;
     objCopy.showCode = false;
+    objCopy.selectedElement = element;
 
     //DO IT!!!
 
@@ -23466,10 +23467,14 @@ var Main = exports.Main = function (_React$Component) {
                 'div',
                 { className: 'start' },
                 React.createElement(_tabs.Tabs, { className: 'tabs', state: this.state, store: _store.store }),
-                React.createElement(_site.Site, { state: this.state, store: _store.store }),
-                React.createElement(_page.Page, { state: this.state, store: _store.store }),
-                React.createElement(_rules.Rules, { state: this.state, store: _store.store }),
-                React.createElement('div', { id: 'test' })
+                React.createElement(
+                    'div',
+                    null,
+                    React.createElement(_site.Site, { state: this.state, store: _store.store }),
+                    React.createElement(_page.Page, { state: this.state, store: _store.store }),
+                    React.createElement(_rules.Rules, { state: this.state, store: _store.store }),
+                    React.createElement('div', { id: 'test' })
+                )
             );
         }
     }]);
@@ -23949,64 +23954,60 @@ function PanelLeftPage(props) {
             ),
             React.createElement(
                 'div',
-                null,
-                React.createElement(
-                    'div',
-                    { /*style={{ height: 400 }}*/className: 'tree' },
-                    React.createElement(_reactSortableTree2.default, {
-                        canDrop: canDrop,
-                        treeData: state.resultTree,
-                        onChange: function onChange(data) {
-                            store.dispatch(pageActions.changeTree(data, droppedItem));
-                        },
-                        generateNodeProps: function generateNodeProps(_ref2) {
-                            var node = _ref2.node;
-                            return {
-                                buttons: node.isSection ? [React.createElement(
-                                    'button',
-                                    { className: 'btn btn-default',
-                                        onClick: function onClick() {
-                                            store.dispatch(pageActions.selectElement(node.elId));
-                                        }
-                                    },
-                                    React.createElement('img', { src: '../bootstrap/pics/gear.png' })
-                                ), React.createElement(
-                                    'button',
-                                    { className: 'btn btn-default',
-                                        onClick: function onClick() {
-                                            store.dispatch(pageActions.addElement(node.elId));
-                                        }
-                                    },
-                                    React.createElement('img', { src: '../bootstrap/pics/add.png' })
-                                ), React.createElement(
-                                    'button',
-                                    { className: 'btn btn-default',
-                                        onClick: function onClick() {
-                                            store.dispatch(pageActions.deleteElement(node.elId));
-                                        }
-                                    },
-                                    React.createElement('img', { src: '../bootstrap/pics/trash.png' })
-                                )] : [React.createElement(
-                                    'button',
-                                    { className: 'btn btn-default',
-                                        onClick: function onClick() {
-                                            store.dispatch(pageActions.selectElement(node.elId));
-                                        }
-                                    },
-                                    React.createElement('img', { src: '../bootstrap/pics/gear.png' })
-                                ), React.createElement(
-                                    'button',
-                                    { className: 'btn btn-default',
-                                        onClick: function onClick() {
-                                            store.dispatch(pageActions.deleteElement(node.elId));
-                                        }
-                                    },
-                                    React.createElement('img', { src: '../bootstrap/pics/trash.png' })
-                                )]
-                            };
-                        }
-                    })
-                )
+                { className: 'tree' },
+                React.createElement(_reactSortableTree2.default, {
+                    canDrop: canDrop,
+                    treeData: state.resultTree,
+                    onChange: function onChange(data) {
+                        store.dispatch(pageActions.changeTree(data, droppedItem));
+                    },
+                    generateNodeProps: function generateNodeProps(_ref2) {
+                        var node = _ref2.node;
+                        return {
+                            buttons: node.isSection ? [React.createElement(
+                                'button',
+                                { className: 'btn btn-default',
+                                    onClick: function onClick() {
+                                        store.dispatch(pageActions.selectElement(node.elId));
+                                    }
+                                },
+                                React.createElement('img', { src: '../bootstrap/pics/gear.png' })
+                            ), React.createElement(
+                                'button',
+                                { className: 'btn btn-default',
+                                    onClick: function onClick() {
+                                        store.dispatch(pageActions.addElement(node.elId));
+                                    }
+                                },
+                                React.createElement('img', { src: '../bootstrap/pics/add.png' })
+                            ), React.createElement(
+                                'button',
+                                { className: 'btn btn-default',
+                                    onClick: function onClick() {
+                                        store.dispatch(pageActions.deleteElement(node.elId));
+                                    }
+                                },
+                                React.createElement('img', { src: '../bootstrap/pics/trash.png' })
+                            )] : [React.createElement(
+                                'button',
+                                { className: 'btn btn-default',
+                                    onClick: function onClick() {
+                                        store.dispatch(pageActions.selectElement(node.elId));
+                                    }
+                                },
+                                React.createElement('img', { src: '../bootstrap/pics/gear.png' })
+                            ), React.createElement(
+                                'button',
+                                { className: 'btn btn-default',
+                                    onClick: function onClick() {
+                                        store.dispatch(pageActions.deleteElement(node.elId));
+                                    }
+                                },
+                                React.createElement('img', { src: '../bootstrap/pics/trash.png' })
+                            )]
+                        };
+                    }
+                })
             ),
             React.createElement(
                 'div',
@@ -24016,8 +24017,7 @@ function PanelLeftPage(props) {
                     { className: 'btn btn-default addElemntBtn',
                         onClick: function onClick() {
                             store.dispatch(pageActions.addElement(null));
-                        }
-                    },
+                        } },
                     'Add element'
                 )
             )
@@ -24213,46 +24213,50 @@ function PanelRightPage(props) {
         React.createElement(
             'div',
             { className: 'panel-body' },
-            show ? visible.map(function (f, i) {
-                if (fieldsTypes[f] === "TextField") {
-                    return React.createElement(
-                        'div',
-                        { className: 'selectContainer', key: f + i },
-                        React.createElement(Input, { inputName: f, inputValue: element[f], inputArr: [f], store: store })
-                    );
-                }
-                if (fieldsTypes[f] === "Checkbox") {
-                    return React.createElement(
-                        'div',
-                        { className: 'selectContainer', key: f + i },
-                        React.createElement(Checkbox, { inputName: f, inputValue: element[f], store: store })
-                    );
-                }
-                if (fieldsTypes[f] === "ComboBoxTextField") {
-                    var a = chooseArr(f, state);
-                    return React.createElement(
-                        'div',
-                        { className: 'selectContainer', key: f + i },
-                        React.createElement(Input, { inputName: f, inputValue: element[f].path, inputArr: [f, "path"], store: store }),
-                        React.createElement(InputSelect, { selectValue: element[f].type, selectArr: [f, "type"], arr: a, store: store })
-                    );
-                }
-                if (fieldsTypes[f] === "ComboBox") {
-                    var _a = chooseArr(f, state);
-                    return React.createElement(
-                        'div',
-                        { className: 'selectContainer', key: f + i },
-                        React.createElement(InputSelect, { inputName: f, selectValue: element[f], selectArr: [f], arr: _a, store: store })
-                    );
-                }
-            }) : null,
-            show && state.CompositeRules[element.Type] && React.createElement(
-                'button',
-                { className: 'btn btn-default',
-                    onClick: function onClick() {
-                        store.dispatch(codeActions.showCode());
-                    } },
-                'View code'
+            React.createElement(
+                'div',
+                { className: 'absolutContainer' },
+                show ? visible.map(function (f, i) {
+                    if (fieldsTypes[f] === "TextField") {
+                        return React.createElement(
+                            'div',
+                            { className: 'selectContainer', key: f + i },
+                            React.createElement(Input, { className: 'focusField', inputName: f, inputValue: element[f], inputArr: [f], store: store })
+                        );
+                    }
+                    if (fieldsTypes[f] === "Checkbox") {
+                        return React.createElement(
+                            'div',
+                            { className: 'selectContainer', key: f + i },
+                            React.createElement(Checkbox, { inputName: f, inputValue: element[f], store: store })
+                        );
+                    }
+                    if (fieldsTypes[f] === "ComboBoxTextField") {
+                        var a = chooseArr(f, state);
+                        return React.createElement(
+                            'div',
+                            { className: 'selectContainer', key: f + i },
+                            React.createElement(Input, { inputName: f, inputValue: element[f].path, inputArr: [f, "path"], store: store }),
+                            React.createElement(InputSelect, { selectValue: element[f].type, selectArr: [f, "type"], arr: a, store: store })
+                        );
+                    }
+                    if (fieldsTypes[f] === "ComboBox") {
+                        var _a = chooseArr(f, state);
+                        return React.createElement(
+                            'div',
+                            { className: 'selectContainer', key: f + i },
+                            React.createElement(InputSelect, { inputName: f, selectValue: element[f], selectArr: [f], arr: _a, store: store })
+                        );
+                    }
+                }) : null,
+                show && state.CompositeRules[element.Type] && React.createElement(
+                    'button',
+                    { className: 'btn btn-default',
+                        onClick: function onClick() {
+                            store.dispatch(codeActions.showCode());
+                        } },
+                    'View code'
+                )
             )
         )
     );
@@ -24345,69 +24349,73 @@ function PanelRightRules(props) {
             { className: "panel-body" },
             React.createElement(
                 "div",
-                null,
-                visibleRules.map(function (rule, index) {
-                    return React.createElement(
-                        "div",
-                        { key: "rule-" + index, className: "selectContainer" },
-                        React.createElement(
-                            "label",
-                            null,
-                            React.createElement(
-                                "span",
-                                null,
-                                rule,
-                                ": "
-                            ),
-                            React.createElement("input", {
-                                type: "text",
-                                className: "form-control pageSetting",
-                                onChange: function onChange(e) {
-                                    var value = e.target.value;store.dispatch(rulesActions.editRule(rule, value));
-                                },
-                                value: elementRule[rule] })
-                        )
-                    );
-                })
-            ),
-            React.createElement(
-                "div",
-                { className: "topContainer" },
+                { className: "absolutContainer" },
                 React.createElement(
-                    "ul",
-                    { className: "nav nav-tabs" },
-                    rulesArray.map(function (rule, index) {
-                        var ruleName = "Rule " + ++index;
+                    "div",
+                    null,
+                    visibleRules.map(function (rule, index) {
                         return React.createElement(
-                            "li",
-                            { key: ruleName },
+                            "div",
+                            { key: "rule-" + index, className: "selectContainer" },
                             React.createElement(
-                                "a",
-                                { href: "#", className: rule.id === ruleId ? "active" : "",
-                                    onClick: function onClick() {
-                                        store.dispatch(rulesActions.showRule(rule.id));
-                                    } },
-                                ruleName
-                            ),
-                            React.createElement(
-                                "button",
-                                { className: "btnWithoutPM", onClick: function onClick() {
-                                        store.dispatch(rulesActions.deleteRule(rule.id));
-                                    } },
-                                React.createElement("img", { src: '../bootstrap/pics/trash.png' })
+                                "label",
+                                null,
+                                React.createElement(
+                                    "span",
+                                    null,
+                                    rule,
+                                    ": "
+                                ),
+                                React.createElement("input", {
+                                    type: "text",
+                                    className: "form-control pageSetting",
+                                    onChange: function onChange(e) {
+                                        var value = e.target.value;store.dispatch(rulesActions.editRule(rule, value));
+                                    },
+                                    value: elementRule[rule] })
                             )
                         );
-                    }),
+                    })
+                ),
+                React.createElement(
+                    "div",
+                    { className: "topContainer" },
                     React.createElement(
-                        "li",
-                        null,
+                        "ul",
+                        { className: "nav nav-tabs" },
+                        rulesArray.map(function (rule, index) {
+                            var ruleName = "Rule " + ++index;
+                            return React.createElement(
+                                "li",
+                                { key: ruleName },
+                                React.createElement(
+                                    "a",
+                                    { href: "#", className: rule.id === ruleId ? "active" : "",
+                                        onClick: function onClick() {
+                                            store.dispatch(rulesActions.showRule(rule.id));
+                                        } },
+                                    ruleName
+                                ),
+                                React.createElement(
+                                    "button",
+                                    { className: "btnWithoutPM", onClick: function onClick() {
+                                            store.dispatch(rulesActions.deleteRule(rule.id));
+                                        } },
+                                    React.createElement("img", { src: '../bootstrap/pics/trash.png' })
+                                )
+                            );
+                        }),
                         React.createElement(
-                            "a",
-                            { onClick: function onClick() {
-                                    store.dispatch(rulesActions.addRule(selectedRule));
-                                } },
-                            React.createElement("img", { src: '../bootstrap/pics/add.png' }),
-                            " Add rule"
+                            "li",
+                            null,
+                            React.createElement(
+                                "a",
+                                { onClick: function onClick() {
+                                        store.dispatch(rulesActions.addRule(selectedRule));
+                                    } },
+                                React.createElement("img", { src: '../bootstrap/pics/add.png' }),
+                                " Add rule"
+                            )
                         )
                     )
                 )
@@ -24725,7 +24733,7 @@ function Page(props) {
         { id: "manage-site" },
         React.createElement(_managePage.PanelLeftPage, { state: state, store: store }),
         !state.showCode && React.createElement(_managePage.PanelRightPage, { state: state, store: store }),
-        React.createElement(_managePage.PanelRightPageCode, { state: state, store: store })
+        React.createElement(_managePage.PanelRightPageCode, { state: state, store: store, className: "Right" })
     ) : null;
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))

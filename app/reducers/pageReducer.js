@@ -288,9 +288,10 @@ export let selectElement = (mainObj, elId) => {
     /*if (!!selectedElement.content){
         selectedElement.content.classList.remove('highlightSelectedElementOnPage');
     }*/
-    selectedElement = element;
+    //selectedElement = element;
     objCopy.showCode = false;
-
+    objCopy.selectedElement = element;
+    
     //DO IT!!!
     
     //let fullLocator = createFullLocator(objCopy, element);

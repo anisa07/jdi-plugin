@@ -6,9 +6,9 @@ export function Page(props) {
     return (
         (!state.settingsForSite && state.activeTabPageId > -1) ?
             <div id="manage-site">
-                <PanelLeftPage state={state} store={store} />
+                <PanelLeftPage state={state} store={store}/>
                 { !state.showCode && <PanelRightPage state={state} store={store} /> }
-                <PanelRightPageCode state={state} store={store}/>
+                <PanelRightPageCode state={state} store={store} className="Right"/>
             </div> : null
     )
 }

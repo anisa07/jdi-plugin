@@ -25,10 +25,12 @@ export class Main extends React.Component {
         return (
             <div className="start">
                 <Tabs className="tabs" state={this.state} store={store}/>
-                <Site state={this.state} store={store}/>
-                <Page state={this.state} store={store}/>
-                <Rules state={this.state} store={store}/>
-                <div id="test"></div>
+                <div>
+                    <Site state={this.state} store={store}/>
+                    <Page state={this.state} store={store}/>
+                    <Rules state={this.state} store={store}/>
+                    <div id="test"></div>
+                </div>
             </div>
         )
     }

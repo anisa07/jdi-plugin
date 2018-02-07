@@ -55,7 +55,7 @@ ElementFields.set("Dropdown", {
     ...commonFields, "Root": "TextField", "Value": "TextField",
     "List": "TextField", "Expand": "TextField", "Enum": "TextField"
 });
-ElementFields.set("Droplist", {
+ElementFields.set("DropList", {
     ...commonFields, "Root": "TextField", "Value": "TextField",
     "List": "TextField", "Expand": "TextField", "Enum": "TextField"
 });
@@ -97,7 +97,7 @@ let SimpleRules = {
 let ComplexRules = {
     "ComboBox": [{ Root: "[jtype=dropdown] button", uniqness: ".filter-option#text", Value: "", List: "li", Expand: ".caret", id: 0 }],
     "Dropdown": [{ Root: "[jtype=combobox] button", uniqness: ".filter-option#text", Value: "", List: "", Expand: "", id: 0 }],
-    "Droplist": [{ Root: "[jtype=droplist] button", uniqness: "text", Value: "", List: "", Expand: "", id: 0 }],
+    "DropList": [{ Root: "[jtype=droplist] button", uniqness: "text", Value: "", List: "", Expand: "", id: 0 }],
     "MenuDropdown": [{ Root: ".open [data-toggle]", uniqness: "text", Value: "", List: "", Expand: "", id: 0 }],
     "Logout": [{ Root: ".uui-profile-menu", uniqness: ".profile-photo span#text", Value: "", List: "", Expand: "", id: 0 }],
     "Table": [{

@@ -6,7 +6,7 @@ import * as codeActions from '../actions/codeActions';
 function PanelLeftPage(props) {
     let state = props.state;
     let store = props.store;
-    let  droppedItem;
+    let droppedItem;
     const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
         if (nextParent === null || nextParent.isSection) {
             droppedItem = node;
@@ -27,48 +27,33 @@ function PanelLeftPage(props) {
                             let value = e.target.value;
                             store.dispatch(pageActions.searchElement(value))
                         }} />
-                    <button className="btn btn-default" onClick={()=>{store.dispatch(pageActions.generateElements())}}>Generate PO</button>
-                    <button className="btn btn-default" onClick={()=>{store.dispatch(codeActions.genCode())}}>Generate code</button>
+                    <button className="btn btn-default" onClick={() => { store.dispatch(pageActions.generateElements()) }}>Generate PO</button>
+                    <button className="btn btn-default" onClick={() => { store.dispatch(codeActions.genCode()) }}>Generate code</button>
                     <button className="btn btn-default" onClick={() => { store.dispatch(rulesActions.openRules()) }}><img src={'../bootstrap/pics/gear.png'} /></button>
                 </div>
-                <div>
-                    <div /*style={{ height: 400 }}*/ className = "tree">
-                        <SortableTree
-                            canDrop={canDrop}
-                            treeData={state.resultTree}
-                            onChange={(data) => {
-                                store.dispatch(pageActions.changeTree(data, droppedItem))
-                            }}
-                            generateNodeProps={({ node }) => (
-                                {
-                                    buttons: (node.isSection) ? [
-                                        <button className="btn btn-default"
-                                            onClick={() => {
-                                                store.dispatch(pageActions.selectElement(node.elId))
-                                            }}
-                                        >
-                                            <img src={'../bootstrap/pics/gear.png'} />
-                                        </button>,
-                                        <button className="btn btn-default"
-                                            onClick={() => {
-                                                store.dispatch(pageActions.addElement(node.elId))
-                                            }}
-                                        >
-                                            <img src={'../bootstrap/pics/add.png'} />
-                                        </button>,
-                                        <button className="btn btn-default"
-                                            onClick={() => {
-                                                store.dispatch(pageActions.deleteElement(node.elId))
-                                            }}
-                                        >
-                                            <img src={'../bootstrap/pics/trash.png'} />
-                                        </button>
-                                    ] : [<button className="btn btn-default"
+                <div className="tree">
+                    <SortableTree
+                        canDrop={canDrop}
+                        treeData={state.resultTree}
+                        onChange={(data) => {
+                            store.dispatch(pageActions.changeTree(data, droppedItem))
+                        }}
+                        generateNodeProps={({ node }) => (
+                            {
+                                buttons: (node.isSection) ? [
+                                    <button className="btn btn-default"
                                         onClick={() => {
-                                            store.dispatch(pageActions.selectElement(node.elId))
+                                            store.dispatch(pageActions.selectElement(node.elId));
                                         }}
                                     >
                                         <img src={'../bootstrap/pics/gear.png'} />
+                                    </button>,
+                                    <button className="btn btn-default"
+                                        onClick={() => {
+                                            store.dispatch(pageActions.addElement(node.elId))
+                                        }}
+                                    >
+                                        <img src={'../bootstrap/pics/add.png'} />
                                     </button>,
                                     <button className="btn btn-default"
                                         onClick={() => {
@@ -76,19 +61,31 @@ function PanelLeftPage(props) {
                                         }}
                                     >
                                         <img src={'../bootstrap/pics/trash.png'} />
-                                    </button>]
-                                }
-                            )}
-                        />
-                    </div>
+                                    </button>
+                                ] : [<button className="btn btn-default"
+                                    onClick={() => {
+                                        store.dispatch(pageActions.selectElement(node.elId))
+                                    }}
+                                >
+                                    <img src={'../bootstrap/pics/gear.png'} />
+                                </button>,
+                                <button className="btn btn-default"
+                                    onClick={() => {
+                                        store.dispatch(pageActions.deleteElement(node.elId))
+                                    }}
+                                >
+                                    <img src={'../bootstrap/pics/trash.png'} />
+                                </button>]
+                            }
+                        )}
+                    />
                 </div>
                 <div className="selectContainer">
-                    <button className="btn btn-default addElemntBtn"
-                        onClick={() => {
-                            store.dispatch(pageActions.addElement(null))
-                        }}
-                    >Add element
-                    </button>
+                        <button className="btn btn-default addElemntBtn"
+                            onClick={() => {
+                                store.dispatch(pageActions.addElement(null))
+                            }}>Add element
+                        </button>
                 </div>
             </div>
         </div>
@@ -183,21 +180,21 @@ function chooseArr(f, state) {
 function PanelRightPageCode(props) {
     let state = props.state;
     let store = props.store;
-    let page = state.PageObjects.find((page)=>{
-        if (page.pageId === state.activeTabPageId){
+    let page = state.PageObjects.find((page) => {
+        if (page.pageId === state.activeTabPageId) {
             return page;
         }
     })
     let h = 20 * page.elements.length + 200;
-   
+
     return (
         state.showCode && <div className="panel panel-default">
             <div className="panel-body codeContainer">
                 <div className="code">
-                    <textarea id="code-snippet" style = {{height: h}} value={ state.sectionCode || page.POcode }/>
+                    <textarea id="code-snippet" style={{ height: h }} value={state.sectionCode || page.POcode} />
                 </div>
                 <div className="details">
-                    <button className="btn btn-default codeBtn" onClick = {()=>{store.dispatch(codeActions.downloadCode())}} >Download</button>
+                    <button className="btn btn-default codeBtn" onClick={() => { store.dispatch(codeActions.downloadCode()) }} >Download</button>
                     <div>
                         <button className="btn btn-default">Java</button>
                         <button className="btn btn-default">C#</button>
@@ -232,43 +229,45 @@ function PanelRightPage(props) {
     return (
         <div className="panel panel-default">
             <div className="panel-body">
-                {
-                    show ? visible.map((f, i) => {
-                        if (fieldsTypes[f] === "TextField") {
-                            return (
-                                <div className="selectContainer" key={f + i}>
-                                    <Input inputName={f} inputValue={element[f]} inputArr={[f]} store={store} />
-                                </div>
-                            )
-                        }
-                        if (fieldsTypes[f] === "Checkbox") {
-                            return (
-                                <div className="selectContainer" key={f + i}>
-                                    <Checkbox inputName={f} inputValue={element[f]} store={store} />
-                                </div>
-                            )
-                        }
-                        if (fieldsTypes[f] === "ComboBoxTextField") {
-                            let a = chooseArr(f, state);
-                            return (<div className="selectContainer" key={f + i}>
-                                <Input inputName={f} inputValue={element[f].path} inputArr={[f, "path"]} store={store} />
-                                <InputSelect selectValue={element[f].type} selectArr={[f, "type"]} arr={a} store={store} />
-                            </div>)
-                        }
-                        if (fieldsTypes[f] === "ComboBox") {
-                            let a = chooseArr(f, state);
-                            return (
-                                <div className="selectContainer" key={f + i}>
-                                    <InputSelect inputName={f} selectValue={element[f]} selectArr={[f]} arr={a} store={store} />
-                                </div>
-                            )
-                        }
-                    }) : null
-                }
-                { show && state.CompositeRules[element.Type] && <button className="btn btn-default"
-                    onClick={() => {
-                        store.dispatch(codeActions.showCode())
-                    }}>View code</button> }
+                <div className="absolutContainer">
+                    {
+                        show ? visible.map((f, i) => {
+                            if (fieldsTypes[f] === "TextField") {
+                                return (
+                                    <div className="selectContainer" key={f + i}>
+                                        <Input className="focusField" inputName={f} inputValue={element[f]} inputArr={[f]} store={store} />
+                                    </div>
+                                )
+                            }
+                            if (fieldsTypes[f] === "Checkbox") {
+                                return (
+                                    <div className="selectContainer" key={f + i}>
+                                        <Checkbox inputName={f} inputValue={element[f]} store={store} />
+                                    </div>
+                                )
+                            }
+                            if (fieldsTypes[f] === "ComboBoxTextField") {
+                                let a = chooseArr(f, state);
+                                return (<div className="selectContainer" key={f + i}>
+                                    <Input inputName={f} inputValue={element[f].path} inputArr={[f, "path"]} store={store} />
+                                    <InputSelect selectValue={element[f].type} selectArr={[f, "type"]} arr={a} store={store} />
+                                </div>)
+                            }
+                            if (fieldsTypes[f] === "ComboBox") {
+                                let a = chooseArr(f, state);
+                                return (
+                                    <div className="selectContainer" key={f + i}>
+                                        <InputSelect inputName={f} selectValue={element[f]} selectArr={[f]} arr={a} store={store} />
+                                    </div>
+                                )
+                            }
+                        }) : null
+                    }
+                    {show && state.CompositeRules[element.Type] && <button className="btn btn-default"
+                        onClick={() => {
+                            store.dispatch(codeActions.showCode())
+                        }}>View code</button>}
+                </div>
             </div>
         </div>
     )
