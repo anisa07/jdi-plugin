@@ -297,7 +297,7 @@ select {
 /*}*/
 
 .tree {
-    height: 450px;
+    height: 400px;
 }
 
 .highlightSelectedElementOnPage{
@@ -320,8 +320,24 @@ select {
     position: relative;
 }
 
-.absolutContainer{
-    /*position: fixed; 
+/* .absolutContainer{
+    position: fixed; 
     top: 0;
-    left: 0;*/
+    left: 0;
+} */
+
+.scrollableLeft {
+    /* min-height: 250px;
+    max-height: 450px;
+    overflow-y: auto; */
+    /*height: 100%;
+    /*overflow: scroll;   */
 }
+
+/* body{
+    overflow: hidden;
+}
+
+.Container{
+    
+} */

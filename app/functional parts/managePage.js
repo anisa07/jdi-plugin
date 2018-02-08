@@ -31,29 +31,51 @@ function PanelLeftPage(props) {
                     <button className="btn btn-default" onClick={() => { store.dispatch(codeActions.genCode()) }}>Generate code</button>
                     <button className="btn btn-default" onClick={() => { store.dispatch(rulesActions.openRules()) }}><img src={'../bootstrap/pics/gear.png'} /></button>
                 </div>
-                <div className="tree">
-                    <SortableTree
-                        canDrop={canDrop}
-                        treeData={state.resultTree}
-                        onChange={(data) => {
-                            store.dispatch(pageActions.changeTree(data, droppedItem))
-                        }}
-                        generateNodeProps={({ node }) => (
-                            {
-                                buttons: (node.isSection) ? [
-                                    <button className="btn btn-default"
+                <div className="selectContainer">
+                        <button className="btn btn-default addElemntBtn"
+                            onClick={() => {
+                                store.dispatch(pageActions.addElement(null))
+                            }}>Add element
+                        </button>
+                </div>
+                <div>
+                    <div className="tree">
+                        <SortableTree
+                            canDrop={canDrop}
+                            treeData={state.resultTree}
+                            onChange={(data) => {
+                                store.dispatch(pageActions.changeTree(data, droppedItem))
+                            }}
+                            generateNodeProps={({ node }) => (
+                                {
+                                    buttons: (node.isSection) ? [
+                                        <button className="btn btn-default"
+                                            onClick={() => {
+                                                store.dispatch(pageActions.selectElement(node.elId));
+                                            }}
+                                        >
+                                            <img src={'../bootstrap/pics/gear.png'} />
+                                        </button>,
+                                        <button className="btn btn-default"
+                                            onClick={() => {
+                                                store.dispatch(pageActions.addElement(node.elId))
+                                            }}
+                                        >
+                                            <img src={'../bootstrap/pics/add.png'} />
+                                        </button>,
+                                        <button className="btn btn-default"
+                                            onClick={() => {
+                                                store.dispatch(pageActions.deleteElement(node.elId))
+                                            }}
+                                        >
+                                            <img src={'../bootstrap/pics/trash.png'} />
+                                        </button>
+                                    ] : [<button className="btn btn-default"
                                         onClick={() => {
-                                            store.dispatch(pageActions.selectElement(node.elId));
+                                            store.dispatch(pageActions.selectElement(node.elId))
                                         }}
                                     >
                                         <img src={'../bootstrap/pics/gear.png'} />
-                                    </button>,
-                                    <button className="btn btn-default"
-                                        onClick={() => {
-                                            store.dispatch(pageActions.addElement(node.elId))
-                                        }}
-                                    >
-                                        <img src={'../bootstrap/pics/add.png'} />
                                     </button>,
                                     <button className="btn btn-default"
                                         onClick={() => {
@@ -61,31 +83,11 @@ function PanelLeftPage(props) {
                                         }}
                                     >
                                         <img src={'../bootstrap/pics/trash.png'} />
-                                    </button>
-                                ] : [<button className="btn btn-default"
-                                    onClick={() => {
-                                        store.dispatch(pageActions.selectElement(node.elId))
-                                    }}
-                                >
-                                    <img src={'../bootstrap/pics/gear.png'} />
-                                </button>,
-                                <button className="btn btn-default"
-                                    onClick={() => {
-                                        store.dispatch(pageActions.deleteElement(node.elId))
-                                    }}
-                                >
-                                    <img src={'../bootstrap/pics/trash.png'} />
-                                </button>]
-                            }
-                        )}
-                    />
-                </div>
-                <div className="selectContainer">
-                        <button className="btn btn-default addElemntBtn"
-                            onClick={() => {
-                                store.dispatch(pageActions.addElement(null))
-                            }}>Add element
-                        </button>
+                                    </button>]
+                                }
+                            )}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

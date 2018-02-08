@@ -9228,6 +9228,8 @@ exports.addRule = addRule;
 exports.showRule = showRule;
 exports.editRule = editRule;
 exports.deleteRule = deleteRule;
+exports.exportRules = exportRules;
+exports.importRules = importRules;
 function openRules() {
     return {
         type: "OPEN_RULES"
@@ -9267,6 +9269,18 @@ function deleteRule(ruleId) {
     return {
         type: "DELETE_RULE",
         ruleId: ruleId
+    };
+}
+
+function exportRules() {
+    return {
+        type: "EXPORT_RULE"
+    };
+}
+
+function importRules() {
+    return {
+        type: "IMPORT_RULE"
     };
 }
 
@@ -23954,63 +23968,6 @@ function PanelLeftPage(props) {
             ),
             React.createElement(
                 'div',
-                { className: 'tree' },
-                React.createElement(_reactSortableTree2.default, {
-                    canDrop: canDrop,
-                    treeData: state.resultTree,
-                    onChange: function onChange(data) {
-                        store.dispatch(pageActions.changeTree(data, droppedItem));
-                    },
-                    generateNodeProps: function generateNodeProps(_ref2) {
-                        var node = _ref2.node;
-                        return {
-                            buttons: node.isSection ? [React.createElement(
-                                'button',
-                                { className: 'btn btn-default',
-                                    onClick: function onClick() {
-                                        store.dispatch(pageActions.selectElement(node.elId));
-                                    }
-                                },
-                                React.createElement('img', { src: '../bootstrap/pics/gear.png' })
-                            ), React.createElement(
-                                'button',
-                                { className: 'btn btn-default',
-                                    onClick: function onClick() {
-                                        store.dispatch(pageActions.addElement(node.elId));
-                                    }
-                                },
-                                React.createElement('img', { src: '../bootstrap/pics/add.png' })
-                            ), React.createElement(
-                                'button',
-                                { className: 'btn btn-default',
-                                    onClick: function onClick() {
-                                        store.dispatch(pageActions.deleteElement(node.elId));
-                                    }
-                                },
-                                React.createElement('img', { src: '../bootstrap/pics/trash.png' })
-                            )] : [React.createElement(
-                                'button',
-                                { className: 'btn btn-default',
-                                    onClick: function onClick() {
-                                        store.dispatch(pageActions.selectElement(node.elId));
-                                    }
-                                },
-                                React.createElement('img', { src: '../bootstrap/pics/gear.png' })
-                            ), React.createElement(
-                                'button',
-                                { className: 'btn btn-default',
-                                    onClick: function onClick() {
-                                        store.dispatch(pageActions.deleteElement(node.elId));
-                                    }
-                                },
-                                React.createElement('img', { src: '../bootstrap/pics/trash.png' })
-                            )]
-                        };
-                    }
-                })
-            ),
-            React.createElement(
-                'div',
                 { className: 'selectContainer' },
                 React.createElement(
                     'button',
@@ -24019,6 +23976,67 @@ function PanelLeftPage(props) {
                             store.dispatch(pageActions.addElement(null));
                         } },
                     'Add element'
+                )
+            ),
+            React.createElement(
+                'div',
+                null,
+                React.createElement(
+                    'div',
+                    { className: 'tree' },
+                    React.createElement(_reactSortableTree2.default, {
+                        canDrop: canDrop,
+                        treeData: state.resultTree,
+                        onChange: function onChange(data) {
+                            store.dispatch(pageActions.changeTree(data, droppedItem));
+                        },
+                        generateNodeProps: function generateNodeProps(_ref2) {
+                            var node = _ref2.node;
+                            return {
+                                buttons: node.isSection ? [React.createElement(
+                                    'button',
+                                    { className: 'btn btn-default',
+                                        onClick: function onClick() {
+                                            store.dispatch(pageActions.selectElement(node.elId));
+                                        }
+                                    },
+                                    React.createElement('img', { src: '../bootstrap/pics/gear.png' })
+                                ), React.createElement(
+                                    'button',
+                                    { className: 'btn btn-default',
+                                        onClick: function onClick() {
+                                            store.dispatch(pageActions.addElement(node.elId));
+                                        }
+                                    },
+                                    React.createElement('img', { src: '../bootstrap/pics/add.png' })
+                                ), React.createElement(
+                                    'button',
+                                    { className: 'btn btn-default',
+                                        onClick: function onClick() {
+                                            store.dispatch(pageActions.deleteElement(node.elId));
+                                        }
+                                    },
+                                    React.createElement('img', { src: '../bootstrap/pics/trash.png' })
+                                )] : [React.createElement(
+                                    'button',
+                                    { className: 'btn btn-default',
+                                        onClick: function onClick() {
+                                            store.dispatch(pageActions.selectElement(node.elId));
+                                        }
+                                    },
+                                    React.createElement('img', { src: '../bootstrap/pics/gear.png' })
+                                ), React.createElement(
+                                    'button',
+                                    { className: 'btn btn-default',
+                                        onClick: function onClick() {
+                                            store.dispatch(pageActions.deleteElement(node.elId));
+                                        }
+                                    },
+                                    React.createElement('img', { src: '../bootstrap/pics/trash.png' })
+                                )]
+                            };
+                        }
+                    })
                 )
             )
         )
@@ -24298,6 +24316,24 @@ function PanelLeftRules(props) {
                 "div",
                 null,
                 React.createElement(
+                    "button",
+                    { className: "btn btn-default", onClick: function onClick() {
+                            store.dispatch(rulesActions.exportRules());
+                        } },
+                    React.createElement("img", { src: '../bootstrap/pics/arrow-up.png' }),
+                    " Export rules"
+                ),
+                React.createElement(
+                    "button",
+                    { className: "btn btn-default", onClick: function onClick() {} },
+                    React.createElement("img", { src: '../bootstrap/pics/arrow.png' }),
+                    " Import rules"
+                )
+            ),
+            React.createElement(
+                "div",
+                null,
+                React.createElement(
                     "ul",
                     null,
                     state.Elements.map(function (element, index) {
@@ -24405,7 +24441,7 @@ function PanelRightRules(props) {
                                 )
                             );
                         }),
-                        React.createElement(
+                        !!rulesArray.length && React.createElement(
                             "li",
                             null,
                             React.createElement(
@@ -25668,6 +25704,10 @@ var mainReducer = exports.mainReducer = function mainReducer(state, action) {
             {
                 return rules.deleteRule(state, action.ruleId);
             }
+        case 'EXPORT_RULE':
+            {
+                return rules.exportRules(state);
+            }
         case 'GENERATE_ELEMENTS':
             {
                 return page.generateElements(state);
@@ -25705,6 +25745,16 @@ var mainReducer = exports.mainReducer = function mainReducer(state, action) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.exportRules = exports.deleteRule = exports.editRule = exports.showRule = exports.addRule = exports.selectRule = exports.openRules = undefined;
+
+var _fileSaver = __webpack_require__(352);
+
+var _jszip = __webpack_require__(266);
+
+var _jszip2 = _interopRequireDefault(_jszip);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var openRules = exports.openRules = function openRules(mainObj) {
     var objCopy = Object.assign({}, mainObj);
     objCopy.activeTabPageId = -1;
@@ -25788,6 +25838,20 @@ var deleteRule = exports.deleteRule = function deleteRule(mainObj, id) {
         objCopy.ruleId = newArr[0].id;
     }
     objCopy.Rules[selectedRule] = newArr;
+    return objCopy;
+};
+
+var exportRules = exports.exportRules = function exportRules(mainObj) {
+    var objCopy = Object.assign({}, mainObj);
+    var zip = new _jszip2.default();
+
+    zip.file('Rules.json', JSON.stringify(objCopy.Rules));
+    zip.generateAsync({ type: "blob" }).then(function (content) {
+        (0, _fileSaver.saveAs)(content, "JDIrules.zip");
+    });
+
+    //console.log('objCopy.Rules', JSON.stringify(objCopy.Rules))
+
     return objCopy;
 };
 

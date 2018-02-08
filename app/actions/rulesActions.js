@@ -39,3 +39,15 @@ export function deleteRule(ruleId){
         ruleId
     }
 }
+
+export function exportRules(){
+    return{
+        type: "EXPORT_RULE",
+    }
+}
+
+export function importRules(){
+    return{
+        type: "IMPORT_RULE",
+    }
+}

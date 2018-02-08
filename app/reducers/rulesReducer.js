@@ -1,3 +1,6 @@
+import { saveAs } from 'file-saver';
+import JSZip from '../../jszip/dist/jszip';
+
 export let openRules = (mainObj) => {
     let objCopy = Object.assign({},mainObj);
     objCopy.activeTabPageId = -1;
@@ -79,5 +82,20 @@ export let deleteRule = (mainObj, id) => {
         objCopy.ruleId = newArr[0].id;
     }
     objCopy.Rules[selectedRule] = newArr;
+    return objCopy;
+}
+
+export let exportRules = (mainObj) => {
+    let objCopy = Object.assign({}, mainObj);
+    let zip = new JSZip();
+
+    zip.file('Rules.json', JSON.stringify(objCopy.Rules));
+    zip.generateAsync({type: "blob"}).then(
+        function(content){
+            saveAs(content, "JDIrules.zip");
+    })
+
+    //console.log('objCopy.Rules', JSON.stringify(objCopy.Rules))
+
     return objCopy;
 }

@@ -7,6 +7,10 @@ function PanelLeftRules(props) {
         <div className="panel panel-default">
             <div className="panel-body leftContainer">
                 <div>
+                    <button className="btn btn-default" onClick={() => {store.dispatch(rulesActions.exportRules())}}><img src={'../bootstrap/pics/arrow-up.png'} /> Export rules</button>
+                    <button className="btn btn-default" onClick={() => {}}><img src={'../bootstrap/pics/arrow.png'} /> Import rules</button>
+                </div>
+                <div>
                     <ul>
                         {
                             state.Elements.map(function (element, index) {
@@ -100,9 +104,9 @@ function PanelRightRules(props) {
                                     )
                                 })
                             }
-                            <li>
+                            {!!rulesArray.length && <li>
                                 <a onClick={() => { store.dispatch(rulesActions.addRule(selectedRule)) }} ><img src={'../bootstrap/pics/add.png'} /> Add rule</a>
-                            </li>
+                            </li>}
                         </ul>
                     </div>
                 </div>
