@@ -6,12 +6,6 @@ let Elements = [
     "Selector", "CheckList", "Menu", "RadioButtons", "Tabs", "TextList", "Chat",
     "ComboBox", "Dropdown", "DropList",
     "Table", "DynamicTable",
-    // "Pagination",
-    // "Popup",
-    // "Yes/NoDialog",
-    // "Alert",
-    // "Search",
-    // "ListOfElements"
 ];
 let Locators = ["class", "css", "xpath", "id", "name", "tag", "text"];
 let HeaderTypes = ["All", "Headers", "No Headers", "Columns Headers", "Rows Headers"];

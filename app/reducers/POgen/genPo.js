@@ -429,8 +429,8 @@ export let genEl = (objCopy) => {
                 });
             });
 
-            console.log(warningLog)
-
+            console.log('warningLog', warningLog)
+            objCopy.warningLog = warningLog;
             document.querySelector("[data-tabid='" + objCopy.activeTabPageId + "']").click();
         }
     );

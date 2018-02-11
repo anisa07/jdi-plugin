@@ -1,4 +1,7 @@
 import * as rulesActions from '../actions/rulesActions';
+//onChange={() => {store.dispatch(rulesActions.exportRules(file))}}
+import ReactFileReader from 'react-file-reader';
+
 
 function PanelLeftRules(props) {
     let state = props.state;
@@ -6,9 +9,11 @@ function PanelLeftRules(props) {
     return (
         <div className="panel panel-default">
             <div className="panel-body leftContainer">
-                <div>
-                    <button className="btn btn-default" onClick={() => {store.dispatch(rulesActions.exportRules())}}><img src={'../bootstrap/pics/arrow-up.png'} /> Export rules</button>
-                    <button className="btn btn-default" onClick={() => {}}><img src={'../bootstrap/pics/arrow.png'} /> Import rules</button>
+                <div style={{display: 'flex'}}>
+                    <button className="btn btn-default" onClick={() => { store.dispatch(rulesActions.exportRules()) }}><img src={'../bootstrap/pics/arrow-up.png'} /> Export rules</button>
+                    <ReactFileReader handleFiles={ files => { store.dispatch(rulesActions.importRules(files)) } } fileTypes={[".json"]} multipleFiles={false}>
+                        <button className='btn btn-default'><img src={'../bootstrap/pics/arrow.png'} /> Import rules</button>
+                    </ReactFileReader>
                 </div>
                 <div>
                     <ul>

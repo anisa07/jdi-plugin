@@ -42,12 +42,13 @@ export function deleteRule(ruleId){
 
 export function exportRules(){
     return{
-        type: "EXPORT_RULE",
+        type: "EXPORT_RULES",
     }
 }
 
-export function importRules(){
+export function importRules(file){
     return{
-        type: "IMPORT_RULE",
+        type: "IMPORT_RULES",
+        file
     }
 }

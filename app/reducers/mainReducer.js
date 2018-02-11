@@ -65,8 +65,11 @@ export const mainReducer = (state, action) => {
         case 'DELETE_RULE': {
             return rules.deleteRule(state, action.ruleId)
         }
-        case 'EXPORT_RULE': {
+        case 'EXPORT_RULES': {
             return rules.exportRules(state)
+        }
+        case 'IMPORT_RULES': {
+            return rules.importRules(state, action.file)
         }
         case 'GENERATE_ELEMENTS': {
             return page.generateElements(state)

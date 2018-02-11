@@ -11,3 +11,4 @@ export function Rules(props) {
             </div> : null
     )
 }
+
