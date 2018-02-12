@@ -11,7 +11,7 @@ export let genEl = (objCopy) => {
     let otherElements = [];
     let relatives = new Map();
     let domParent = [];
-    let unique = ["classList", "id", "name", "value", "alt", "title", "text", "className"];
+    //let unique = ["classList", "id", "name", "value", "alt", "title", "text", "className"];
     let page = objCopy.PageObjects.find((page) => {
         if (page.pageId === objCopy.activeTabPageId) {
             return page
@@ -230,8 +230,7 @@ export let genEl = (objCopy) => {
             function getValue(content, uniqness, locator) {
                 switch (uniqness.value) {
                     case "text": return content.innerText.trim().split(/\n/)[0];
-                    case "class": return content.classList.value;
-                    default: return content[uniqness];
+                    default: return content.attributes[uniqness.value] ? content.attributes[uniqness.value].value : locator;
                 }
             }
 
