@@ -50578,7 +50578,7 @@ var genEl = exports.genEl = function genEl(objCopy) {
                 case "text":
                     return content.innerText.trim().split(/\n/)[0];
                 default:
-                    return content.attributes[uniqness.value] ? content.attributes[uniqness.value].value : locator;
+                    return content.attributes[uniqness.value] ? content.attributes[uniqness.value].value : undefined;
             }
         }
 

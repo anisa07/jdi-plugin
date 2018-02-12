@@ -230,7 +230,7 @@ export let genEl = (objCopy) => {
             function getValue(content, uniqness, locator) {
                 switch (uniqness.value) {
                     case "text": return content.innerText.trim().split(/\n/)[0];
-                    default: return content.attributes[uniqness.value] ? content.attributes[uniqness.value].value : locator;
+                    default: return content.attributes[uniqness.value] ? content.attributes[uniqness.value].value : undefined;
                 }
             }
 
