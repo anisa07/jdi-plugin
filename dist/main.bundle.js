@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "c1e22db1996c2dd54fa0"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "7974259bcc7f87598226"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -3130,7 +3130,7 @@ exports.SiteInfoJSON = SiteInfoJSON;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+	value: true
 });
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -3139,121 +3139,207 @@ var Elements = ["Button", "Checkbox", "Image", "Label", "Link", "Text", "TextFie
 var Locators = ["class", "css", "xpath", "id", "name", "tag", "text"];
 
 var commonFields = {
-    "Name": "TextField",
-    "Type": "ComboBox",
-    "parent": "internal",
-    "parentId": "internal",
-    "elId": "internal"
+	"Name": "TextField",
+	"Type": "ComboBox",
+	"parent": "internal",
+	"parentId": "internal",
+	"elId": "internal"
 };
 
 var ElementFields = {
-    "Button": _extends({}, commonFields, { "Locator": "TextField" }),
-    "Link": _extends({}, commonFields, { "Locator": "TextField" }),
-    "Section": _extends({}, commonFields, { "Locator": "TextField", "isSection": "internal", "expanded": "internal", "children": "internal" }),
-    "Form": _extends({}, commonFields, { "Locator": "TextField", "isSection": "internal", "Entity": "TextField", "expanded": "internal", "children": "internal" }),
-    "ComboBox": _extends({}, commonFields, { "Root": "TextField", "Value": "TextField",
-        "List": "TextField", "Expand": "TextField", "Enum": "TextField"
-    }),
-    "Table": _extends({}, commonFields, { "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
-        "RowHeader": "TextField", "Cell": "TextField", "Column": "TextField", "Row": "TextField",
-        "Footer": "TextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
-        "HeaderTypes": "ComboBox", "HeaderTypesValues": ["All", "Headers", "No Headers", "Columns Headers", "Rows Headers"]
-    }),
-    "DynamicTable": _extends({}, commonFields, { "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
-        "RowHeader": "TextField", "Cell": "TextField", "Column": "TextField", "Row": "TextField",
-        "Footer": "TextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
-        "HeaderTypes": "ComboBox", "HeaderTypesValues": ["All", "Headers", "No Headers", "Columns Headers", "Rows Headers"]
-    })
-    //let HeaderTypes = ["All", "Headers", "No Headers", "Columns Headers", "Rows Headers"];
+	"Button": _extends({}, commonFields, { "Locator": "TextField" }),
+	"CheckBox": _extends({}, commonFields, { "Locator": "TextField" }),
+	"Image": _extends({}, commonFields, { "Locator": "TextField" }),
+	"Label": _extends({}, commonFields, { "Locator": "TextField" }),
+	"Text": _extends({}, commonFields, { "Locator": "TextField" }),
+	"Link": _extends({}, commonFields, { "Locator": "TextField" }),
+	"TextField": _extends({}, commonFields, { "Locator": "TextField" }),
+	"TextArea": _extends({}, commonFields, { "Locator": "TextField" }),
+	"DataPicker": _extends({}, commonFields, { "Locator": "TextField" }),
+	"FileInput": _extends({}, commonFields, { "Locator": "TextField" }),
+	"Selector": _extends({}, commonFields, { "Locator": "TextField" }),
+	"CheckList": _extends({}, commonFields, { "Locator": "TextField" }),
+	"Menu": _extends({}, commonFields, { "Locator": "TextField" }),
+	"RadioButtons": _extends({}, commonFields, { "Locator": "TextField" }),
+	"Tabs": _extends({}, commonFields, { "Locator": "TextField" }),
+	"Section": _extends({}, commonFields, { "Locator": "TextField", "isSection": "internal", "expanded": "internal", "children": "internal" }),
+	"Form": _extends({}, commonFields, { "Locator": "TextField", "isSection": "internal", "Entity": "TextField", "expanded": "internal", "children": "internal" }),
+	"ComboBox": _extends({}, commonFields, { "Root": "TextField", "Value": "TextField",
+		"List": "TextField", "Expand": "TextField", "Enum": "TextField"
+	}),
+	"Dropdown": _extends({}, commonFields, { "Root": "TextField", "Value": "TextField",
+		"List": "TextField", "Expand": "TextField", "Enum": "TextField"
+	}),
+	"DropList": _extends({}, commonFields, { "Root": "TextField", "Value": "TextField",
+		"List": "TextField", "Expand": "TextField", "Enum": "TextField"
+	}),
+	"Table": _extends({}, commonFields, { "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
+		"RowHeader": "TextField", "Cell": "TextField", "Column": "TextField", "Row": "TextField",
+		"Footer": "TextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
+		"HeaderTypes": "ComboBox", "HeaderTypesValues": ["All", "Headers", "No Headers", "Columns Headers", "Rows Headers"]
+	}),
+	"DynamicTable": _extends({}, commonFields, { "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
+		"RowHeader": "TextField", "Cell": "TextField", "Column": "TextField", "Row": "TextField",
+		"Footer": "TextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
+		"HeaderTypes": "ComboBox", "HeaderTypesValues": ["All", "Headers", "No Headers", "Columns Headers", "Rows Headers"]
+	})
+	//let HeaderTypes = ["All", "Headers", "No Headers", "Columns Headers", "Rows Headers"];
 
-    /*let ElementFields = new Map();
-    ElementFields.set("Button", { ...commonFields, "Locator": "TextField" });
-    ElementFields.set("Image", { ...commonFields, "Locator": "TextField" });
-    ElementFields.set("Checkbox", { ...commonFields, "Locator": "TextField" });
-    ElementFields.set("Label", { ...commonFields, "Locator": "TextField" });
-    ElementFields.set("Link", { ...commonFields, "Locator": "TextField" });
-    ElementFields.set("Text", { ...commonFields, "Locator": "TextField" });
-    ElementFields.set("TextField", { ...commonFields, "Locator": "TextField" });
-    ElementFields.set("Input", { ...commonFields, "Locator": "TextField" });
-    ElementFields.set("TextArea", { ...commonFields, "Locator": "TextField" });
-    ElementFields.set("DataPicker", { ...commonFields, "Locator": "TextField" });
-    ElementFields.set("FileInput", { ...commonFields, "Locator": "TextField" });
-    ElementFields.set("Section", { ...commonFields, "Locator": "TextField", "isSection": "internal", "expanded": "internal", "children": "internal" });
-    ElementFields.set("Form", { ...commonFields, "Locator": "TextField", "isSection": "internal", "Entity": "TextField", "expanded": "internal", "children": "internal" });
-    ElementFields.set("Selector", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
-    ElementFields.set("CheckList", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
-    ElementFields.set("Menu", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
-    ElementFields.set("RadioButtons", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
-    ElementFields.set("Tabs", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
-    ElementFields.set("TextList", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
-    ElementFields.set("Chat", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
-    ElementFields.set("ComboBox", {
-        ...commonFields, "Root": "TextField", "Value": "TextField",
-        "List": "TextField", "Expand": "TextField", "Enum": "TextField"
-    });
-    ElementFields.set("Logout", {
-        ...commonFields, "Root": "TextField", "Value": "TextField",
-        "List": "TextField", "Expand": "TextField", "Enum": "TextField"
-    });
-    ElementFields.set("Dropdown", {
-        ...commonFields, "Root": "TextField", "Value": "TextField",
-        "List": "TextField", "Expand": "TextField", "Enum": "TextField"
-    });
-    ElementFields.set("DropList", {
-        ...commonFields, "Root": "TextField", "Value": "TextField",
-        "List": "TextField", "Expand": "TextField", "Enum": "TextField"
-    });
-    ElementFields.set("Table", {
-        ...commonFields, "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
-        "RowHeader": "TextField", "Cell": "TextField", "Column": "TextField", "Row": "TextField",
-        "Footer": "TextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
-        "HeaderTypes": "ComboBox"
-    });
-    ElementFields.set("DynamicTable", {
-        ...commonFields, "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
-        "RowHeader": "TextField", "Cell": "TextField", "Column": "TextField", "Row": "TextField",
-        "Footer": "TextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
-        "HeaderTypes": "ComboBox"
-    });*/
+	/*let ElementFields = new Map();
+ ElementFields.set("Button", { ...commonFields, "Locator": "TextField" });
+ ElementFields.set("Image", { ...commonFields, "Locator": "TextField" });
+ ElementFields.set("Checkbox", { ...commonFields, "Locator": "TextField" });
+ ElementFields.set("Label", { ...commonFields, "Locator": "TextField" });
+ ElementFields.set("Link", { ...commonFields, "Locator": "TextField" });
+ ElementFields.set("Text", { ...commonFields, "Locator": "TextField" });
+ ElementFields.set("TextField", { ...commonFields, "Locator": "TextField" });
+ ElementFields.set("Input", { ...commonFields, "Locator": "TextField" });
+ ElementFields.set("TextArea", { ...commonFields, "Locator": "TextField" });
+ ElementFields.set("DataPicker", { ...commonFields, "Locator": "TextField" });
+ ElementFields.set("FileInput", { ...commonFields, "Locator": "TextField" });
+ ElementFields.set("Section", { ...commonFields, "Locator": "TextField", "isSection": "internal", "expanded": "internal", "children": "internal" });
+ ElementFields.set("Form", { ...commonFields, "Locator": "TextField", "isSection": "internal", "Entity": "TextField", "expanded": "internal", "children": "internal" });
+ ElementFields.set("Selector", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
+ ElementFields.set("CheckList", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
+ ElementFields.set("Menu", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
+ ElementFields.set("RadioButtons", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
+ ElementFields.set("Tabs", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
+ ElementFields.set("TextList", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
+ ElementFields.set("Chat", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
+ ElementFields.set("ComboBox", {
+     ...commonFields, "Root": "TextField", "Value": "TextField",
+     "List": "TextField", "Expand": "TextField", "Enum": "TextField"
+ });
+ ElementFields.set("Logout", {
+     ...commonFields, "Root": "TextField", "Value": "TextField",
+     "List": "TextField", "Expand": "TextField", "Enum": "TextField"
+ });
+ ElementFields.set("Dropdown", {
+     ...commonFields, "Root": "TextField", "Value": "TextField",
+     "List": "TextField", "Expand": "TextField", "Enum": "TextField"
+ });
+ ElementFields.set("DropList", {
+     ...commonFields, "Root": "TextField", "Value": "TextField",
+     "List": "TextField", "Expand": "TextField", "Enum": "TextField"
+ });
+ ElementFields.set("Table", {
+     ...commonFields, "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
+     "RowHeader": "TextField", "Cell": "TextField", "Column": "TextField", "Row": "TextField",
+     "Footer": "TextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
+     "HeaderTypes": "ComboBox"
+ });
+ ElementFields.set("DynamicTable", {
+     ...commonFields, "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
+     "RowHeader": "TextField", "Cell": "TextField", "Column": "TextField", "Row": "TextField",
+     "Footer": "TextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
+     "HeaderTypes": "ComboBox"
+ });*/
 
 };var SimpleRules = {
-    "Button": [{ Locator: "input[type=submit]", uniqness: "value", id: 0 }, { Locator: "input[type=button]", uniqness: "value", id: 1 }, { Locator: "button[type=button]", uniqness: "text", id: 2 }, { Locator: "button.btn", uniqness: "text", id: 3 }, { Locator: "a.btn", uniqness: "text", id: 4 }, { Locator: 'button[type=submit]', uniqness: "text", id: 5 }],
-    // "Checkbox": [{ Locator: "", id: 0, uniqness: "" }],
-    // "Image": [{ Locator: "", id: 0, uniqness: "" }],
-    // "Label": [{ Locator: "", id: 0, uniqness: "" }],
-    "Link": [{ Locator: "a[href]", uniqness: "text", id: 0 }]
-    // "Text": [{ Locator: "", id: 0, uniqness: "" }],
-    // "TextField": [{ Locator: "", id: 0, uniqness: "" }],
-    // "Input": [{ Locator: "", id: 0, uniqness: "" }],
-    // "TextArea": [{ Locator: "", id: 0, uniqness: "" }],
-    // "DataPicker": [{ Locator: "", id: 0, uniqness: "" }],
-    // "FileInput": [{ Locator: "", id: 0, uniqness: "" }],
-    // "Selector": [{ Locator: "", id: 0, uniqness: "" }],
-    // "CheckList": [{ Locator: "", id: 0, uniqness: "" }],
-    // "Menu": [{ Locator: "", id: 0, uniqness: "" }],
-    // "RadioButtons": [{ Locator: "", id: 0, uniqness: "" }],
-    // "Tabs": [{ Locator: "", id: 0, uniqness: "" }],
-    // "TextList": [{ Locator: "", id: 0, uniqness: "" }],
-    // "Chat": [{ Locator: "", id: 0, uniqness: "" }]
+	"Button": [{
+		"Locator": "button[type=submit]",
+		"uniqness": "text",
+		"id": 0
+	}],
+	"CheckBox": [{
+		"Locator": "input[type=checkbox]",
+		"id": 0,
+		"uniqness": "id"
+	}],
+	"Image": [{
+		"Locator": "img",
+		"id": 0,
+		"uniqness": "id"
+	}],
+	"Label": [{
+		"Locator": "h1",
+		"id": 0,
+		"uniqness": "name"
+	}, {
+		"Locator": "h2",
+		"id": 1,
+		"uniqness": "name"
+	}, {
+		"Locator": "h3",
+		"id": 2,
+		"uniqness": "name"
+	}, {
+		"Locator": "[ui=label]",
+		"id": 3,
+		"uniqness": "text"
+	}],
+	"Link": [{ Locator: "", uniqness: "", id: 0 }],
+	"Text": [{
+		"Locator": ".main-txt",
+		"id": 0,
+		"uniqness": "name"
+	}],
+	"TextField": [{
+		"Locator": "input[type=text]",
+		"id": 0,
+		"uniqness": "id"
+	}, {
+		"Locator": "input[type=password]",
+		"id": 1,
+		"uniqness": "id"
+	}],
+	"TextArea": [{
+		"Locator": "textarea",
+		"id": 0,
+		"uniqness": "id"
+	}],
+	"DataPicker": [{
+		"Locator": "",
+		"id": 0,
+		"uniqness": ""
+	}],
+	"FileInput": [{
+		"Locator": "",
+		"id": 0,
+		"uniqness": ""
+	}],
+	"Selector": [{
+		"Locator": "",
+		"id": 0,
+		"uniqness": ""
+	}],
+	"CheckList": [{
+		"Locator": "",
+		"id": 0,
+		"uniqness": ""
+	}],
+	"Menu": [{
+		"Locator": "",
+		"id": 0,
+		"uniqness": ""
+	}],
+	"RadioButtons": [{
+		"Locator": "",
+		"id": 0,
+		"uniqness": ""
+	}],
+	"Tabs": [{
+		"Locator": "",
+		"id": 0,
+		"uniqness": ""
+	}]
 };
 var ComplexRules = {
-    "ComboBox": [{ Root: "[jtype=dropdown] button", uniqness: ".filter-option#text", Value: "", List: "li", Expand: ".caret", id: 0 }],
-    // "Dropdown": [{ Root: "[jtype=combobox] button", uniqness: ".filter-option#text", Value: "", List: "", Expand: "", id: 0 }],
-    // "DropList": [{ Root: "[jtype=droplist] button", uniqness: "text", Value: "", List: "", Expand: "", id: 0 }],
-    // "MenuDropdown": [{ Root: ".open [data-toggle]", uniqness: "text", Value: "", List: "", Expand: "", id: 0 }],
-    // "Logout": [{ Root: ".uui-profile-menu", uniqness: ".profile-photo span#text", Value: "", List: "", Expand: "", id: 0 }],
-    "Table": [{
-        Root: "table", Header: "", RowHeader: "", Cell: "",
-        Column: "", Row: "", Footer: "", id: 0, uniqness: 'class'
-    }],
-    "DynamicTable": [{
-        Root: "", Header: "", RowHeader: "", Cell: "",
-        Column: "", Row: "", Footer: "", id: 0, uniqness: "class"
-    }]
+	"Dropdown": [{ Root: "[jtype=dropdown] button", uniqness: ".filter-option#text", Value: "", List: "li", Expand: ".caret", id: 0 }],
+	"ComboBox": [{ Root: "[jtype=combobox] button", uniqness: ".filter-option#text", Value: "", List: "li", Expand: ".caret", id: 0 }],
+	"DropList": [{ Root: "[jtype=droplist] button", uniqness: ".filter-option#text", Value: "", List: "li", Expand: ".caret", id: 0 }],
+	"Table": [{
+		Root: "table", Header: "", RowHeader: "", Cell: "",
+		Column: "", Row: "", Footer: "", id: 0, uniqness: 'class'
+	}],
+	"DynamicTable": [{
+		Root: "", Header: "", RowHeader: "", Cell: "",
+		Column: "", Row: "", Footer: "", id: 0, uniqness: "class"
+	}]
 };
 var CompositeRules = {
-    "Section": [{ Locator: ".section", id: 0, uniqness: 'class' }, { Locator: "header", id: 1, uniqness: 'tag' }, { Locator: "//footer", id: 2, uniqness: '[footer]' }, { Locator: "#sidebar", id: 3, uniqness: 'id' }, { Locator: "#content", id: 4, uniqness: 'id' }],
-    "Form": [{ Locator: "form", id: 0, uniqness: 'class' }]
+	"Section": [{ "Locator": ".section", "id": 0, "uniqness": "class" }, { "Locator": "header", "id": 1, "uniqness": "tag" }, { "Locator": "footer", "id": 2, "uniqness": "tag" }, { "Locator": ".uui-side-bar", "id": 3, "uniqness": "name" }, { "Locator": ".main-form", "id": 4, "uniqness": "tag" }],
+	"Form": [{ "Locator": "form", "id": 0, "uniqness": "id" }]
 };
 
 exports.Elements = Elements;
@@ -4988,7 +5074,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
         promise is useless because file(name, data) returns the JSZip
         object for chaining. Should we break that to allow the user
         to catch the error ?
-         return external.Promise.resolve(zipObjectContent)
+          return external.Promise.resolve(zipObjectContent)
         .then(function () {
             return object;
         });
@@ -13651,16 +13737,16 @@ https://github.com/nodeca/pako/blob/master/LICENSE
          from their more natural integer increment ordering, and so when the
          decoding tables are built in the large loop below, the integer codes
          are incremented backwards.
-          This routine assumes, but does not check, that all of the entries in
+           This routine assumes, but does not check, that all of the entries in
          lens[] are in the range 0..MAXBITS.  The caller must assure this.
          1..MAXBITS is interpreted as that code length.  zero means that that
          symbol does not occur in this code.
-          The codes are sorted by computing a count of codes for each length,
+           The codes are sorted by computing a count of codes for each length,
          creating from that a table of starting indices for each length in the
          sorted table, and then entering the symbols in order in the sorted
          table.  The sorted table is work[], with that space being provided by
          the caller.
-          The length counts are used for other purposes as well, i.e. finding
+           The length counts are used for other purposes as well, i.e. finding
          the minimum and maximum length codes, determining if there are any
          codes at all, checking for a valid set of lengths, and looking ahead
          at length counts to determine sub-table sizes when building the
@@ -13742,21 +13828,21 @@ https://github.com/nodeca/pako/blob/master/LICENSE
          bits off of the bottom.  For codes where len is less than drop + curr,
          those top drop + curr - len bits are incremented through all values to
          fill the table with replicated entries.
-          root is the number of index bits for the root table.  When len exceeds
+           root is the number of index bits for the root table.  When len exceeds
          root, sub-tables are created pointed to by the root entry with an index
          of the low root bits of huff.  This is saved in low to check for when a
          new sub-table should be started.  drop is zero when the root table is
          being filled, and drop is root when sub-tables are being filled.
-          When a new sub-table is needed, it is necessary to look ahead in the
+           When a new sub-table is needed, it is necessary to look ahead in the
          code lengths to determine what size sub-table is needed.  The length
          counts are used for this, and so count[] is decremented as codes are
          entered in the tables.
-          used keeps track of how many table entries have been allocated from the
+           used keeps track of how many table entries have been allocated from the
          provided *table space.  It is checked for LENS and DIST tables against
          the constants ENOUGH_LENS and ENOUGH_DISTS to guard against changes in
          the initial root table size constants.  See the comments in inftrees.h
          for more information.
-          sym increments through all symbols, and the loop terminates when
+           sym increments through all symbols, and the loop terminates when
          all codes of length max, i.e. all codes, have been processed.  This
          routine permits incomplete codes, so another loop after this one fills
          in the rest of the decoding tables with invalid code markers.
@@ -16168,6 +16254,7 @@ var switchCodeMode = exports.switchCodeMode = function switchCodeMode(mainObj) {
     objCopy.ElementsDetails = false;
     objCopy.PagesDetails = false;
     objCopy.CodeDetails = false;
+    objCopy.RulesDetails = false;
     objCopy.SiteDetails = true;
     objCopy.warningLog = [];
     objCopy.sections = new Map();
@@ -46427,7 +46514,7 @@ utils.intFromLE = intFromLE;
 /***/ "./node_modules/elliptic/package.json":
 /***/ (function(module, exports) {
 
-module.exports = {"_args":[["elliptic@6.4.0","C:\\Users\\Anisa Ask\\Desktop\\JDI-react"]],"_development":true,"_from":"elliptic@6.4.0","_id":"elliptic@6.4.0","_inBundle":false,"_integrity":"sha1-ysmvh2LIWDYYcAPI3+GT5eLq5d8=","_location":"/elliptic","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"elliptic@6.4.0","name":"elliptic","escapedName":"elliptic","rawSpec":"6.4.0","saveSpec":null,"fetchSpec":"6.4.0"},"_requiredBy":["/browserify-sign","/create-ecdh"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.0.tgz","_spec":"6.4.0","_where":"C:\\Users\\Anisa Ask\\Desktop\\JDI-react","author":{"name":"Fedor Indutny","email":"fedor@indutny.com"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^2.11.3","grunt":"^0.4.5","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^8.6.2","istanbul":"^0.4.2","jscs":"^2.9.0","jshint":"^2.6.0","mocha":"^2.1.0"},"files":["lib"],"homepage":"https://github.com/indutny/elliptic","keywords":["EC","Elliptic","curve","Cryptography"],"license":"MIT","main":"lib/elliptic.js","name":"elliptic","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.4.0"}
+module.exports = {"_args":[["elliptic@6.4.0","C:\\Users\\roman_iovlev\\Desktop\\jdi-p\\jdi-plugin"]],"_development":true,"_from":"elliptic@6.4.0","_id":"elliptic@6.4.0","_inBundle":false,"_integrity":"sha1-ysmvh2LIWDYYcAPI3+GT5eLq5d8=","_location":"/elliptic","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"elliptic@6.4.0","name":"elliptic","escapedName":"elliptic","rawSpec":"6.4.0","saveSpec":null,"fetchSpec":"6.4.0"},"_requiredBy":["/browserify-sign","/create-ecdh"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.0.tgz","_spec":"6.4.0","_where":"C:\\Users\\roman_iovlev\\Desktop\\jdi-p\\jdi-plugin","author":{"name":"Fedor Indutny","email":"fedor@indutny.com"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^2.11.3","grunt":"^0.4.5","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^8.6.2","istanbul":"^0.4.2","jscs":"^2.9.0","jshint":"^2.6.0","mocha":"^2.1.0"},"files":["lib"],"homepage":"https://github.com/indutny/elliptic","keywords":["EC","Elliptic","curve","Cryptography"],"license":"MIT","main":"lib/elliptic.js","name":"elliptic","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.4.0"}
 
 /***/ }),
 

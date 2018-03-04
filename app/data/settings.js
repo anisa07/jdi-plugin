@@ -19,10 +19,31 @@ let commonFields = {
 
 let ElementFields = {
     "Button": { ...commonFields, "Locator": "TextField" },
+	"CheckBox": { ...commonFields, "Locator": "TextField" },
+	"Image": { ...commonFields, "Locator": "TextField" },
+	"Label": { ...commonFields, "Locator": "TextField" },
+	"Text": { ...commonFields, "Locator": "TextField" },
     "Link": { ...commonFields, "Locator": "TextField" },
+	"TextField": { ...commonFields, "Locator": "TextField" },
+	"TextArea": { ...commonFields, "Locator": "TextField" },
+	"DataPicker": { ...commonFields, "Locator": "TextField" },
+	"FileInput": { ...commonFields, "Locator": "TextField" },
+	"Selector": { ...commonFields, "Locator": "TextField" },
+	"CheckList": { ...commonFields, "Locator": "TextField" },
+	"Menu": { ...commonFields, "Locator": "TextField" },
+	"RadioButtons": { ...commonFields, "Locator": "TextField" },
+	"Tabs": { ...commonFields, "Locator": "TextField" },
     "Section": { ...commonFields, "Locator": "TextField", "isSection": "internal", "expanded": "internal", "children": "internal" },
     "Form": { ...commonFields, "Locator": "TextField", "isSection": "internal", "Entity": "TextField", "expanded": "internal", "children": "internal" },
     "ComboBox": {
+        ...commonFields, "Root": "TextField", "Value": "TextField",
+        "List": "TextField", "Expand": "TextField", "Enum": "TextField"
+    },
+    "Dropdown": {
+        ...commonFields, "Root": "TextField", "Value": "TextField",
+        "List": "TextField", "Expand": "TextField", "Enum": "TextField"
+    },
+    "DropList": {
         ...commonFields, "Root": "TextField", "Value": "TextField",
         "List": "TextField", "Expand": "TextField", "Enum": "TextField"
     },
@@ -92,33 +113,104 @@ ElementFields.set("DynamicTable", {
 });*/
 
 let SimpleRules = {
-    "Button": [{ Locator: "input[type=submit]", uniqness: "value", id: 0 }, { Locator: "input[type=button]", uniqness: "value", id: 1 }, 
-    { Locator: "button[type=button]", uniqness: "text", id: 2 }, { Locator: "button.btn", uniqness: "text", id: 3 }, { Locator: "a.btn", uniqness: "text", id: 4 },
-    { Locator: 'button[type=submit]', uniqness: "text", id: 5 }],
-    // "Checkbox": [{ Locator: "", id: 0, uniqness: "" }],
-    // "Image": [{ Locator: "", id: 0, uniqness: "" }],
-    // "Label": [{ Locator: "", id: 0, uniqness: "" }],
-    "Link": [{ Locator: "a[href]", uniqness: "text", id: 0 }],
-    // "Text": [{ Locator: "", id: 0, uniqness: "" }],
-    // "TextField": [{ Locator: "", id: 0, uniqness: "" }],
-    // "Input": [{ Locator: "", id: 0, uniqness: "" }],
-    // "TextArea": [{ Locator: "", id: 0, uniqness: "" }],
-    // "DataPicker": [{ Locator: "", id: 0, uniqness: "" }],
-    // "FileInput": [{ Locator: "", id: 0, uniqness: "" }],
-    // "Selector": [{ Locator: "", id: 0, uniqness: "" }],
-    // "CheckList": [{ Locator: "", id: 0, uniqness: "" }],
-    // "Menu": [{ Locator: "", id: 0, uniqness: "" }],
-    // "RadioButtons": [{ Locator: "", id: 0, uniqness: "" }],
-    // "Tabs": [{ Locator: "", id: 0, uniqness: "" }],
-    // "TextList": [{ Locator: "", id: 0, uniqness: "" }],
-    // "Chat": [{ Locator: "", id: 0, uniqness: "" }]
+    "Button": [{
+		"Locator": "button[type=submit]",
+		"uniqness": "text",
+		"id": 0
+	}],
+	"CheckBox": [{
+		"Locator": "input[type=checkbox]",
+		"id": 0,
+		"uniqness": "id"
+	}],
+	"Image": [{
+		"Locator": "img",
+		"id": 0,
+		"uniqness": "id"
+	}],
+	"Label": [{
+			"Locator": "h1",
+			"id": 0,
+			"uniqness": "name"
+		},
+		{
+			"Locator": "h2",
+			"id": 1,
+			"uniqness": "name"
+		},
+		{
+			"Locator": "h3",
+			"id": 2,
+			"uniqness": "name"
+		},
+		{
+			"Locator": "[ui=label]",
+			"id": 3,
+			"uniqness": "text"			
+		}
+	],
+    "Link": [{ Locator: "", uniqness: "", id: 0 }],
+	"Text": [{
+		"Locator": ".main-txt",
+		"id": 0,
+		"uniqness": "name"
+	}],
+	"TextField": [{
+			"Locator": "input[type=text]",
+			"id": 0,
+			"uniqness": "id"
+		},
+		{
+			"Locator": "input[type=password]",
+			"id": 1,
+			"uniqness": "id"
+		}
+	],
+	"TextArea": [{
+		"Locator": "textarea",
+		"id": 0,
+		"uniqness": "id"
+	}],
+	"DataPicker": [{
+		"Locator": "",
+		"id": 0,
+		"uniqness": ""
+	}],
+	"FileInput": [{
+		"Locator": "",
+		"id": 0,
+		"uniqness": ""
+	}],
+	"Selector": [{
+		"Locator": "",
+		"id": 0,
+		"uniqness": ""
+	}],
+	"CheckList": [{
+		"Locator": "",
+		"id": 0,
+		"uniqness": ""
+	}],
+	"Menu": [{
+		"Locator": "",
+		"id": 0,
+		"uniqness": ""
+	}],
+	"RadioButtons": [{
+		"Locator": "",
+		"id": 0,
+		"uniqness": ""
+	}],
+	"Tabs": [{
+		"Locator": "",
+		"id": 0,
+		"uniqness": ""
+	}]
 };
 let ComplexRules = {
-    "ComboBox": [{ Root: "[jtype=dropdown] button", uniqness: ".filter-option#text", Value: "", List: "li", Expand: ".caret", id: 0 }],
-    // "Dropdown": [{ Root: "[jtype=combobox] button", uniqness: ".filter-option#text", Value: "", List: "", Expand: "", id: 0 }],
-    // "DropList": [{ Root: "[jtype=droplist] button", uniqness: "text", Value: "", List: "", Expand: "", id: 0 }],
-    // "MenuDropdown": [{ Root: ".open [data-toggle]", uniqness: "text", Value: "", List: "", Expand: "", id: 0 }],
-    // "Logout": [{ Root: ".uui-profile-menu", uniqness: ".profile-photo span#text", Value: "", List: "", Expand: "", id: 0 }],
+    "Dropdown": [{ Root: "[jtype=dropdown] button", uniqness: ".filter-option#text", Value: "", List: "li", Expand: ".caret", id: 0 }],
+    "ComboBox": [{ Root: "[jtype=combobox] button", uniqness: ".filter-option#text", Value: "", List: "li", Expand: ".caret", id: 0 }],
+    "DropList": [{ Root: "[jtype=droplist] button", uniqness: ".filter-option#text", Value: "", List: "li", Expand: ".caret", id: 0 }],	
     "Table": [{
         Root: "table", Header: "", RowHeader: "", Cell: "",
         Column: "", Row: "", Footer: "", id: 0, uniqness: 'class'
@@ -129,12 +221,13 @@ let ComplexRules = {
     }]
 };
 let CompositeRules = {
-    "Section": [{ Locator: ".section", id: 0, uniqness: 'class'}, 
-    { Locator: "header", id: 1, uniqness: 'tag' }, 
-    { Locator: "//footer", id: 2, uniqness: '[footer]' }, 
-    { Locator: "#sidebar", id: 3, uniqness: 'id'}, 
-    { Locator: "#content", id: 4, uniqness: 'id' }],
-    "Form": [{ Locator: "form", id: 0, uniqness: 'class' }]
+	"Section": [{ "Locator": ".section", "id": 0, "uniqness": "class" },
+		{"Locator": "header", "id": 1, "uniqness": "tag"},
+		{"Locator": "footer", "id": 2, "uniqness": "tag"},
+		{"Locator": ".uui-side-bar", "id": 3, "uniqness": "name"},
+		{"Locator": ".main-form", "id": 4, "uniqness": "tag"}
+	],
+	"Form": [{"Locator": "form", "id": 0, "uniqness": "id"}]
 }
 
 export { Elements, Locators, ElementFields, SimpleRules, ComplexRules, CompositeRules, commonFields };
