@@ -21,3 +21,9 @@ export function zipAllCode(){
         type: 'ZIP_CODE'
     }
 }
+
+export function switchCodeMode() {
+    return {
+        type: 'SWITCH_CODE'
+    }
+}

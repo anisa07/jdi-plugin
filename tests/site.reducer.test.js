@@ -1,79 +1,33 @@
-import {mainReducer} from '../app/reducers/mainReducer';
+import { mainReducer } from '../app/reducers/mainReducer';
 import * as actions from '../app/actions/siteActions';
+import { siteReducerData1, siteReducerData2 } from './fake';
 
-let deleteState = {PageObjects: [
-    {
-        "url": "",
-        "urlHost": "",
-        "urlTemplate": "",
-        "urlMatch": "Equals",
-        "title": "",
-        "titleMatch": "Equals",
-        "name": "Default Page " + 1,
-        "pageId": 1,
-        "package": "",
-        "elements": []
-    }
-]}
-let deleteState2 = {PageObjects: [
-    {
-        "url": "",
-        "urlHost": "",
-        "urlTemplate": "",
-        "urlMatch": "Equals",
-        "title": "",
-        "titleMatch": "Equals",
-        "name": "Default Page " + 1,
-        "pageId": 1,
-        "package": "",
-        "elements": []
-    },
-    {
-        "url": "",
-        "urlHost": "",
-        "urlTemplate": "",
-        "urlMatch": "Equals",
-        "title": "",
-        "titleMatch": "Equals",
-        "name": "Default Page " + 2,
-        "pageId": 2,
-        "package": "",
-        "elements": []
-    }
-],
-activePageObject: {},
-searchedPages: [],
-SiteInfo: {
-    "siteTitle": "",
-    "domainName": ""
-},
-activeTabPageId: 11,
-}
+let deleteState = siteReducerData1;
+let deleteState2 = siteReducerData2;
 
-describe('Site reducer', function() {
-    it('should handle ADD_PAGE', function() {
-        let testRes = mainReducer({PageObjects:[]},actions.addPage()); 
+describe('Site reducer', function () {
+    it('should handle ADD_PAGE', function () {
+        let testRes = mainReducer({ PageObjects: [] }, actions.addPage());
         chai.expect(testRes.PageObjects).to.eql([
             {
                 "url": "",
-                "urlHost": "",
                 "urlTemplate": "",
                 "urlMatch": "Equals",
                 "title": "",
                 "titleMatch": "Equals",
-                "name": "Default Page " + 0,
+                "name": "Default Page0",
                 "pageId": 0,
-                "package": "",
+                "POcode": "",
                 "elements": []
             }
         ])
     });
-    it('should handle DELETE_PAGE', function() {
-        let res1 = mainReducer(deleteState,actions.deletePage(1));
+    it('should handle DELETE_PAGE', function () {
+        let res1 = mainReducer(deleteState, actions.deletePage(1));
         chai.expect(res1.PageObjects).to.eql(
             deleteState.PageObjects
         );
-        let res2 = mainReducer(deleteState2,actions.deletePage(1));
+        let res2 = mainReducer(deleteState2, actions.deletePage(1));
         chai.expect(res2.PageObjects).to.eql(
             [
                 {
@@ -85,15 +39,14 @@ describe('Site reducer', function() {
                     "titleMatch": "Equals",
                     "name": "Default Page " + 2,
                     "pageId": 2,
-                    "package": "",
+                    "POcode": "",
                     "elements": []
                 }
             ]
         );
     });
-    it('should handle SEARCH_PAGE', function(){
-        let testRes = mainReducer(deleteState2,actions.searchPage("page 1"));
-        
+    it('should handle SEARCH_PAGE', function () {
+        let testRes = mainReducer(deleteState2, actions.searchPage("page 1"));
         chai.expect([{
             "url": "",
             "urlHost": "",
@@ -103,12 +56,12 @@ describe('Site reducer', function() {
             "titleMatch": "Equals",
             "name": "Default Page " + 1,
             "pageId": 1,
-            "package": "",
+            "POcode": "",
             "elements": []
         }]).to.eql(testRes.searchedPages);
-    })
-    it('should handle SELECT_PAGE', function(){
-        let testRes = mainReducer(deleteState2,actions.selectPage(1));
+    });
+    it('should handle SELECT_PAGE', function () {
+        let testRes = mainReducer(deleteState2, actions.selectPage(1));
         chai.expect({
             "url": "",
             "urlHost": "",
@@ -118,20 +71,27 @@ describe('Site reducer', function() {
             "titleMatch": "Equals",
             "name": "Default Page " + 1,
             "pageId": 1,
-            "package": "",
+            "POcode": "",
             "elements": []
-        }).to.eql(testRes.activePageObject);
-    })
-    it('should handle EDIT_VALUE', function(){
-        let testRes = mainReducer(deleteState2, actions.editValue(["SiteInfo","siteTitle"],"Test title"));
-        // console.log(testRes)
+        }).to.eql(testRes.selectedPage);
+    });
+    it('should handle EDIT_VALUE', function () {
+        let testRes = mainReducer(deleteState2, actions.editValue(["SiteInfo", "siteTitle"], "Test title"));
         chai.expect(testRes.SiteInfo.siteTitle).to.eql("Test title");
-        let testRes2 = mainReducer(deleteState2, actions.editValue(["url"],"Test url", 1));
+        deleteState2.activeTabPageId = 1;
+        let testRes2 = mainReducer(deleteState2, actions.editValue(["url"], "Test url"));
         chai.expect(testRes2.PageObjects[0].url).to.eql("Test url");
-    })
-    it('should handle CLOSE_PAGE', function(){
-        let testRes = mainReducer(deleteState2,actions.closePage());
+    });
+    it('should handle CLOSE_PAGE', function () {
+        let testRes = mainReducer(deleteState2, actions.closePage());
         chai.expect(-1).to.eql(testRes.activeTabPageId);
-    })
-
+    });
+    it('should handle BACK_TO_SITE', function () {
+        let testRes = mainReducer(deleteState2, actions.backToSite());
+        chai.expect(-1).to.eql(testRes.activeTabPageId);
+        chai.expect(true).to.eql(testRes.SiteDetails);
+        chai.expect(false).to.eql(testRes.RulesDetails);
+        chai.expect(false).to.eql(testRes.PagesDetails);
+        chai.expect(false).to.eql(testRes.ElementsDetails);
+    });
 });

@@ -4,7 +4,7 @@ import { PageObjectJSON, SiteInfoJSON } from '../data/pageObject';
 import { Elements, Locators, ElementFields, HeaderTypes, SimpleRules, ComplexRules, CompositeRules} from '../data/settings';
 
 //change here
-let initialState = {
+/*let initialState = {
     PageObjects: PageObjectJSON.slice(),
     SiteInfo: Object.assign({}, SiteInfoJSON),
     Elements: Elements.slice(),
@@ -33,6 +33,30 @@ let initialState = {
     warningLog: '',
     sections: new Map(),
     secCode: [] 
+};*/
+
+let initialState = {
+    PageObjects: PageObjectJSON.slice(),
+    SiteInfo: Object.assign({}, SiteInfoJSON),
+    searchedPages: PageObjectJSON.slice(),
+    selectedPage: {},
+    activeTabPageId: -1,
+    resultTree: [],
+    pageMap: new Map(),
+    ElementsDetails: false,
+    RulesDetails: false,
+    PagesDetails: false,
+    CodeDetails: false,
+    SiteDetails: true,
+    SimpleRules: SimpleRules,
+    ComplexRules: ComplexRules,
+    CompositeRules: CompositeRules,
+    ElementFields: ElementFields,
+    warningLog: [],
+    sections: new Map(),
+    JDI: true,
+    selectedRule: '',
+    ruleId: -1
 };
 
 let store = createStore(mainReducer,initialState);

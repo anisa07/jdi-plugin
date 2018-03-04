@@ -52,3 +52,16 @@ export function importRules(file){
         file
     }
 }
+
+export function removeRulesGroup(rule){
+    return{
+        type: "REMOVE_RULES_GROUP",
+        rule
+    }
+}
+
+export function refresh(){
+    return{
+        type: "REFRESH",
+    }
+}

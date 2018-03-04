@@ -4,22 +4,22 @@
   "description": "this id chrome extension for jdi framework",
   "main": "index.js",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
-    "css-to-xpath": "^0.1.0",
     "file-saver": "^1.3.3",
     "prop-types": "^15.6.0",
     "react": "^15.0.0",
     "react-dom": "^15.0.0",
     "react-file-reader": "^1.1.3",
+    "react-hot-loader": "^3.1.3",
     "react-redux": "^5.0.6",
     "react-resizable-component": "^1.1.0",
     "react-sortable-tree": "^1.3.0",
     "redux": "^3.7.2",
     "redux-identity": "0.0.1",
-    "setimmediate": "^1.0.5",
-    "uglifyjs-webpack-plugin": "^1.0.0-beta.3"
+    "setimmediate": "^1.0.5"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.5",
@@ -44,7 +44,6 @@
     "jest-babel": "^1.0.1",
     "jsdom": "^11.3.0",
     "json-loader": "^0.5.7",
-    "jszip": "^3.1.5",
     "mocha": "^3.4.2",
     "mocha-simple-html-reporter": "^1.0.1",
     "mocha-webpack": "^0.7.0",
@@ -57,7 +56,8 @@
     "webpack-bundle-analyzer": "^2.8.3",
     "webpack-dev-server": "^2.5.0",
     "webpack-merge": "^4.1.0",
-    "webpack-node-externals": "^1.6.0"
+    "webpack-node-externals": "^1.6.0",
+    "uglifyjs-webpack-plugin": "^1.0.0-beta.3"
   },
   "scripts": {
     "test": "mocha-webpack --webpack-config webpack.config-test.js tests/**/*.*.js --watch",

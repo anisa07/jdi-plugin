@@ -38,7 +38,6 @@ let fakeTabPages = [{
     "elements": []
 }]
 
-
 let fakeState = {
     PageObjects: fakeTabPages.slice(),
     SiteInfo: {},
@@ -58,6 +57,62 @@ let fakeState = {
         "Button": [{ Locator: { path: "", type: "", uniqness: "" }, id: 0 }]
     }
 }
+//site reducer fake data
 
+let siteReducerData1 = {
+    PageObjects: [
+        {
+            "url": "",
+            "urlHost": "",
+            "urlTemplate": "",
+            "urlMatch": "Equals",
+            "title": "",
+            "titleMatch": "Equals",
+            "name": "Default Page0",
+            "pageId": 0,
+            "POcode": "",
+            "elements": []
+        }
+    ]
+}
+let siteReducerData2 = {
+    PageObjects: [
+        {
+            "url": "",
+            "urlHost": "",
+            "urlTemplate": "",
+            "urlMatch": "Equals",
+            "title": "",
+            "titleMatch": "Equals",
+            "name": "Default Page " + 1,
+            "pageId": 1,
+            "POcode": "",
+            "elements": []
+        },
+        {
+            "url": "",
+            "urlHost": "",
+            "urlTemplate": "",
+            "urlMatch": "Equals",
+            "title": "",
+            "titleMatch": "Equals",
+            "name": "Default Page " + 2,
+            "pageId": 2,
+            "POcode": "",
+            "elements": []
+        }
+    ],
+    selectedPage: {},
+    searchedPages: [],
+    SiteInfo: {
+        "siteTitle": "",
+        "domainName": ""
+    },
+    activeTabPageId: 11,
+    ElementsDetails: false,
+    RulesDetails: false,
+    PagesDetails: true,
+    SiteDetails: false
+}
 
-export { fakeTabPages, fakeState }
+export { fakeTabPages, fakeState, siteReducerData1, siteReducerData2 }

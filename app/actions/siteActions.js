@@ -3,14 +3,12 @@ export function addPage() {
         type: 'ADD_PAGE',
         page: {
             "url": "",
-            "urlHost": "",
             "urlTemplate": "",
             "urlMatch": "Equals",
             "title": "",
             "titleMatch": "Equals",
-            "name": "Default Page ",
+            "name": "Default Page",
             "pageId": 0,
-            "package": "",
             "elements": []
         }
     }

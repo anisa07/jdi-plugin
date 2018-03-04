@@ -7,9 +7,6 @@ let PageObjectJSON = [
         "titleMatch": "Equals",
         "name": "Default Page",
         "pageId": 0,
-        "package": "",
-        "POcode": "",
-        "compositeCode": [],
         "elements": []
     }
 ]

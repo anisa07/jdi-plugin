@@ -1,10 +1,5 @@
 function findElement(id, arr) {
-    let element = arr.find((el) => {
-        if (el.elId === id){
-            return el;
-        } 
-    })
-    return element;
+    return arr.find((el) => el.elId === id)    
 }
 
 function findPage(id, arr) {

@@ -1,7 +1,9 @@
 import { getChildren, drawMap, searchElement } from '../functional parts/tree';
 import { findPage, findElement } from '../functional parts/common';
 import { genEl } from './POgen/genPo';
-import cssToXpath from '../../cssToXpath/cssToXPath';
+import cssToXpath from '../libs/cssToXpath/cssToXPath';
+import { setTimeout } from 'timers';
+import { addToLog, getLog } from './POgen/functions';
 
 let map = new Map();
 let resTree = [];
@@ -11,19 +13,19 @@ export let genRand = (name) => {
 
 export let showPage = (mainObj, id) => {
     let pageElements = findPage(id, mainObj.PageObjects).elements;
-    map = drawMap(pageElements, new Map());
+    map = drawMap(pageElements, mainObj.sections, new Map());
     resTree = getChildren(map, null);
     return Object.assign({}, mainObj, {
-        searchElement: "",
         activeTabPageId: id,
-        settingsForSite: false,
+        ElementsDetails: true,
+        RulesDetails: false,
+        PagesDetails: false,
+        SiteDetails: false,
+        CodeDetails: false,
         resultTree: resTree,
         pageMap: map,
-        selectedElement: "",
-        rulesSettings: false,
-        mainSettings: false,
+        selectedElement: '',
         selectedRule: '',
-        showCode: false,
         ruleId: -1
     })
 };
@@ -35,6 +37,7 @@ export let changeTree = (mainObj, treeData, droppedItem) => {
 
     treeData.forEach((el) => {
         el.parent = null;
+        el.parentId = null;
     });
 
     function check(nodeArr) {
@@ -62,23 +65,18 @@ export let changeTree = (mainObj, treeData, droppedItem) => {
     check(treeData);
 
     if (droppedItem) {
-        let element = copyPageObjectsArray.find((e) => e.elId === droppedItem.elId);
-        let result = objCopy.sections.get(element.elId);
-        if (!!result){
-            result.parentId = element.parentId;
-            result.parent = element.parent;
-            objCopy.sections.set(element.elId, result);
-            /*if (!!result.children){
-                for (let i = 0; i < result.children.length; i++) {
-                    let child = result.children[i];
-                    if (child.elId === element.elId) {
-                        child.parent = element.parent;
-                        child.parentId = element.parentId;
-                        break;
-                    }
-                }    
-            }*/
-        }
+        let element = copyPageObjectsArray.find((e) => {
+            if (typeof e === 'string') {
+                if (e === droppedItem.elId) {
+                    return objCopy.sections.get(droppedItem.elId);
+                }
+            } else {
+                if (e.elId === droppedItem.elId) {
+                    return e;
+                }
+            }
+        });
+
         objCopy.sections.forEach((section, key) => {
             if (!!section.children) {
                 let children = section.children;
@@ -93,32 +91,12 @@ export let changeTree = (mainObj, treeData, droppedItem) => {
                 objCopy.sections.set(key, section);
             }
         })
-        /*let result = objCopy.sections.map((section) => {
-            if (section.elId === element.elId) {
-                section.parentId = element.parentId;
-                section.parent = element.parent;
-            }
-            if (section.children) {
-                for (let i = 0; i < section.children.length; i++) {
-                    let child = section.children[i];
-                    if (child.elId === element.elId) {
-                        child.parent = element.parent;
-                        child.parentId = element.parentId;
-                        break;
-                    }
-                }
-            }
-            return section;
-        })
-        objCopy.sections = result;*/
 
         let pages = objCopy.PageObjects.map((p) => {
-            console.log(p)
             if (p.elements) {
                 for (let k = 0; k < p.elements.length; k++) {
                     let e = p.elements[k];
-                    console.log(e)
-                    if (e.elId === element.elId) {
+                    if (typeof e !== 'string' && e.elId === element.elId) {
                         e.parentId = element.parentId;
                         e.parent = element.parent;
                     }
@@ -130,24 +108,20 @@ export let changeTree = (mainObj, treeData, droppedItem) => {
     }
 
     map = drawMap(copyPageObjectsArray, new Map());
-
     objCopy.pageMap = map;
     objCopy.resultTree = treeData;
 
     return objCopy;
 };
 
-function updateSections(objCopy, element, option) {
+function updateSections(objCopy, element) {
     let sectionId = element.parentId;
     let section = objCopy.sections.get(sectionId);
     for (let i = 0; i < objCopy.PageObjects.length; i++) {
         let page = objCopy.PageObjects[i];
         for (let j = 0; j < page.elements.length; j++) {
-            if (page.elements[j].elId === sectionId) {
-                page.elements[j] = section;
-                if (option === 'ADD') {
-                    page.elements.push(element);
-                }
+            if (page.elements[j] === sectionId) {
+                page.elements.push(element);
                 break;
             }
         }
@@ -164,79 +138,61 @@ export let addElement = (mainObj, element) => {
     element.elId = genRand("El");
 
     if (element.parentId !== null) {
-        parent = elementsArray.find((el) => el.elId === element.parentId);
-        //parent.expanded = true;
-        element.parent = parent.Name;
-
         let section = objCopy.sections.get(element.parentId);
+        section.expanded = true;
+        element.parent = section.Name;
         section.children.push(element);
         objCopy.sections.set(element.parentId, section);
-        objCopy = updateSections(objCopy, element, "ADD");
+        objCopy = updateSections(objCopy, element);
     } else {
         element.parent = null;
         elementsArray.push(element);
     }
 
-    map = drawMap(elementsArray, new Map());
+    map = drawMap(elementsArray, objCopy.sections, new Map());
     objCopy.pageMap = map;
     objCopy.resultTree = getChildren(map, null);
     return objCopy;
 };
 
 function delEl(arr, id) {
-    return arr.filter((el) => el.elId !== id);
-}
-
-function removeChildrenFromElementsArr(objCopy, childrenArr) {
-    for (let i = 0; i < objCopy.PageObjects.length; i++) {
-        let page = objCopy.PageObjects[i];
-        for (let j = 0; j < childrenArr.length; j++) {
-            let newArr = page.elements.slice();
-            page.elements = delEl(newArr, childrenArr[j].elId);
-        }
-    }
-    return objCopy;
+    return arr.filter((el) => typeof el === 'string' ? el !== id : el.elId !== id);
 }
 
 export let deleteElement = (mainObj, elId) => {
     let objCopy = Object.assign({}, mainObj);
     let pageId = objCopy.activeTabPageId;
     let parent, element;
-    let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
+    let elementsArray = objCopy.PageObjects.find(page => page.pageId === objCopy.activeTabPageId).elements;
+    let result = [];
 
     if (!!objCopy.sections.get(elId)) {
         element = objCopy.sections.get(elId)
         let children = element.children;
-        objCopy = removeChildrenFromElementsArr(objCopy, children);
+        objCopy = deleteElementByParanetId(objCopy, elId);
+        objCopy = removeFromSections(objCopy, elId);
+        objCopy.sections.delete(elId);
     } else {
         element = findElement(elId, elementsArray);
     }
     parent = element.parentId;
-
     if (!!parent) {
         let parentSection = objCopy.sections.get(parent);
         let parentChildren = parentSection.children.slice();
         parentSection.children = delEl(parentChildren, elId);
         objCopy.sections.set(parent, parentSection);
-        objCopy = updateSections(objCopy, element);
     }
+    objCopy.PageObjects.forEach(page => {
+        let elements = delEl(page.elements, elId);
+        page.elements = elements;
+    })
+    elementsArray = objCopy.PageObjects.find(page => page.pageId === objCopy.activeTabPageId).elements;
 
-    objCopy = removeChildrenFromElementsArr(objCopy, [element]);
-    elementsArray = findPage(pageId, objCopy.PageObjects).elements;
-
-    map = drawMap(elementsArray, new Map());
+    map = drawMap(elementsArray, objCopy.sections, new Map());
     resTree = getChildren(map, null);
-
-    objCopy.PageObjects.map((page) => {
-        if (pageId === page.pageId) {
-            page.elements = elementsArray;
-        }
-        return page
-    });
-
     objCopy.pageMap = map;
     objCopy.resultTree = resTree;
-    objCopy.selectedElement = "";
+    objCopy.selectedElement = '';
 
     return objCopy;
 };
@@ -246,17 +202,16 @@ function locatorF(element) {
 }
 function isXpath(locator) { return locator[1] === '/'; }
 
-function createFullLocator(objCopy, element){
+function createFullLocator(objCopy, element) {
     let locator = locatorF(element);
     let parentId = element.parentId;
-    if(!!parentId){
+    if (!!parentId) {
         let sections = objCopy.sections;
         let xpath = isXpath(locator);
-        while (!!parentId){
-            console.log(parentId);
+        while (!!parentId) {
             let parent = sections.get(parentId);
             let parentLocator = locatorF(parent);
-            if (xpath){
+            if (xpath) {
                 let l = (locator.indexOf('.') === 0) ? locator.slice(1) : locator;
                 locator = isXpath(parentLocator) ? parentLocator + l : cssToXpath(parentLocator) + l;
             } else {
@@ -274,47 +229,77 @@ function createFullLocator(objCopy, element){
     return locator;
 }
 
-function getElementBy (locator, dom) {
-    return isXpath(locator) ? document.evaluate(`.${locator}`, dom, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue 
-    : dom.querySelector(locator);
+function getElementBy(locator, dom) {
+    return isXpath(locator) ? document.evaluate(`.${locator}`, dom, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+        : dom.querySelector(locator);
 }
 
 export let selectElement = (mainObj, elId) => {
+    location.href = "#add-tab-page"
+    //location.href = "#smallInvisibleInput"
     let objCopy = Object.assign({}, mainObj);
     let pageId = objCopy.activeTabPageId;
-    let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
-    let element = findElement(elId, elementsArray);
-    let selectedElement = objCopy.selectedElement;
-    /*if (!!selectedElement.content){
-        selectedElement.content.classList.remove('highlightSelectedElementOnPage');
-    }*/
-    //selectedElement = element;
-    objCopy.showCode = false;
-    objCopy.selectedElement = element;
-    
-    //DO IT!!!
-    
-    //let fullLocator = createFullLocator(objCopy, element);
-    //let command = getElementBy(fullLocator);
-    
-    //document.querySelector("header").style.border = "2px solid blue"
-   /* chrome.devtools.inspectedWindow.eval('document.evaluate("//footer", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.border = "2px solid blue"', (result) => {
-        //let parser = new DOMParser();
-        //let observedDOM = parser.parseFromString(result, "text/html").body;
-        //let elementDOM = getElementBy(fullLocator, observedDOM);
+    let page = findPage(pageId, objCopy.PageObjects);
+    let elementsArray = page.elements;
+    let element = findElement(elId, elementsArray) || objCopy.sections.get(elId);
+    let complex = Object.keys(objCopy.ComplexRules);
+    let simple = Object.keys(objCopy.SimpleRules);
+
+    if (element.Locator || element.Root) {
+        objCopy.originalStyle = {
+            border: '',
+            boxSizing: ''
+        };
+
+        let border = '0.25rem solid';
+        let boxSizing = 'content-box';
+
+        if (complex.includes(element.Type)) {
+            border += '#FF00FF';
+        } else if (simple.includes(element.Type)) {
+            border += '#00FF00';
+        } else {
+            border += '#00FFFF';
+        }
+
+        let fullLocatorNew = createFullLocator(objCopy, element);
+        if (!!objCopy.selectedElement) {
+            let fullLocatorOld = createFullLocator(objCopy, objCopy.selectedElement);
+            let original = objCopy.originalStyle;
+
+            if (isXpath(fullLocatorOld)) {
+                chrome.devtools.inspectedWindow.eval('document.evaluate("' + fullLocatorOld + '", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.border = "' + original.border + '"', (result) => { })
+                chrome.devtools.inspectedWindow.eval('document.evaluate("' + fullLocatorOld + '", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.boxSizing = "' + original.boxSizing + '"', (result) => { })
+            } else {
+                chrome.devtools.inspectedWindow.eval('document.querySelector("' + fullLocatorOld + '").style.border = "' + original.border + '"', (result) => { })
+                chrome.devtools.inspectedWindow.eval('document.querySelector("' + fullLocatorOld + '").style.boxSizing = "' + original.boxSizing + '"', (result) => { })
+            }
+        }
         
-        //elementDOM.classList.add("highlightSelectedElementOnPage");
-        //elementDOM.style.border = "1px solid blue"
+        if (isXpath(fullLocatorNew)) {
+            chrome.devtools.inspectedWindow.eval('document.evaluate("' + fullLocatorNew + '", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.boxSizing', (result) => {
+                objCopy.originalStyle.boxSizing = result;
+            })
+            chrome.devtools.inspectedWindow.eval('document.evaluate("' + fullLocatorNew + '", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.border', (result) => {
+                objCopy.originalStyle.border = result;
+            })
+            chrome.devtools.inspectedWindow.eval('document.evaluate("' + fullLocatorNew + '", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.border = "' + border + '"', (result) => { })
+            chrome.devtools.inspectedWindow.eval('document.evaluate("' + fullLocatorNew + '", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.boxSizing = "' + boxSizing + '"', (result) => { })
+        } else {
+            chrome.devtools.inspectedWindow.eval('document.querySelector("' + fullLocatorNew + '").style.boxSizing', (result) => {
+                objCopy.originalStyle.boxSizing = result;
+            })
+            chrome.devtools.inspectedWindow.eval('document.querySelector("' + fullLocatorNew + '").style.border', (result) => {
+                objCopy.originalStyle.border = result;
+            })
+            chrome.devtools.inspectedWindow.eval('document.querySelector("' + fullLocatorNew + '").style.border = "' + border + '"', (result) => { })
+            chrome.devtools.inspectedWindow.eval('document.querySelector("' + fullLocatorNew + '").style.boxSizing = "' + boxSizing + '"', (result) => { })
+        }
+    }
 
-        //chrome.devtools.inspectedWindow.eval('elementDOM.style.border = "2px solid blue"')
-        //console.log(elementDOM.offsetWidth)
-    });*/
+    objCopy.selectedElement = element;
+    objCopy.CodeDetails = false;
 
-    //create full locator
-
-    //get element from page, create content in element
-    //set class to this element
-    
     return objCopy;
 };
 
@@ -324,11 +309,11 @@ export let searchEl = (mainObj, elName) => {
     let elementsArray = findPage(pageId, objCopy.PageObjects).elements;
 
     if (elName === "" || elName.replace(/\s/g, "") === "") {
-        map = drawMap(elementsArray, new Map());
+        map = drawMap(elementsArray, objCopy.sections, new Map());
         resTree = getChildren(map, null);
     } else {
-        let res = searchElement(elName, elementsArray);
-        map = drawMap(res, new Map());
+        let res = searchElement(elName, elementsArray, objCopy.sections);
+        map = drawMap(res, objCopy.sections, new Map());
         resTree = getChildren(map, null);
     }
 
@@ -339,50 +324,94 @@ export let searchEl = (mainObj, elName) => {
     return objCopy;
 };
 
-function updateParent(objCopy, element) {
-    if (!!element.parentId) {
-        let parent = objCopy.sections.get(element.parentId);
-        for (let j = 0; j < parent.children.length; j++) {
-            let child = parent.children[j];
-            if (child === element.elId) {
-                child = element;
-                break;
-            }
-        }
-        objCopy.sections.set(element.parentId, parent);
-        objCopy = updateOtherPages(objCopy, parent);
-    }
-    return objCopy;
-}
-
-function updateOtherPages(objCopy, element) {
-    for (let i = 0; i < objCopy.PageObjects.length; i++) {
-        let elements = objCopy.PageObjects[i].elements;
-        for (let j = 0; j < elements.length; j++) {
-            if (elements[j].elId === element.elId) {
-                elements[j] = element;
-                break;
-            }
-        }
-    }
-    return objCopy;
-}
-
-function createNewElem(objCopy, oldElem){
+function createNewElem(objCopy, oldElem) {
     let newElem = {
-        Name: oldElem.Name,
-        parentId: oldElem.parentId,
-        parent: oldElem.parent,
-        elId: oldElem.elId,
-        Type: oldElem.Type,
+        ...oldElem
     }
-    let fields = objCopy.ElementFields.get(newElem.Type);
-    for (let f in fields) {
-        if (!newElem.hasOwnProperty(f)) {
-            newElem[f] = "";
+    let fields = Object.keys(objCopy.ElementFields[newElem.Type]);
+    for (let f = 0; f < fields.length; f++) {
+        if (!newElem.hasOwnProperty(fields[f])) {
+            newElem[fields[f]] = "";
         }
     }
     return newElem;
+}
+
+function deleteElementByParanetId(objCopy, parentId, withParent) {
+    for (let i = 0; i < objCopy.PageObjects.length; i++) {
+        let page = objCopy.PageObjects[i];
+        let elements = page.elements.filter(element => {
+            let el = typeof element === 'string' ? objCopy.sections.get(element) : element;
+            if (el) {
+                if (el.parentId !== parentId) {
+                    return element;
+                }
+            }
+        });
+        page.elements = elements;
+    }
+    return objCopy;
+}
+
+function removeFromSections(objCopy, parentId) {
+    objCopy.sections.forEach((value, key) => {
+        if (value.parentId === parentId) {
+            objCopy = deleteElementByParanetId(objCopy, value.elId);
+            objCopy = removeFromSections(objCopy, value.elId);
+            objCopy.sections.delete(value.elId);
+        }
+    });
+    return objCopy;
+}
+
+function updateAllPages(objCopy, element) {
+    for (let i = 0; i < objCopy.PageObjects.length; i++) {
+        let page = objCopy.PageObjects[i];
+        let elements = page.elements.map(el => {
+            if (typeof el === 'string' && el === element.elId) {
+                el = element;
+            }
+            if (typeof el !== 'string' && el.elId === element.elId) {
+                el = element
+            }
+            return el;
+        });
+        page.elements = elements;
+    }
+    return objCopy;
+}
+
+function convertToSection(objCopy, element) {
+    for (let i = 0; i < objCopy.PageObjects.length; i++) {
+        let page = objCopy.PageObjects[i];
+        let elements = page.elements.map(el => {
+            if (el.elId === element.elId) {
+                el = element.elId;
+            }
+            return el;
+        });
+        page.elements = elements;
+    }
+    return objCopy;
+}
+
+function updateParentIfExist(objCopy, element) {
+    if (!!element.parentId) {
+        let sections = objCopy.sections;
+        let section = sections.get(element.parentId);
+        if (!!section) {
+            section.expanded = true;
+            let children = section.children.map(el => {
+                if (el.elId === element.elId) {
+                    el = element;
+                }
+                return el;
+            });
+            section.children = children;
+            objCopy.sections.set(element.parentId, section);
+        }
+    }
+    return objCopy;
 }
 
 export let editElement = (mainObj, elField, value) => {
@@ -390,68 +419,69 @@ export let editElement = (mainObj, elField, value) => {
     let composites = Object.keys(objCopy.CompositeRules);
 
     if (value.length || typeof value === "boolean") {
-        let pageId = objCopy.activeTabPageId;
-        let selectedElement = objCopy.selectedElement;
+        function commonForNewSection() {
+            selectedElement.children = [];
+            selectedElement.isSection = true;
+            objCopy.selectedElement = selectedElement;
+            objCopy.sections.set(selectedElement.elId, selectedElement);
+        }
+        function commonForOldSection() {
+            objCopy = deleteElementByParanetId(objCopy, selectedElement.elId, false);
+            objCopy = removeFromSections(objCopy, selectedElement.elId);
+            selectedElement = createNewElem(objCopy, selectedElement);
+        }
 
+        let pageId = objCopy.activeTabPageId;
+        let selectedElement = {
+            elId: objCopy.selectedElement.elId,
+            Type: objCopy.selectedElement.Type,
+            parentId: objCopy.selectedElement.parentId,
+            parent: objCopy.selectedElement.parent,
+            Name: objCopy.selectedElement.Name
+        };
+        //it can be composite element
         if (composites.includes(selectedElement.Type)) {
-            selectedElement[elField[0]] = value;
-            let sec = objCopy.sections.get(selectedElement.elId);
-            if (elField[0] === "Type") {
-                objCopy = removeChildrenFromElementsArr(objCopy, selectedElement.children);
-                if (composites.includes(value)) {
-                    sec.children.length = 0;
-                    selectedElement.children.length = 0;
-                    sec[elField[0]] = value;
-                    objCopy.sections.set(selectedElement.elId, sec);
-                    objCopy = updateOtherPages(objCopy, sec);
-                } else {
-                    selectedElement = createNewElem(objCopy, selectedElement);
-                    objCopy.sections.delete(selectedElement.elId);
-                    for (let j = 0; j < objCopy.PageObjects.length; j++) {
-                        if (objCopy.PageObjects[j].pageId !== pageId) {
-                            let newArr = objCopy.PageObjects[j].elements.slice();
-                            objCopy.PageObjects[j].elements = delEl(newArr, selectedElement.elId);
-                        } else {
-                            let elements = objCopy.PageObjects[j].elements;
-                            for (let i = 0; i < elements.length; i++) {
-                                if (elements[i].elId === selectedElement.elId) {
-                                    elements[i] = selectedElement;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
-                sec[elField[0]] = value;
-                objCopy.sections.set(selectedElement.elId, sec);
-                objCopy = updateOtherPages(objCopy, sec);
+            //change to composite
+            selectedElement[elField] = value;
+            if (composites.includes(value) && elField === 'Type') {
+                commonForOldSection()
+                commonForNewSection();
+            } else /*to any other element*/ if (!composites.includes(value) && elField === 'Type') {
+                commonForOldSection()
+                objCopy.sections.delete(selectedElement.elId);
+                objCopy = updateAllPages(objCopy, selectedElement);
+            } /*change any other fields*/ else {
+                selectedElement = { ...objCopy.selectedElement }
+                selectedElement[elField] = value;
+                objCopy.sections.set(selectedElement.elId, selectedElement);
+                //objCopy = updateAllPages(objCopy, selectedElement);
             }
-            //ordinary component    
-        } else {
-            selectedElement[elField[0]] = value;
-            if (elField[0] === "Type") {
+        } /*it can any other type of element*/ else {
+            //change to composite type
+            if (composites.includes(value) && elField === 'Type') {
+                selectedElement[elField] = value;
                 selectedElement = createNewElem(objCopy, selectedElement);
-                if (composites.includes(value)) {
-                    selectedElement.children = [];
-                    objCopy.sections.set(selectedElement.elId, selectedElement);
-                    objCopy = updateOtherPages(objCopy, selectedElement);
-                } else {
-                    objCopy = updateOtherPages(objCopy, selectedElement);
-                }
-            } else {
-                objCopy = updateOtherPages(objCopy, selectedElement);        
+                commonForNewSection();
+                objCopy = convertToSection(objCopy, selectedElement);
+            } /*change any other fields*/ else {
+                selectedElement = { ...objCopy.selectedElement }
+                selectedElement[elField] = value;
+                objCopy = updateAllPages(objCopy, selectedElement);
             }
         }
-        objCopy = updateParent(objCopy, selectedElement);
-        map = drawMap(findPage(pageId, objCopy.PageObjects).elements, new Map());
+        objCopy.selectedElement = selectedElement;
+        objCopy = updateParentIfExist(objCopy, selectedElement);
+        map = drawMap(findPage(pageId, objCopy.PageObjects).elements, objCopy.sections, new Map());
         resTree = getChildren(map, null);
         objCopy.resultTree = resTree;
         objCopy.pageMap = map;
     }
+    console.log(objCopy);
     return objCopy;
 };
 
 export let generateElements = (mainObj) => {
-    return genEl(mainObj);
+    let objCopy = { ...mainObj };
+    genEl(objCopy);
+    return objCopy;
 }

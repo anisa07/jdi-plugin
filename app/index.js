@@ -1,8 +1,17 @@
-import { Main } from './main.js';
-import './style/style.css';
+import { Main } from './app';
+import { store } from './store/store';
+import { Provider } from "react-redux";
+import { AppContainer } from 'react-hot-loader';
 
-const App = (
-    <Main />
-)
+const render = Component => {
+    ReactDOM.render(
+        <AppContainer>
+            <Provider store = { store }>
+                <Component />
+            </Provider>
+        </AppContainer>
+        , document.getElementById("app")
+    );
+};
 
-ReactDOM.render(<Main />,document.getElementById('app'));
+render(Main);

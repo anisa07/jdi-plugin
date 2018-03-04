@@ -1,17 +1,21 @@
-import { genRand } from '../pageReducer';
-import { getChildren, drawMap, searchElement } from '../../functional parts/tree';
-import { relative } from 'path';
-import cssToXpath from '../../../cssToXpath/cssToXPath';
+import { genRand } from "../pageReducer";
+import cssToXpath from "../../libs/cssToXpath/cssToXPath";
+import {
+    getChildren,
+    drawMap,
+    searchElement
+} from "../../functional parts/tree";
+import {
+    addToLog, getLog
+} from "./functions";
 
 let map = new Map();
 let resTree = [];
 
-export let genEl = (objCopy) => {
+export let genEl = (obj) => {
     let results = [];
-    let otherElements = [];
     let relatives = new Map();
-    let domParent = [];
-    //let unique = ["classList", "id", "name", "value", "alt", "title", "text", "className"];
+    let objCopy = {...obj}
     let page = objCopy.PageObjects.find((page) => {
         if (page.pageId === objCopy.activeTabPageId) {
             return page
@@ -34,14 +38,14 @@ export let genEl = (objCopy) => {
     });
 
     chrome.devtools.inspectedWindow.eval('document.domain', (r, err) => {
-        if (r !== objCopy.SiteInfo.domainName && r !== "") {
+        if (r !== "") {
             objCopy.SiteInfo.domainName = r;
+            objCopy.SiteInfo.domainName = r
         }
     });
 
     chrome.devtools.inspectedWindow.eval('document.title', (r, err) => {
-        if (r !== objCopy.SiteInfo.siteTitle && r !== "") {
-            objCopy.SiteInfo.siteTitle = r;
+        if (r !== "") {
             page.name = r;
         }
     });
@@ -54,14 +58,14 @@ export let genEl = (objCopy) => {
 
             let parser = new DOMParser();
             let observedDOM = parser.parseFromString(r, "text/html").body;
-            let copyOfDom = parser.parseFromString(r, "text/html").body;
+            //let copyOfDom = parser.parseFromString(r, "text/html").body;
 
-            let addToLog = (str) => {
+            /*let addToLog = (str) => {
                 warningLog += str;
-            }
+            }*/
 
             let getComposite = (dom, t) => {
-                let rules = objCopy.Rules[t];
+                let rules = objCopy.CompositeRules[t];
                 rules.forEach((rule, i) => {
                     if (!!rule.Locator) {
                         defineElements(dom, rule.Locator, rule.uniqness, t, rule.id);
@@ -104,7 +108,7 @@ export let genEl = (objCopy) => {
 
             let getComplex = (parent, t) => {
                 let dom = parent.content;
-                let rules = objCopy.Rules[t];
+                let rules = objCopy.ComplexRules[t];
                 rules.forEach((rule) => {
                     if (!!rule.Root) {
                         defineElements(dom, rule.Root, rule.uniqness, t, rule.id, parent)
@@ -114,7 +118,7 @@ export let genEl = (objCopy) => {
 
             let getSimple = (parent, t) => {
                 let dom = parent.content;
-                let rules = objCopy.Rules[t];
+                let rules = objCopy.SimpleRules[t];
                 rules.forEach((rule, i) => {
                     if (!!rule.Locator) {
                         defineElements(dom, rule.Locator, rule.uniqness, t, rule.id, parent);
@@ -133,8 +137,26 @@ export let genEl = (objCopy) => {
                     result.parentId = parent.elId;
                     result.parent = parent.Name;
                     result.elId = genRand('El');
-                    applyFoundResult(result, parent, ruleId);
+                    if (checkIfItisUnique(result)) {
+                        applyFoundResult(result, parent, ruleId);
+                    }
                 }
+            }
+
+            function checkIfItisUnique(element) {
+                let locator = element.Locator || element.Root;
+                let check = true;
+                if (!element.parentId) {
+                    objCopy.sections.forEach((section) => {
+                        section.children.forEach((child) => {
+                            let l = child.Locator || child.Root;
+                            if (l === locator) {
+                                check = false;
+                            }
+                        })
+                    })
+                }
+                return check;
             }
 
             function findSection(locator, type) {
@@ -167,7 +189,7 @@ export let genEl = (objCopy) => {
                 };
                 if (elements.length > 1) {
                     if (uniqness.value === "tag" || uniqness.value === '[')
-                        addToLog(`\nToo much elements found(${elements.length} for ${uniqness.value}. Locator (${firstSearch.locatorType.locator}))`);
+                        addToLog(`Too much elements found(${elements.length} for ${uniqness.value}. Locator (${firstSearch.locatorType.locator}))`);
                     for (let i = 0; i < elements.length; i++) {
                         let val = getValue(elements[i], uniqness, Locator);
                         let finalLocator = xpath
@@ -182,7 +204,7 @@ export let genEl = (objCopy) => {
                             }
                             fillEl(e, t, parent, ruleId);
                         } else {
-                            addToLog(`\nToo much elements found(${s2.elements.length}. Locator (${finalLocator}))`);
+                            addToLog(`Too much elements found(${s2.elements.length}. Locator (${finalLocator}))`);
                         }
                     }
                 }
@@ -213,9 +235,9 @@ export let genEl = (objCopy) => {
                 let elements = [];
                 try {
                     elements = locatorType.xpath ? getElementsByXpath(dom, locatorType.locator) : dom.querySelectorAll(locatorType.locator);
-                } catch(e) {
+                } catch (e) {
                     addToLog(`Error!: cannot get elements by ${locatorType.locator}`);
-                } 
+                }
                 return {
                     elements: elements,
                     locatorType: locatorType
@@ -265,8 +287,7 @@ export let genEl = (objCopy) => {
             function camelCase(n) {
                 let name = "";
                 if (n) {
-                    //[^a-zA-Zа-яёА-ЯЁ0-9]
-                let arrayName = n.split(/\s/);
+                    let arrayName = n.split(/[^a-zA-Zа-яёА-ЯЁ0-9]/);
                     for (let j = 0; j < arrayName.length; j++) {
                         if (arrayName[j]) {
                             name += arrayName[j][0].toUpperCase() + arrayName[j].slice(1);
@@ -290,7 +311,7 @@ export let genEl = (objCopy) => {
                 if (uniqness === "class") {
                     return camelCase(content.classList.value);
                 }
-                return camelCase(content[uniqness]);
+                return camelCase(content.getAttribute(uniqness));
             }
 
             let applyFoundResult = (e, parent, ruleId) => {
@@ -317,7 +338,8 @@ export let genEl = (objCopy) => {
                     findInParent(element, parent);
                     return;
                 }
-                let fields = objCopy.ElementFields.get(e.Type);
+                //let fields = objCopy.ElementFields.get(e.Type);
+                let fields = objCopy.ElementFields[e.Type];
                 if (composites.indexOf(e.Type) > -1) {
                     element.Locator = e.Locator;
                     element.isSection = true;
@@ -326,14 +348,14 @@ export let genEl = (objCopy) => {
 
                     if (!!found) {
                         element = found;
-                        page.elements.push(found);
+                        page.elements.push(found.elId);
                     } else {
                         for (let f in fields) {
                             if (!element.hasOwnProperty(f)) {
                                 element[f] = "";
                             }
                         }
-                        page.elements.push(element);
+                        page.elements.push(element.elId);
                         objCopy.sections.set(element.elId, element);
                     }
                     return;
@@ -367,7 +389,7 @@ export let genEl = (objCopy) => {
             }
 
             let valueToCss = (uniqness, value) => {
-                if (!!value){
+                if (!!value) {
                     switch (uniqness.value) {
                         case "class": return `.${value.replace(/\s/g, '.')}`;
                         case "id": return `#${value}`;
@@ -377,64 +399,69 @@ export let genEl = (objCopy) => {
                 return '';
             }
 
-            composites.forEach((rule) => {
-                try {
-                    getComposite(observedDOM, rule)
-                } catch(e){
-                    addToLog(`Error! Getting composite element...`)
-                };
-            });
+            if (objCopy.JDI) {
+                composites.forEach((rule) => {
+                    try {
+                        getComposite(observedDOM, rule)
+                    } catch (e) {
+                        addToLog(`Error! Getting composite element... ${e}`)
+                    };
+                });
 
-            for (let i = 0; i < results.length; i++) {
-                let findParent = results.find(section => section.elId === results[i].parentId && results[i].parentId !== null);
-                if (findParent) {
-                    if (findParent.children) {
-                        findParent.children.push(results[i]);
-                    } else {
-                        findParent.children = [];
-                        findParent.children.push(results[i]);
+                for (let i = 0; i < results.length; i++) {
+                    let findParent = results.find(section => section.elId === results[i].parentId && results[i].parentId !== null);
+                    if (findParent) {
+                        if (findParent.children) {
+                            findParent.children.push(results[i]);
+                        } else {
+                            findParent.children = [];
+                            findParent.children.push(results[i]);
+                        }
                     }
                 }
-            }
 
 
-            results.push({ Locator: "body", Type: null, content: observedDOM, elId: null, parentId: null });
+                results.push({ Locator: "body", Type: null, content: observedDOM, elId: null, parentId: null, parent: null });
 
-            for (let i = 0; i < results.length - 1; i++) {
-                applyFoundResult(results[i]);
-            }
+                for (let i = 0; i < results.length - 1; i++) {
+                    applyFoundResult(results[i]);
+                }
 
-            for (let i = 0; i < results.length; i++) {
-                results[i].content.parentNode.removeChild(results[i].content);
-            }
+                for (let i = 0; i < results.length; i++) {
+                    results[i].content.parentNode.removeChild(results[i].content);
+                }
 
-            results.forEach((section) => {
-                complex.forEach((rule) => {
-                    try {
-                        getComplex(section, rule);
-                    } catch (e){
-                        addToLog(`Error! Getting complex element...`)
-                    }
+
+                results.forEach((section) => {
+                    complex.forEach((rule) => {
+                        try {
+                            getComplex(section, rule);
+                        } catch (e) {
+                            addToLog(`Error! Getting complex element... ${e}`)
+                        }
+                    });
                 });
-            });
+            } else {
+                results.push({ Locator: "body", Type: null, content: observedDOM, elId: null, parentId: null, parent: null });
+            }
 
             results.forEach((section) => {
                 simple.forEach((rule) => {
                     try {
                         getSimple(section, rule);
-                    } catch (e){
-                        addToLog(`Error! Getting simple element...`)
+                    } catch (e) {
+                        addToLog(`Error! Getting simple element... ${e}`)
                     }
                 });
             });
 
-            console.log('warningLog', warningLog)
-            objCopy.warningLog = warningLog;
+            objCopy.warningLog = { ...objCopy.warningLog, ...getLog() };
+            console.log('objCopy.warningLog', objCopy.warningLog)
             document.querySelector("[data-tabid='" + objCopy.activeTabPageId + "']").click();
         }
     );
-    
-    map = drawMap(page.elements, new Map());
+
+    map = drawMap(page.elements, objCopy.sections, new Map());
     objCopy.pageMap = map;
     objCopy.resultTree = getChildren(map, null);
 

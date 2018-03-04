@@ -26,6 +26,9 @@ export const mainReducer = (state, action) => {
         case 'EDIT_ELEMENT': {
             return page.editElement(state, action.elField, action.value)
         }
+        case 'GENERATE_ELEMENTS': {
+            return page.generateElements(state)
+        }
         case 'ADD_PAGE': {
             return site.addPage(state, action.page);
         }
@@ -71,8 +74,11 @@ export const mainReducer = (state, action) => {
         case 'IMPORT_RULES': {
             return rules.importRules(state, action.file)
         }
-        case 'GENERATE_ELEMENTS': {
-            return page.generateElements(state)
+        case 'REMOVE_RULES_GROUP': {
+            return rules.removeRulesGroup(state, action.rule)
+        }
+        case 'REFRESH': {
+            return rules.refresh(state)
         }
         case 'SHOW_CODE': {
             return code.showCode(state)          
@@ -85,6 +91,9 @@ export const mainReducer = (state, action) => {
         }
         case 'ZIP_CODE': {
             return code.zipAllCode(state)
+        }
+        case 'SWITCH_CODE': {
+            return code.switchCodeMode(state)
         }
         default: {
             return state

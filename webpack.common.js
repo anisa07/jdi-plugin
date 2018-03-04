@@ -5,7 +5,12 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
-    entry: './app/index.js',
+    entry: ["babel-polyfill", "./app/index.js"],
+    //entry: './app/index.js',
+    devServer: {
+       contentBase: './dist',
+       hot: true
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: "[name].bundle.js",
@@ -49,27 +54,27 @@ module.exports = {
                     ]
                 }),
             },
-            {
-                test: /\.scss$/,
-                exclude: /node_modules/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    // Could also be write as follow:
-                    // use: 'css-loader?modules&importLoader=2&sourceMap&localIdentName=[name]__[local]___[hash:base64:5]!sass-loader'
-                    use: [
-                        {
-                            loader: 'css-loader',
-                            query: {
-                                modules: true,
-                                sourceMap: true,
-                                importLoaders: 2,
-                                localIdentName: '[name]__[local]___[hash:base64:5]'
-                            }
-                        },
-                        'sass-loader'
-                    ]
-                }),
-            },
+            // {
+            //     test: /\.scss$/,
+            //     exclude: /node_modules/,
+            //     use: ExtractTextPlugin.extract({
+            //         fallback: 'style-loader',
+            //         // Could also be write as follow:
+            //         // use: 'css-loader?modules&importLoader=2&sourceMap&localIdentName=[name]__[local]___[hash:base64:5]!sass-loader'
+            //         use: [
+            //             {
+            //                 loader: 'css-loader',
+            //                 query: {
+            //                     modules: true,
+            //                     sourceMap: true,
+            //                     importLoaders: 2,
+            //                     localIdentName: '[name]__[local]___[hash:base64:5]'
+            //                 }
+            //             },
+            //             'sass-loader'
+            //         ]
+            //     }),
+            // },
             {
                 test: /\.jpg$/,
                 loader: "file-loader"
@@ -81,6 +86,8 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: 'html/index.html'
         }),
+        new webpack.NamedModulesPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
         new webpack.ProvidePlugin({
             'ReactDOM': 'react-dom',
             'React': 'react',
