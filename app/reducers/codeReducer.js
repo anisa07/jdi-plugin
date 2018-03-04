@@ -170,6 +170,7 @@ export let switchCodeMode = (mainObj) => {
     objCopy.ElementsDetails = false;
     objCopy.PagesDetails = false;
     objCopy.CodeDetails = false;
+    objCopy.RulesDetails = false;
     objCopy.SiteDetails = true;
     objCopy.warningLog = [];
     objCopy.sections = new Map();
