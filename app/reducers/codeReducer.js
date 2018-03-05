@@ -3,18 +3,6 @@ import { saveAs } from 'file-saver';
 import JSZip from '../libs/jszip/dist/jszip';
 import { PageObjectJSON, SiteInfoJSON } from '../data/pageObject';
 
-
-function createUpCaseName(name) {
-    let result = '';
-    let nArr = name.split(/\W/);
-    for (let i = 0; i < nArr.length; i++) {
-        if (!!nArr[i]) {
-            result += nArr[i][0].toUpperCase() + nArr[i].slice(1);
-        }
-    }
-    return result;
-}
-
 export let showCode = (mainObj) => {
     let objCopy = Object.assign({}, mainObj);
     objCopy.CodeDetails = true;
@@ -23,111 +11,218 @@ export let showCode = (mainObj) => {
             return page;
         }
     });
-    let pack = objCopy.SiteInfo.domainName.split(/\W/).reverse().join('.');
-
     let el = objCopy.selectedElement;
-
-    function c() {
-        return 'package ' + pack + ';\n' + commonImport() +
-            '\n\npublic class ' + el.Name + ' extends ' + el.Type + '{' +
-            genCodeOfElements(el.elId, page.elements, objCopy) + '\n}'
-    }
-
-    objCopy.code = c();
-
+	let pack = objCopy.SiteInfo.pack;
+	switch (el.Type) {
+		case "Section": 
+			objCopy.code = sectionCode(pack, el, objCopy);
+			break;
+		case "Form": 
+			objCopy.code = formCode(pack, el, objCopy, el.Name.slice(0,-4) + "s");
+			break;
+		default: objCopy.code = "Unknown section type. Only Forms and Sections are supported";
+	}
     return objCopy;
 }
 
-function commonImport() {
-    return `
-import com.epam.jdi.uitests.web.selenium.elements.common.*;
-import com.epam.jdi.uitests.web.selenium.elements.complex.*;
-import com.epam.jdi.uitests.web.selenium.elements.composite.*;
-import com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;
-import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.*;
-import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;
-import org.openqa.selenium.support.FindBy;`
+function varName(name) {
+	return name[0].toLowerCase() + name.slice(1);
+}
+function className(name) {
+	let words = name.split(/\W/);
+	return words.map(word => word[0].toUpperCase() + word.slice(1)).join('');
+}
+function poName(name, poName) {
+	let result = className(name);
+	if (result.length > 4 && result.substr(-4).toLowerCase() !== poName.toLowerCase())
+		result += poName;
+	return result;
+}
+function getSiteName(name) {
+	return poName(name, "Site");
+}
+function getPageName(name) {
+	return poName(name, "Page");
+}
+function locatorType(locator) {
+	return locator.indexOf('/') !== 1 ? "Css" : "XPath";
+}
+function simpleCode(locatorType, locator, elType, name) {
+	return elementCode(locatorType, `"${locator}"`, elType, name)
+}
+function elementCode(locatorType, locator, elType, name) {
+	return `	@${locatorType}(${locator}) public ${elType} ${varName(name)};
+`;
+}
+function pageElementCode(page, pageName) {
+	return `	@JPage(url = "${page.url}", title = "${page.title}") 
+	public static ${getPageName(pageName)} ${varName(pageName)};
+`;
+};
+function findByCode(el) {
+	let locator = el.Locator;
+	let name = el.Name;
+	return elementCode("FindBy", `${locatorType(locator).toLowerCase()} ="${locator}"`, "WebElement", name);
+}
+function complexLocators(el, fields) {
+	let locators = [];
+	for (let field in fields) {
+		let locator = el[field];
+		if (locator !== "") {
+			locators.push(`${field.toLowerCase()} = @FindBy(${locatorType(locator).toLowerCase()} ="${locator}")`);
+		}
+	}
+	return locators.join(",\n\t\t\t") + "\n\t";
+}
+
+function getFields(obj) {
+	let clone = Object.assign({}, obj);
+	for (let field in commonFields) {
+		delete clone[field];
+	}
+	return clone;
+}
+
+function isSimple(el, fields) {
+	let count = 0;;
+	for (let field in fields) {
+		if (el[field] !== "") count ++;
+	}
+	return count === 1;
+}
+
+function genEntities(parentId, arrOfElements, objCopy) {
+	return arrOfElements
+		.filter(el => el.parentId === parentId && objCopy.SimpleRules[el.Type] && el.Type != "Button")
+		.map(el => `public String ${varName(el.Name)};`).join('\n\t');
+}
+function getElement(el, objCopy) {
+	return typeof el === 'string' ? objCopy.sections.get(el) : el;
 }
 
 function genCodeOfElements(parentId, arrOfElements, objCopy) {
     let result = '';
     for (let i = 0; i < arrOfElements.length; i++) {
-        if (arrOfElements[i].parentId === parentId && (!!arrOfElements[i].Locator || !!arrOfElements[i].Root) ) {
-            if (objCopy.CompositeRules[arrOfElements[i].Type]) {
-                result += '\n\t@' + (arrOfElements[i].Locator.indexOf('/') !== 1 ? 'Css("' : 'XPath("') + arrOfElements[i].Locator + '") public ' +
-                    arrOfElements[i].Name + ' ' + arrOfElements[i].Name[0].toLowerCase() + arrOfElements[i].Name.slice(1) + ';'
+		let el = getElement(arrOfElements[i], objCopy);
+        if (el.parentId === parentId && (!!el.Locator || !!el.Root)) {
+            if (!!objCopy.CompositeRules[el.Type]) {
+                result += simpleCode(locatorType(el.Locator), el.Locator, className(el.Name), el.Name);				
             }
-            if (objCopy.ComplexRules[arrOfElements[i].Type]) {
-                let clone = Object.assign({}, objCopy.ElementFields[arrOfElements[i].Type]);
-                for (let field in commonFields) {
-                    delete clone[field];
-                }
-
-                if (arrOfElements[i].hasOwnProperty('Root')) {
-                    result += '\n\t@J' + arrOfElements[i].Type + '(' +
-                        '\n\t\troot = @FindBy(' + (arrOfElements[i].Root.indexOf('/') !== 1 ? 'css' : 'xpath') + ' ="' + arrOfElements[i].Root + '")';
-                    delete clone.Root;
-                    for (let field in clone) {
-                        if (arrOfElements[i][field]) {
-                            result += ',\n\t\t' + field.toLowerCase() + ' = @FindBy(' + (arrOfElements[i][field].indexOf('/') !== 0 ? 'css' : 'xpath') + ' = "' + arrOfElements[i][field] + '")'
-                        }
-                    }
-                }
-                result += '\n\t) public ' + arrOfElements[i].Type + ' ' + arrOfElements[i].Name[0].toLowerCase() + arrOfElements[i].Name.slice(1) + ';'
+            if (!!objCopy.ComplexRules[el.Type]) {				
+				let fields = getFields(objCopy.ElementFields[el.Type]);
+				result += isSimple(el, fields)
+					 ? simpleCode(locatorType(el.Root), el.Root, el.Type, el.Name)
+					 : elementCode("J" + el.Type, complexLocators(el, fields), el.Type, el.Name);
             }
-            if (objCopy.SimpleRules[arrOfElements[i].Type]) {
-                result += '\n\t@' + (arrOfElements[i].Locator.indexOf('/') !== 1 ? 'Css("' : 'XPath("') + arrOfElements[i].Locator + '") public ' +
-                    arrOfElements[i].Type + ' ' + arrOfElements[i].Name[0].toLowerCase() + arrOfElements[i].Name.slice(1) + ';'
+            if (!!objCopy.SimpleRules[el.Type]) {
+                result += simpleCode(locatorType(el.Locator), el.Locator, el.Type, el.Name);
             }
         }
     }
     return result;
+}
+
+function commonImport() {
+    return `import com.epam.jdi.uitests.web.selenium.elements.common.*;
+import com.epam.jdi.uitests.web.selenium.elements.complex.*;
+import com.epam.jdi.uitests.web.selenium.elements.composite.*;
+import com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;
+import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.*;
+import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;
+import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;`;
+}
+
+function sectionCode(pack, el, objCopy) {
+	let name = el.Name;
+	let code = genCodeOfElements(el.elId, el.children, objCopy);
+	return `package ${pack}.sections;
+
+${commonImport()}
+
+public class ${name} extends Section {
+${code}
+}`;
+}
+
+function formCode(pack, el, objCopy, entityName) {	
+	let name = el.Name;
+	let code = genCodeOfElements(el.elId, el.children, objCopy);
+	return `package ${pack}.sections;
+
+${commonImport()}
+import ${pack}.entities.*;
+
+public class ${name} extends Form<${entityName}> {
+${code}
+}`;
+}
+
+function entityCode(pack, section, objCopy, entityName) {
+	return `package ${pack}.entities;
+
+import com.epam.jdi.tools.DataClass;
+
+public class ${entityName} extends DataClass<${entityName}> {
+	${genEntities(section.elId, section.children, objCopy)}
+}`;
+}
+
+function siteCode(pack, domain, name, code) {
+	return `package ${pack};
+import ${pack}.pages.*;
+import com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;
+import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.*;
+
+@JSite("${domain}")
+public class ${name} extends WebSite {
+${code}
+}`;
 }
 
 function genCodeOfWEBElements(arrOfElements) {
-    let result = '';
-    for (let i = 0; i < arrOfElements.length; i++) {
-        if (arrOfElements[i].Locator){
-            let locator = arrOfElements[i].Locator.indexOf('/') !== 1 ? 'css = "'+ arrOfElements[i].Locator +'"' 
-                : 'xpath = "'+ arrOfElements[i].Locator + '"';
-            result += '\n\t@FindBy(' + locator + ') public WebElement ' + arrOfElements[i].Name + ';'
-        }
-    }
-    return result;
+    return arrOfElements.join(el => `{findByCode(el);`);
 }
 
-let genPageCode = (page, domainName, objCopy) => {
-    let pageName = createUpCaseName(page.name);
+function pageCode(pack, page, objCopy) {
+    let pageName = getPageName(page.name);
+	return `package ${pack}.pages;
 
-    let p = domainName.split(/\W/).reverse().join('.');
+${commonImport()}
+import ${pack}.sections.*;
 
-    if (objCopy.JDI) {
-        return 'package ' + p + '.pages;' +
-            '\n\nimport ' + p + '.sections.*;' + commonImport() +
-            '\n\npublic class ' + pageName + ' extends WebPage {' +
-            genCodeOfElements(null, page.elements, objCopy) + '\n}'
-    } else {
-        return 'package ' + p + '.pages;' +
-            '\n\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;' +
-            '\nimport org.openqa.selenium.WebElement;' +
-            '\n\npublic class ' + pageName + ' {' +
-            genCodeOfWEBElements(page.elements) + '\n}'
-    }
+public class ${pageName} extends WebPage {
+${genCodeOfElements(null, page.elements, objCopy)}
+}`;
+}
+function seleniumPageCode(pack, page) {
+    let pageName = getPageName(page.name);
+	return `package ${pack}.pages;' +
+import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
+import org.openqa.selenium.WebElement;
+
+public class ${pageName} {
+${genCodeOfWEBElements(page.elements)}
+}`;
+}
+
+function genPageCode(page, pack, objCopy) {
+    let pageName = getPageName(page.name);
+    return objCopy.JDI ? pageCode(pack, page, objCopy) : seleniumPageCode(pack, page);
+}
+
+function getActivePage(objCopy) {
+	return objCopy.PageObjects.find((page) => {
+            if (page.pageId === objCopy.activeTabPageId) {
+                return page;
+            }
+        });
 }
 
 export let genCode = (mainObj) => {
     let objCopy = Object.assign({}, mainObj);
-    let page = objCopy.PageObjects.find((page) => {
-        if (page.pageId === objCopy.activeTabPageId) {
-            return page;
-        }
-    })
-    objCopy.code = '';
     objCopy.CodeDetails = true;
     objCopy.selectedElement = '';
-
-    objCopy.code = genPageCode(page, objCopy.SiteInfo.domainName, objCopy);
-
+    objCopy.code = genPageCode(getActivePage(objCopy), objCopy.SiteInfo.pack, objCopy);
     return objCopy;
 }
 
@@ -135,27 +230,15 @@ export let downloadCode = (mainObj) => {
     let objCopy = Object.assign({}, mainObj);
 
     let objToSave = {
-        content: '',
-        name: ''
+        content: objCopy.code,
+        name: !!objCopy.selectedElement
+			? objCopy.selectedElement.Name + '.java'
+			: getPageName(getActivePage(objCopy).name) + '.java'
     }
-
-    if (!!objCopy.selectedElement) {
-        objToSave.name = objCopy.selectedElement.Name + '.java';
-    } else {
-        let page = objCopy.PageObjects.find((page) => {
-            if (page.pageId === objCopy.activeTabPageId) {
-                return page;
-            }
-        });
-        objToSave.name = createUpCaseName(page.name) + '.java'
-    }
-    objToSave.content = objCopy.code;
-
     if (objToSave.content && objToSave.name) {
         let blob = new Blob([objToSave.content], { type: "text/plain;charset=utf-8" });
         saveAs(blob, objToSave.name);
     }
-
     return objCopy;
 }
 
@@ -179,62 +262,48 @@ export let switchCodeMode = (mainObj) => {
     objCopy.searchedPages = [];
     return objCopy;
 }
+function hasPages(objCopy) {	
+    let siteHostName = objCopy.SiteInfo.hostName.split(/\W/);
+	return objCopy.PageObjects.some(el => el.elements.length > 0 && siteHostName);
+}
 
 export let zipAllCode = (mainObj) => {
     let objCopy = Object.assign({}, mainObj);
-    let zip = new JSZip();
-    let siteHostName = objCopy.SiteInfo.hostName.split(/\W/);
-    let gen = false;
-    for (let i = 0; i < objCopy.PageObjects.length; i++) {
-        if (objCopy.PageObjects[i].elements.length > 0 && siteHostName) {
-            gen = true;
-        }
-    }
-    if (gen) {
-        let siteName = "";
-        siteHostName[siteHostName.length - 1] = siteHostName.length > 1 ? "Site" : siteHostName[siteHostName.length - 1] + "Site";
-        for (let i = 0; i < siteHostName.length; i++) {
-            siteName += siteHostName[i][0].toUpperCase() + siteHostName[i].slice(1);
-        }
+    let zip = new JSZip();	
+	let pack = objCopy.SiteInfo.pack;
+	let siteName = getSiteName(objCopy.SiteInfo.siteTitle);
+	let sitePagesCode = "";	
+    if (hasPages(objCopy)) {
         let pages = objCopy.PageObjects;
-        let pageName = "";
-
-        let site = "";
-
-        let pack = objCopy.SiteInfo.domainName.split(/\W/).reverse().join('.');
-
-        site = "package " + pack + ";" +
-            "\n\nimport " + pack + ".pages.*;" +
-            "\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;" +
-            "\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.*;" +
-            "\n\n@JSite(\"" + objCopy.SiteInfo.origin + "\")" +
-            "\npublic class " + siteName + " extends WebSite {";
-        for (let i = 0; i < pages.length; i++) {
-            pageName = createUpCaseName(pages[i].name);
-            site += '\n\t@JPage(url = "' + pages[i].url + '", title = "' + pages[i].title + '")' +
-                '\n\tpublic static ' + pageName + " " + (pageName[0].toLowerCase() + pageName.slice(1)) + ';'
-        }
-        site += "\n}";
-
-        for (let i = 0; i < pages.length; i++) {
-            pageName = createUpCaseName(pages[i].name);
-            zip.folder("pages").file(pageName + ".java", genPageCode(pages[i], objCopy.SiteInfo.domainName, objCopy));
-        }
-
-        objCopy.sections.forEach((section) => {
-            let result = "package " + pack + ".sections;" + commonImport();
-            result += "\n\npublic class " + section.Name + " extends " + section.Type + "{" +
-                genCodeOfElements(section.elId, section.children, objCopy) + "\n}";
-            zip.folder("sections").file(section.Name + ".java", result);
-        })
-
-        zip.file(siteName + '.java', site);
-        zip.generateAsync({ type: "blob" }).then(
-            function (content) {
-                saveAs(content, "pageobject.zip");
-            }
-        )
-    } 
+        pages.forEach(page=> {
+            let pageName = getPageName(page.name);
+			sitePagesCode += pageElementCode(page, pageName);
+            zip.folder("pages").file(pageName + ".java", genPageCode(page, pack, objCopy));
+        });
+	
+        objCopy.sections.forEach(section => {
+			switch (section.Type) {
+				case "Section": 
+					zip.folder("sections").file(className(section.Name) + ".java", 
+						sectionCode(pack, section, objCopy));
+					break;
+				case "Form": 
+					let entityName = section.Name.slice(0,-4) + "s";
+					zip.folder("sections").file(className(section.Name) + ".java", 
+						formCode(pack, section, objCopy, entityName));	
+					zip.folder("entities").file(entityName + ".java", 
+						entityCode(pack, section, objCopy, entityName));
+					break;
+			};
+        });
+    };
+	zip.file(siteName + '.java', 
+		siteCode(pack, objCopy.SiteInfo.origin, siteName, sitePagesCode)); 
+	zip.generateAsync({ type: "blob" }).then(
+		function (content) {
+			saveAs(content, "pageobject.zip");
+		}
+	);
     return objCopy;
 }
 

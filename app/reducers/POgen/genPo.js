@@ -33,23 +33,37 @@ export let genEl = (obj) => {
     chrome.devtools.inspectedWindow.eval('document.location', (r, err) => {
         page.url = r.pathname;
         objCopy.SiteInfo.hostName = r.hostname;
-        page.title = r.pathname.split("/").pop().replace(/\.html|\.htm/, '');
+		objCopy.SiteInfo.siteTitle = toName(r.hostname.substring(0,r.hostname.lastIndexOf(".")));
         objCopy.SiteInfo.origin = r.origin;
     });
 
     chrome.devtools.inspectedWindow.eval('document.domain', (r, err) => {
         if (r !== "") {
             objCopy.SiteInfo.domainName = r;
-            objCopy.SiteInfo.domainName = r
+            objCopy.SiteInfo.pack = r.split('.').reverse().join('.');
         }
     });
 
     chrome.devtools.inspectedWindow.eval('document.title', (r, err) => {
         if (r !== "") {
-            page.name = r;
+			page.title = r;
+            page.name = toName(r);
         }
     });
 
+	function toName(n) {
+		let name = [];
+		if (n) {
+			//[^a-zA-Zа-яёА-ЯЁ0-9]
+		let arrayName = n.split(/[^a-zA-Zа-яёА-ЯЁ0-9]/);
+			for (let j = 0; j < arrayName.length; j++) {
+				if (arrayName[j]) {
+					name.push(arrayName[j][0].toUpperCase() + arrayName[j].slice(1));
+				}
+			}
+		}
+		return name.join(" ");
+	}
     chrome.devtools.inspectedWindow.eval(
         'document.body.outerHTML', (r, err) => {
             if (err) {
@@ -187,9 +201,10 @@ export let genEl = (obj) => {
                     }
                     fillEl(e, t, parent, ruleId);
                 };
+				let tooMuchElements = `Too much elements found(${elements.length} for ${uniqness.value}. Locator (${firstSearch.locatorType.locator}))`;
                 if (elements.length > 1) {
                     if (uniqness.value === "tag" || uniqness.value === '[')
-                        addToLog(`Too much elements found(${elements.length} for ${uniqness.value}. Locator (${firstSearch.locatorType.locator}))`);
+                        addToLog(tooMuchElements);
                     for (let i = 0; i < elements.length; i++) {
                         let val = getValue(elements[i], uniqness, Locator);
                         let finalLocator = xpath
@@ -204,7 +219,7 @@ export let genEl = (obj) => {
                             }
                             fillEl(e, t, parent, ruleId);
                         } else {
-                            addToLog(`Too much elements found(${s2.elements.length}. Locator (${finalLocator}))`);
+                            addToLog(tooMuchElements);
                         }
                     }
                 }

@@ -72,22 +72,30 @@ function addR(Rule, ruleType) {
     }
     res.id = id;
     rule.push(res);
-    return copy;
+    return {
+		copy,
+		id
+	};
 }
 export let addRule = (mainObj, ruleType) => {
     let objCopy = Object.assign({}, mainObj);
     //let allFields = objCopy.ElementFields[ruleType];
+	let result;
 
     if (!!objCopy.SimpleRules[ruleType]) {
-        objCopy.SimpleRules = addR(objCopy.SimpleRules, ruleType);
+        result = addR(objCopy.SimpleRules, ruleType);
+		objCopy.SimpleRules = result.copy;
     }
     if (!!objCopy.ComplexRules[ruleType]) {
-        objCopy.ComplexRules = addR(objCopy.ComplexRules, ruleType);
+        result = addR(objCopy.ComplexRules, ruleType);
+		objCopy.ComplexRules = result.copy;
     }
     if (!!objCopy.CompositeRules[ruleType]) {
-        objCopy.CompositeRules = addR(objCopy.CompositeRules, ruleType);
+        result =  addR(objCopy.CompositeRules, ruleType);
+		objCopy.CompositeRules = result.copy;
     }
 
+	objCopy.ruleId = result.id;
     return objCopy;
 }
 

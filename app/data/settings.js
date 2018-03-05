@@ -37,15 +37,15 @@ let ElementFields = {
     "Form": { ...commonFields, "Locator": "TextField", "isSection": "internal", "Entity": "TextField", "expanded": "internal", "children": "internal" },
     "ComboBox": {
         ...commonFields, "Root": "TextField", "Value": "TextField",
-        "List": "TextField", "Expand": "TextField", "Enum": "TextField"
+        "List": "TextField", "Expand": "TextField"
     },
     "Dropdown": {
         ...commonFields, "Root": "TextField", "Value": "TextField",
-        "List": "TextField", "Expand": "TextField", "Enum": "TextField"
+        "List": "TextField", "Expand": "TextField"
     },
     "DropList": {
         ...commonFields, "Root": "TextField", "Value": "TextField",
-        "List": "TextField", "Expand": "TextField", "Enum": "TextField"
+        "List": "TextField", "Expand": "TextField"
     },
     "Table": {
         ...commonFields, "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
@@ -60,157 +60,34 @@ let ElementFields = {
         "HeaderTypes": "ComboBox", "HeaderTypesValues": ["All", "Headers", "No Headers", "Columns Headers", "Rows Headers"]
     }
 }
-//let HeaderTypes = ["All", "Headers", "No Headers", "Columns Headers", "Rows Headers"];
-
-/*let ElementFields = new Map();
-ElementFields.set("Button", { ...commonFields, "Locator": "TextField" });
-ElementFields.set("Image", { ...commonFields, "Locator": "TextField" });
-ElementFields.set("Checkbox", { ...commonFields, "Locator": "TextField" });
-ElementFields.set("Label", { ...commonFields, "Locator": "TextField" });
-ElementFields.set("Link", { ...commonFields, "Locator": "TextField" });
-ElementFields.set("Text", { ...commonFields, "Locator": "TextField" });
-ElementFields.set("TextField", { ...commonFields, "Locator": "TextField" });
-ElementFields.set("Input", { ...commonFields, "Locator": "TextField" });
-ElementFields.set("TextArea", { ...commonFields, "Locator": "TextField" });
-ElementFields.set("DataPicker", { ...commonFields, "Locator": "TextField" });
-ElementFields.set("FileInput", { ...commonFields, "Locator": "TextField" });
-ElementFields.set("Section", { ...commonFields, "Locator": "TextField", "isSection": "internal", "expanded": "internal", "children": "internal" });
-ElementFields.set("Form", { ...commonFields, "Locator": "TextField", "isSection": "internal", "Entity": "TextField", "expanded": "internal", "children": "internal" });
-ElementFields.set("Selector", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
-ElementFields.set("CheckList", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
-ElementFields.set("Menu", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
-ElementFields.set("RadioButtons", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
-ElementFields.set("Tabs", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
-ElementFields.set("TextList", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
-ElementFields.set("Chat", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
-ElementFields.set("ComboBox", {
-    ...commonFields, "Root": "TextField", "Value": "TextField",
-    "List": "TextField", "Expand": "TextField", "Enum": "TextField"
-});
-ElementFields.set("Logout", {
-    ...commonFields, "Root": "TextField", "Value": "TextField",
-    "List": "TextField", "Expand": "TextField", "Enum": "TextField"
-});
-ElementFields.set("Dropdown", {
-    ...commonFields, "Root": "TextField", "Value": "TextField",
-    "List": "TextField", "Expand": "TextField", "Enum": "TextField"
-});
-ElementFields.set("DropList", {
-    ...commonFields, "Root": "TextField", "Value": "TextField",
-    "List": "TextField", "Expand": "TextField", "Enum": "TextField"
-});
-ElementFields.set("Table", {
-    ...commonFields, "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
-    "RowHeader": "TextField", "Cell": "TextField", "Column": "TextField", "Row": "TextField",
-    "Footer": "TextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
-    "HeaderTypes": "ComboBox"
-});
-ElementFields.set("DynamicTable", {
-    ...commonFields, "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
-    "RowHeader": "TextField", "Cell": "TextField", "Column": "TextField", "Row": "TextField",
-    "Footer": "TextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
-    "HeaderTypes": "ComboBox"
-});*/
 
 let SimpleRules = {
-    "Button": [{
-		"Locator": "button[type=submit]",
-		"uniqness": "text",
-		"id": 0
-	}],
-	"CheckBox": [{
-		"Locator": "input[type=checkbox]",
-		"id": 0,
-		"uniqness": "id"
-	}],
-	"Image": [{
-		"Locator": "img",
-		"id": 0,
-		"uniqness": "id"
-	}],
-	"Label": [{
-			"Locator": "h1",
-			"id": 0,
-			"uniqness": "name"
-		},
-		{
-			"Locator": "h2",
-			"id": 1,
-			"uniqness": "name"
-		},
-		{
-			"Locator": "h3",
-			"id": 2,
-			"uniqness": "name"
-		},
-		{
-			"Locator": "[ui=label]",
-			"id": 3,
-			"uniqness": "text"			
-		}
+    "Button": [{ "Locator": "button[type=submit]", "uniqness": "text", "id": 0}],
+	"CheckBox": [{"Locator": "input[type=checkbox]", "id": 0, "uniqness": "id"}],
+	"Image": [{"Locator": "img", "id": 0, "uniqness": "id"}],
+	"Label": [{"Locator": "h1", "id": 0, "uniqness": "name"},
+		{"Locator": "h2", "id": 1, "uniqness": "name"},
+		{"Locator": "h3", "id": 2, "uniqness": "name"},
+		{"Locator": "[ui=label]", "id": 3, "uniqness": "text"}
 	],
-    "Link": [{ Locator: "", uniqness: "", id: 0 }],
-	"Text": [{
-		"Locator": ".main-txt",
-		"id": 0,
-		"uniqness": "name"
-	}],
-	"TextField": [{
-			"Locator": "input[type=text]",
-			"id": 0,
-			"uniqness": "id"
-		},
-		{
-			"Locator": "input[type=password]",
-			"id": 1,
-			"uniqness": "id"
-		}
+    "Link": [{"Locator": "", "uniqness": "", id: 0 }],
+	"Text": [{"Locator": ".main-txt", "id": 0, "uniqness": "name"}],
+	"TextField": [{"Locator": "input[type=text]", "id": 0, "uniqness": "id"},
+		{"Locator": "input[type=password]", "id": 1, "uniqness": "id"}
 	],
-	"TextArea": [{
-		"Locator": "textarea",
-		"id": 0,
-		"uniqness": "id"
-	}],
-	"DataPicker": [{
-		"Locator": "",
-		"id": 0,
-		"uniqness": ""
-	}],
-	"FileInput": [{
-		"Locator": "",
-		"id": 0,
-		"uniqness": ""
-	}],
-	"Selector": [{
-		"Locator": "",
-		"id": 0,
-		"uniqness": ""
-	}],
-	"CheckList": [{
-		"Locator": "",
-		"id": 0,
-		"uniqness": ""
-	}],
-	"Menu": [{
-		"Locator": "",
-		"id": 0,
-		"uniqness": ""
-	}],
-	"RadioButtons": [{
-		"Locator": "",
-		"id": 0,
-		"uniqness": ""
-	}],
-	"Tabs": [{
-		"Locator": "",
-		"id": 0,
-		"uniqness": ""
-	}]
+	"TextArea": [{"Locator": "textarea", "id": 0, "uniqness": "id"}],
+	"DataPicker": [{"Locator": "", "id": 0, "uniqness": ""}],
+	"FileInput": [{"Locator": "", "id": 0, "uniqness": ""}],
+	"Selector": [{"Locator": "", "id": 0, "uniqness": ""}],
+	"CheckList": [{"Locator": "", "id": 0, "uniqness": ""}],
+	"Menu": [{"Locator": "", "id": 0, "uniqness": ""}],
+	"RadioButtons": [{"Locator": "", "id": 0, "uniqness": ""}],
+	"Tabs": [{"Locator": "", "id": 0, "uniqness": ""}]
 };
 let ComplexRules = {
-    "Dropdown": [{ Root: "[jtype=dropdown] button", uniqness: ".filter-option#text", Value: "", List: "li", Expand: ".caret", id: 0 }],
-    "ComboBox": [{ Root: "[jtype=combobox] button", uniqness: ".filter-option#text", Value: "", List: "li", Expand: ".caret", id: 0 }],
-    "DropList": [{ Root: "[jtype=droplist] button", uniqness: ".filter-option#text", Value: "", List: "li", Expand: ".caret", id: 0 }],	
+    "Dropdown": [{ Root: "[ui=dropdown]", uniqness: "id", Value: "", List: "li", Expand: ".caret", id: 0 }],
+    "ComboBox": [{ Root: "[ui=combobox]", uniqness: "id", Value: "", List: "li", Expand: ".caret", id: 0 }],
+    "DropList": [{ Root: "[ui=droplist]", uniqness: "id", Value: "", List: "li", Expand: ".caret", id: 0 }],	
     "Table": [{
         Root: "table", Header: "", RowHeader: "", Cell: "",
         Column: "", Row: "", Footer: "", id: 0, uniqness: 'class'
