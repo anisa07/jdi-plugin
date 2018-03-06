@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "7974259bcc7f87598226"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "8055432c1faeff35317f"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -1037,43 +1037,12 @@ var _rule = __webpack_require__("./app/containers/rule/rule.container.js");
 
 var _rule2 = _interopRequireDefault(_rule);
 
+var _log = __webpack_require__("./app/containers/log/log.container.js");
+
+var _log2 = _interopRequireDefault(_log);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//import { store } from './store/store';
-
-//import * as pageActions from './actions/pageActions';
-//import * as siteActions from './actions/siteActions';
-
-// export class Main extends React.Component {
-//     constructor() {
-//         super();
-//         this.state = store.getState();
-//     }
-//     componentDidMount(){
-//         store.subscribe(() => {
-//             this.state = store.getState();
-//             this.forceUpdate();
-//             console.log(this.state)
-//         })
-//     }
-
-//     render() {
-//         return (
-//             <div className="start">
-//                 <Tabs className="tabs" state={this.state} store={store}/>
-//                 {/* <div>
-//                     <Site state={this.state} store={store}/>
-//                     <Page state={this.state} store={store}/>
-//                     <Rules state={this.state} store={store}/>
-//                 </div> */}
-//             </div>
-//         )
-//     }
-// }
-
-// import { Site } from './functional parts/site';
-// import { Page } from './functional parts/page';
-// import { Rules } from './functional parts/rules';
 var Main = exports.Main = function Main(props) {
     return React.createElement(
         'div',
@@ -1085,7 +1054,8 @@ var Main = exports.Main = function Main(props) {
             React.createElement(_site2.default, null),
             React.createElement(_page2.default, null),
             React.createElement(_rule2.default, null)
-        )
+        ),
+        React.createElement(_log2.default, null)
     );
 };
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/react/react.js")))
@@ -1163,6 +1133,78 @@ var CodeComponent = exports.CodeComponent = function (_React$Component) {
     }]);
 
     return CodeComponent;
+}(React.Component);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/react/react.js")))
+
+/***/ }),
+
+/***/ "./app/components/log/log.component.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(React) {
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var LogComponent = exports.LogComponent = function (_React$Component) {
+    _inherits(LogComponent, _React$Component);
+
+    function LogComponent() {
+        _classCallCheck(this, LogComponent);
+
+        return _possibleConstructorReturn(this, (LogComponent.__proto__ || Object.getPrototypeOf(LogComponent)).apply(this, arguments));
+    }
+
+    _createClass(LogComponent, [{
+        key: 'getLog',
+        value: function getLog() {
+            return this.props.warningLog.reverse();
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return React.createElement(
+                'div',
+                { className: 'panel panel-default warningLog', style: { visibility: this.props.warningLog.length ? 'visible' : 'hidden' } },
+                React.createElement(
+                    'div',
+                    { className: 'panel-heading' },
+                    React.createElement(
+                        'h3',
+                        { className: 'panel-title' },
+                        'Warning Log'
+                    )
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'panel-body', style: { height: '150px', overflow: 'scroll' } },
+                    React.createElement(
+                        'ul',
+                        { style: { listStyle: 'none' } },
+                        this.getLog().map(function (log, i) {
+                            return React.createElement(
+                                'li',
+                                { key: "log" + i },
+                                log
+                            );
+                        })
+                    )
+                )
+            );
+        }
+    }]);
+
+    return LogComponent;
 }(React.Component);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/react/react.js")))
 
@@ -1319,6 +1361,9 @@ var PanelLeftPage = exports.PanelLeftPage = function (_React$Component) {
             return React.createElement(
                 'div',
                 { className: 'panel panel-default' },
+                React.createElement('button', { id: 'refresh', onClick: function onClick() {
+                        props.refresh();
+                    } }),
                 this.state.showPopup && React.createElement(_popup.Popup, { popupTitle: 'Generate new elments',
                     popupText: 'All defined elements of this page page will be replaced. Are you sure?',
                     closePopup: this.togglePopup,
@@ -1676,7 +1721,7 @@ var Tree = exports.Tree = function (_React$Component) {
             var props = this.props;
             return React.createElement(
                 'div',
-                { className: 'tree', style: { height: this.getHeight() } },
+                { style: { height: this.getHeight() } },
                 React.createElement(_reactSortableTree2.default, {
                     canDrop: this.canDrop,
                     treeData: props.resultTree,
@@ -2765,6 +2810,30 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, {
 
 /***/ }),
 
+/***/ "./app/containers/log/log.container.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _reactRedux = __webpack_require__("./node_modules/react-redux/es/index.js");
+
+var _log = __webpack_require__("./app/components/log/log.component.js");
+
+var mapStateToProps = function mapStateToProps(state) {
+    return {
+        warningLog: state.warningLog
+    };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(_log.LogComponent);
+
+/***/ }),
+
 /***/ "./app/containers/page/page.container.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2854,7 +2923,8 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, {
     generateElements: _pageActions.generateElements,
     addElement: _pageActions.addElement,
     openRules: _rulesActions.openRules,
-    genCode: _codeActions.genCode
+    genCode: _codeActions.genCode,
+    refresh: _rulesActions.refresh
 })(_panelLeftPage.PanelLeftPage);
 
 /***/ }),
@@ -5074,7 +5144,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
         promise is useless because file(name, data) returns the JSZip
         object for chaining. Should we break that to allow the user
         to catch the error ?
-          return external.Promise.resolve(zipObjectContent)
+         return external.Promise.resolve(zipObjectContent)
         .then(function () {
             return object;
         });
@@ -13737,16 +13807,16 @@ https://github.com/nodeca/pako/blob/master/LICENSE
          from their more natural integer increment ordering, and so when the
          decoding tables are built in the large loop below, the integer codes
          are incremented backwards.
-           This routine assumes, but does not check, that all of the entries in
+          This routine assumes, but does not check, that all of the entries in
          lens[] are in the range 0..MAXBITS.  The caller must assure this.
          1..MAXBITS is interpreted as that code length.  zero means that that
          symbol does not occur in this code.
-           The codes are sorted by computing a count of codes for each length,
+          The codes are sorted by computing a count of codes for each length,
          creating from that a table of starting indices for each length in the
          sorted table, and then entering the symbols in order in the sorted
          table.  The sorted table is work[], with that space being provided by
          the caller.
-           The length counts are used for other purposes as well, i.e. finding
+          The length counts are used for other purposes as well, i.e. finding
          the minimum and maximum length codes, determining if there are any
          codes at all, checking for a valid set of lengths, and looking ahead
          at length counts to determine sub-table sizes when building the
@@ -13828,21 +13898,21 @@ https://github.com/nodeca/pako/blob/master/LICENSE
          bits off of the bottom.  For codes where len is less than drop + curr,
          those top drop + curr - len bits are incremented through all values to
          fill the table with replicated entries.
-           root is the number of index bits for the root table.  When len exceeds
+          root is the number of index bits for the root table.  When len exceeds
          root, sub-tables are created pointed to by the root entry with an index
          of the low root bits of huff.  This is saved in low to check for when a
          new sub-table should be started.  drop is zero when the root table is
          being filled, and drop is root when sub-tables are being filled.
-           When a new sub-table is needed, it is necessary to look ahead in the
+          When a new sub-table is needed, it is necessary to look ahead in the
          code lengths to determine what size sub-table is needed.  The length
          counts are used for this, and so count[] is decremented as codes are
          entered in the tables.
-           used keeps track of how many table entries have been allocated from the
+          used keeps track of how many table entries have been allocated from the
          provided *table space.  It is checked for LENS and DIST tables against
          the constants ENOUGH_LENS and ENOUGH_DISTS to guard against changes in
          the initial root table size constants.  See the comments in inftrees.h
          for more information.
-           sym increments through all symbols, and the loop terminates when
+          sym increments through all symbols, and the loop terminates when
          all codes of length max, i.e. all codes, have been processed.  This
          routine permits incomplete codes, so another loop after this one fills
          in the rest of the decoding tables with invalid code markers.
@@ -15614,6 +15684,8 @@ var _functions = __webpack_require__("./app/reducers/POgen/functions.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 var map = new Map();
 var resTree = [];
 
@@ -15626,7 +15698,7 @@ var genEl = exports.genEl = function genEl(obj) {
             return page;
         }
     });
-    var warningLog = "";
+    var warningLog = [];
 
     var composites = Object.keys(objCopy.CompositeRules);
     var complex = Object.keys(objCopy.ComplexRules);
@@ -15657,7 +15729,9 @@ var genEl = exports.genEl = function genEl(obj) {
 
     chrome.devtools.inspectedWindow.eval('document.body.outerHTML', function (r, err) {
         if (err) {
-            alert('Error, loading data from active page!');
+            (0, _functions.addToLog)("Error, loading data from active page! " + err);
+            objCopy.warningLog = [].concat(_toConsumableArray(objCopy.warningLog), [(0, _functions.getLog)()]);
+            document.querySelector('#refresh').click();
         }
 
         var parser = new DOMParser();
@@ -15789,12 +15863,16 @@ var genEl = exports.genEl = function genEl(obj) {
                 var e = {
                     Locator: firstSearch.locatorType.locator,
                     content: elements[0],
-                    Name: nameElement(firstSearch.locatorType.locator, uniq, '', elements[0])
+                    Name: nameElement(firstSearch.locatorType.locator, uniq, '', elements[0]).slice(0, 20)
                 };
                 fillEl(e, t, parent, ruleId);
             };
             if (elements.length > 1) {
-                if (uniqness.value === "tag" || uniqness.value === '[') (0, _functions.addToLog)("Too much elements found(" + elements.length + " for " + uniqness.value + ". Locator (" + firstSearch.locatorType.locator + "))");
+                if (uniqness.value === "tag" || uniqness.value === '[') {
+                    (0, _functions.addToLog)("Warning! Too much elements found by locator " + firstSearch.locatorType.locator + "; uniqness " + uniqness.value + "; " + elements.length + " elements");
+                    objCopy.warningLog = [].concat(_toConsumableArray(objCopy.warningLog), [(0, _functions.getLog)()]);
+                    document.querySelector('#refresh').click();
+                }
                 for (var i = 0; i < elements.length; i++) {
                     var val = getValue(elements[i], uniqness, Locator);
                     var finalLocator = xpath ? valueToXpath(firstSearch.locatorType.locator, uniqness, val) : firstSearch.locatorType.locator + valueToCss(uniqness, val);
@@ -15803,11 +15881,13 @@ var genEl = exports.genEl = function genEl(obj) {
                         var _e = {
                             Locator: finalLocator,
                             content: s2.elements[0],
-                            Name: nameElement(finalLocator, uniq, val, s2.elements[0])
+                            Name: nameElement(finalLocator, uniq, val, s2.elements[0]).slice(0, 20)
                         };
                         fillEl(_e, t, parent, ruleId);
                     } else {
-                        (0, _functions.addToLog)("Too much elements found(" + s2.elements.length + ". Locator (" + finalLocator + "))");
+                        (0, _functions.addToLog)("Warning! Too much elements found by locator " + finalLocator + "; " + s2.elements.length + " elements");
+                        objCopy.warningLog = [].concat(_toConsumableArray(objCopy.warningLog), [(0, _functions.getLog)()]);
+                        document.querySelector('#refresh').click();
                     }
                 }
             }
@@ -15842,6 +15922,8 @@ var genEl = exports.genEl = function genEl(obj) {
                 elements = locatorType.xpath ? getElementsByXpath(dom, locatorType.locator) : dom.querySelectorAll(locatorType.locator);
             } catch (e) {
                 (0, _functions.addToLog)("Error!: cannot get elements by " + locatorType.locator);
+                objCopy.warningLog = [].concat(_toConsumableArray(objCopy.warningLog), [(0, _functions.getLog)()]);
+                document.querySelector('#refresh').click();
             }
             return {
                 elements: elements,
@@ -16016,7 +16098,9 @@ var genEl = exports.genEl = function genEl(obj) {
                 try {
                     getComposite(observedDOM, rule);
                 } catch (e) {
-                    (0, _functions.addToLog)("Error! Getting composite element... " + e);
+                    (0, _functions.addToLog)("Error! Getting composite element: " + e);
+                    objCopy.warningLog = [].concat(_toConsumableArray(objCopy.warningLog), [(0, _functions.getLog)()]);
+                    document.querySelector('#refresh').click();
                 };
             });
 
@@ -16053,7 +16137,9 @@ var genEl = exports.genEl = function genEl(obj) {
                     try {
                         getComplex(section, rule);
                     } catch (e) {
-                        (0, _functions.addToLog)("Error! Getting complex element... " + e);
+                        (0, _functions.addToLog)("Error! Getting complex element: " + e);
+                        objCopy.warningLog = [].concat(_toConsumableArray(objCopy.warningLog), [(0, _functions.getLog)()]);
+                        document.querySelector('#refresh').click();
                     }
                 });
             });
@@ -16066,16 +16152,16 @@ var genEl = exports.genEl = function genEl(obj) {
                 try {
                     getSimple(section, rule);
                 } catch (e) {
-                    (0, _functions.addToLog)("Error! Getting simple element... " + e);
+                    (0, _functions.addToLog)("Error! Getting simple element: " + e);
+                    objCopy.warningLog = [].concat(_toConsumableArray(objCopy.warningLog), [(0, _functions.getLog)()]);
+                    document.querySelector('#refresh').click();
                 }
             });
         });
 
-        objCopy.warningLog = _extends({}, objCopy.warningLog, (0, _functions.getLog)());
-        console.log('objCopy.warningLog', objCopy.warningLog);
+        //warningLog = [...objCopy.warningLog, ...getLog() ];
         document.querySelector("[data-tabid='" + objCopy.activeTabPageId + "']").click();
     });
-
     map = (0, _tree.drawMap)(page.elements, objCopy.sections, new Map());
     objCopy.pageMap = map;
     objCopy.resultTree = (0, _tree.getChildren)(map, null);
@@ -16499,8 +16585,6 @@ var _cssToXPath = __webpack_require__("./app/libs/cssToXpath/cssToXPath.js");
 var _cssToXPath2 = _interopRequireDefault(_cssToXPath);
 
 var _timers = __webpack_require__("./node_modules/timers-browserify/main.js");
-
-var _functions = __webpack_require__("./app/reducers/POgen/functions.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -17273,18 +17357,27 @@ var importRules = exports.importRules = function importRules(mainObj, files) {
                     document.querySelector('#refresh').click();
                 } catch (e) {
                     (0, _functions.addToLog)('Error occurs reading local json file: ' + e);
+                    var _log = [].concat(_toConsumableArray(objCopy.warningLog), _toConsumableArray((0, _functions.getLog)()));
+                    objCopy.warningLog = _log;
+                    document.querySelector('#refresh').click();
                 }
             };
             reader.readAsText(file);
         } catch (e) {
             (0, _functions.addToLog)('Error occurs with FileReader: ' + e + '.');
+            var _log2 = [].concat(_toConsumableArray(objCopy.warningLog), _toConsumableArray((0, _functions.getLog)()));
+            objCopy.warningLog = _log2;
+            document.querySelector('#refresh').click();
         }
     } else {
         (0, _functions.addToLog)('Warning! The File APIs are not fully supported in this browser.');
+        var _log3 = [].concat(_toConsumableArray(objCopy.warningLog), _toConsumableArray((0, _functions.getLog)()));
+        objCopy.warningLog = _log3;
+        document.querySelector('#refresh').click();
     }
-    objCopy.warningLog = [].concat(_toConsumableArray(objCopy.warningLog), _toConsumableArray((0, _functions.getLog)()));
     objCopy.selectedRule = '';
     objCopy.ruleId = -1;
+    console.log('log', log);
     return objCopy;
 };
 
@@ -46514,7 +46607,7 @@ utils.intFromLE = intFromLE;
 /***/ "./node_modules/elliptic/package.json":
 /***/ (function(module, exports) {
 
-module.exports = {"_args":[["elliptic@6.4.0","C:\\Users\\roman_iovlev\\Desktop\\jdi-p\\jdi-plugin"]],"_development":true,"_from":"elliptic@6.4.0","_id":"elliptic@6.4.0","_inBundle":false,"_integrity":"sha1-ysmvh2LIWDYYcAPI3+GT5eLq5d8=","_location":"/elliptic","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"elliptic@6.4.0","name":"elliptic","escapedName":"elliptic","rawSpec":"6.4.0","saveSpec":null,"fetchSpec":"6.4.0"},"_requiredBy":["/browserify-sign","/create-ecdh"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.0.tgz","_spec":"6.4.0","_where":"C:\\Users\\roman_iovlev\\Desktop\\jdi-p\\jdi-plugin","author":{"name":"Fedor Indutny","email":"fedor@indutny.com"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^2.11.3","grunt":"^0.4.5","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^8.6.2","istanbul":"^0.4.2","jscs":"^2.9.0","jshint":"^2.6.0","mocha":"^2.1.0"},"files":["lib"],"homepage":"https://github.com/indutny/elliptic","keywords":["EC","Elliptic","curve","Cryptography"],"license":"MIT","main":"lib/elliptic.js","name":"elliptic","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.4.0"}
+module.exports = {"_args":[["elliptic@6.4.0","C:\\Users\\Anisa Ask\\Desktop\\JDI-react"]],"_development":true,"_from":"elliptic@6.4.0","_id":"elliptic@6.4.0","_inBundle":false,"_integrity":"sha1-ysmvh2LIWDYYcAPI3+GT5eLq5d8=","_location":"/elliptic","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"elliptic@6.4.0","name":"elliptic","escapedName":"elliptic","rawSpec":"6.4.0","saveSpec":null,"fetchSpec":"6.4.0"},"_requiredBy":["/browserify-sign","/create-ecdh"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.0.tgz","_spec":"6.4.0","_where":"C:\\Users\\Anisa Ask\\Desktop\\JDI-react","author":{"name":"Fedor Indutny","email":"fedor@indutny.com"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^2.11.3","grunt":"^0.4.5","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^8.6.2","istanbul":"^0.4.2","jscs":"^2.9.0","jshint":"^2.6.0","mocha":"^2.1.0"},"files":["lib"],"homepage":"https://github.com/indutny/elliptic","keywords":["EC","Elliptic","curve","Cryptography"],"license":"MIT","main":"lib/elliptic.js","name":"elliptic","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.4.0"}
 
 /***/ }),
 

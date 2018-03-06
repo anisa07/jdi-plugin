@@ -22,7 +22,7 @@ export class Tree extends React.Component {
     render() {
         const props = this.props;
         return (
-            <div className="tree" style = {{height: this.getHeight()}}>
+            <div style = {{height: this.getHeight()}}>
                 <SortableTree
                     canDrop={this.canDrop}
                     treeData={props.resultTree}

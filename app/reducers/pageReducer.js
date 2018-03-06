@@ -3,7 +3,6 @@ import { findPage, findElement } from '../functional parts/common';
 import { genEl } from './POgen/genPo';
 import cssToXpath from '../libs/cssToXpath/cssToXPath';
 import { setTimeout } from 'timers';
-import { addToLog, getLog } from './POgen/functions';
 
 let map = new Map();
 let resTree = [];

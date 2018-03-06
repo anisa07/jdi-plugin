@@ -252,18 +252,27 @@ export let importRules = (mainObj, files) => {
                     document.querySelector('#refresh').click();
                 } catch (e) {
                     addToLog(`Error occurs reading local json file: ${e}`);
+                    let log = [...objCopy.warningLog, ...getLog()];
+                    objCopy.warningLog = log;
+                    document.querySelector('#refresh').click();
                 }
             };
             reader.readAsText(file)
         } catch (e) {
             addToLog(`Error occurs with FileReader: ${e}.`);
+            let log = [...objCopy.warningLog, ...getLog()];
+            objCopy.warningLog = log;
+            document.querySelector('#refresh').click();
         }
     } else {
         addToLog(`Warning! The File APIs are not fully supported in this browser.`);
+        let log = [...objCopy.warningLog, ...getLog()];
+        objCopy.warningLog = log;
+        document.querySelector('#refresh').click();
     }
-    objCopy.warningLog = [...objCopy.warningLog, ...getLog()];
     objCopy.selectedRule = '';
     objCopy.ruleId = -1;
+    console.log('log', log)
     return objCopy;
 }
 

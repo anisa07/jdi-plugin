@@ -39,6 +39,7 @@ export class PanelLeftPage extends React.Component {
         const props = this.props;
         return (
             <div className="panel panel-default">
+                <button id='refresh' onClick={()=>{ props.refresh(); }}></button>
                 {this.state.showPopup &&
                     <Popup popupTitle={'Generate new elments'}
                         popupText={`All defined elements of this page page will be replaced. Are you sure?`}

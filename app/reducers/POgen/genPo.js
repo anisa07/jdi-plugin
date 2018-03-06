@@ -15,13 +15,13 @@ let resTree = [];
 export let genEl = (obj) => {
     let results = [];
     let relatives = new Map();
-    let objCopy = {...obj}
+    let objCopy = { ...obj }
     let page = objCopy.PageObjects.find((page) => {
         if (page.pageId === objCopy.activeTabPageId) {
             return page
         }
     })
-    let warningLog = "";
+    let warningLog = [];
 
     let composites = Object.keys(objCopy.CompositeRules);
     let complex = Object.keys(objCopy.ComplexRules);
@@ -53,7 +53,9 @@ export let genEl = (obj) => {
     chrome.devtools.inspectedWindow.eval(
         'document.body.outerHTML', (r, err) => {
             if (err) {
-                alert('Error, loading data from active page!');
+                addToLog(`Error, loading data from active page! ${err}`);
+                objCopy.warningLog = [...objCopy.warningLog, getLog()];
+                document.querySelector('#refresh').click();
             }
 
             let parser = new DOMParser();
@@ -183,13 +185,16 @@ export let genEl = (obj) => {
                     let e = {
                         Locator: firstSearch.locatorType.locator,
                         content: elements[0],
-                        Name: nameElement(firstSearch.locatorType.locator, uniq, '', elements[0]),
+                        Name: nameElement(firstSearch.locatorType.locator, uniq, '', elements[0]).slice(0, 20),
                     }
                     fillEl(e, t, parent, ruleId);
                 };
                 if (elements.length > 1) {
-                    if (uniqness.value === "tag" || uniqness.value === '[')
-                        addToLog(`Too much elements found(${elements.length} for ${uniqness.value}. Locator (${firstSearch.locatorType.locator}))`);
+                    if (uniqness.value === "tag" || uniqness.value === '[') {
+                        addToLog(`Warning! Too much elements found by locator ${firstSearch.locatorType.locator}; uniqness ${uniqness.value}; ${elements.length} elements`);
+                        objCopy.warningLog = [...objCopy.warningLog, getLog()];
+                        document.querySelector('#refresh').click();
+                    }
                     for (let i = 0; i < elements.length; i++) {
                         let val = getValue(elements[i], uniqness, Locator);
                         let finalLocator = xpath
@@ -200,11 +205,13 @@ export let genEl = (obj) => {
                             let e = {
                                 Locator: finalLocator,
                                 content: s2.elements[0],
-                                Name: nameElement(finalLocator, uniq, val, s2.elements[0]),
+                                Name: nameElement(finalLocator, uniq, val, s2.elements[0]).slice(0, 20),
                             }
                             fillEl(e, t, parent, ruleId);
                         } else {
-                            addToLog(`Too much elements found(${s2.elements.length}. Locator (${finalLocator}))`);
+                            addToLog(`Warning! Too much elements found by locator ${finalLocator}; ${s2.elements.length} elements`);
+                            objCopy.warningLog = [...objCopy.warningLog, getLog()];
+                            document.querySelector('#refresh').click();
                         }
                     }
                 }
@@ -237,6 +244,8 @@ export let genEl = (obj) => {
                     elements = locatorType.xpath ? getElementsByXpath(dom, locatorType.locator) : dom.querySelectorAll(locatorType.locator);
                 } catch (e) {
                     addToLog(`Error!: cannot get elements by ${locatorType.locator}`);
+                    objCopy.warningLog = [...objCopy.warningLog, getLog()];
+                    document.querySelector('#refresh').click();
                 }
                 return {
                     elements: elements,
@@ -404,7 +413,9 @@ export let genEl = (obj) => {
                     try {
                         getComposite(observedDOM, rule)
                     } catch (e) {
-                        addToLog(`Error! Getting composite element... ${e}`)
+                        addToLog(`Error! Getting composite element: ${e}`)
+                        objCopy.warningLog = [...objCopy.warningLog, getLog()];
+                        document.querySelector('#refresh').click();
                     };
                 });
 
@@ -437,7 +448,9 @@ export let genEl = (obj) => {
                         try {
                             getComplex(section, rule);
                         } catch (e) {
-                            addToLog(`Error! Getting complex element... ${e}`)
+                            addToLog(`Error! Getting complex element: ${e}`)
+                            objCopy.warningLog = [...objCopy.warningLog, getLog()];
+                            document.querySelector('#refresh').click();
                         }
                     });
                 });
@@ -450,17 +463,17 @@ export let genEl = (obj) => {
                     try {
                         getSimple(section, rule);
                     } catch (e) {
-                        addToLog(`Error! Getting simple element... ${e}`)
+                        addToLog(`Error! Getting simple element: ${e}`)
+                        objCopy.warningLog = [...objCopy.warningLog, getLog()];
+                        document.querySelector('#refresh').click();
                     }
                 });
             });
 
-            objCopy.warningLog = { ...objCopy.warningLog, ...getLog() };
-            console.log('objCopy.warningLog', objCopy.warningLog)
+            //warningLog = [...objCopy.warningLog, ...getLog() ];
             document.querySelector("[data-tabid='" + objCopy.activeTabPageId + "']").click();
         }
     );
-
     map = drawMap(page.elements, objCopy.sections, new Map());
     objCopy.pageMap = map;
     objCopy.resultTree = getChildren(map, null);
