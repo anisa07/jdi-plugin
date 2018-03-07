@@ -9,15 +9,7 @@ export let showCode = (mainObj) => {
     let page = objCopy.PageObjects.find(page => page.pageId === objCopy.activeTabPageId);
     let el = objCopy.selectedElement;
 	let pack = objCopy.SiteInfo.pack;
-	switch (el.Type) {
-		case "Section": 
-			objCopy.code = sectionCode(pack, el, objCopy);
-			break;
-		case "Form": 
-			objCopy.code = formCode(pack, el, objCopy, el.Name.slice(0,-4) + "s");
-			break;
-		default: objCopy.code = "Unknown section type. Only Forms and Sections are supported";
-	}
+	objCopy.code = sectionCode(pack, el, objCopy);
     return objCopy;
 }
 
