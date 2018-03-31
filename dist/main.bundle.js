@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "8055432c1faeff35317f"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ccfa249bb1b6e49eeabe"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -3200,7 +3200,7 @@ exports.SiteInfoJSON = SiteInfoJSON;
 
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+    value: true
 });
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -3209,207 +3209,135 @@ var Elements = ["Button", "Checkbox", "Image", "Label", "Link", "Text", "TextFie
 var Locators = ["class", "css", "xpath", "id", "name", "tag", "text"];
 
 var commonFields = {
-	"Name": "TextField",
-	"Type": "ComboBox",
-	"parent": "internal",
-	"parentId": "internal",
-	"elId": "internal"
+    "Name": "TextField",
+    "Type": "ComboBox",
+    "parent": "internal",
+    "parentId": "internal",
+    "elId": "internal"
 };
 
 var ElementFields = {
-	"Button": _extends({}, commonFields, { "Locator": "TextField" }),
-	"CheckBox": _extends({}, commonFields, { "Locator": "TextField" }),
-	"Image": _extends({}, commonFields, { "Locator": "TextField" }),
-	"Label": _extends({}, commonFields, { "Locator": "TextField" }),
-	"Text": _extends({}, commonFields, { "Locator": "TextField" }),
-	"Link": _extends({}, commonFields, { "Locator": "TextField" }),
-	"TextField": _extends({}, commonFields, { "Locator": "TextField" }),
-	"TextArea": _extends({}, commonFields, { "Locator": "TextField" }),
-	"DataPicker": _extends({}, commonFields, { "Locator": "TextField" }),
-	"FileInput": _extends({}, commonFields, { "Locator": "TextField" }),
-	"Selector": _extends({}, commonFields, { "Locator": "TextField" }),
-	"CheckList": _extends({}, commonFields, { "Locator": "TextField" }),
-	"Menu": _extends({}, commonFields, { "Locator": "TextField" }),
-	"RadioButtons": _extends({}, commonFields, { "Locator": "TextField" }),
-	"Tabs": _extends({}, commonFields, { "Locator": "TextField" }),
-	"Section": _extends({}, commonFields, { "Locator": "TextField", "isSection": "internal", "expanded": "internal", "children": "internal" }),
-	"Form": _extends({}, commonFields, { "Locator": "TextField", "isSection": "internal", "Entity": "TextField", "expanded": "internal", "children": "internal" }),
-	"ComboBox": _extends({}, commonFields, { "Root": "TextField", "Value": "TextField",
-		"List": "TextField", "Expand": "TextField", "Enum": "TextField"
-	}),
-	"Dropdown": _extends({}, commonFields, { "Root": "TextField", "Value": "TextField",
-		"List": "TextField", "Expand": "TextField", "Enum": "TextField"
-	}),
-	"DropList": _extends({}, commonFields, { "Root": "TextField", "Value": "TextField",
-		"List": "TextField", "Expand": "TextField", "Enum": "TextField"
-	}),
-	"Table": _extends({}, commonFields, { "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
-		"RowHeader": "TextField", "Cell": "TextField", "Column": "TextField", "Row": "TextField",
-		"Footer": "TextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
-		"HeaderTypes": "ComboBox", "HeaderTypesValues": ["All", "Headers", "No Headers", "Columns Headers", "Rows Headers"]
-	}),
-	"DynamicTable": _extends({}, commonFields, { "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
-		"RowHeader": "TextField", "Cell": "TextField", "Column": "TextField", "Row": "TextField",
-		"Footer": "TextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
-		"HeaderTypes": "ComboBox", "HeaderTypesValues": ["All", "Headers", "No Headers", "Columns Headers", "Rows Headers"]
-	})
-	//let HeaderTypes = ["All", "Headers", "No Headers", "Columns Headers", "Rows Headers"];
+    "Button": _extends({}, commonFields, { "Locator": "TextField" }),
+    "CheckBox": _extends({}, commonFields, { "Locator": "TextField" }),
+    "Image": _extends({}, commonFields, { "Locator": "TextField" }),
+    "Label": _extends({}, commonFields, { "Locator": "TextField" }),
+    "Text": _extends({}, commonFields, { "Locator": "TextField" }),
+    "Link": _extends({}, commonFields, { "Locator": "TextField" }),
+    "TextField": _extends({}, commonFields, { "Locator": "TextField" }),
+    "TextArea": _extends({}, commonFields, { "Locator": "TextField" }),
+    "DataPicker": _extends({}, commonFields, { "Locator": "TextField" }),
+    "FileInput": _extends({}, commonFields, { "Locator": "TextField" }),
+    "Selector": _extends({}, commonFields, { "Locator": "TextField" }),
+    "CheckList": _extends({}, commonFields, { "Locator": "TextField" }),
+    "Menu": _extends({}, commonFields, { "Locator": "TextField" }),
+    "RadioButtons": _extends({}, commonFields, { "Locator": "TextField" }),
+    "Tabs": _extends({}, commonFields, { "Locator": "TextField" }),
+    "Section": _extends({}, commonFields, { "Locator": "TextField", "isSection": "internal", "expanded": "internal", "children": "internal" }),
+    "Form": _extends({}, commonFields, { "Locator": "TextField", "isSection": "internal", "Entity": "TextField", "expanded": "internal", "children": "internal" }),
+    "ComboBox": _extends({}, commonFields, { "Root": "TextField", "Value": "TextField",
+        "List": "TextField", "Expand": "TextField", "Enum": "TextField"
+    }),
+    "Dropdown": _extends({}, commonFields, { "Root": "TextField", "Value": "TextField",
+        "List": "TextField", "Expand": "TextField", "Enum": "TextField"
+    }),
+    "DropList": _extends({}, commonFields, { "Root": "TextField", "Value": "TextField",
+        "List": "TextField", "Expand": "TextField", "Enum": "TextField"
+    }),
+    "Table": _extends({}, commonFields, { "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
+        "RowHeader": "TextField", "Cell": "TextField", "Column": "TextField", "Row": "TextField",
+        "Footer": "TextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
+        "HeaderTypes": "ComboBox", "HeaderTypesValues": ["All", "Headers", "No Headers", "Columns Headers", "Rows Headers"]
+    }),
+    "DynamicTable": _extends({}, commonFields, { "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
+        "RowHeader": "TextField", "Cell": "TextField", "Column": "TextField", "Row": "TextField",
+        "Footer": "TextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
+        "HeaderTypes": "ComboBox", "HeaderTypesValues": ["All", "Headers", "No Headers", "Columns Headers", "Rows Headers"]
+    })
+    //let HeaderTypes = ["All", "Headers", "No Headers", "Columns Headers", "Rows Headers"];
 
-	/*let ElementFields = new Map();
- ElementFields.set("Button", { ...commonFields, "Locator": "TextField" });
- ElementFields.set("Image", { ...commonFields, "Locator": "TextField" });
- ElementFields.set("Checkbox", { ...commonFields, "Locator": "TextField" });
- ElementFields.set("Label", { ...commonFields, "Locator": "TextField" });
- ElementFields.set("Link", { ...commonFields, "Locator": "TextField" });
- ElementFields.set("Text", { ...commonFields, "Locator": "TextField" });
- ElementFields.set("TextField", { ...commonFields, "Locator": "TextField" });
- ElementFields.set("Input", { ...commonFields, "Locator": "TextField" });
- ElementFields.set("TextArea", { ...commonFields, "Locator": "TextField" });
- ElementFields.set("DataPicker", { ...commonFields, "Locator": "TextField" });
- ElementFields.set("FileInput", { ...commonFields, "Locator": "TextField" });
- ElementFields.set("Section", { ...commonFields, "Locator": "TextField", "isSection": "internal", "expanded": "internal", "children": "internal" });
- ElementFields.set("Form", { ...commonFields, "Locator": "TextField", "isSection": "internal", "Entity": "TextField", "expanded": "internal", "children": "internal" });
- ElementFields.set("Selector", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
- ElementFields.set("CheckList", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
- ElementFields.set("Menu", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
- ElementFields.set("RadioButtons", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
- ElementFields.set("Tabs", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
- ElementFields.set("TextList", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
- ElementFields.set("Chat", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
- ElementFields.set("ComboBox", {
-     ...commonFields, "Root": "TextField", "Value": "TextField",
-     "List": "TextField", "Expand": "TextField", "Enum": "TextField"
- });
- ElementFields.set("Logout", {
-     ...commonFields, "Root": "TextField", "Value": "TextField",
-     "List": "TextField", "Expand": "TextField", "Enum": "TextField"
- });
- ElementFields.set("Dropdown", {
-     ...commonFields, "Root": "TextField", "Value": "TextField",
-     "List": "TextField", "Expand": "TextField", "Enum": "TextField"
- });
- ElementFields.set("DropList", {
-     ...commonFields, "Root": "TextField", "Value": "TextField",
-     "List": "TextField", "Expand": "TextField", "Enum": "TextField"
- });
- ElementFields.set("Table", {
-     ...commonFields, "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
-     "RowHeader": "TextField", "Cell": "TextField", "Column": "TextField", "Row": "TextField",
-     "Footer": "TextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
-     "HeaderTypes": "ComboBox"
- });
- ElementFields.set("DynamicTable", {
-     ...commonFields, "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
-     "RowHeader": "TextField", "Cell": "TextField", "Column": "TextField", "Row": "TextField",
-     "Footer": "TextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
-     "HeaderTypes": "ComboBox"
- });*/
+    /*let ElementFields = new Map();
+    ElementFields.set("Button", { ...commonFields, "Locator": "TextField" });
+    ElementFields.set("Image", { ...commonFields, "Locator": "TextField" });
+    ElementFields.set("Checkbox", { ...commonFields, "Locator": "TextField" });
+    ElementFields.set("Label", { ...commonFields, "Locator": "TextField" });
+    ElementFields.set("Link", { ...commonFields, "Locator": "TextField" });
+    ElementFields.set("Text", { ...commonFields, "Locator": "TextField" });
+    ElementFields.set("TextField", { ...commonFields, "Locator": "TextField" });
+    ElementFields.set("Input", { ...commonFields, "Locator": "TextField" });
+    ElementFields.set("TextArea", { ...commonFields, "Locator": "TextField" });
+    ElementFields.set("DataPicker", { ...commonFields, "Locator": "TextField" });
+    ElementFields.set("FileInput", { ...commonFields, "Locator": "TextField" });
+    ElementFields.set("Section", { ...commonFields, "Locator": "TextField", "isSection": "internal", "expanded": "internal", "children": "internal" });
+    ElementFields.set("Form", { ...commonFields, "Locator": "TextField", "isSection": "internal", "Entity": "TextField", "expanded": "internal", "children": "internal" });
+    ElementFields.set("Selector", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
+    ElementFields.set("CheckList", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
+    ElementFields.set("Menu", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
+    ElementFields.set("RadioButtons", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
+    ElementFields.set("Tabs", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
+    ElementFields.set("TextList", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
+    ElementFields.set("Chat", { ...commonFields, "Locator": "TextField", "Enum": "TextField" });
+    ElementFields.set("ComboBox", {
+        ...commonFields, "Root": "TextField", "Value": "TextField",
+        "List": "TextField", "Expand": "TextField", "Enum": "TextField"
+    });
+    ElementFields.set("Logout", {
+        ...commonFields, "Root": "TextField", "Value": "TextField",
+        "List": "TextField", "Expand": "TextField", "Enum": "TextField"
+    });
+    ElementFields.set("Dropdown", {
+        ...commonFields, "Root": "TextField", "Value": "TextField",
+        "List": "TextField", "Expand": "TextField", "Enum": "TextField"
+    });
+    ElementFields.set("DropList", {
+        ...commonFields, "Root": "TextField", "Value": "TextField",
+        "List": "TextField", "Expand": "TextField", "Enum": "TextField"
+    });
+    ElementFields.set("Table", {
+        ...commonFields, "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
+        "RowHeader": "TextField", "Cell": "TextField", "Column": "TextField", "Row": "TextField",
+        "Footer": "TextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
+        "HeaderTypes": "ComboBox"
+    });
+    ElementFields.set("DynamicTable", {
+        ...commonFields, "Root": "TextField", "Headers": "TextField", "RowHeaders": "TextField", "Header": "TextField",
+        "RowHeader": "TextField", "Cell": "TextField", "Column": "TextField", "Row": "TextField",
+        "Footer": "TextField", "Height": "TextField", "Width": "TextField", "RowStartIndex": "TextField", "UseCache": "Checkbox",
+        "HeaderTypes": "ComboBox"
+    });*/
 
 };var SimpleRules = {
-	"Button": [{
-		"Locator": "button[type=submit]",
-		"uniqness": "text",
-		"id": 0
-	}],
-	"CheckBox": [{
-		"Locator": "input[type=checkbox]",
-		"id": 0,
-		"uniqness": "id"
-	}],
-	"Image": [{
-		"Locator": "img",
-		"id": 0,
-		"uniqness": "id"
-	}],
-	"Label": [{
-		"Locator": "h1",
-		"id": 0,
-		"uniqness": "name"
-	}, {
-		"Locator": "h2",
-		"id": 1,
-		"uniqness": "name"
-	}, {
-		"Locator": "h3",
-		"id": 2,
-		"uniqness": "name"
-	}, {
-		"Locator": "[ui=label]",
-		"id": 3,
-		"uniqness": "text"
-	}],
-	"Link": [{ Locator: "", uniqness: "", id: 0 }],
-	"Text": [{
-		"Locator": ".main-txt",
-		"id": 0,
-		"uniqness": "name"
-	}],
-	"TextField": [{
-		"Locator": "input[type=text]",
-		"id": 0,
-		"uniqness": "id"
-	}, {
-		"Locator": "input[type=password]",
-		"id": 1,
-		"uniqness": "id"
-	}],
-	"TextArea": [{
-		"Locator": "textarea",
-		"id": 0,
-		"uniqness": "id"
-	}],
-	"DataPicker": [{
-		"Locator": "",
-		"id": 0,
-		"uniqness": ""
-	}],
-	"FileInput": [{
-		"Locator": "",
-		"id": 0,
-		"uniqness": ""
-	}],
-	"Selector": [{
-		"Locator": "",
-		"id": 0,
-		"uniqness": ""
-	}],
-	"CheckList": [{
-		"Locator": "",
-		"id": 0,
-		"uniqness": ""
-	}],
-	"Menu": [{
-		"Locator": "",
-		"id": 0,
-		"uniqness": ""
-	}],
-	"RadioButtons": [{
-		"Locator": "",
-		"id": 0,
-		"uniqness": ""
-	}],
-	"Tabs": [{
-		"Locator": "",
-		"id": 0,
-		"uniqness": ""
-	}]
+    "Button": [{ "Locator": "button[type=submit]", "uniqness": "text", "id": 0 }],
+    "CheckBox": [{ "Locator": "input[type=checkbox]", "id": 0, "uniqness": "name" }],
+    "Image": [{ "Locator": "img", "id": 0, "uniqness": "id" }],
+    "Label": [{ "Locator": "h1", "id": 0, "uniqness": "name" }, { "Locator": "h2", "id": 1, "uniqness": "name" }, { "Locator": "h3", "id": 2, "uniqness": "name" }, { "Locator": "[ui=label]", "id": 3, "uniqness": "text" }],
+    "Link": [{ "Locator": "", "uniqness": "", id: 0 }],
+    "Text": [{ "Locator": ".main-txt", "id": 0, "uniqness": "name" }],
+    "TextField": [{ "Locator": "input[type=text]", "id": 0, "uniqness": "id" }, { "Locator": "input[type=password]", "id": 1, "uniqness": "id" }],
+    "TextArea": [{ "Locator": "textarea", "id": 0, "uniqness": "id" }],
+    "DataPicker": [{ "Locator": "", "id": 0, "uniqness": "" }],
+    "FileInput": [{ "Locator": "", "id": 0, "uniqness": "" }],
+    "Selector": [{ "Locator": "", "id": 0, "uniqness": "" }],
+    "CheckList": [{ "Locator": "", "id": 0, "uniqness": "" }],
+    "Menu": [{ "Locator": "", "id": 0, "uniqness": "" }],
+    "RadioButtons": [{ "Locator": "", "id": 0, "uniqness": "" }],
+    "Tabs": [{ "Locator": "", "id": 0, "uniqness": "" }]
 };
 var ComplexRules = {
-	"Dropdown": [{ Root: "[jtype=dropdown] button", uniqness: ".filter-option#text", Value: "", List: "li", Expand: ".caret", id: 0 }],
-	"ComboBox": [{ Root: "[jtype=combobox] button", uniqness: ".filter-option#text", Value: "", List: "li", Expand: ".caret", id: 0 }],
-	"DropList": [{ Root: "[jtype=droplist] button", uniqness: ".filter-option#text", Value: "", List: "li", Expand: ".caret", id: 0 }],
-	"Table": [{
-		Root: "table", Header: "", RowHeader: "", Cell: "",
-		Column: "", Row: "", Footer: "", id: 0, uniqness: 'class'
-	}],
-	"DynamicTable": [{
-		Root: "", Header: "", RowHeader: "", Cell: "",
-		Column: "", Row: "", Footer: "", id: 0, uniqness: "class"
-	}]
+    "Dropdown": [{ Root: "div[ui=dropdown]", uniqness: "id", Value: ".filter-option", List: "li", Expand: ".caret", id: 0 }, { Root: "select[ui=dropdown]", uniqness: "id", Value: "", List: "", Expand: "", id: 1 }],
+    "ComboBox": [{ Root: "div[ui=combobox]", uniqness: "id", Value: "input", List: "li", Expand: ".caret", id: 0 }, { Root: "select[ui=combobox]", uniqness: "id", Value: "", List: "", Expand: "", id: 1 }],
+    "DropList": [{ Root: "div[ui=droplist]", uniqness: "id", Value: "button", List: "li", Expand: ".caret", IsSelected: "././/input", id: 0 }],
+    "Table": [{
+        Root: "table", Header: "", RowHeader: "", Cell: "",
+        Column: "", Row: "", Footer: "", id: 0, uniqness: 'class'
+    }],
+    "DynamicTable": [{
+        Root: "", Header: "", RowHeader: "", Cell: "",
+        Column: "", Row: "", Footer: "", id: 0, uniqness: "class"
+    }]
 };
 var CompositeRules = {
-	"Section": [{ "Locator": ".section", "id": 0, "uniqness": "class" }, { "Locator": "header", "id": 1, "uniqness": "tag" }, { "Locator": "footer", "id": 2, "uniqness": "tag" }, { "Locator": ".uui-side-bar", "id": 3, "uniqness": "name" }, { "Locator": ".main-form", "id": 4, "uniqness": "tag" }],
-	"Form": [{ "Locator": "form", "id": 0, "uniqness": "id" }]
+    "Section": [{ "Locator": ".section", "id": 0, "uniqness": "class" }, { "Locator": "header", "id": 1, "uniqness": "tag" }, { "Locator": "footer", "id": 2, "uniqness": "tag" }, { "Locator": ".uui-side-bar", "id": 3, "uniqness": "name" }, { "Locator": ".main-form", "id": 4, "uniqness": "tag" }],
+    "Form": [{ "Locator": "form", "id": 0, "uniqness": "id" }]
 };
 
 exports.Elements = Elements;
@@ -5144,7 +5072,7 @@ https://github.com/nodeca/pako/blob/master/LICENSE
         promise is useless because file(name, data) returns the JSZip
         object for chaining. Should we break that to allow the user
         to catch the error ?
-         return external.Promise.resolve(zipObjectContent)
+          return external.Promise.resolve(zipObjectContent)
         .then(function () {
             return object;
         });
@@ -13807,16 +13735,16 @@ https://github.com/nodeca/pako/blob/master/LICENSE
          from their more natural integer increment ordering, and so when the
          decoding tables are built in the large loop below, the integer codes
          are incremented backwards.
-          This routine assumes, but does not check, that all of the entries in
+           This routine assumes, but does not check, that all of the entries in
          lens[] are in the range 0..MAXBITS.  The caller must assure this.
          1..MAXBITS is interpreted as that code length.  zero means that that
          symbol does not occur in this code.
-          The codes are sorted by computing a count of codes for each length,
+           The codes are sorted by computing a count of codes for each length,
          creating from that a table of starting indices for each length in the
          sorted table, and then entering the symbols in order in the sorted
          table.  The sorted table is work[], with that space being provided by
          the caller.
-          The length counts are used for other purposes as well, i.e. finding
+           The length counts are used for other purposes as well, i.e. finding
          the minimum and maximum length codes, determining if there are any
          codes at all, checking for a valid set of lengths, and looking ahead
          at length counts to determine sub-table sizes when building the
@@ -13898,21 +13826,21 @@ https://github.com/nodeca/pako/blob/master/LICENSE
          bits off of the bottom.  For codes where len is less than drop + curr,
          those top drop + curr - len bits are incremented through all values to
          fill the table with replicated entries.
-          root is the number of index bits for the root table.  When len exceeds
+           root is the number of index bits for the root table.  When len exceeds
          root, sub-tables are created pointed to by the root entry with an index
          of the low root bits of huff.  This is saved in low to check for when a
          new sub-table should be started.  drop is zero when the root table is
          being filled, and drop is root when sub-tables are being filled.
-          When a new sub-table is needed, it is necessary to look ahead in the
+           When a new sub-table is needed, it is necessary to look ahead in the
          code lengths to determine what size sub-table is needed.  The length
          counts are used for this, and so count[] is decremented as codes are
          entered in the tables.
-          used keeps track of how many table entries have been allocated from the
+           used keeps track of how many table entries have been allocated from the
          provided *table space.  It is checked for LENS and DIST tables against
          the constants ENOUGH_LENS and ENOUGH_DISTS to guard against changes in
          the initial root table size constants.  See the comments in inftrees.h
          for more information.
-          sym increments through all symbols, and the loop terminates when
+           sym increments through all symbols, and the loop terminates when
          all codes of length max, i.e. all codes, have been processed.  This
          routine permits incomplete codes, so another loop after this one fills
          in the rest of the decoding tables with invalid code markers.
@@ -15710,23 +15638,37 @@ var genEl = exports.genEl = function genEl(obj) {
     chrome.devtools.inspectedWindow.eval('document.location', function (r, err) {
         page.url = r.pathname;
         objCopy.SiteInfo.hostName = r.hostname;
-        page.title = r.pathname.split("/").pop().replace(/\.html|\.htm/, '');
+        objCopy.SiteInfo.siteTitle = toName(r.hostname.substring(0, r.hostname.lastIndexOf(".")));
         objCopy.SiteInfo.origin = r.origin;
     });
 
     chrome.devtools.inspectedWindow.eval('document.domain', function (r, err) {
         if (r !== "") {
             objCopy.SiteInfo.domainName = r;
-            objCopy.SiteInfo.domainName = r;
+            objCopy.SiteInfo.pack = r.split('.').reverse().join('.');
         }
     });
 
     chrome.devtools.inspectedWindow.eval('document.title', function (r, err) {
         if (r !== "") {
-            page.name = r;
+            page.title = r;
+            page.name = toName(r);
         }
     });
 
+    function toName(n) {
+        var name = [];
+        if (n) {
+            //[^a-zA-Zа-яёА-ЯЁ0-9]
+            var arrayName = n.split(/[^a-zA-Zа-яёА-ЯЁ0-9]/);
+            for (var j = 0; j < arrayName.length; j++) {
+                if (arrayName[j]) {
+                    name.push(arrayName[j][0].toUpperCase() + arrayName[j].slice(1));
+                }
+            }
+        }
+        return name.join(" ");
+    }
     chrome.devtools.inspectedWindow.eval('document.body.outerHTML', function (r, err) {
         if (err) {
             (0, _functions.addToLog)("Error, loading data from active page! " + err);
@@ -15867,6 +15809,7 @@ var genEl = exports.genEl = function genEl(obj) {
                 };
                 fillEl(e, t, parent, ruleId);
             };
+            var tooMuchElements = "Too much elements found(" + elements.length + " for " + uniqness.value + ". Locator (" + firstSearch.locatorType.locator + "))";
             if (elements.length > 1) {
                 if (uniqness.value === "tag" || uniqness.value === '[') {
                     (0, _functions.addToLog)("Warning! Too much elements found by locator " + firstSearch.locatorType.locator + "; uniqness " + uniqness.value + "; " + elements.length + " elements");
@@ -16182,8 +16125,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.zipAllCode = exports.switchCodeMode = exports.downloadCode = exports.genCode = exports.showCode = undefined;
 
-var _settings = __webpack_require__("./app/data/settings.js");
-
 var _fileSaver = __webpack_require__("./node_modules/file-saver/FileSaver.js");
 
 var _jszip = __webpack_require__("./app/libs/jszip/dist/jszip.js");
@@ -16192,112 +16133,27 @@ var _jszip2 = _interopRequireDefault(_jszip);
 
 var _pageObject = __webpack_require__("./app/data/pageObject.js");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _codeTemplates = __webpack_require__("./app/reducers/codeTemplates.js");
 
-function createUpCaseName(name) {
-    var result = '';
-    var nArr = name.split(/\W/);
-    for (var i = 0; i < nArr.length; i++) {
-        if (!!nArr[i]) {
-            result += nArr[i][0].toUpperCase() + nArr[i].slice(1);
-        }
-    }
-    return result;
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var showCode = exports.showCode = function showCode(mainObj) {
     var objCopy = Object.assign({}, mainObj);
     objCopy.CodeDetails = true;
     var page = objCopy.PageObjects.find(function (page) {
-        if (page.pageId === objCopy.activeTabPageId) {
-            return page;
-        }
+        return page.pageId === objCopy.activeTabPageId;
     });
-    var pack = objCopy.SiteInfo.domainName.split(/\W/).reverse().join('.');
-
     var el = objCopy.selectedElement;
-
-    function c() {
-        return 'package ' + pack + ';\n' + commonImport() + '\n\npublic class ' + el.Name + ' extends ' + el.Type + '{' + genCodeOfElements(el.elId, page.elements, objCopy) + '\n}';
-    }
-
-    objCopy.code = c();
-
+    var pack = objCopy.SiteInfo.pack;
+    objCopy.code = (0, _codeTemplates.sectionCode)(pack, el, objCopy);
     return objCopy;
-};
-
-function commonImport() {
-    return '\nimport com.epam.jdi.uitests.web.selenium.elements.common.*;\nimport com.epam.jdi.uitests.web.selenium.elements.complex.*;\nimport com.epam.jdi.uitests.web.selenium.elements.composite.*;\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.*;\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;\nimport org.openqa.selenium.support.FindBy;';
-}
-
-function genCodeOfElements(parentId, arrOfElements, objCopy) {
-    var result = '';
-    for (var i = 0; i < arrOfElements.length; i++) {
-        if (arrOfElements[i].parentId === parentId && (!!arrOfElements[i].Locator || !!arrOfElements[i].Root)) {
-            if (objCopy.CompositeRules[arrOfElements[i].Type]) {
-                result += '\n\t@' + (arrOfElements[i].Locator.indexOf('/') !== 1 ? 'Css("' : 'XPath("') + arrOfElements[i].Locator + '") public ' + arrOfElements[i].Name + ' ' + arrOfElements[i].Name[0].toLowerCase() + arrOfElements[i].Name.slice(1) + ';';
-            }
-            if (objCopy.ComplexRules[arrOfElements[i].Type]) {
-                var clone = Object.assign({}, objCopy.ElementFields[arrOfElements[i].Type]);
-                for (var field in _settings.commonFields) {
-                    delete clone[field];
-                }
-
-                if (arrOfElements[i].hasOwnProperty('Root')) {
-                    result += '\n\t@J' + arrOfElements[i].Type + '(' + '\n\t\troot = @FindBy(' + (arrOfElements[i].Root.indexOf('/') !== 1 ? 'css' : 'xpath') + ' ="' + arrOfElements[i].Root + '")';
-                    delete clone.Root;
-                    for (var _field in clone) {
-                        if (arrOfElements[i][_field]) {
-                            result += ',\n\t\t' + _field.toLowerCase() + ' = @FindBy(' + (arrOfElements[i][_field].indexOf('/') !== 0 ? 'css' : 'xpath') + ' = "' + arrOfElements[i][_field] + '")';
-                        }
-                    }
-                }
-                result += '\n\t) public ' + arrOfElements[i].Type + ' ' + arrOfElements[i].Name[0].toLowerCase() + arrOfElements[i].Name.slice(1) + ';';
-            }
-            if (objCopy.SimpleRules[arrOfElements[i].Type]) {
-                result += '\n\t@' + (arrOfElements[i].Locator.indexOf('/') !== 1 ? 'Css("' : 'XPath("') + arrOfElements[i].Locator + '") public ' + arrOfElements[i].Type + ' ' + arrOfElements[i].Name[0].toLowerCase() + arrOfElements[i].Name.slice(1) + ';';
-            }
-        }
-    }
-    return result;
-}
-
-function genCodeOfWEBElements(arrOfElements) {
-    var result = '';
-    for (var i = 0; i < arrOfElements.length; i++) {
-        if (arrOfElements[i].Locator) {
-            var locator = arrOfElements[i].Locator.indexOf('/') !== 1 ? 'css = "' + arrOfElements[i].Locator + '"' : 'xpath = "' + arrOfElements[i].Locator + '"';
-            result += '\n\t@FindBy(' + locator + ') public WebElement ' + arrOfElements[i].Name + ';';
-        }
-    }
-    return result;
-}
-
-var genPageCode = function genPageCode(page, domainName, objCopy) {
-    var pageName = createUpCaseName(page.name);
-
-    var p = domainName.split(/\W/).reverse().join('.');
-
-    if (objCopy.JDI) {
-        return 'package ' + p + '.pages;' + '\n\nimport ' + p + '.sections.*;' + commonImport() + '\n\npublic class ' + pageName + ' extends WebPage {' + genCodeOfElements(null, page.elements, objCopy) + '\n}';
-    } else {
-        return 'package ' + p + '.pages;' + '\n\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;' + '\nimport org.openqa.selenium.WebElement;' + '\n\npublic class ' + pageName + ' {' + genCodeOfWEBElements(page.elements) + '\n}';
-    }
 };
 
 var genCode = exports.genCode = function genCode(mainObj) {
     var objCopy = Object.assign({}, mainObj);
-    var page = objCopy.PageObjects.find(function (page) {
-        if (page.pageId === objCopy.activeTabPageId) {
-            return page;
-        }
-    });
-    objCopy.code = '';
     objCopy.CodeDetails = true;
     objCopy.selectedElement = '';
-
-    objCopy.code = genPageCode(page, objCopy.SiteInfo.domainName, objCopy);
-
+    objCopy.code = genPageCode(getActivePage(objCopy), objCopy.SiteInfo.pack, objCopy);
     return objCopy;
 };
 
@@ -16305,27 +16161,13 @@ var downloadCode = exports.downloadCode = function downloadCode(mainObj) {
     var objCopy = Object.assign({}, mainObj);
 
     var objToSave = {
-        content: '',
-        name: ''
+        content: objCopy.code,
+        name: !!objCopy.selectedElement ? objCopy.selectedElement.Name + '.java' : (0, _codeTemplates.getPageName)(getActivePage(objCopy).name) + '.java'
     };
-
-    if (!!objCopy.selectedElement) {
-        objToSave.name = objCopy.selectedElement.Name + '.java';
-    } else {
-        var page = objCopy.PageObjects.find(function (page) {
-            if (page.pageId === objCopy.activeTabPageId) {
-                return page;
-            }
-        });
-        objToSave.name = createUpCaseName(page.name) + '.java';
-    }
-    objToSave.content = objCopy.code;
-
     if (objToSave.content && objToSave.name) {
         var blob = new Blob([objToSave.content], { type: "text/plain;charset=utf-8" });
         (0, _fileSaver.saveAs)(blob, objToSave.name);
     }
-
     return objCopy;
 };
 
@@ -16353,51 +16195,218 @@ var switchCodeMode = exports.switchCodeMode = function switchCodeMode(mainObj) {
 var zipAllCode = exports.zipAllCode = function zipAllCode(mainObj) {
     var objCopy = Object.assign({}, mainObj);
     var zip = new _jszip2.default();
-    var siteHostName = objCopy.SiteInfo.hostName.split(/\W/);
-    var gen = false;
-    for (var i = 0; i < objCopy.PageObjects.length; i++) {
-        if (objCopy.PageObjects[i].elements.length > 0 && siteHostName) {
-            gen = true;
+    var pack = objCopy.SiteInfo.pack;
+    var pages = objCopy.PageObjects;
+    if (!objCopy.SiteInfo.siteTitle) return objCopy;
+    var siteName = (0, _codeTemplates.getSiteName)(objCopy.SiteInfo.siteTitle);
+
+    zip.file(siteName + '.java', (0, _codeTemplates.siteCode)(pack, objCopy.SiteInfo.origin, siteName, objCopy));
+
+    pages.forEach(function (page) {
+        return zip.folder("pages").file((0, _codeTemplates.getPageName)(page.name) + ".java", genPageCode(page, pack, objCopy));
+    });
+
+    objCopy.sections.forEach(function (section) {
+        return zip.folder("sections").file((0, _codeTemplates.getClassName)(section.Name) + ".java", (0, _codeTemplates.sectionCode)(pack, section, objCopy));
+    });
+
+    objCopy.sections.forEach(function (section) {
+        if (section.Type === "Form") {
+            zip.folder("entities").file((0, _codeTemplates.getEntityName)(section.Name) + ".java", (0, _codeTemplates.entityCode)(pack, section, objCopy));
         }
-    }
-    if (gen) {
-        var siteName = "";
-        siteHostName[siteHostName.length - 1] = siteHostName.length > 1 ? "Site" : siteHostName[siteHostName.length - 1] + "Site";
-        for (var _i = 0; _i < siteHostName.length; _i++) {
-            siteName += siteHostName[_i][0].toUpperCase() + siteHostName[_i].slice(1);
-        }
-        var pages = objCopy.PageObjects;
-        var pageName = "";
+    });
 
-        var site = "";
-
-        var pack = objCopy.SiteInfo.domainName.split(/\W/).reverse().join('.');
-
-        site = "package " + pack + ";" + "\n\nimport " + pack + ".pages.*;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;" + "\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.*;" + "\n\n@JSite(\"" + objCopy.SiteInfo.origin + "\")" + "\npublic class " + siteName + " extends WebSite {";
-        for (var _i2 = 0; _i2 < pages.length; _i2++) {
-            pageName = createUpCaseName(pages[_i2].name);
-            site += '\n\t@JPage(url = "' + pages[_i2].url + '", title = "' + pages[_i2].title + '")' + '\n\tpublic static ' + pageName + " " + (pageName[0].toLowerCase() + pageName.slice(1)) + ';';
-        }
-        site += "\n}";
-
-        for (var _i3 = 0; _i3 < pages.length; _i3++) {
-            pageName = createUpCaseName(pages[_i3].name);
-            zip.folder("pages").file(pageName + ".java", genPageCode(pages[_i3], objCopy.SiteInfo.domainName, objCopy));
-        }
-
-        objCopy.sections.forEach(function (section) {
-            var result = "package " + pack + ".sections;" + commonImport();
-            result += "\n\npublic class " + section.Name + " extends " + section.Type + "{" + genCodeOfElements(section.elId, section.children, objCopy) + "\n}";
-            zip.folder("sections").file(section.Name + ".java", result);
-        });
-
-        zip.file(siteName + '.java', site);
-        zip.generateAsync({ type: "blob" }).then(function (content) {
-            (0, _fileSaver.saveAs)(content, "pageobject.zip");
-        });
-    }
+    zip.generateAsync({ type: "blob" }).then(function (content) {
+        (0, _fileSaver.saveAs)(content, "pageobject.zip");
+    });
     return objCopy;
 };
+
+function genPageCode(page, pack, objCopy) {
+    var pageName = (0, _codeTemplates.getPageName)(page.name);
+    return objCopy.JDI ? (0, _codeTemplates.pageCode)(pack, page, objCopy) : (0, _codeTemplates.seleniumPageCode)(pack, page);
+}
+
+function getActivePage(objCopy) {
+    return objCopy.PageObjects.find(function (page) {
+        if (page.pageId === objCopy.activeTabPageId) {
+            return page;
+        }
+    });
+}
+
+/***/ }),
+
+/***/ "./app/reducers/codeTemplates.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.getClassName = getClassName;
+exports.getSiteName = getSiteName;
+exports.getPageName = getPageName;
+exports.getEntityName = getEntityName;
+exports.sectionCode = sectionCode;
+exports.entityCode = entityCode;
+exports.siteCode = siteCode;
+exports.pageCode = pageCode;
+exports.seleniumPageCode = seleniumPageCode;
+
+var _settings = __webpack_require__("./app/data/settings.js");
+
+function varName(name) {
+	return name[0].toLowerCase() + name.slice(1);
+}
+function getClassName(name) {
+	var words = name.split(/\W/);
+	return words.map(function (word) {
+		return word[0].toUpperCase() + word.slice(1);
+	}).join('');
+}
+function poName(name, poName) {
+	var result = getClassName(name);
+	if (result.length > 4 && result.substr(-4).toLowerCase() !== poName.toLowerCase()) result += poName;
+	return result;
+}
+function getSiteName(name) {
+	return poName(name, "Site");
+}
+function getPageName(name) {
+	return poName(name, "Page");
+}
+function locatorType(locator) {
+	return locator.indexOf('/') !== 1 ? "Css" : "XPath";
+}
+function simpleCode(locatorType, locator, elType, name) {
+	return elementCode(locatorType, '"' + locator + '"', elType, name);
+}
+function elementCode(locatorType, locator, elType, name) {
+	return '\t@' + locatorType + '(' + locator + ') public ' + elType + ' ' + varName(name) + ';\n';
+}
+function pageElementCode(page, pageName) {
+	return '\t@JPage(url = "' + page.url + '", title = "' + page.title + '") \n\tpublic static ' + getPageName(pageName) + ' ' + varName(pageName) + ';\n';
+};
+function complexLocators(el, fields) {
+	var locators = [];
+	for (var field in fields) {
+		var locator = el[field];
+		if (locator !== "") {
+			locators.push(field.toLowerCase() + ' = @FindBy(' + locatorType(locator).toLowerCase() + ' ="' + locator + '")');
+		}
+	}
+	return locators.join(",\n\t\t\t") + "\n\t";
+}
+
+function getFields(obj) {
+	var clone = Object.assign({}, obj);
+	for (var field in _settings.commonFields) {
+		delete clone[field];
+	}
+	return clone;
+}
+
+function isSimple(el, fields) {
+	var count = 0;;
+	for (var field in fields) {
+		if (el[field] !== "") count++;
+	}
+	return count === 1;
+}
+
+function genEntities(parentId, arrOfElements, objCopy) {
+	return arrOfElements.filter(function (el) {
+		return el.parentId === parentId && (objCopy.SimpleRules[el.Type] || objCopy.ComplexRules[el.Type]) && el.Type != "Button";
+	}).map(function (el) {
+		return 'public String ' + varName(el.Name) + ';';
+	}).join('\n\t');
+}
+function getElement(el, objCopy) {
+	return typeof el === 'string' ? objCopy.sections.get(el) : el;
+}
+
+function genCodeOfElements(parentId, arrOfElements, objCopy) {
+	var result = '';
+	for (var i = 0; i < arrOfElements.length; i++) {
+		var el = getElement(arrOfElements[i], objCopy);
+		if (el.parentId === parentId && (!!el.Locator || !!el.Root)) {
+			if (!!objCopy.CompositeRules[el.Type]) {
+				result += simpleCode(locatorType(el.Locator), el.Locator, getClassName(el.Name), el.Name);
+			}
+			if (!!objCopy.ComplexRules[el.Type]) {
+				var fields = getFields(objCopy.ElementFields[el.Type]);
+				result += isSimple(el, fields) ? simpleCode(locatorType(el.Root), el.Root, el.Type, el.Name) : elementCode("J" + el.Type, complexLocators(el, fields), el.Type, el.Name);
+			}
+			if (!!objCopy.SimpleRules[el.Type]) {
+				result += simpleCode(locatorType(el.Locator), el.Locator, el.Type, el.Name);
+			}
+		}
+	}
+	return result;
+}
+function getPageCode(objCopy) {
+	return objCopy.PageObjects.map(function (page) {
+		return pageElementCode(page, getPageName(page.name));
+	}).join('');
+}
+
+function commonImport() {
+	return 'import com.epam.jdi.uitests.web.selenium.elements.common.*;\nimport com.epam.jdi.uitests.web.selenium.elements.complex.*;\nimport com.epam.jdi.uitests.web.selenium.elements.composite.*;\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.*;\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;';
+}
+
+function sectionTemplate(pack, name, code) {
+	return 'package ' + pack + '.sections;\n\n' + commonImport() + '\n\npublic class ' + getClassName(name) + ' extends Section {\n' + code + '\n}';
+}
+
+function formTemplate(pack, name, code, entityName) {
+	return 'package ' + pack + '.sections;\n\n' + commonImport() + '\nimport ' + pack + '.entities.*;\n\npublic class ' + getClassName(name) + ' extends Form<' + entityName + '> {\n' + code + '\n}';
+}
+function getEntityName(name) {
+	return getClassName(name.slice(0, -4) + "s");
+}
+
+function sectionCode(pack, el, objCopy) {
+	var code = genCodeOfElements(el.elId, el.children, objCopy);
+	switch (el.Type) {
+		case "Section":
+			return sectionTemplate(pack, el.Name, code);
+		case "Form":
+			return formTemplate(pack, el.Name, code, getEntityName(el.Name));
+	};
+}
+
+function entityCode(pack, section, objCopy) {
+	var entityName = getEntityName(section.Name);
+	return 'package ' + pack + '.entities;\n\nimport com.epam.jdi.tools.DataClass;\n\npublic class ' + entityName + ' extends DataClass<' + entityName + '> {\n\t' + genEntities(section.elId, section.children, objCopy) + '\n}';
+}
+
+function siteCode(pack, domain, name, objCopy) {
+	var siteName = getSiteName(name);
+	return 'package ' + pack + ';\nimport ' + pack + '.pages.*;\nimport com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.*;\n\n@JSite("' + domain + '")\npublic class ' + name + ' extends WebSite {\n' + getPageCode(objCopy) + '\n}';
+}
+
+function pageCode(pack, page, objCopy) {
+	var pageName = getPageName(page.name);
+	return 'package ' + pack + '.pages;\n\n' + commonImport() + '\nimport ' + pack + '.sections.*;\n\npublic class ' + pageName + ' extends WebPage {\n' + genCodeOfElements(null, page.elements, objCopy) + '\n}';
+}
+
+function seleniumPageCode(pack, page) {
+	var pageName = getPageName(page.name);
+	return 'package ' + pack + '.pages;\n\t\nimport com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;\nimport org.openqa.selenium.WebElement;\n\npublic class ' + pageName + ' {\n' + genCodeOfWEBElements(page.elements) + '\n}';
+}
+function findByCode(el) {
+	var locator = el.Locator;
+	var name = el.Name;
+	return elementCode("FindBy", locatorType(locator).toLowerCase() + ' ="' + locator + '"', "WebElement", name);
+}
+function genCodeOfWEBElements(arrOfElements) {
+	return arrOfElements.map(function (el) {
+		return '' + findByCode(el);
+	}).join("");
+}
 
 /***/ }),
 
@@ -46607,7 +46616,7 @@ utils.intFromLE = intFromLE;
 /***/ "./node_modules/elliptic/package.json":
 /***/ (function(module, exports) {
 
-module.exports = {"_args":[["elliptic@6.4.0","C:\\Users\\Anisa Ask\\Desktop\\JDI-react"]],"_development":true,"_from":"elliptic@6.4.0","_id":"elliptic@6.4.0","_inBundle":false,"_integrity":"sha1-ysmvh2LIWDYYcAPI3+GT5eLq5d8=","_location":"/elliptic","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"elliptic@6.4.0","name":"elliptic","escapedName":"elliptic","rawSpec":"6.4.0","saveSpec":null,"fetchSpec":"6.4.0"},"_requiredBy":["/browserify-sign","/create-ecdh"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.0.tgz","_spec":"6.4.0","_where":"C:\\Users\\Anisa Ask\\Desktop\\JDI-react","author":{"name":"Fedor Indutny","email":"fedor@indutny.com"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^2.11.3","grunt":"^0.4.5","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^8.6.2","istanbul":"^0.4.2","jscs":"^2.9.0","jshint":"^2.6.0","mocha":"^2.1.0"},"files":["lib"],"homepage":"https://github.com/indutny/elliptic","keywords":["EC","Elliptic","curve","Cryptography"],"license":"MIT","main":"lib/elliptic.js","name":"elliptic","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.4.0"}
+module.exports = {"_args":[["elliptic@6.4.0","D:\\My\\Projects\\Promo\\Articles\\jdi-plugin"]],"_development":true,"_from":"elliptic@6.4.0","_id":"elliptic@6.4.0","_inBundle":false,"_integrity":"sha1-ysmvh2LIWDYYcAPI3+GT5eLq5d8=","_location":"/elliptic","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"elliptic@6.4.0","name":"elliptic","escapedName":"elliptic","rawSpec":"6.4.0","saveSpec":null,"fetchSpec":"6.4.0"},"_requiredBy":["/browserify-sign","/create-ecdh"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.0.tgz","_spec":"6.4.0","_where":"D:\\My\\Projects\\Promo\\Articles\\jdi-plugin","author":{"name":"Fedor Indutny","email":"fedor@indutny.com"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^2.11.3","grunt":"^0.4.5","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^8.6.2","istanbul":"^0.4.2","jscs":"^2.9.0","jshint":"^2.6.0","mocha":"^2.1.0"},"files":["lib"],"homepage":"https://github.com/indutny/elliptic","keywords":["EC","Elliptic","curve","Cryptography"],"license":"MIT","main":"lib/elliptic.js","name":"elliptic","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.4.0"}
 
 /***/ }),
 
